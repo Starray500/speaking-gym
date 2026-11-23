@@ -28,3 +28,4 @@ No subscription is needed. Everything runs in the browser.
 - Voice typing uses the browser's speech recognition, which works in **Chrome** and **Edge**.
 - Progress is saved in your browser. Use **Download backup** on the home page every week, and **Restore** on a new device.
 - Each page is one HTML file. There's nothing to install or build.
+- Each page also runs inside claude.ai as an Artifact. There it uses Claude for feedback, voice and word finding, and saves progress to your Claude account.

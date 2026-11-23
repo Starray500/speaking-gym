@@ -3,7 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
 <title>The Stage</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="A 28-day public speaking program for English learners: structure, stories, persuasion, voice and body, and a final 3-minute speech.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -137,9 +141,16 @@ img,video{max-width:100%}
 .icon-btn.playing{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .mic.listening{background:var(--live);border-color:var(--live);color:var(--on-live);animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--live-ring)}50%{box-shadow:0 0 0 7px var(--live-ring)}}
-body:not(.has-mic) .need-mic,body:not(.has-voice) .need-voice,body:not(.has-rec) .need-rec{display:none!important}
+body:not(.has-mic) .need-mic,body:not(.has-voice) .need-voice,body:not(.has-rec) .need-rec,body:not(.has-ai) .need-ai{display:none!important}
 .no-note{display:none}
-body:not(.has-mic) .no-mic,body:not(.has-rec) .no-rec,body:not(.has-voice) .no-voice{display:block}
+body.caps-ready:not(.has-mic) .no-mic,body:not(.has-rec) .no-rec,body:not(.has-voice) .no-voice,body.caps-ready:not(.has-ai) .no-ai{display:block}
+/* One file, two homes: the website (body.standalone) and claude.ai (Claude capabilities). */
+body:not(.standalone) .only-standalone,body:not(.standalone) .site-nav{display:none!important}
+body.standalone .only-claude,body.standalone .no-ai{display:none!important}
+.note a{color:var(--accent);font-weight:700;overflow-wrap:anywhere}
+.ai-out{display:grid;gap:10px;padding:14px 16px;border-radius:12px;background:var(--bg);font-size:16px;line-height:1.6}
+.ai-out:empty{display:none}
+.ai-out ol,.ai-out ul{padding-left:22px;display:grid;gap:6px}
 
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .field{display:flex;gap:10px;align-items:flex-start}
@@ -227,8 +238,6 @@ textarea::placeholder{color:var(--muted)}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:10px;font-size:15px;width:max-content;max-width:calc(100% - 32px);z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.18)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-</head>
-<body>
 <div class="wrap">
   <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="speaking.html">Speaking Gym</a><a href="stage.html" aria-current="page">The Stage</a><a href="writing.html">Writing Desk</a></nav>
 
@@ -258,13 +267,15 @@ textarea::placeholder{color:var(--muted)}
         <h2>Good to know</h2>
         <ul class="tips">
           <li>Practise standing up, in a quiet room.</li>
-          <li>Voice typing works in Chrome and Edge. Recording works in most browsers.</li>
-          <li>Your recordings stay on your device. Download the ones you want to keep.</li>
+          <li class="only-standalone">Voice typing works in Chrome and Edge. Recording works in most browsers.</li>
+          <li class="only-standalone">Your recordings stay on your device. Download the ones you want to keep.</li>
+          <li class="only-claude">When you speak, voice typing writes down your words. Allow the microphone when you're asked.</li>
+          <li class="only-claude">To record audio or video, use the website version of this page.</li>
           <li>Everyone feels nervous. Nervous and prepared is fine.</li>
         </ul>
       </section>
 
-      <p class="saved-note">Your progress is saved in this browser only. Use the backup on the home page to keep it safe.</p>
+      <p class="saved-note" id="sync">Your progress is saved in this browser only. Use the backup on the home page to keep it safe.</p>
     </aside>
 
     <main class="lesson" id="lesson"></main>
@@ -275,6 +286,11 @@ textarea::placeholder{color:var(--muted)}
 <script>
 (() => {
 "use strict";
+
+/* Two homes: inside claude.ai the page gets Claude capabilities; on the website it uses free browser tools. */
+const CLAUDE = !!(window.claude && typeof window.claude.use === "function");
+if (!CLAUDE) document.body.classList.add("standalone");
+const SITE_URL = "https://starray500.github.io/speaking-gym/stage.html";
 
 /* ---------- Program content ---------- */
 const WEEKS = [
@@ -515,20 +531,80 @@ function toast(msg) {
 const LS_KEY = "stage-v1";
 const fresh = () => ({v:1, done:{}, steps:{}, scores:{}, notes:{}, next:{}, challenges:{}, builder:{hook:"",p1:"",p2:"",p3:"",close:""}, last:0});
 function loadLocal() { try { const s = localStorage.getItem(LS_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
-let state = (() => {
-  const base = fresh(), got = loadLocal();
+function normalize(got) {
+  const base = fresh();
   if (!got || typeof got !== "object") return base;
   const out = Object.assign(base, got);
   ["done","steps","scores","notes","next","challenges"].forEach(k => { if (!out[k] || typeof out[k] !== "object") out[k] = {}; });
   out.builder = Object.assign(fresh().builder, out.builder || {});
   return out;
-})();
-function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+}
+let state = normalize(loadLocal());
+function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+
+/* Inside claude.ai, progress is also kept in the viewer's own private Claude storage. */
+function merge(a, b) {
+  const out = fresh();
+  const keys = (x, y) => Array.from(new Set(Object.keys(x || {}).concat(Object.keys(y || {}))));
+  keys(a.done, b.done).forEach(k => {
+    const x = a.done[k], y = b.done[k];
+    out.done[k] = !x ? y : !y ? x : ((x.date || "") > (y.date || "") ? x : y);
+  });
+  keys(a.steps, b.steps).forEach(k => {
+    const x = a.steps[k] || [], y = b.steps[k] || [];
+    out.steps[k] = [0,1,2,3,4].map(i => !!(x[i] || y[i]));
+  });
+  keys(a.scores, b.scores).forEach(k => { out.scores[k] = Object.assign({}, a.scores[k] || {}, b.scores[k] || {}); });
+  ["notes","next"].forEach(f => keys(a[f], b[f]).forEach(k => { out[f][k] = String(b[f][k] || a[f][k] || ""); }));
+  keys(a.challenges, b.challenges).forEach(k => { out.challenges[k] = !!(a.challenges[k] || b.challenges[k]); });
+  Object.keys(out.builder).forEach(k => { out.builder[k] = String(b.builder[k] || a.builder[k] || ""); });
+  out.last = b.last || a.last || 0;
+  return out;
+}
+let remote = null, writing = false, pending = false;
+function setSync(mode) {
+  const el = $("#sync"); if (!el) return;
+  el.textContent = mode === "account"
+    ? "Your progress is saved to your Claude account, so it follows you to other devices."
+    : mode === "device" ? "Your progress is saved in this browser only."
+    : "Your progress is saved in this browser only. Use the backup on the home page to keep it safe.";
+}
+async function save() {
+  saveLocal();
+  if (!remote) return;
+  if (writing) { pending = true; return; }
+  writing = true;
+  try { await remote.set(JSON.parse(JSON.stringify(state))); }
+  catch (e) { remote = null; setSync("device"); }
+  writing = false;
+  if (pending) { pending = false; save(); }
+}
+async function connectStore(C) {
+  try {
+    const [db, user] = await Promise.all([C.use("db"), C.use("user")]);
+    if (!db || !user) { setSync("device"); return; }
+    const id = await user.id();
+    if (!id) { setSync("device"); return; }
+    const ref = db.doc("data/users/" + id + "/stage");
+    const snap = await Promise.race([ref.get(), sleep(10000).then(() => { throw new Error("timeout"); })]);
+    if (snap && snap.exists) {
+      state = merge(state, normalize(JSON.parse(JSON.stringify(snap.data() || {}))));
+      renderStats(); renderProgram();
+      const box = $("#speakBox");
+      if (S.phase === "idle" && !(box && box.value.trim())) {
+        if (state.last >= 1 && state.last <= DAYS.length) cur = state.last;
+        renderProgram(); renderLesson();
+      } else updateStepUI();
+    }
+    remote = ref; setSync("account"); save();
+  } catch (e) { setSync("device"); }
+}
 let saveTimer = null;
 function saveSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(save, 400); }
 
 /* ---------- Voice: speaking the examples ---------- */
-const V = {dict:null, dstate:"idle", target:null, synth: ("speechSynthesis" in window) ? window.speechSynthesis : null, run:0};
+const V = {dict:null, dstate:"idle", target:null, synth: ("speechSynthesis" in window) ? window.speechSynthesis : null, run:0,
+           tts:null, ttsOff:false, ai:null, aiCtl:null, prepHold:false};
 if (V.synth) document.body.classList.add("has-voice");
 
 function setPlaying(btn) {
@@ -544,26 +620,40 @@ function synthSay(text, rate) {
     V.synth.speak(u);
   });
 }
+function speakErr(e) {
+  const c = e && e.code;
+  if (!c || c === "stopped" || c === "cancelled" || c === "canceled" || c === "viewer_stopped" || c === "interrupted") return;
+  if (c === "not_granted") {
+    V.ttsOff = true; V.tts = null; document.body.classList.remove("has-voice");
+    toast("Reading aloud is off for this page. Read the text out loud yourself instead.");
+    return;
+  }
+  if (c === "busy") { toast("Stop the microphone first, then press play."); return; }
+  if (c === "rate_limited") { toast("That's a lot of listening for now. Wait a minute, then try again."); return; }
+  toast("The audio didn't play. Press play to try again.");
+}
 async function sayChunks(text, rate, btn) {
-  if (!V.synth) return;
+  if (V.ttsOff || (!V.tts && !V.synth)) return;
   const run = ++V.run;
-  try { V.synth.cancel(); } catch (e) {}
+  if (V.synth) { try { V.synth.cancel(); } catch (e) {} }
   if (V.dict && V.dict.active()) { try { await V.dict.stop(); } catch (e) {} }
   setPlaying(btn);
   const chunks = text.split(/\s*\[pause\]\s*/).filter(Boolean);
   try {
     for (let i = 0; i < chunks.length; i++) {
       if (run !== V.run) break;
-      await synthSay(chunks[i], rate);
+      if (V.tts) await V.tts.speak(chunks[i], {rate, language:"en"});
+      else await synthSay(chunks[i], rate);
       if (i < chunks.length - 1) await sleep(1400);
     }
   } catch (e) {
-    if (e && e.code !== "stopped") toast("The audio didn't play. Press play to try again.");
+    if (run === V.run) speakErr(e);
   }
   if (run === V.run && btn) btn.classList.remove("playing");
 }
 function stopSpeech() {
   V.run++;
+  if (V.tts) { try { const p = V.tts.stop(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
   if (V.synth) { try { V.synth.cancel(); } catch (e) {} }
   setPlaying(null);
 }
@@ -581,11 +671,26 @@ function disableMic(msg) {
   V.dict = null; document.body.classList.remove("has-mic"); V.dstate = "idle"; markMic();
   if (msg) toast(msg);
 }
+const MIC_OFF = CLAUDE ? "The microphone is off for this page. You can still speak out loud and type your words."
+                       : "The microphone is blocked for voice typing. You can still record yourself and type.";
 function onDictError(e) {
   const c = e && e.code;
+  V.prepHold = false;
   if (c === "stopped") return;
-  if (c === "not_granted") return disableMic("The microphone is blocked for voice typing. You can still record yourself and type.");
+  if (c === "not_granted") return disableMic(MIC_OFF);
+  if (c === "unavailable") return disableMic("Voice typing isn't available here. You can still speak out loud and type your words.");
+  if (c === "dismissed") return toast("Press the microphone again and choose Allow to use voice typing.");
+  if (c === "rate_limited") return toast("Voice typing is busy. Try again in a moment.");
+  if (c === "no_gesture") return toast("Press the microphone to turn on voice typing.");
   toast("Voice typing didn't start. Press the microphone to try again.");
+}
+/* Claude's voice typing must start straight from a click. The 30-second prep ends on a timer,
+   so inside claude.ai the microphone starts on the "Prepare" click, and words are kept only once speaking starts. */
+function holdDictationForPrep() {
+  if (!CLAUDE || !V.dict || V.dict.active()) return;
+  stopSpeech();
+  V.target = null; V.prepHold = true; markMic();
+  V.dict.start({language:"en"}).catch(onDictError);
 }
 function startDictation(box) {
   if (!V.dict) return;
@@ -618,8 +723,10 @@ function wireDictation() {
   V.dict.onState(({state: st, reason}) => {
     V.dstate = st; markMic();
     if (st !== "idle") return;
+    V.prepHold = false;
     $$("[data-partial-for]").forEach(p => { p.textContent = ""; });
-    if (reason === "not_granted") disableMic("The microphone is blocked for voice typing. You can still record yourself and type.");
+    if (reason === "not_granted") disableMic(MIC_OFF);
+    else if (reason === "unavailable") disableMic("Voice typing isn't available here. You can still speak out loud and type your words.");
     else if (reason === "upstream_error") toast("Voice typing stopped. Press the microphone to start again.");
   });
 }
@@ -681,7 +788,8 @@ function makeWebDictation() {
 
 /* ---------- Recording (MediaRecorder) ---------- */
 const R = {mode:"audio", stream:null, rec:null, chunks:[], url:null, type:"", kind:"", day:0};
-const canRecord = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+// Artifacts on claude.ai can't use the camera or the recorder, so recording is a website-only feature.
+const canRecord = !CLAUDE && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
 if (canRecord) document.body.classList.add("has-rec");
 else R.mode = "none";
 
@@ -890,7 +998,8 @@ function renderLesson() {
     '<div class="row need-rec"><span class="label">Record</span><div class="seg" role="group" aria-label="Recording">' +
       [["none","Don't record"],["audio","Audio"],["video","Video"]].map(m => '<button type="button" data-recmode="' + m[0] + '" aria-pressed="' + (R.mode === m[0]) + '">' + m[1] + '</button>').join("") +
     '</div></div>' +
-    '<p class="note no-note no-rec">Recording isn\'t available in this browser. You can still use the timer.</p>' +
+    '<p class="note no-note no-rec only-standalone">Recording isn\'t available in this browser. You can still use the timer.</p>' +
+    '<p class="note only-claude">Recording works on the website version: <a href="' + SITE_URL + '" target="_blank" rel="noopener">starray500.github.io/speaking-gym/stage.html</a>. Here, voice typing writes down your words, and Claude can give you feedback in step 4.</p>' +
     '<div class="stage" id="stage">' +
       '<p class="phase" id="phase">Ready</p>' +
       '<div class="clock" id="clock" aria-live="off">' + fmt(d.secs) + '</div>' +
@@ -906,7 +1015,8 @@ function renderLesson() {
     '<label class="label" for="speakBox">What you said</label>' +
     '<div class="field"><textarea id="speakBox" rows="5" placeholder="When you speak, your words appear here. You can also type them."></textarea>' + micBtn("speakBox") + '</div>' +
     '<p class="partial" data-partial-for="speakBox"></p>' +
-    '<p class="note no-note no-mic">Voice typing works in Chrome and Edge. You can still record yourself and type.</p>' +
+    '<p class="note no-note no-mic only-standalone">Voice typing works in Chrome and Edge. You can still record yourself and type.</p>' +
+    '<p class="note no-note no-mic only-claude">Voice typing isn\'t available here. Speak out loud, then type the main things you said.</p>' +
     '<div class="results" id="results"></div>' +
     '<div id="tview"></div>');
 
@@ -922,9 +1032,14 @@ function renderLesson() {
     '<p>Average: <span class="avg" id="avg">' + (avgScore(cur) == null ? "–" : avgScore(cur)) + '</span></p>' +
     '<label class="label" for="nextBox">Next time I will…</label>' +
     '<textarea id="nextBox" rows="2" placeholder="Next time I will pause after each point.">' + esc(state.next[cur] || "") + '</textarea>' +
-    '<p class="label">Get more feedback (free)</p>' +
-    '<div class="row"><button type="button" class="btn sm" id="ltBtn">Check grammar</button><button type="button" class="btn sm primary" id="promptBtn">Copy a feedback prompt</button></div>' +
-    '<p class="note"><b>Check grammar</b> sends what you said to LanguageTool, a free checker. It finds spelling and some grammar mistakes, not everything. <b>Copy a feedback prompt</b> copies your speech with coaching instructions. Paste it into any free AI chat, like Claude, ChatGPT or Gemini.</p>' +
+    '<p class="label only-standalone">Get more feedback (free)</p>' +
+    '<div class="row only-standalone"><button type="button" class="btn sm" id="ltBtn">Check grammar</button><button type="button" class="btn sm primary" id="promptBtn">Copy a feedback prompt</button></div>' +
+    '<p class="note only-standalone"><b>Check grammar</b> sends what you said to LanguageTool, a free checker. It finds spelling and some grammar mistakes, not everything. <b>Copy a feedback prompt</b> copies your speech with coaching instructions. Paste it into any free AI chat, like Claude, ChatGPT or Gemini.</p>' +
+    '<p class="label need-ai">Feedback from Claude</p>' +
+    '<div class="row need-ai"><button type="button" class="btn sm primary" id="aiBtn">Get my feedback</button></div>' +
+    '<p class="note need-ai">Claude reads what you said in step 3 and coaches you on structure, natural phrases and filler words.</p>' +
+    '<p class="note no-note no-ai">Feedback from Claude isn\'t available here. The website version has free feedback tools: <a href="' + SITE_URL + '" target="_blank" rel="noopener">starray500.github.io/speaking-gym/stage.html</a></p>' +
+    '<div class="ai-out" id="aiOut" aria-live="polite"></div>' +
     '<div class="lt" id="ltOut" aria-live="polite"></div>' +
     '<div class="prompt-out" id="promptOut"></div>');
 
@@ -951,6 +1066,10 @@ function renderLesson() {
 
 function renderPlayback() {
   const box = $("#playback"); if (!box) return;
+  if (CLAUDE) {
+    box.innerHTML = '<p class="empty">Recording works only on the website version of this page. Here, read your words in step 3, where the filler words are marked. Then score yourself.</p>';
+    return;
+  }
   if (!R.url || R.day !== cur) {
     box.innerHTML = '<p class="empty">No recording yet. Choose Audio or Video in step 3, give your talk, and it appears here.</p>';
     return;
@@ -1024,6 +1143,8 @@ function startPrep() {
   $("#phase").textContent = "Prepare";
   $("#prepBtn").hidden = true; $("#cancelBtn").hidden = false; $("#speakNow").hidden = false;
   $("#stageNote").textContent = "Plan with today's structure. Write key words in the notes box. Speaking starts by itself.";
+  holdDictationForPrep();
+  if (V.prepHold) $("#stageNote").textContent += " The microphone turns on now, but your words are only kept once speaking starts.";
   prepareMedia();
   tickPrep();
   clearInterval(S.timer);
@@ -1033,17 +1154,21 @@ function tickPrep() {
   if (S.phase !== "prep") return;
   const left = (S.prepEnd - Date.now()) / 1000;
   $("#clock").textContent = fmt(left);
-  if (left <= 0) beginSpeak();
+  if (left <= 0) beginSpeak(false);
 }
-async function beginSpeak() {
+async function beginSpeak(fromClick) {
   if (S.phase === "speak") return;
   clearInterval(S.timer);
   const d = DAYS[cur - 1];
   const box = $("#speakBox");
   box.value = "";
-  $("#results").innerHTML = ""; $("#tview").innerHTML = ""; $("#ltOut").innerHTML = ""; $("#promptOut").innerHTML = "";
+  $("#results").innerHTML = ""; $("#tview").innerHTML = ""; $("#ltOut").innerHTML = ""; $("#promptOut").innerHTML = ""; $("#aiOut").innerHTML = "";
+  if (V.aiCtl) { V.aiCtl.abort(); V.aiCtl = null; }
   S.phase = "speak";
-  startDictation(box);
+  if (!CLAUDE) startDictation(box);
+  else if (V.dict && V.dict.active()) { V.prepHold = false; V.target = box; markMic(); }
+  else if (V.dict && fromClick) startDictation(box);
+  else if (V.dict) toast("Voice typing is off. Press the microphone next to “What you said” to turn it on.");
   $("#stage").classList.remove("prep"); $("#stage").classList.add("live");
   $("#phase").textContent = "Speak";
   $("#prepBtn").hidden = true; $("#speakNow").hidden = true; $("#cancelBtn").hidden = true; $("#stopBtn").hidden = false;
@@ -1062,6 +1187,8 @@ function tickSpeak() {
   if (left <= 0) endSpeak();
 }
 function cancelPrep() {
+  if (V.prepHold && V.dict && V.dict.active()) V.dict.stop().catch(() => {});
+  V.prepHold = false;
   stopRecording();
   resetStage();
   $("#stageNote").textContent = "Cancelled. Press a button to start again.";
@@ -1145,6 +1272,64 @@ Please give me:
 
 Please use simple English and short sentences.`;
 }
+/* ---------- Feedback from Claude (inside claude.ai) ---------- */
+function aiHTML(text) {
+  const lines = String(text || "").slice(0, 6000).replace(/\*\*|__/g, "").replace(/^#+\s*/gm, "")
+    .split(/\n+/).map(s => s.trim()).filter(Boolean);
+  let html = "", list = null;
+  const close = () => { if (list) { html += "</" + list + ">"; list = null; } };
+  lines.forEach(l => {
+    let m;
+    if ((m = l.match(/^(\d+)[.)]\s+(.*)$/))) {
+      if (list !== "ol") { close(); html += '<ol start="' + (+m[1] || 1) + '">'; list = "ol"; }
+      html += "<li>" + esc(m[2]) + "</li>";
+    } else if ((m = l.match(/^[-*•]\s+(.*)$/))) {
+      if (list !== "ul") { close(); html += "<ul>"; list = "ul"; }
+      html += "<li>" + esc(m[1]) + "</li>";
+    } else { close(); html += "<p>" + esc(l) + "</p>"; }
+  });
+  close();
+  return html;
+}
+const AI_OFF = ["not_granted","sampling_disabled","capability_disabled","capability_removed","not_declared"];
+function aiErrCopy(e) {
+  const c = e && e.code;
+  if (AI_OFF.includes(c)) return "Feedback from Claude is turned off for this page. You can turn it on in the page's Permissions menu.";
+  if (c === "rate_limited" || c === "queue_overflow") return "Too many requests right now. Wait a minute, then try again.";
+  if (c === "prompt_too_large") return "Your talk is too long to check. Try a shorter part.";
+  if (c === "session_expired") return "Your Claude session has ended. Reload the page, then try again.";
+  return "Something went wrong. Press the button to try again.";
+}
+async function aiFeedback(btn) {
+  if (!V.ai) return;
+  const out = $("#aiOut");
+  const text = $("#speakBox").value.trim();
+  if (countWords(text) < 5) { out.innerHTML = '<p class="note">Speak or type a few sentences in step 3 first.</p>'; return; }
+  if (V.aiCtl) V.aiCtl.abort();
+  const ctl = new AbortController(); V.aiCtl = ctl;
+  btn.disabled = true;
+  out.innerHTML = '<p class="note">Claude is reading your talk…</p>';
+  const prompt = buildPrompt() + "\n\nKeep the whole answer under 300 words. Use a numbered list for the five parts. Plain text only: no headings, no tables, no bold.";
+  try {
+    const r = await V.ai(prompt, {modelTier:"default", signal:ctl.signal,
+      onText: ({text: t}) => { if (V.aiCtl === ctl && t) out.innerHTML = aiHTML(t); }});
+    if (V.aiCtl !== ctl) return;
+    out.innerHTML = aiHTML(r && r.text) +
+      (r && r.truncated ? '<p class="note">The answer was cut short. Press the button again for the rest.</p>' : "") +
+      '<p class="note">Read the feedback, then give the same talk again and use one tip.</p>';
+  } catch (e) {
+    if (V.aiCtl !== ctl) return;
+    if (e && e.code === "cancelled") { out.innerHTML = ""; return; }
+    out.innerHTML = (e && e.text ? aiHTML(e.text) : "") + '<p class="note">' + esc(aiErrCopy(e)) + '</p>';
+    if (e && AI_OFF.includes(e.code)) {
+      // The message above stays visible; only the Claude buttons are hidden.
+      V.ai = null; document.body.classList.remove("has-ai"); toast(aiErrCopy(e));
+    }
+  } finally {
+    if (V.aiCtl === ctl) V.aiCtl = null;
+    if (!V.aiCtl) btn.disabled = false;
+  }
+}
 function copyPrompt() {
   const out = $("#promptOut");
   const p = buildPrompt();
@@ -1164,6 +1349,8 @@ function copyPrompt() {
 function goDay(n) {
   if (S.phase === "speak" || S.phase === "prep") { clearInterval(S.timer); S.phase = "idle"; }
   if (V.dict && V.dict.active()) V.dict.stop().catch(() => {});
+  V.prepHold = false;
+  if (V.aiCtl) { V.aiCtl.abort(); V.aiCtl = null; }
   stopSpeech(); stopRecording();
   cur = n; state.last = n; save();
   renderProgram(); renderLesson();
@@ -1205,12 +1392,13 @@ document.addEventListener("click", e => {
     case "newTopic": S.topic = pickTopic(S.topic); $("#topic").textContent = S.topic; return;
     case "dayTopic": S.topic = d.topic || S.topic; $("#topic").textContent = S.topic; return;
     case "prepBtn": startPrep(); return;
-    case "speakNow": beginSpeak(); return;
+    case "speakNow": beginSpeak(true); return;
     case "stopBtn": endSpeak(); return;
     case "cancelBtn": cancelPrep(); return;
     case "recount": analyse(+t.dataset.secs || d.secs); return;
     case "ltBtn": grammarCheck(t); return;
     case "promptBtn": copyPrompt(); return;
+    case "aiBtn": aiFeedback(t); return;
     case "chBtn": {
       const on = !state.challenges[cur]; state.challenges[cur] = on; save();
       t.classList.toggle("is-on", on); t.setAttribute("aria-pressed", String(on)); t.innerHTML = on ? I.check + " I did it" : "I did it";
@@ -1248,9 +1436,23 @@ window.addEventListener("beforeunload", () => { save(); stopRecording(); });
 
 /* ---------- Start ---------- */
 $("#fillerChips").innerHTML = FILLERS.map(f => '<span class="chip">' + esc(f) + '</span>').join("");
-const web = makeWebDictation();
-if (web) { V.dict = web; wireDictation(); document.body.classList.add("has-mic"); }
+if (!CLAUDE) {
+  const web = makeWebDictation();
+  if (web) { V.dict = web; wireDictation(); document.body.classList.add("has-mic"); }
+  document.body.classList.add("caps-ready");
+}
 renderStats(); renderProgram(); renderLesson();
+if (CLAUDE) {
+  const C = window.claude;
+  setSync("device");
+  const caps = [
+    C.use("dictation").then(d => { if (d) { V.dict = d; wireDictation(); document.body.classList.add("has-mic"); markMic(); } }).catch(() => {}),
+    C.use("tts").then(t => { if (t) { V.tts = t; document.body.classList.add("has-voice"); } }).catch(() => {}),
+    C.use("sample").then(s => { if (s) { V.ai = s; document.body.classList.add("has-ai"); } }).catch(() => {})
+  ];
+  Promise.allSettled(caps).then(() => document.body.classList.add("caps-ready"));
+  connectStore(C);
+}
 })();
 </script>
 </body>

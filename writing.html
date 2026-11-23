@@ -3,8 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
 <title>Writing Desk</title>
 <meta name="description" content="A 28-day writing program: read a model, steal the pattern, write without stopping, edit, and say it out loud.">
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
@@ -42,7 +46,7 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
 h1,h2,h3{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
 p{margin:0}
 ul,ol{margin:0}
@@ -142,7 +146,7 @@ button,input,select,textarea{font:inherit}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--live-ring)}50%{box-shadow:0 0 0 7px var(--live-ring)}}
 body:not(.has-mic) .need-mic,body:not(.has-voice) .need-voice{display:none!important}
 .no-note{display:none}
-body:not(.has-mic) .no-mic,body:not(.has-voice) .no-voice{display:block}
+body.caps-ready:not(.has-mic) .no-mic,body:not(.has-voice) .no-voice{display:block}
 
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .field{display:flex;gap:10px;align-items:flex-start}
@@ -215,10 +219,20 @@ mark.bad{background:var(--bad-soft);color:var(--ink);text-decoration:underline w
 .finish .btn.ghost{background:transparent;border-color:currentColor;color:var(--bg)}
 
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:10px;font-size:15px;width:max-content;max-width:calc(100% - 32px);z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+
+/* Two homes: the website ("standalone") and claude.ai, where Claude's own voice, microphone and feedback are used. */
+body:not(.standalone) .only-standalone,body:not(.standalone) .site-nav{display:none!important}
+body:not(.has-ai) .need-ai,body:not(.has-dl) .need-dl{display:none!important}
+body.caps-ready:not(.has-ai) .no-ai{display:block}
+body.standalone .no-ai{display:none!important}
+.ai-out{display:grid;gap:10px;padding:16px 18px;border-radius:12px;background:var(--bg);max-width:72ch;overflow-wrap:anywhere}
+.ai-out:empty{display:none}
+.ai-out h4{margin:6px 0 0;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ai-out h4:first-child{margin-top:0}
+.ai-out ul{padding-left:22px;display:grid;gap:6px}
+.ai-out .ai-note{font-size:14.5px;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-</head>
-<body>
 <div class="wrap">
   <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="speaking.html">Speaking Gym</a><a href="stage.html">The Stage</a><a href="writing.html" aria-current="page">Writing Desk</a></nav>
 
@@ -242,10 +256,10 @@ mark.bad{background:var(--bad-soft);color:var(--ink);text-decoration:underline w
         <h2>My journal</h2>
         <p class="note">Everything you write is saved here, day by day.</p>
         <ul class="journal" id="journal"></ul>
-        <div class="row"><button type="button" class="btn sm" id="exportBtn">Download all my writing</button></div>
+        <div class="row need-dl"><button type="button" class="btn sm" id="exportBtn">Download all my writing</button></div>
       </section>
 
-      <p class="saved-note">Your writing is saved in this browser only. Use the same browser every day, and download your writing from time to time as a backup.</p>
+      <p class="saved-note" id="sync">Your writing is saved in this browser only. Use the same browser every day, and download your writing from time to time as a backup.</p>
     </aside>
 
     <main class="lesson" id="lesson"></main>
@@ -480,15 +494,143 @@ function toast(msg) {
 const LS_KEY = "writing-desk-v1";
 const fresh = () => ({v:1, done:{}, last:0, pieces:{}, pat:{}, steps:{}, checks:{}, say:{}, nodelete:false});
 function loadLocal() { try { const s = localStorage.getItem(LS_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
-let state = Object.assign(fresh(), loadLocal() || {});
-["done","pieces","pat","steps","checks","say"].forEach(k => { if (!state[k] || typeof state[k] !== "object") state[k] = {}; });
-function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+function fixShape(s) { ["done","pieces","pat","steps","checks","say"].forEach(k => { if (!s[k] || typeof s[k] !== "object") s[k] = {}; }); return s; }
+let state = fixShape(Object.assign(fresh(), loadLocal() || {}));
+const SY = {on:false, meta:null, col:null, days:{}, timer:null};
+function save() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
+  if (SY.on) { clearTimeout(SY.timer); SY.timer = setTimeout(syncRemote, 1200); }
+}
 let saveTimer = null;
 function saveSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(save, 500); }
-window.addEventListener("pagehide", save);
+window.addEventListener("pagehide", () => { save(); if (SY.on) { clearTimeout(SY.timer); syncRemote(); } });
 
-/* ---------- Voice: browser speech ---------- */
-const V = {dict:null, dstate:"idle", target:null, synth: ("speechSynthesis" in window) ? window.speechSynthesis : null};
+/* ---------- Sync to the Claude account (only when this page is open in claude.ai) ----------
+   One small document for progress, plus one document per day for the writing itself,
+   so a long journal never hits the size limit of a single document. */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const clone = x => JSON.parse(JSON.stringify(x));
+let syncMode = "device";
+function setSync(mode) {
+  syncMode = mode;
+  const dl = document.body.classList.contains("has-dl");
+  $("#sync").textContent = mode === "account"
+    ? "Your writing is saved to your Claude account, so it follows you to other devices." + (dl ? " Download it from time to time as a backup." : "")
+    : "Your writing is saved in this browser only. Use the same browser every day" + (dl ? ", and download your writing from time to time as a backup." : ".");
+}
+function metaOf(s) { return {v:1, done:s.done, last:s.last || 0, pat:s.pat, steps:s.steps, checks:s.checks, nodelete:!!s.nodelete}; }
+function dayOf(s, n) {
+  const p = s.pieces[n];
+  return {piece: p ? {text:String(p.text || ""), title:String(p.title || ""), words:p.words || 0, date:p.date || "", minutes:p.minutes || 0, ts:p.ts || 0} : null,
+          say: String(s.say[n] || "")};
+}
+const EMPTY_DAY = JSON.stringify({piece:null, say:""});
+function newerPiece(a, b) {
+  if (!a) return b; if (!b) return a;
+  if ((a.ts || 0) !== (b.ts || 0)) return (a.ts || 0) > (b.ts || 0) ? a : b;
+  if ((a.date || "") !== (b.date || "")) return (a.date || "") > (b.date || "") ? a : b;
+  return (b.words || 0) > (a.words || 0) ? b : a;
+}
+const longer = (x, y) => { x = String(x || ""); y = String(y || ""); return y.length > x.length ? y : x; };
+const keysOf = (a, b) => Array.from(new Set(Object.keys(a || {}).concat(Object.keys(b || {}))));
+function mergeState(a, b) {   // a = this browser, b = the Claude account
+  const out = fresh();
+  keysOf(a.done, b.done).forEach(k => {
+    const x = a.done[k], y = b.done[k];
+    out.done[k] = !x ? y : !y ? x : ((y.date || "") > (x.date || "") ? y : x);
+  });
+  keysOf(a.pieces, b.pieces).forEach(k => { const p = newerPiece(a.pieces[k], b.pieces[k]); if (p) out.pieces[k] = p; });
+  keysOf(a.pat, b.pat).forEach(k => { const x = a.pat[k] || [], y = b.pat[k] || []; out.pat[k] = [0,1,2].map(i => longer(x[i], y[i])); });
+  keysOf(a.steps, b.steps).forEach(k => { const x = a.steps[k] || [], y = b.steps[k] || []; out.steps[k] = [0,1,2,3,4].map(i => !!(x[i] || y[i])); });
+  keysOf(a.checks, b.checks).forEach(k => {
+    const x = a.checks[k] || [], y = b.checks[k] || [];
+    out.checks[k] = Array.from({length: Math.max(x.length, y.length)}, (_, i) => !!(x[i] || y[i]));
+  });
+  keysOf(a.say, b.say).forEach(k => { const s = longer(a.say[k], b.say[k]); if (s) out.say[k] = s; });
+  out.last = b.last || a.last || 0;
+  out.nodelete = typeof b.nodelete === "boolean" ? b.nodelete : !!a.nodelete;
+  return out;
+}
+async function setWithRetry(ref, data) {
+  try { await ref.set(data); }
+  catch (e) {
+    if (!e || e.code !== "unavailable") throw e;
+    await sleep(400 + Math.random() * 800);
+    await ref.set(data);
+  }
+}
+function syncFailed(e) {
+  SY.on = false; clearTimeout(SY.timer);
+  setSync("device");
+  if (e && e.code === "quota_exceeded") toast("The storage in your Claude account is full. Your writing is still saved in this browser.");
+}
+async function flushDoc(sd) {
+  if (!SY.on || sd.busy || sd.want === sd.last) return;
+  sd.busy = true;
+  const body = sd.want;
+  try { await setWithRetry(sd.ref, JSON.parse(body)); sd.last = body; }
+  catch (e) { syncFailed(e); }
+  sd.busy = false;
+  if (SY.on && sd.want !== sd.last) flushDoc(sd);
+}
+function syncRemote() {
+  if (!SY.on) return;
+  SY.meta.want = JSON.stringify(metaOf(state)); flushDoc(SY.meta);
+  keysOf(state.pieces, state.say).forEach(n => {
+    if (!(+n >= 1 && +n <= DAYS.length)) return;
+    const body = JSON.stringify(dayOf(state, n));
+    let sd = SY.days[n];
+    if (!sd) {
+      if (body === EMPTY_DAY) return;
+      sd = SY.days[n] = {ref: SY.col.doc("d" + n), last: null, want: null, busy: false};
+    }
+    sd.want = body; flushDoc(sd);
+  });
+}
+function refreshAfterMerge() {
+  const busy = W.running || V.dstate !== "idle" || touched || AI.busy;
+  if (busy) { renderStats(); renderProgram(); renderJournal(); return; }
+  cur = (state.last >= 1 && state.last <= DAYS.length) ? state.last : firstOpen();
+  renderAll();
+}
+async function connectStore(C) {
+  try {
+    const [db, user] = await Promise.all([C.use("db"), C.use("user")]);
+    if (!db || !user) { setSync("device"); return; }
+    const id = await user.id();
+    if (!id) { setSync("device"); return; }
+    const base = "data/users/" + id + "/writing";
+    const metaRef = db.doc(base), col = db.collection(base + "/days");
+    const [metaSnap, daySnap] = await Promise.race([
+      Promise.all([metaRef.get(), col.get()]),
+      sleep(10000).then(() => { throw new Error("timeout"); })
+    ]);
+    const remote = fresh();
+    if (metaSnap.exists) Object.assign(remote, clone(metaSnap.data() || {}));
+    fixShape(remote);
+    const remoteDays = {};
+    (daySnap.docs || []).forEach(d => {
+      const m = /^d(\d+)$/.exec(d.id || "");
+      if (!m || !d.exists) return;
+      const body = clone(d.data() || {});
+      if (body.piece && typeof body.piece === "object") remote.pieces[m[1]] = body.piece;
+      if (body.say) remote.say[m[1]] = String(body.say);
+      remoteDays[m[1]] = JSON.stringify(dayOf(remote, m[1]));
+    });
+    state = mergeState(state, remote);
+    SY.meta = {ref: metaRef, last: JSON.stringify(metaOf(metaSnap.exists ? remote : fresh())), want: null, busy: false};
+    SY.col = col;
+    Object.keys(remoteDays).forEach(n => { SY.days[n] = {ref: col.doc("d" + n), last: remoteDays[n], want: null, busy: false}; });
+    SY.on = true;
+    setSync("account");
+    refreshAfterMerge();
+    save();
+  } catch (e) { setSync("device"); }
+}
+
+/* ---------- Voice: Claude's voice in claude.ai, the browser's own voice on the website ---------- */
+const V = {dict:null, dstate:"idle", target:null, synth: ("speechSynthesis" in window) ? window.speechSynthesis : null,
+           claude:false, tts:null, ttsOff:false, ai:null, dl:null};
 if (V.synth) document.body.classList.add("has-voice");
 let speakRun = 0;
 
@@ -504,7 +646,46 @@ function utter(text, rate) {
     V.synth.speak(u);
   });
 }
+/* Claude's voice reads up to about 2,000 characters at a time, so a long text goes as several lines. */
+function ttsLines(text) {
+  const MAX = 1500, lines = [];
+  let buf = "";
+  const push = s => { if (buf && (buf + "\n" + s).length > MAX) { lines.push(buf); buf = s; } else buf = buf ? buf + "\n" + s : s; };
+  String(text).split(/\n+/).map(s => s.trim()).filter(Boolean).forEach(par => {
+    if (par.length <= MAX) { push(par); return; }
+    splitSents(par).forEach(s => {
+      while (s.length > MAX) { const cut = s.lastIndexOf(" ", MAX) > 0 ? s.lastIndexOf(" ", MAX) : MAX; push(s.slice(0, cut)); s = s.slice(cut).trim(); }
+      if (s) push(s);
+    });
+  });
+  if (buf) lines.push(buf);
+  return lines.slice(0, 100).map(t => ({text: t}));
+}
+function speakErr(e) {
+  const c = e && e.code;
+  if (c === "stopped") return;
+  if (c === "not_granted") {
+    V.ttsOff = true; V.tts = null; document.body.classList.remove("has-voice");
+    toast("Reading aloud is off for this page. Read your text out loud yourself instead.");
+    return;
+  }
+  if (c === "busy") { toast("Stop the microphone first, then press play."); return; }
+  if (c === "rate_limited") { toast("That's a lot of listening for now. Wait a minute, then try again."); return; }
+  if (c === "no_gesture") { toast("Press play again to listen."); return; }
+  toast("The audio didn't play. Press play to try again.");
+}
 async function speak(text, rate, btn) {
+  if (V.ttsOff) return;
+  if (V.tts) {
+    // Claude's voice must start straight from the click, so nothing is awaited before speak().
+    if (V.dict && V.dict.active()) { V.dict.stop().catch(() => {}); toast("The microphone is off now. Press play again to listen."); return; }
+    const run = ++speakRun;
+    setPlaying(btn);
+    try { await V.tts.speak(text.length > 1800 ? ttsLines(text) : text, {rate, language:"en"}); }
+    catch (e) { if (run === speakRun) speakErr(e); }
+    if (run === speakRun) setPlaying(null);
+    return;
+  }
   if (!V.synth) return;
   if (V.dict && V.dict.active()) { try { await V.dict.stop(); } catch (e) {} }
   const run = ++speakRun;
@@ -516,7 +697,12 @@ async function speak(text, rate, btn) {
   for (const p of parts) { if (run !== speakRun) break; await utter(p, rate); }
   if (run === speakRun) setPlaying(null);
 }
-function stopSpeech() { speakRun++; if (V.synth) { try { V.synth.cancel(); } catch (e) {} } setPlaying(null); }
+function stopSpeech() {
+  speakRun++;
+  if (V.tts) { try { const p = V.tts.stop(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
+  if (V.synth) { try { V.synth.cancel(); } catch (e) {} }
+  setPlaying(null);
+}
 
 /* ---------- Dictation: browser speech recognition ---------- */
 function makeWebDictation() {
@@ -581,21 +767,38 @@ function markMic() {
   });
 }
 function disableMic(msg) {
+  if (!V.dict) return;
   V.dict = null; document.body.classList.remove("has-mic"); V.dstate = "idle"; markMic();
   if (msg) toast(msg);
+}
+function onDictError(e) {
+  const c = e && e.code;
+  if (c === "stopped") return;
+  if (c === "not_granted") return disableMic("The microphone is off for this page. You can still type.");
+  if (c === "unavailable") return disableMic("Voice typing isn't available here. You can still type.");
+  if (c === "dismissed") return toast("Press the microphone again and choose Allow to use voice typing.");
+  if (c === "rate_limited") return toast("Voice typing is busy. Try again in a moment.");
+  toast("The microphone didn't start. Press it to try again.");
 }
 function startDictation(box) {
   if (!V.dict) return;
   stopSpeech();
   V.target = box; markMic();
-  V.dict.start().catch(() => toast("The microphone didn't start. Press it to try again."));
+  // In claude.ai, start() must run straight from the click: nothing is awaited before it.
+  V.dict.start({language:"en"}).catch(onDictError);
 }
 function toggleMic(btn) {
   if (!V.dict) return;
   const box = document.getElementById(btn.dataset.mic);
   if (!box) return;
   if (V.dict.active() && V.target === box) { V.dict.stop().catch(() => {}); return; }
-  if (V.dict.active()) { V.dict.stop().then(() => startDictation(box)).catch(() => {}); return; }
+  if (V.dict.active()) {
+    if (V.claude) {   // keep listening and send the words to the other box
+      $$("[data-partial-for]").forEach(p => { p.textContent = ""; });
+      V.target = box; markMic(); return;
+    }
+    V.dict.stop().then(() => startDictation(box)).catch(() => {}); return;
+  }
   startDictation(box);
 }
 function wireDictation() {
@@ -617,8 +820,76 @@ function wireDictation() {
     if (st !== "idle") return;
     $$("[data-partial-for]").forEach(p => { p.textContent = ""; });
     if (reason === "not_granted") disableMic("The microphone is blocked for this page. You can still type.");
+    else if (reason === "unavailable") disableMic("Voice typing isn't available here. You can still type.");
     else if (reason === "upstream_error") toast("The microphone stopped. Press it to try again.");
   });
+}
+
+/* ---------- Feedback from Claude (only when this page is open in claude.ai) ---------- */
+const AI = {ctrl:null, busy:false, out:{}};   // out[day]: the last answer, kept while the page is open
+function aiCopy(e) {
+  const c = e && e.code;
+  if (c === "rate_limited") return e.reason === "usage_limit"
+    ? "You've reached your Claude usage limit for now. Try again later."
+    : "Too many requests right now. Wait a minute, then try again.";
+  if (c === "prompt_too_large") return "Your text is too long for one check. Ask about one part at a time.";
+  if (c === "not_granted" || c === "sampling_disabled" || c === "not_declared" || c === "capability_disabled" || c === "capability_removed")
+    return "Feedback from Claude is turned off for this page. You can turn it on in the page's Permissions menu.";
+  if (c === "session_expired") return "Your Claude session has ended. Reload the page, then try again.";
+  if (c === "refused") return "Claude couldn't give feedback on this text. Change it a little, then ask again.";
+  if (c === "empty_completion") return "The answer didn't come through. Press the button to try again.";
+  return "Something went wrong. Press the button to try again.";
+}
+const inlineMd = s => s.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/`([^`]+)`/g, "$1");
+function fbHTML(text) {   // Claude's answer, escaped, with headings, lists and bold kept
+  let html = "", para = [], list = [];
+  const flushP = () => { if (para.length) { html += "<p>" + para.join("<br>") + "</p>"; para = []; } };
+  const flushL = () => { if (list.length) { html += "<ul>" + list.map(x => "<li>" + x + "</li>").join("") + "</ul>"; list = []; } };
+  String(text || "").replace(/\r/g, "").split("\n").forEach(raw => {
+    const line = raw.trim();
+    let m;
+    if (!line || /^([-*_])\1{2,}$/.test(line)) { flushP(); flushL(); return; }
+    if ((m = /^#{1,6}\s+(.*)$/.exec(line))) { flushP(); flushL(); html += "<h4>" + esc(m[1].replace(/\*\*/g, "")) + "</h4>"; return; }
+    if ((m = /^[-*•]\s+(.*)$/.exec(line))) { flushP(); list.push(inlineMd(esc(m[1]))); return; }
+    flushL(); para.push(inlineMd(esc(line)));
+  });
+  flushP(); flushL();
+  return html;
+}
+function aiPrompt() {
+  return buildPrompt() + "\n\n" +
+    "Format your answer as plain text for a small web page. Use these four headings, each on its own line starting with \"## \": " +
+    "What works, Mistakes, A better version, Next skill. Under Mistakes, write one line per mistake starting with \"- \", " +
+    "in the form: original → better → why. Don't use tables. Keep it short and warm.";
+}
+async function askClaude(btn) {
+  if (!V.ai || AI.busy) return;
+  const out = $("#aiOut");
+  if (countWords($("#draft").value) < 3) { out.innerHTML = '<p class="ai-note">Write a few sentences first, then ask for feedback.</p>'; return; }
+  const day = cur, ctrl = new AbortController();
+  AI.ctrl = ctrl; AI.busy = true; btn.disabled = true;
+  out.setAttribute("aria-busy", "true");
+  out.innerHTML = '<p class="ai-note thinking">Claude is reading your text…</p>';
+  try {
+    const r = await V.ai(aiPrompt(), {modelTier:"default", signal: ctrl.signal,
+      onText: ({text}) => { if (day === cur && text) out.innerHTML = fbHTML(text); }});
+    if (day === cur) {
+      out.innerHTML = fbHTML(r.text) + (r.truncated ? '<p class="ai-note">The answer was cut short. Ask again for the rest.</p>' : "");
+      AI.out[day] = out.innerHTML;
+    }
+  } catch (e) {
+    const c = e && e.code;
+    if (c !== "cancelled" && day === cur) {
+      const keep = (c !== "refused" && e && e.text) ? fbHTML(e.text) : "";
+      out.innerHTML = keep + '<p class="ai-note">' + esc(aiCopy(e)) + '</p>';
+      if (/^(not_granted|sampling_disabled|not_declared|capability_disabled|capability_removed)$/.test(c || "")) {
+        V.ai = null; document.body.classList.remove("has-ai");
+      }
+    }
+  } finally {
+    out.setAttribute("aria-busy", "false");
+    if (AI.ctrl === ctrl) { AI.ctrl = null; AI.busy = false; const b = $("#aiBtn"); if (b) b.disabled = false; }
+  }
 }
 
 /* ---------- App state ---------- */
@@ -626,6 +897,7 @@ const firstOpen = () => { for (let n = 1; n <= DAYS.length; n++) if (!state.done
 let cur = (state.last >= 1 && state.last <= DAYS.length) ? state.last : firstOpen();
 const W = {running:false, start:0, len:0, startWords:0, timer:null};
 const LT = {matches:[]};
+let touched = false;   // the viewer has typed something since the page opened
 
 function dayInfo(n) { const w = Math.floor((n - 1) / 7); return {d: DAYS[n - 1], w, wk: WEEKS[w]}; }
 function stepsFor(n) { return state.steps[n] || [false,false,false,false,false]; }
@@ -764,11 +1036,15 @@ function renderLesson() {
     '<div class="statgrid" id="editStats"></div>' +
     '<p class="longest" id="longest"></p>' +
     '<div class="row"><button type="button" class="btn sm need-voice" data-speak="draft" aria-pressed="false">' + I.play + ' Read it to me</button>' +
-      '<button type="button" class="btn sm primary" id="ltBtn">Check grammar and spelling</button>' +
-      '<button type="button" class="btn sm" id="promptBtn">Copy a feedback prompt</button></div>' +
-    '<p class="note">"Check grammar" sends your text to LanguageTool, a free checker. It finds spelling and some grammar mistakes, not everything, so still read your text aloud. For deeper feedback, "Copy a feedback prompt" and paste it into any free AI chat (Claude, ChatGPT or Gemini).</p>' +
-    '<div class="lt-list" id="ltOut" aria-live="polite"></div>' +
-    '<div class="fallback" id="promptFallback" hidden><p class="note">Copying didn\'t work here. Select all the text below and copy it yourself.</p><textarea id="promptText" readonly aria-label="Feedback prompt"></textarea></div>' +
+      '<button type="button" class="btn sm primary need-ai" id="aiBtn">Get feedback from Claude</button>' +
+      '<button type="button" class="btn sm primary only-standalone" id="ltBtn">Check grammar and spelling</button>' +
+      '<button type="button" class="btn sm only-standalone" id="promptBtn">Copy a feedback prompt</button></div>' +
+    '<p class="note only-standalone">"Check grammar" sends your text to LanguageTool, a free checker. It finds spelling and some grammar mistakes, not everything, so still read your text aloud. For deeper feedback, "Copy a feedback prompt" and paste it into any free AI chat (Claude, ChatGPT or Gemini).</p>' +
+    '<p class="note need-ai">Claude reads your text and answers in simple English: what works, your mistakes, a better version, and what to practise next.</p>' +
+    '<p class="note no-note no-ai">Feedback from Claude isn\'t available here. Read your text aloud slowly and use the checklist above: that catches most mistakes.</p>' +
+    '<div class="ai-out" id="aiOut" aria-live="polite"></div>' +
+    '<div class="lt-list only-standalone" id="ltOut" aria-live="polite"></div>' +
+    '<div class="fallback only-standalone" id="promptFallback" hidden><p class="note">Copying didn\'t work here. Select all the text below and copy it yourself.</p><textarea id="promptText" readonly aria-label="Feedback prompt"></textarea></div>' +
     '<p class="note no-note no-voice">Reading aloud isn\'t available in this browser. Read your text out loud yourself, slowly.</p>');
 
   const sayIt = setBlock(5, "Say it out loud", 2,
@@ -791,6 +1067,7 @@ function renderLesson() {
 
   W.running = false; clearInterval(W.timer); W.lastWpm = null;
   LT.matches = [];
+  if (AI.out[cur]) $("#aiOut").innerHTML = AI.out[cur];
   updateDraftStats();
   updateSayResult();
   renderFinish();
@@ -803,7 +1080,7 @@ function renderFinish(msg) {
   let html;
   if (msg) {
     html = '<h3>' + (cur === DAYS.length ? "You finished the program!" : "Day " + cur + " saved") + '</h3><p>' + esc(msg) + '</p><div class="row">' +
-      (next ? '<button type="button" class="btn go" data-day="' + next + '">Go to Day ' + next + ': ' + esc(DAYS[next - 1].t) + '</button>' : '<button type="button" class="btn go" id="exportBtn2">Download all my writing</button>') + '</div>';
+      (next ? '<button type="button" class="btn go" data-day="' + next + '">Go to Day ' + next + ': ' + esc(DAYS[next - 1].t) + '</button>' : '<button type="button" class="btn go need-dl" id="exportBtn2">Download all my writing</button>') + '</div>';
   } else if (done) {
     html = '<h3>You finished this day on ' + esc(done.date) + '</h3><p>Rewriting is how writers grow. If you improved this piece, finish it again to save the new version.</p>' +
       '<div class="row"><button type="button" class="btn go" id="finishBtn">Finish again</button>' +
@@ -835,7 +1112,8 @@ function storeDraft() {
   const text = box.value, title = ($("#titleIn") || {}).value || "";
   const prev = piece(cur) || {};
   if (!text.trim() && !title.trim() && !prev.text) return;
-  state.pieces[cur] = {text, title, words: countWords(text), date: ymd(new Date()), minutes: prev.minutes || 0};
+  if (prev.text === text && (prev.title || "") === title) return;   // unchanged: keep its date
+  state.pieces[cur] = {text, title, words: countWords(text), date: ymd(new Date()), minutes: prev.minutes || 0, ts: Date.now()};
   saveSoon();
   renderJournalSoon();
 }
@@ -1015,13 +1293,25 @@ function exportAll() {
     const p = piece(n);
     out += "Day " + n + ": " + pieceTitle(n) + "\n" + (p.date || "") + " · " + (p.words || 0) + " words\n\n" + String(p.text).trim() + "\n\n----------\n\n";
   });
+  const name = "my-writing-" + ymd(new Date()) + ".txt", count = days.length + (days.length === 1 ? " piece." : " pieces.");
+  if (V.claude) {   // in claude.ai the file is offered through Claude, and the viewer confirms it
+    if (!V.dl) { toast("Downloading isn't available here. Use Copy on each piece instead."); return; }
+    V.dl.save({filename: name, data: out}).then(() => toast("Saved " + count)).catch(e => {
+      const c = e && e.code;
+      if (c === "declined") return;
+      if (c === "rate_limited") { toast("A download question is already open. Answer it first."); return; }
+      V.dl = null; document.body.classList.remove("has-dl"); setSync(syncMode);
+      toast("Downloading isn't available here. Use Copy on each piece instead.");
+    });
+    return;
+  }
   const blob = new Blob([out], {type:"text/plain;charset=utf-8"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href = url; a.download = "my-writing-" + ymd(new Date()) + ".txt";
+  a.href = url; a.download = name;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 3000);
-  toast("Downloaded " + days.length + (days.length === 1 ? " piece." : " pieces."));
+  toast("Downloaded " + count);
 }
 
 /* ---------- Events ---------- */
@@ -1030,6 +1320,7 @@ function goDay(n) {
   storeDraft();
   if (V.dict && V.dict.active()) V.dict.stop().catch(() => {});
   stopSpeech();
+  if (AI.ctrl) { AI.ctrl.abort(); AI.ctrl = null; AI.busy = false; }
   cur = n; state.last = n; save();
   renderProgram(); renderLesson();
   const top = $("#lesson").getBoundingClientRect().top + window.scrollY - 12;
@@ -1069,6 +1360,7 @@ document.addEventListener("click", e => {
     storeDraft(); updateDraftStats(); toast("Day " + n + " is in your draft. Now rewrite it.");
     return;
   }
+  if (t.id === "aiBtn") { askClaude(t); return; }
   if (t.id === "ltBtn") { runCheck(t); return; }
   if (t.dataset.fix !== undefined) { applyFix(+t.dataset.fix, +t.dataset.pick); return; }
   if (t.dataset.ignore !== undefined) { LT.matches.splice(+t.dataset.ignore, 1); renderMatches(); return; }
@@ -1095,6 +1387,7 @@ document.addEventListener("click", e => {
 
 document.addEventListener("input", e => {
   const t = e.target;
+  touched = true;
   if (t.id === "draft" || t.id === "titleIn") { storeDraft(); updateDraftStats(); if (t.id === "draft") updateSayResult(); return; }
   if (t.dataset && t.dataset.pat !== undefined) {
     const arr = (state.pat[cur] || ["","",""]).slice(); arr[+t.dataset.pat] = t.value; state.pat[cur] = arr; saveSoon(); return;
@@ -1117,9 +1410,27 @@ document.addEventListener("beforeinput", e => {
 });
 
 /* ---------- Start ---------- */
-const web = makeWebDictation();
-if (web) { V.dict = web; wireDictation(); document.body.classList.add("has-mic"); }
-renderAll();
+const C = window.claude;
+if (C && typeof C.use === "function") {
+  // Open in claude.ai: Claude's microphone, voice, feedback, downloads and account storage.
+  V.claude = true;
+  const caps = [
+    C.use("dictation").then(d => { if (d) { V.dict = d; wireDictation(); document.body.classList.add("has-mic"); markMic(); } }).catch(() => {}),
+    C.use("tts").then(t => { if (t && !V.ttsOff) { V.tts = t; document.body.classList.add("has-voice"); } }).catch(() => {}),
+    C.use("sample").then(s => { if (s) { V.ai = s; document.body.classList.add("has-ai"); } }).catch(() => {}),
+    C.use("downloads").then(dl => { if (dl) { V.dl = dl; document.body.classList.add("has-dl"); setSync(syncMode); } }).catch(() => {})
+  ];
+  Promise.allSettled(caps).then(() => document.body.classList.add("caps-ready"));
+  renderAll();
+  setSync("device");
+  connectStore(C);
+} else {
+  // The website: the browser's own speech recognition and voice, free tools, and plain downloads.
+  document.body.classList.add("standalone", "has-dl", "caps-ready");
+  const web = makeWebDictation();
+  if (web) { V.dict = web; wireDictation(); document.body.classList.add("has-mic"); }
+  renderAll();
+}
 })();
 </script>
 </body>
