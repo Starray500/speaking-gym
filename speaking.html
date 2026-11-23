@@ -1,0 +1,1374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Speaking Gym</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a coach's workout sheet. A program rail (4 weeks x 7 days) beside today's five timed sets. */
+:root{
+  --bg:#F3F4F9; --surface:#FFFFFF; --ink:#1A2040; --muted:#575E80; --line:#D9DDEA;
+  --accent:#3140A8; --accent-soft:#E5E8FA; --on-accent:#FFFFFF;
+  --mark:#FFE066; --mark-line:#E2B200; --on-mark:#1A2040;
+  --live:#D23838; --live-ring:rgba(210,56,56,.28); --on-live:#FFFFFF;
+  --good:#1B7F52; --good-soft:#E0F3E9; --on-good:#FFFFFF;
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+    --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+    --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+    --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+    --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+  --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+  --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+  --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+  --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+ul,ol{margin:0}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 28px;padding-bottom:20px;border-bottom:2px solid var(--ink)}
+.brand{display:grid;gap:6px;min-width:0}
+.brand h1{font-size:clamp(30px,5vw,44px);font-weight:800}
+.brand p{color:var(--muted);max-width:46ch}
+.stats{display:flex;flex-wrap:wrap;gap:16px 28px}
+.stat{display:grid;gap:2px;min-width:0}
+.k,.label{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.stat .v{font-family:var(--f-display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:8px;line-height:1.1}
+.stat .v small{font-family:var(--f-body);font-size:13px;font-weight:400;color:var(--muted)}
+.spark{display:block;overflow:visible}
+
+.layout{display:grid;grid-template-columns:276px minmax(0,1fr);gap:36px;margin-top:28px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}.rail{order:2}}
+.rail{display:grid;gap:26px;min-width:0}
+.rail-sec{display:grid;gap:12px;padding-top:18px;border-top:1px solid var(--line);min-width:0}
+.rail-sec:first-child{border-top:0;padding-top:0}
+.rail-sec h2{font-size:19px;font-weight:800}
+.week-row{display:grid;gap:6px}
+.wk{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+.wk span{color:var(--muted);text-align:right}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;max-width:340px}
+.day{font-family:var(--f-mono);font-size:13px;font-weight:700;aspect-ratio:1/1;max-width:100%;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0;position:relative}
+.day:hover{border-color:var(--ink)}
+.day.story::after{content:"";position:absolute;left:28%;right:28%;bottom:4px;height:3px;border-radius:2px;background:var(--mark-line)}
+.day.done{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.day.cur{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px;border:1px solid var(--line);background:var(--surface)}
+.legend i.d{background:var(--accent);border-color:var(--accent)}
+.legend i.s{background:var(--surface);box-shadow:inset 0 -3px 0 var(--mark-line)}
+.sync{font-size:13px;color:var(--muted)}
+
+.lesson{display:grid;gap:20px;min-width:0}
+.lesson-head{display:grid;gap:10px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.lesson-head h2{font-size:clamp(30px,4.6vw,44px);font-weight:800}
+.lede{color:var(--muted);max-width:62ch}
+.plan{list-style:none;padding:0;margin-top:6px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.plan button{width:100%;height:100%;text-align:left;display:grid;align-content:start;gap:2px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;min-height:64px}
+.plan button:hover{border-color:var(--ink)}
+.plan .pn{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.plan .pt{font-weight:700;font-size:15px;line-height:1.25}
+.plan button.done{border-color:var(--good);background:var(--good-soft)}
+.plan button.done .pn{color:var(--good)}
+@media (max-width:680px){
+  .plan{grid-template-columns:minmax(0,1fr)}
+  .plan button{display:flex;justify-content:space-between;align-items:center;min-height:44px;padding:8px 12px}
+  .plan .pn{order:2}
+}
+
+.set{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:16px;scroll-margin-top:16px;min-width:0}
+.set.is-done{border-color:var(--good)}
+.set-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:start}
+.set-num{width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700;font-size:15px}
+.set.is-done .set-num{background:var(--good);color:var(--on-good)}
+.set-head h3{font-size:23px;font-weight:800}
+.why{color:var(--muted);font-size:15.5px;margin-top:3px;max-width:60ch}
+.mins{font-family:var(--f-mono);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.set-body{display:grid;gap:14px;min-width:0}
+.set-foot{display:flex;justify-content:flex-end}
+@media (max-width:520px){.set{padding:16px}.set-head{grid-template-columns:auto minmax(0,1fr)}.mins{grid-column:2;justify-self:start}}
+
+.btn{font-weight:700;font-size:15.5px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{min-height:36px;padding:0 14px;font-size:14px}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.is-on{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.btn.live{background:var(--live);border-color:var(--live);color:var(--on-live)}
+.icon-btn{flex:none;width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:inline-grid;place-items:center;cursor:pointer;padding:0}
+.icon-btn.sm{width:34px;height:34px}
+.icon-btn:hover{border-color:var(--ink)}
+.icon-btn.playing{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.mic.listening{background:var(--live);border-color:var(--live);color:var(--on-live);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--live-ring)}50%{box-shadow:0 0 0 7px var(--live-ring)}}
+body:not(.has-mic) .need-mic,body:not(.has-ai) .need-ai,body:not(.has-voice) .need-voice{display:none!important}
+.no-note{display:none}
+body.caps-ready:not(.has-mic) .no-mic,body.caps-ready:not(.has-ai) .no-ai,body:not(.has-voice) .no-voice{display:block}
+
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.field{display:flex;gap:10px;align-items:flex-start}
+textarea{flex:1;min-width:0;width:100%;font:inherit;font-size:16.5px;line-height:1.5;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);resize:vertical}
+textarea:focus{outline:none;border-color:var(--accent)}
+textarea::placeholder{color:var(--muted)}
+.partial{font-style:italic;color:var(--muted);font-size:15px}
+.partial:empty{display:none}
+.note{font-size:14.5px;color:var(--muted)}
+.mark{font-weight:700;background:linear-gradient(transparent 8%,var(--mark) 8%,var(--mark) 92%,transparent 92%);color:var(--on-mark);padding:0 .22em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+.focus-tag{font-family:var(--f-mono);font-size:12.5px;font-weight:700;color:var(--accent)}
+.say-line{font-family:var(--f-display);font-size:clamp(23px,3.4vw,31px);font-weight:600;line-height:1.28;text-wrap:balance}
+.reps{display:flex;flex-wrap:wrap;gap:8px}
+
+.phrases{list-style:none;padding:0;display:grid}
+.phrase{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
+.phrase:last-child{border-bottom:0}
+.ex{color:var(--muted);font-size:15.5px;margin-top:2px}
+.review{display:grid;gap:6px;padding:12px 14px;border-radius:12px;background:var(--bg)}
+
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.seg button{font-size:14px;font-weight:700;border:0;background:transparent;color:var(--muted);padding:6px 13px;border-radius:999px;cursor:pointer;min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.sents{list-style:none;padding:0;display:grid;gap:4px}
+.sent{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;padding:8px 10px;border-radius:10px;transition:background .2s}
+.sent.now{background:var(--accent-soft)}
+.sent p{font-size:18px}
+
+.topic{font-family:var(--f-display);font-size:clamp(22px,3vw,28px);font-weight:600;line-height:1.28}
+.qs{padding-left:22px;display:grid;gap:4px}
+.rescue{display:grid;gap:10px;padding:14px;border-radius:12px;background:var(--bg)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14.5px;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.stage{display:grid;justify-items:center;gap:12px;padding:22px 16px;border-radius:14px;border:1.5px dashed var(--line);text-align:center}
+.stage.live{border:1.5px solid var(--live)}
+.clock{font-family:var(--f-display);font-weight:800;font-size:clamp(60px,11vw,88px);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stage.live .clock{color:var(--live)}
+.round-pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.rp{font-family:var(--f-mono);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.rp.now{border-color:var(--ink);color:var(--ink)}
+.rp.done{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.stage-note{font-size:15px;color:var(--muted);max-width:46ch}
+.results{display:grid;gap:8px}
+.results:empty{display:none}
+.result{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;padding:10px 14px;border-radius:10px;background:var(--bg);font-variant-numeric:tabular-nums}
+.result b{font-family:var(--f-mono)}
+.result .wpm{font-family:var(--f-display);font-weight:800;font-size:20px}
+.ref{font-size:14px;color:var(--muted)}
+
+.feedback{display:grid;gap:18px}
+.feedback:empty{display:none}
+.fb{display:grid;gap:8px}
+.fb h4{margin:0;font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fb-praise{padding:12px 14px;border-radius:12px;background:var(--good-soft)}
+.fb-natural{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;font-size:17.5px}
+.fix{display:grid;gap:2px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.fix:last-child{border-bottom:0}
+.fix .said{text-decoration:line-through;text-decoration-color:var(--live);color:var(--muted)}
+.fix .better{font-weight:700}
+.fix .because{font-size:14.5px;color:var(--muted)}
+.save-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+.save-row:last-child{border-bottom:0}
+.thinking{animation:breathe 1.6s ease-in-out infinite}
+@keyframes breathe{50%{opacity:.45}}
+
+.taboo-grid{display:grid;gap:14px}
+.taboo{display:grid;gap:10px;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);min-width:0}
+.taboo-word{font-family:var(--f-display);font-size:24px;font-weight:800}
+.taboo .field textarea{background:var(--surface)}
+.guess{font-size:15.5px}
+.guess:empty{display:none}
+.guess.ok{color:var(--good);font-weight:700}
+.guess.close{color:var(--accent);font-weight:700}
+
+.stuck-res{display:grid;gap:6px;padding:12px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.stuck-res .w{font-family:var(--f-display);font-size:24px;font-weight:800}
+.bank{list-style:none;padding:0;display:grid;gap:8px}
+.bank li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:start;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.bank li.empty{display:block;color:var(--muted);font-size:14.5px;border-bottom:0}
+.bank .w{font-weight:700;overflow-wrap:anywhere}
+.bank .n{font-size:14px;color:var(--muted)}
+.tight{gap:4px;flex-wrap:nowrap}
+.x{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:13px;padding:6px;border-radius:6px;min-height:34px}
+.x:hover{color:var(--live)}
+
+.finish{display:grid;gap:12px;justify-items:start;padding:22px;border-radius:16px;background:var(--ink);color:var(--bg)}
+.finish h3{font-size:24px;font-weight:800}
+.finish p{max-width:58ch}
+.finish .btn{border-color:transparent}
+.finish .btn.go{background:var(--mark);color:var(--on-mark)}
+.finish .btn.ghost{background:transparent;border-color:currentColor;color:var(--bg)}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:10px;font-size:15px;width:max-content;max-width:calc(100% - 32px);z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.site-nav{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding-block:0 14px;font-size:14.5px}
+.site-nav a{color:var(--muted);text-decoration:none;font-weight:700;padding:6px 0;border-bottom:2px solid transparent}
+.site-nav a:hover{color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.site-nav .home{font-family:var(--f-display);font-weight:800;color:var(--ink);margin-right:auto}
+body:not(.standalone) .only-standalone,body:not(.standalone) .site-nav{display:none!important}
+body.standalone .no-ai{display:none!important}
+a.btn{text-decoration:none}
+.recorder{display:grid;gap:8px}
+.recorder:empty{display:none}
+.recorder audio{width:100%;max-width:100%}
+.check-line{display:flex;gap:8px;align-items:center;font-size:15px;color:var(--muted)}
+.check-line input{width:18px;height:18px;accent-color:var(--accent)}
+#promptCopy{min-height:180px;font-size:14px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="speaking.html" aria-current="page">Speaking Gym</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a></nav>
+  <header class="top">
+    <div class="brand">
+      <h1>Speaking Gym</h1>
+      <p>20 minutes a day to turn the words you know into words you can say.</p>
+    </div>
+    <div class="stats" id="stats" aria-live="polite"></div>
+  </header>
+
+  <div class="layout">
+    <aside class="rail">
+      <section class="rail-sec">
+        <h2>Your 28-day program</h2>
+        <div id="program" class="rail-sec" style="border:0;padding:0;gap:14px"></div>
+        <p class="legend"><span><i class="d"></i>Done</span><span><i class="s"></i>4-3-2 story day</span></p>
+      </section>
+
+      <section class="rail-sec" id="stuck">
+        <h2>Stuck on a word?</h2>
+        <p class="note">Describe the word you need in simple English. You get suggestions, and you can save the right one.</p>
+        <div class="field">
+          <textarea id="stuckBox" rows="3" placeholder="the paper the shop gives you after you pay"></textarea>
+          <button type="button" class="icon-btn mic need-mic" data-mic="stuckBox" aria-label="Describe it with your voice" aria-pressed="false"></button>
+        </div>
+        <p class="partial" data-partial-for="stuckBox"></p>
+        <div class="row"><button type="button" class="btn sm primary need-ai" id="stuckBtn">Find the word</button><button type="button" class="btn sm primary only-standalone" id="stuckFree">Find the word</button></div>
+        <p class="note only-standalone">Tip: use 3–5 key words, like “proof of payment” or “person who owns the house”.</p>
+        <p class="note no-note no-ai">Word finding works when this page is open in claude.ai.</p>
+        <div id="stuckOut"></div>
+      </section>
+
+      <section class="rail-sec">
+        <h2>My words <span class="note" id="bankCount"></span></h2>
+        <ul class="bank" id="bank"></ul>
+      </section>
+
+      <p class="sync" id="sync">Loading your progress…</p>
+    </aside>
+
+    <main class="lesson" id="lesson"></main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+"use strict";
+
+/* ---------- Program content ---------- */
+const WEEKS = [
+  {name:"Everyday me", note:"This week you talk about your life as it is now. Most sentences use the present simple: I live, I work, I usually…"},
+  {name:"Telling stories", note:"This week you tell stories about the past. Listen for the -ed endings and the story phrases that connect your ideas."},
+  {name:"Explaining and opinions", note:"This week you explain, compare and give advice. You practise giving reasons, not only facts."},
+  {name:"Work, plans and real life", note:"This week you prepare for real situations: work, interviews, problems in a shop, and your future."}
+];
+
+const DAYS = [
+ {t:"My daily routine", warm:["The “th” sound","Thirty-three thirsty thinkers thought about Thursday."],
+  ph:[["I usually…","I usually wake up around seven."],["First of all…","First of all, I make a cup of tea."],["After that…","After that, I check my messages."],["It depends on…","It depends on the day, really."],["By the time…","By the time I get home, I'm really tired."]],
+  sh:"I usually wake up around seven. First of all, I make a cup of tea and check my phone. After that, I get ready and leave the house. By the time I get home, I'm really tired, so I keep my evenings quiet.",
+  topic:"Describe a normal weekday for you, from morning to night.",
+  qs:["What time do you wake up, and what do you do first?","What is the busiest part of your day?","How do you relax in the evening?"],
+  tb:["alarm clock|alarm","breakfast","traffic jam|traffic"]},
+ {t:"My home", warm:["“w” and “v”","Very well, we will wait while Victor washes the van."],
+  ph:[["I live in…","I live in a small flat near the market."],["There's a… / There are…","There's a big window in the living room."],["My favourite part is…","My favourite part is the balcony."],["It's a bit…","It's a bit noisy at night."],["If I could change one thing, I'd…","If I could change one thing, I'd get a bigger kitchen."]],
+  sh:"I live in a small flat near the city centre. There's a big window in the living room, so it gets a lot of light. My favourite part is the balcony, where I drink my coffee. It's a bit noisy at night, but I'm used to it.",
+  topic:"Describe the place where you live.",
+  qs:["What does it look like?","What is your favourite room, and why?","What would you change about it?"],
+  tb:["neighbour|neighbor","landlord|landlady","stairs|staircase"]},
+ {t:"Food I love", warm:["“r” and “l”","Red lorry, yellow lorry, red lorry, yellow lorry."],
+  ph:[["I'm a big fan of…","I'm a big fan of spicy food."],["It tastes…","It tastes a bit sweet and a bit sour."],["It's made with…","It's made with rice, tomatoes and peppers."],["I can't stand…","I can't stand very salty food."],["Whenever I…, I…","Whenever I visit my mum, she cooks my favourite meal."]],
+  sh:"I'm a big fan of spicy food. My favourite dish is made with rice, tomatoes and a lot of pepper. It tastes even better the next day. Whenever I visit my family, my mum cooks it for me.",
+  topic:"Talk about a dish you love. Explain how it's made and why you like it.",
+  qs:["What is it made with?","When do you usually eat it?","Is there any food you can't stand?"],
+  tb:["frying pan|pan|skillet","recipe","leftovers"]},
+ {t:"People in my life", warm:["“s” and “sh”","She sells seashells by the seashore."],
+  ph:[["We get along well.","My brother and I get along really well."],["We've known each other since…","We've known each other since primary school."],["She's the kind of person who…","She's the kind of person who always listens."],["We have a lot in common.","We have a lot in common, especially music."],["I look up to…","I really look up to my older sister."]],
+  sh:"My best friend and I have known each other since school. She's the kind of person who always listens. We have a lot in common, especially our love of music. I really look up to her, because she works so hard.",
+  topic:"Describe a person who is important to you.",
+  qs:["How do you know this person?","What kind of person are they?","Why are they important to you?"],
+  tb:["cousin","wedding","birthday"]},
+ {t:"Free time", warm:["The “h” sound","Harry hurried home to have hot homemade honey."],
+  ph:[["In my free time, I…","In my free time, I play football with friends."],["I'm really into…","I'm really into old films at the moment."],["I got into it when…","I got into it when I was a teenager."],["It helps me…","It helps me forget about work."],["I've been meaning to…","I've been meaning to learn the guitar."]],
+  sh:"In my free time, I'm really into football. I got into it when I was a teenager, and I still play every Saturday. It helps me forget about work and clear my head. I've also been meaning to learn the guitar.",
+  topic:"Talk about what you do in your free time.",
+  qs:["What do you enjoy doing most?","How did you get into it?","Is there something new you want to try?"],
+  tb:["referee|umpire","gym","playlist"]},
+ {t:"My city or town", warm:["“v” and “b”","Vincent's van moves very valuable boxes by boat."],
+  ph:[["It's known for…","My city is known for its markets."],["It's the kind of place where…","It's the kind of place where everyone talks to strangers."],["The best thing about it is…","The best thing about it is the food."],["The downside is…","The downside is the traffic."],["If you ever visit, you should…","If you ever visit, you should try the street food."]],
+  sh:"My city is known for its busy markets and great food. It's the kind of place where people talk to strangers. The downside is the traffic, especially in the morning. If you ever visit, you should try the street food.",
+  topic:"Describe your city or town to someone who has never been there.",
+  qs:["What is it known for?","What is good about it, and what is the downside?","What should a visitor do there?"],
+  tb:["bus stop","crowded|busy","souvenir"]},
+ {t:"My week", story:true, warm:["The “s” and “sl” sounds","Six slippery snails slid slowly to the sea."],
+  ph:[["At the start of the week, …","At the start of the week, everything went wrong."],["Then…","Then on Tuesday, things got better."],["Later that day, …","Later that day, I met an old friend."],["The best part was…","The best part was laughing about old times."],["Overall, …","Overall, it was a good week."]],
+  sh:"At the start of the week, everything went wrong. Then on Tuesday, things got better. Later in the week, I met an old friend for dinner. The best part was laughing about old times. Overall, it was a good week.",
+  topic:"Tell the story of your week: what happened, who you saw, and how you felt.",
+  qs:["Beginning: how did the week start?","Middle: what was the most interesting moment?","End: how do you feel about the week now?"],
+  tb:["appointment","laundry|washing","weekend"]},
+
+ {t:"Yesterday", warm:["-ed endings: /t/, /d/, /ɪd/","I walked, I talked, I played, I stayed, I waited, I wanted."],
+  ph:[["Yesterday was…","Yesterday was quite a busy day."],["As soon as…","As soon as I woke up, I realised I was late."],["I ended up…","I ended up staying at work until eight."],["Luckily, …","Luckily, the bus came on time."],["By the end of the day, …","By the end of the day, I was exhausted."]],
+  sh:"Yesterday was quite a busy day. As soon as I woke up, I realised I was late. Luckily, the bus came on time. I ended up staying at work until eight, so by the end of the day I was exhausted.",
+  topic:"Tell me about yesterday, from morning to night.",
+  qs:["What was the first thing you did?","Did anything surprise you?","How did you feel by the end of the day?"],
+  tb:["umbrella","phone charger|charger","receipt"]},
+ {t:"A childhood memory", warm:["Linking: “used to” sounds like “yoos-tuh”","When I was young, I used to climb trees and eat apples."],
+  ph:[["When I was a kid, …","When I was a kid, I lived near the sea."],["I used to…","I used to play outside all day."],["I'll never forget…","I'll never forget the day I got my first bike."],["Back then, …","Back then, we didn't have phones."],["Looking back, …","Looking back, those were happy days."]],
+  sh:"When I was a kid, I lived in a small village. I used to play outside with my cousins all day. I'll never forget the day my father brought home our first television. Looking back, those were simple but happy days.",
+  topic:"Tell a memory from your childhood.",
+  qs:["Where did you live, and who was with you?","What happened?","Why do you still remember it?"],
+  tb:["playground","sweets|candy","school uniform|uniform"]},
+ {t:"A trip I took", warm:["“j” and “y”","Yes, Jack, your yellow jacket is in the jeep."],
+  ph:[["I went to… with…","I went to the coast with two friends."],["We stayed in…","We stayed in a small hotel near the beach."],["It turned out…","It turned out the hotel had no hot water."],["The highlight was…","The highlight was the boat trip."],["I'd love to go back.","I'd love to go back one day."]],
+  sh:"Last year I went to the coast with two friends. We stayed in a small hotel near the beach. It turned out the hotel had no hot water, but we didn't care. The highlight was a boat trip at sunset, and I'd love to go back.",
+  topic:"Tell me about a trip you took.",
+  qs:["Where did you go, and who with?","What was the highlight?","Did anything go wrong?"],
+  tb:["passport","luggage|suitcase|baggage","sunscreen|sun cream|suncream|sunblock"]},
+ {t:"A problem I solved", warm:["“p” and “f”","Please pick five fresh plums for Phil."],
+  ph:[["The problem was that…","The problem was that my phone stopped working."],["At first, I…","At first, I didn't know what to do."],["So I decided to…","So I decided to call a friend for help."],["In the end, …","In the end, it was a simple fix."],["I learned that…","I learned that it's OK to ask for help."]],
+  sh:"Last month, my laptop stopped working before an important deadline. At first, I panicked. So I decided to call a friend who knows about computers. In the end, it was a simple fix, and I learned that it's OK to ask for help.",
+  topic:"Tell me about a problem you had and how you solved it.",
+  qs:["What was the problem?","What did you try first?","How did it end, and what did you learn?"],
+  tb:["deadline","mechanic","refund"]},
+ {t:"Someone who helped me", warm:["The soft “th” in this, that, they","This, that, these, those: they gather there together."],
+  ph:[["I owe a lot to…","I owe a lot to my first teacher."],["She taught me how to…","She taught me how to stay calm."],["Without her help, …","Without her help, I wouldn't have passed."],["She believed in me when…","She believed in me when nobody else did."],["I'm still grateful for…","I'm still grateful for her advice."]],
+  sh:"I owe a lot to my first English teacher. She believed in me when I didn't believe in myself. She taught me how to keep going when things got hard. Without her help, I wouldn't be where I am today.",
+  topic:"Tell me about someone who helped you in your life.",
+  qs:["Who is this person?","How did they help you?","How did it change you?"],
+  tb:["advice","scholarship","exam|test"]},
+ {t:"A funny or embarrassing moment", warm:["Short “i” and long “ee”","Ship, sheep. Live, leave. Sit, seat. Fill, feel."],
+  ph:[["You won't believe what happened.","You won't believe what happened at work."],["I was so embarrassed.","I was so embarrassed that my face went red."],["Everyone burst out laughing.","Everyone burst out laughing, including me."],["It was one of those moments when…","It was one of those moments when you want to disappear."],["Now I can laugh about it.","It was awful then, but now I can laugh about it."]],
+  sh:"You won't believe what happened at my cousin's wedding. I stood up to give a speech and completely forgot my words. Everyone burst out laughing, and I was so embarrassed. It was awful at the time, but now I can laugh about it.",
+  topic:"Tell me about a funny or embarrassing moment.",
+  qs:["Where were you, and what happened?","How did people react?","How do you feel about it now?"],
+  tb:["microphone|mic","spill","slippery"]},
+ {t:"The best day of my life", story:true, warm:["“b” and “g”","A big bug bit the little beetle, but the little beetle bit the big bug back."],
+  ph:[["It all started when…","It all started when I got a phone call."],["Suddenly, …","Suddenly, everyone started clapping."],["I couldn't believe it.","I couldn't believe it, I got the job!"],["Before I knew it, …","Before I knew it, it was midnight."],["It was worth it.","It was a long day, but it was worth it."]],
+  sh:"It all started when I got a phone call on a Friday morning. I couldn't believe it: I had got the job! Before I knew it, my whole family was at my house. We cooked, we danced, and we talked until midnight. It was the best day of my life.",
+  topic:"Tell the story of the best day of your life.",
+  qs:["Beginning: where were you, and how did the day start?","Middle: what happened that made it special?","End: how did the day finish, and why do you remember it?"],
+  tb:["surprise","fireworks|firework","ceremony"]},
+
+ {t:"How to do something", warm:["Word stress moves","PHOtograph, phoTOGraphy, photoGRAPHic."],
+  ph:[["The first step is to…","The first step is to boil fresh water."],["Make sure you…","Make sure you warm the cup first."],["Once you've…, …","Once you've added the tea, leave it for three minutes."],["The trick is to…","The trick is to go slowly."],["If you get stuck, …","If you get stuck, watch a short video."]],
+  sh:"Making good tea is easy. The first step is to boil fresh water. Make sure you warm the cup first. Once you've added the tea, leave it for three minutes. The trick is not to rush it.",
+  topic:"Explain how to do something you're good at: cooking, a sport, or a skill from work.",
+  qs:["What is the first step?","What mistakes do beginners make?","What is your secret trick?"],
+  tb:["ingredient|ingredients","beginner","measure"]},
+ {t:"Giving advice", warm:["“a” in cat and “u” in cut","Cat, cut. Hat, hut. Bag, bug. Match, much."],
+  ph:[["If I were you, I'd…","If I were you, I'd start with small goals."],["You might want to…","You might want to practise every morning."],["Have you thought about…?","Have you thought about recording yourself?"],["It's a good idea to…","It's a good idea to learn phrases, not single words."],["Whatever you do, don't…","Whatever you do, don't give up after one bad day."]],
+  sh:"If I were you, I'd start with small goals. You might want to practise for ten minutes every day instead of two hours once a week. Have you thought about recording yourself? Whatever you do, don't give up after one bad day.",
+  topic:"A friend wants to learn a new language. What advice would you give them?",
+  qs:["What should they do every day?","What mistakes should they avoid?","What helped you the most?"],
+  tb:["habit","mistake|error","patience|patient"]},
+ {t:"Comparing two things", warm:["Comparatives with a soft ending","Bigger, better, faster, cheaper, quieter, closer."],
+  ph:[["Compared to…, …","Compared to the city, the village is much quieter."],["On the one hand, … On the other hand, …","On the one hand, it's cheaper. On the other hand, there are fewer jobs."],["…is much more… than…","The city is much more exciting than my village."],["Both… and…","Both places have good points."],["It's not as… as…","It's not as expensive as people think."]],
+  sh:"Compared to the city, village life is much slower. On the one hand, it's quieter and cheaper. On the other hand, there are fewer jobs. Both have good points, but for now I prefer the city.",
+  topic:"Compare life in a big city with life in a village. Which do you prefer?",
+  qs:["What is better about the city?","What is better about the village?","Where would you like to live in the future, and why?"],
+  tb:["rent","countryside","pollution"]},
+ {t:"My opinion on phones", warm:["Questions go up at the end","Really? Are you sure? You think so? Is that right?"],
+  ph:[["In my opinion, …","In my opinion, phones make life easier."],["I strongly believe that…","I strongly believe that children need less screen time."],["The way I see it, …","The way I see it, the problem is how we use them."],["I see your point, but…","I see your point, but I don't agree."],["That's why I think…","That's why I think we need breaks."]],
+  sh:"In my opinion, phones make our lives easier but also more stressful. The way I see it, the problem isn't the phone, it's how we use it. I see why people love social media, but I think we need breaks. That's why I turn my phone off after nine.",
+  topic:"Are smartphones good or bad for us? Give your opinion and your reasons.",
+  qs:["What is good about phones?","What is the problem with them?","What rules do you have for yourself?"],
+  tb:["notification|notifications","screen","addicted|addiction"]},
+ {t:"A decision I made", warm:["Linking “would” and “could”","If I could, I would. If you would, you could."],
+  ph:[["I had to decide whether to… or…","I had to decide whether to stay or leave."],["The main reason was…","The main reason was money."],["It was a tough call.","It was a tough call, but I made it."],["I'm glad I…","I'm glad I took the risk."],["If I hadn't…, I would never have…","If I hadn't moved, I would never have met my wife."]],
+  sh:"A few years ago, I had to decide whether to stay in my job or go back to school. It was a tough call. The main reason I chose school was that I wanted a better future. I'm glad I did, because I met amazing people there.",
+  topic:"Tell me about an important decision you made.",
+  qs:["What were the choices?","Why did you choose what you chose?","Would you make the same decision again?"],
+  tb:["salary|wage|pay","risk","regret"]},
+ {t:"A film, book or show", warm:["“ch” and “sh”","Choose shoes, chew chips, share cheese."],
+  ph:[["It's about…","It's about a young woman who becomes a chef."],["It's set in…","It's set in Paris in the 1960s."],["The main character is…","The main character is brave but lonely."],["What I liked most was…","What I liked most was the music."],["I'd recommend it to anyone who…","I'd recommend it to anyone who loves food."]],
+  sh:"The last film I watched is about a young woman who leaves her village to become a chef. It's set in Paris in the nineteen-sixties. What I liked most was the music. I'd recommend it to anyone who loves food.",
+  topic:"Describe a film, book or TV show you like, without telling the ending.",
+  qs:["What is it about, and where is it set?","Who is the main character?","Who would you recommend it to?"],
+  tb:["episode","actor|actress","ending"]},
+ {t:"A change I made", story:true, warm:["“f” and “b”","Fred fed Ted bread, and Ted fed Fred bread."],
+  ph:[["I used to…, but now I…","I used to eat junk food, but now I cook at home."],["It wasn't easy at first.","It wasn't easy at first, believe me."],["Little by little, …","Little by little, I learned simple recipes."],["The biggest difference is…","The biggest difference is my energy."],["I wish I had done it sooner.","I wish I had done it years ago."]],
+  sh:"I used to eat junk food every day, but now I cook at home. It wasn't easy at first. Little by little, I learned simple recipes. The biggest difference is that I have more energy. I wish I had done it sooner.",
+  topic:"Tell the story of a change you made in your life: a habit, a move, or a new job.",
+  qs:["Beginning: what was your life like before?","Middle: what did you change, and what was hard?","End: what is different now?"],
+  tb:["diet","motivation","vegetables|vegetable"]},
+
+ {t:"My work or studies", warm:["Stress in job names","acCOUNtant, engiNEER, MANager, phoTOGrapher, deVELoper."],
+  ph:[["I work as… / I'm studying…","I work as a sales assistant."],["I'm responsible for…","I'm responsible for helping customers."],["A typical day involves…","A typical day involves a lot of talking."],["The most challenging part is…","The most challenging part is staying patient."],["What I enjoy most is…","What I enjoy most is meeting new people."]],
+  sh:"I work as a sales assistant in a phone shop. I'm responsible for helping customers choose the right phone. A typical day involves a lot of talking and explaining. The most challenging part is staying patient when the shop is busy.",
+  topic:"Describe your job or your studies.",
+  qs:["What do you do every day?","What is the hardest part?","What do you enjoy most?"],
+  tb:["colleague|coworker|co-worker","meeting","boss|manager"]},
+ {t:"Tell me about yourself", warm:["Numbers with “th”","Thirteen, thirty, three thousand three hundred and thirty-three."],
+  ph:[["I've been working in… for… years.","I've been working in customer service for four years."],["I'm good at…","I'm good at solving problems."],["One thing I'm proud of is…","One thing I'm proud of is training new staff."],["I'm looking for…","I'm looking for a role where I can grow."],["In the future, I'd like to…","In the future, I'd like to lead a team."]],
+  sh:"I've been working in customer service for four years. I'm good at solving problems and staying calm under pressure. One thing I'm proud of is training three new team members. Now I'm looking for a role where I can grow.",
+  topic:"Answer the job interview question: “Tell me about yourself.”",
+  qs:["What is your experience?","What are you good at?","What are you looking for next?"],
+  tb:["CV|resume|résumé","promotion","interview"]},
+ {t:"Solving a problem politely", warm:["Polite rising tone","Excuse me, could you help me, please? I'm afraid there's a problem."],
+  ph:[["I'm afraid…","I'm afraid there's a problem with my order."],["Would it be possible to…?","Would it be possible to change it?"],["I was wondering if…","I was wondering if you could help me."],["I'd really appreciate it if…","I'd really appreciate it if you could check."],["Thanks for sorting it out.","Thanks so much for sorting it out."]],
+  sh:"Excuse me, I'm afraid there's a problem with this jacket. I bought it last week, and the zip is already broken. Would it be possible to change it for a new one? I'd really appreciate it. Thanks so much for sorting it out.",
+  topic:"Role-play: you bought something and it's broken. Talk to the shop assistant and solve the problem politely.",
+  qs:["What did you buy, and what is wrong with it?","What do you want the shop to do?","What do you say if they say no?"],
+  tb:["zip|zipper","warranty|guarantee","customer service"]},
+ {t:"What would you do if…?", warm:["Short forms: I'd, you'd, we'd","I'd go, you'd stay, we'd see, they'd agree."],
+  ph:[["If I had…, I would…","If I had more time, I would travel."],["I'd probably…","I'd probably buy a house first."],["The first thing I'd do is…","The first thing I'd do is help my parents."],["I'd never…","I'd never stop working completely."],["It would be amazing to…","It would be amazing to start my own business."]],
+  sh:"If I won a lot of money, the first thing I'd do is help my parents. Then I'd probably travel for a few months. I'd never stop working completely, because I'd get bored. It would be amazing to start my own small business.",
+  topic:"What would you do if you won a lot of money?",
+  qs:["What is the first thing you'd do?","What would you never do?","Would the money change you?"],
+  tb:["lottery|lotto","mansion","charity"]},
+ {t:"Giving directions", warm:["Linking words together","Go straight on, turn left at the lights, and it's on your right."],
+  ph:[["Go straight on until…","Go straight on until you reach the lights."],["Turn left at…","Turn left at the big supermarket."],["You'll see… on your right.","You'll see a bank on your right."],["It's just past…","It's just past the school."],["You can't miss it.","It's a red building. You can't miss it."]],
+  sh:"From the station, go straight on until you reach the traffic lights. Turn left at the lights and walk for about two minutes. You'll see a big supermarket on your right. My building is just past it. You can't miss it.",
+  topic:"Explain to a visitor how to get from the nearest bus stop or station to your home.",
+  qs:["Where do they start?","What will they see on the way?","How long does it take?"],
+  tb:["roundabout|traffic circle","pharmacy|chemist|drugstore","bridge"]},
+ {t:"My goals", warm:["“going to” in fast speech","I'm going to try, I'm going to fly, I'm going to finally say goodbye."],
+  ph:[["My main goal is to…","My main goal is to speak with confidence."],["I'm planning to…","I'm planning to join a conversation group."],["To do that, I need to…","To do that, I need to practise every day."],["By this time next year, I hope…","By this time next year, I hope to give a talk in English."],["Step by step, …","Step by step, I'm getting better."]],
+  sh:"My main goal this year is to speak English with confidence. To do that, I need to practise every day, even for twenty minutes. I'm planning to join a conversation group. By this time next year, I hope to give a presentation in English.",
+  topic:"Talk about your goals for the next year.",
+  qs:["What is your main goal?","What do you need to do to reach it?","What might stop you, and how will you deal with it?"],
+  tb:["certificate","savings","schedule|timetable"]},
+ {t:"Me in five years", story:true, warm:["“th” and “s” together","Six thick thistle sticks. Six thick thistle sticks."],
+  ph:[["In five years, I see myself…","In five years, I see myself running a small business."],["I'll probably…","I'll probably still live in this city."],["Hopefully, …","Hopefully, I'll speak English every day."],["By then, …","By then, I'll have more experience."],["No matter what happens, …","No matter what happens, I'll keep learning."]],
+  sh:"In five years, I see myself running my own small business. I'll probably still live in this city, but in a bigger flat. Hopefully, I'll speak English every day at work. By then, this practice will feel like a long time ago. No matter what happens, I'll keep learning.",
+  topic:"Tell the story of your life five years from now. Where are you, what do you do, and who is with you?",
+  qs:["Beginning: where do you live, and what does a normal day look like?","Middle: what did you achieve to get there?","End: how do you feel, and what's next?"],
+  tb:["customer|customers","garden","airport"]}
+];
+
+const RESCUE = {
+  buy:["Let me think…","How can I put it…","What I mean is…","The thing is…","Well, basically…"],
+  around:["It's a kind of…","It's something you use to…","It's the place where…","It's the opposite of…","It's like a…, but…"]
+};
+const STEPS = [
+  {k:1, name:"Warm up", mins:2},
+  {k:2, name:"Phrases", mins:4},
+  {k:3, name:"Shadowing", mins:5},
+  {k:4, name:"Speak", mins:6},
+  {k:5, name:"Find the word", mins:3}
+];
+
+/* ---------- Helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const countWords = t => (String(t || "").match(/[A-Za-z0-9À-ɏ']+/g) || []).length;
+const splitSents = t => (t.match(/[^.!?]+[.!?]+/g) || [t]).map(s => s.trim());
+const ymd = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const fmt = s => { s = Math.ceil(s); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
+const alts = w => w.split("|");
+const mainWord = w => alts(w)[0];
+const norm = s => String(s || "").toLowerCase().replace(/[^a-zÀ-ɏ ]/g, "").replace(/\s+/g, " ").trim();
+const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const I = {
+  play:'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2.5" fill="currentColor"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  check:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
+$$('[data-mic]').forEach(b => { b.innerHTML = I.mic; });
+
+const SAY = [];
+const sayId = t => { SAY.push(String(t)); return SAY.length - 1; };
+const SAVES = [];
+const saveId = item => { SAVES.push(item); return SAVES.length - 1; };
+
+let toastTimer = null;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 4200);
+}
+
+/* ---------- Progress storage ---------- */
+const LS_KEY = "speaking-gym-v1";
+const fresh = () => ({v:1, done:{}, steps:{}, bank:[], last:0});
+function loadLocal() { try { const s = localStorage.getItem(LS_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+let state = Object.assign(fresh(), loadLocal() || {});
+
+function merge(a, b) {
+  const out = fresh();
+  out.done = Object.assign({}, a.done || {}, b.done || {});
+  const keys = new Set(Object.keys(a.steps || {}).concat(Object.keys(b.steps || {})));
+  keys.forEach(k => {
+    const x = (a.steps || {})[k] || [], y = (b.steps || {})[k] || [];
+    out.steps[k] = [0,1,2,3,4].map(i => !!(x[i] || y[i]));
+  });
+  const seen = new Set();
+  (b.bank || []).concat(a.bank || []).forEach(it => {
+    if (!it || !it.t) return; const key = norm(it.t);
+    if (seen.has(key)) return; seen.add(key); out.bank.push({t:String(it.t), n:String(it.n || ""), d:it.d || ""});
+  });
+  out.last = b.last || a.last || 0;
+  return out;
+}
+
+let remote = null, writing = false, pending = false;
+function setSync(mode) {
+  const el = $("#sync");
+  el.textContent = mode === "account"
+    ? "Your progress is saved to your Claude account, so it follows you to other devices."
+    : "Your progress is saved in this browser only.";
+}
+async function save() {
+  saveLocal();
+  if (!remote) return;
+  if (writing) { pending = true; return; }
+  writing = true;
+  try { await remote.set(JSON.parse(JSON.stringify(state))); }
+  catch (e) { remote = null; setSync("device"); }
+  writing = false;
+  if (pending) { pending = false; save(); }
+}
+async function connectStore(C) {
+  try {
+    const [db, user] = await Promise.all([C.use("db"), C.use("user")]);
+    if (!db || !user) { setSync("device"); return; }
+    const id = await user.id();
+    if (!id) { setSync("device"); return; }
+    const ref = db.doc("data/users/" + id + "/coach");
+    const snap = await Promise.race([ref.get(), sleep(10000).then(() => { throw new Error("timeout"); })]);
+    if (snap.exists) {
+      state = merge(state, JSON.parse(JSON.stringify(snap.data() || {})));
+      if (state.last && state.last !== cur && !S.running) { cur = state.last; renderLesson(); }
+      renderAll(false); updateStepUI();
+    }
+    remote = ref; setSync("account"); save();
+  } catch (e) { setSync("device"); }
+}
+
+/* ---------- Voice: listening and speaking ---------- */
+const V = {dict:null, dstate:"idle", target:null, tts:null, ai:null, ttsOff:false, rate:0.85,
+           synth: ("speechSynthesis" in window) ? window.speechSynthesis : null};
+if (V.synth) document.body.classList.add("has-voice");
+
+function setPlaying(btn) {
+  $$(".icon-btn.playing").forEach(b => { if (b !== btn) b.classList.remove("playing"); });
+  if (btn) btn.classList.add("playing");
+}
+function synthSay(text, rate) {
+  return new Promise((res, rej) => {
+    try { V.synth.cancel(); } catch (e) {}
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-GB"; u.rate = rate;
+    u.onend = () => res();
+    u.onerror = e => rej({code: (e.error === "interrupted" || e.error === "canceled") ? "stopped" : "upstream_error"});
+    V.synth.speak(u);
+  });
+}
+async function say(text, rate, btn) {
+  if (V.ttsOff) return;
+  if (V.dict && V.dict.active()) { try { await V.dict.stop(); } catch (e) {} }
+  setPlaying(btn);
+  try {
+    if (V.tts) await V.tts.speak(text.length > 1800 ? splitSents(text).map(s => ({text:s})) : text, {rate, language:"en"});
+    else if (V.synth) await synthSay(text, rate);
+  } finally {
+    if (btn) btn.classList.remove("playing");
+  }
+}
+function stopSpeech() {
+  if (V.tts) V.tts.stop().catch(() => {});
+  if (V.synth && !V.tts) { try { V.synth.cancel(); } catch (e) {} }
+  setPlaying(null);
+}
+function speakErr(e) {
+  const c = e && e.code;
+  if (c === "stopped" || c === "cancelled") return;
+  if (c === "not_granted") {
+    V.ttsOff = true; V.tts = null; document.body.classList.remove("has-voice");
+    toast("Reading aloud is off for this page. Read the text out loud yourself instead.");
+    return;
+  }
+  if (c === "busy") { toast("Stop the microphone first, then press play."); return; }
+  if (c === "rate_limited") { toast("That's a lot of listening for now. Wait a minute, then try again."); return; }
+  if (c === "no_gesture") { toast("Press play again to hear it."); return; }
+  toast("The audio didn't play. Press play to try again.");
+}
+
+function markMic() {
+  const on = V.dstate !== "idle";
+  $$("[data-mic]").forEach(b => {
+    const me = on && V.target && b.dataset.mic === V.target.id;
+    b.classList.toggle("listening", !!me);
+    b.setAttribute("aria-pressed", me ? "true" : "false");
+  });
+}
+function disableMic(msg) {
+  V.dict = null; document.body.classList.remove("has-mic"); V.dstate = "idle"; markMic();
+  if (msg) toast(msg);
+}
+function onDictError(e) {
+  const c = e && e.code;
+  if (c === "stopped") return;
+  if (c === "not_granted") return disableMic("The microphone is off for this page. You can still speak out loud and type.");
+  if (c === "unavailable") return disableMic("Voice typing isn't available here. You can still speak out loud and type.");
+  if (c === "dismissed") return toast("Press the microphone again and choose Allow to use voice typing.");
+  if (c === "rate_limited") return toast("Voice typing is busy. Try again in a moment.");
+  toast("The microphone didn't start. Press it to try again.");
+}
+function startDictation(box) {
+  if (!V.dict) return;
+  if (V.tts) V.tts.stop().catch(() => {});
+  else if (V.synth) { try { V.synth.cancel(); } catch (e) {} }
+  setPlaying(null);
+  V.target = box; markMic();
+  V.dict.start({language:"en"}).catch(onDictError);
+}
+function toggleMic(btn) {
+  if (!V.dict) return;
+  const box = document.getElementById(btn.dataset.mic);
+  if (!box) return;
+  if (V.dict.active() && V.target === box) { V.dict.stop().catch(() => {}); return; }
+  startDictation(box);
+}
+function wireDictation() {
+  V.dict.onFinal(({text}) => {
+    const box = V.target; if (!box || !text) return;
+    let t = text;
+    if (!box.value) t = t.replace(/^\s+/, "");
+    else if (!/\s$/.test(box.value) && !/^\s/.test(t)) t = " " + t;
+    box.value += t;
+    box.dispatchEvent(new Event("input", {bubbles:true}));
+  });
+  V.dict.onPartial(({text}) => {
+    if (!V.target) return;
+    const p = document.querySelector('[data-partial-for="' + V.target.id + '"]');
+    if (p) p.textContent = text ? text + "…" : "";
+  });
+  V.dict.onState(({state: st, reason}) => {
+    V.dstate = st; markMic();
+    if (st !== "idle") return;
+    $$("[data-partial-for]").forEach(p => { p.textContent = ""; });
+    if (reason === "not_granted") disableMic("The microphone is off for this page. You can still speak out loud and type.");
+    else if (reason === "unavailable") disableMic("Voice typing isn't available here. You can still speak out loud and type.");
+    else if (reason === "rate_limited") toast("Voice typing is busy. Try again in a moment.");
+    else if (reason === "upstream_error") toast("The microphone stopped. Press it to try again.");
+  });
+}
+
+/* ---------- Ask Claude ---------- */
+function errCopy(e) {
+  const c = e && e.code;
+  if (c === "not_granted") return "Feedback from Claude is turned off for this page. You can turn it on in the page's Permissions menu.";
+  if (c === "rate_limited") return "Too many requests right now. Wait a minute, then try again.";
+  if (c === "prompt_too_large") return "That text is too long to check. Try a shorter part.";
+  if (c === "invalid_json" || c === "empty_completion") return "The answer didn't come through properly. Press the button to try again.";
+  return "Something went wrong. Try again in a moment.";
+}
+function ask(prompt, tier) { return V.ai.json(prompt, {modelTier: tier || "default"}); }
+
+/* ---------- App state ---------- */
+const firstOpen = () => { for (let n = 1; n <= DAYS.length; n++) if (!state.done[n]) return n; return DAYS.length; };
+let cur = state.last || firstOpen();
+const S = {running:false, start:0, timer:null, results:[]};
+let shadowRun = 0;
+
+function dayInfo(n) { return {d: DAYS[n - 1], w: Math.floor((n - 1) / 7), wk: WEEKS[Math.floor((n - 1) / 7)]}; }
+function stepsFor(n) { return state.steps[n] || [false,false,false,false,false]; }
+function roundLen(i) { return DAYS[cur - 1].story ? [240,180,120][Math.min(i, 2)] : 60; }
+
+function streak() {
+  const dates = new Set(Object.values(state.done).map(x => x && x.date));
+  const d = new Date();
+  if (!dates.has(ymd(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (dates.has(ymd(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function wpmSeries() {
+  return Object.keys(state.done).map(k => ({k:+k, ...state.done[k]}))
+    .filter(x => typeof x.wpm === "number")
+    .sort((a, b) => (a.date || "").localeCompare(b.date || "") || a.k - b.k)
+    .map(x => x.wpm).slice(-14);
+}
+function sparkSVG(vals) {
+  const W = 92, H = 30, p = 3;
+  const lo = Math.min(...vals), hi = Math.max(...vals), span = Math.max(1, hi - lo);
+  const pts = vals.map((v, i) => [p + i * (W - 2 * p) / (vals.length - 1), H - p - (v - lo) / span * (H - 2 * p)]);
+  const line = pts.map(q => q[0].toFixed(1) + "," + q[1].toFixed(1)).join(" ");
+  const area = "M" + pts[0][0].toFixed(1) + "," + (H - p) + " L" + line.replace(/ /g, " L") + " L" + pts[pts.length - 1][0].toFixed(1) + "," + (H - p) + " Z";
+  const e = pts[pts.length - 1];
+  return '<svg class="spark" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">' +
+    '<path d="' + area + '" fill="var(--accent-soft)"/>' +
+    '<polyline points="' + line + '" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' +
+    '<circle cx="' + e[0].toFixed(1) + '" cy="' + e[1].toFixed(1) + '" r="3.2" fill="var(--accent)"/></svg>';
+}
+
+/* ---------- Rendering ---------- */
+function renderStats() {
+  const doneN = Object.keys(state.done).length;
+  const st = streak();
+  const series = wpmSeries();
+  const last = series.length ? series[series.length - 1] : null;
+  $("#stats").innerHTML =
+    '<div class="stat"><span class="k">Streak</span><span class="v">' + st + '<small>' + (st === 1 ? "day" : "days") + ' in a row</small></span></div>' +
+    '<div class="stat"><span class="k">Program</span><span class="v">' + doneN + '<small>of 28 days</small></span></div>' +
+    '<div class="stat"><span class="k">My words</span><span class="v">' + state.bank.length + '<small>saved</small></span></div>' +
+    '<div class="stat"><span class="k">Speaking speed</span><span class="v">' + (last == null ? "–" : last) +
+      (series.length >= 2 ? sparkSVG(series) : "") + '<small>' + (last == null ? "finish a day to see it" : "words / min") + '</small></span></div>';
+}
+
+function renderProgram() {
+  $("#program").innerHTML = WEEKS.map((w, wi) => {
+    let cells = "";
+    for (let j = 0; j < 7; j++) {
+      const n = wi * 7 + j + 1, d = DAYS[n - 1], done = !!state.done[n];
+      cells += '<button type="button" class="day' + (done ? " done" : "") + (n === cur ? " cur" : "") + (d.story ? " story" : "") +
+        '" data-day="' + n + '"' + (n === cur ? ' aria-current="step"' : "") +
+        ' aria-label="Day ' + n + ': ' + esc(d.t) + (done ? ", done" : "") + '" title="Day ' + n + ': ' + esc(d.t) + '">' + n + '</button>';
+    }
+    return '<div class="week-row"><div class="wk"><b>Week ' + (wi + 1) + '</b><span>' + esc(w.name) + '</span></div><div class="days">' + cells + '</div></div>';
+  }).join("");
+}
+
+function renderBank() {
+  const list = $("#bank");
+  $("#bankCount").textContent = state.bank.length ? "(" + state.bank.length + ")" : "";
+  if (!state.bank.length) {
+    list.innerHTML = '<li class="empty">Words and phrases you save appear here. Each day, the Phrases step asks you to use three of them, so they become words you can say.</li>';
+    return;
+  }
+  let html = "";
+  for (let i = state.bank.length - 1; i >= 0; i--) {
+    const b = state.bank[i];
+    html += '<li><div><p class="w">' + esc(b.t) + '</p>' + (b.n ? '<p class="n">' + esc(b.n) + '</p>' : "") + '</div>' +
+      '<div class="row tight"><button type="button" class="icon-btn sm need-voice" data-say="' + sayId(b.t) + '" aria-label="Listen to ' + esc(b.t) + '">' + I.play + '</button>' +
+      '<button type="button" class="x" data-remove="' + i + '" aria-label="Remove ' + esc(b.t) + '">Remove</button></div></li>';
+  }
+  list.innerHTML = html;
+}
+
+function reviewItems() {
+  const b = state.bank; if (!b.length) return [];
+  const out = [], start = (cur * 3) % b.length;
+  for (let i = 0; i < Math.min(3, b.length); i++) out.push(b[(start + i) % b.length]);
+  return out;
+}
+
+function setBlock(k, title, mins, why, body) {
+  const on = stepsFor(cur)[k - 1];
+  return '<section class="set' + (on ? " is-done" : "") + '" id="set-' + k + '" aria-labelledby="set-h-' + k + '">' +
+    '<header class="set-head"><span class="set-num">' + k + '</span><div><h3 id="set-h-' + k + '">' + title + '</h3><p class="why">' + why + '</p></div><span class="mins">' + mins + ' min</span></header>' +
+    '<div class="set-body">' + body + '</div>' +
+    '<footer class="set-foot"><button type="button" class="btn sm done-toggle' + (on ? " is-on" : "") + '" data-step="' + k + '" aria-pressed="' + on + '">' + (on ? I.check + " Done" : "Mark as done") + '</button></footer></section>';
+}
+const micBtn = id => '<button type="button" class="icon-btn mic need-mic" data-mic="' + id + '" aria-label="Speak into this box" aria-pressed="false">' + I.mic + '</button>';
+const playBtn = (text, label, rate) => '<button type="button" class="icon-btn need-voice" data-say="' + sayId(text) + '"' + (rate ? ' data-rate="' + rate + '"' : "") + ' aria-label="' + esc(label) + '">' + I.play + '</button>';
+
+function renderLesson() {
+  const {d, w, wk} = dayInfo(cur);
+  const steps = stepsFor(cur);
+  const speakMins = d.story ? 10 : 6;
+  const total = 2 + 4 + 5 + speakMins + 3;
+  const plan = STEPS.map((s, i) =>
+    '<li><button type="button" data-jump="' + s.k + '" class="' + (steps[i] ? "done" : "") + '"><span class="pn">' + s.k + ' · ' + (s.k === 4 ? speakMins : s.mins) + ' min</span><span class="pt">' + s.name + '</span></button></li>').join("");
+
+  const warm = setBlock(1, "Warm up your mouth", 2,
+    "Speaking is a physical skill. Waking up your lips and tongue makes every word after this easier to say.",
+    '<p class="focus-tag">Sound focus: ' + esc(d.warm[0]) + '</p>' +
+    '<p class="say-line">' + esc(d.warm[1]) + '</p>' +
+    '<div class="row"><button type="button" class="btn sm need-voice" data-say="' + sayId(d.warm[1]) + '" data-rate="0.7">' + I.play + ' Listen slowly</button>' +
+    '<button type="button" class="btn sm need-voice" data-say="' + sayId(d.warm[1]) + '" data-rate="1">' + I.play + ' Listen at normal speed</button></div>' +
+    '<p class="note">Say it out loud 3 times. Tap a number each time you finish.</p>' +
+    '<div class="reps">' + ["Slow","Normal","Fast"].map((r, i) => '<button type="button" class="btn sm" data-rep="' + i + '" aria-pressed="false">' + (i + 1) + ' · ' + r + '</button>').join("") + '</div>');
+
+  const rev = reviewItems();
+  const phrases = setBlock(2, "Learn today's phrases", 4,
+    "Your brain finds a whole phrase faster than it builds a sentence word by word. These are ready-made pieces for today's topic.",
+    '<ul class="phrases">' + d.ph.map((p, i) =>
+      '<li class="phrase"><div><span class="mark">' + esc(p[0]) + '</span><p class="ex">' + esc(p[1]) + '</p></div>' + playBtn(p[1], "Listen to: " + p[1]) + '</li>').join("") + '</ul>' +
+    (rev.length ? '<div class="review"><p class="label">Also use these from My words</p><div class="chips">' + rev.map(r => '<span class="chip">' + esc(r.t) + '</span>').join("") + '</div></div>' : "") +
+    '<label class="label" for="phBox">Your turn: say 3 sentences about your own life using these phrases</label>' +
+    '<div class="field"><textarea id="phBox" rows="3" placeholder="I usually… / It depends on…"></textarea>' + micBtn("phBox") + '</div>' +
+    '<p class="partial" data-partial-for="phBox"></p>');
+
+  const sents = splitSents(d.sh);
+  const shadow = setBlock(3, "Shadow a native speaker", 5,
+    "Listen to one sentence, then say it straight away, copying the speed and the music of the voice. This trains your mouth, not only your ears.",
+    '<div class="row"><div class="seg" role="group" aria-label="Speed">' +
+      [["0.75","Slow"],["0.9","Medium"],["1.05","Natural"]].map(r => '<button type="button" data-speed="' + r[0] + '" aria-pressed="' + (Math.abs(V.rate - parseFloat(r[0])) < 0.06 ? "true" : "false") + '">' + r[1] + '</button>').join("") +
+    '</div><button type="button" class="btn sm primary need-voice" id="playAll">' + I.play + ' Play all, with time to repeat</button><button type="button" class="btn sm" id="stopAll" hidden>' + I.stop + ' Stop</button></div>' +
+    '<ul class="sents">' + sents.map((s, i) => '<li class="sent" data-sent="' + i + '">' + playBtn(s, "Listen to sentence " + (i + 1)) + '<p>' + esc(s) + '</p></li>').join("") + '</ul>' +
+    '<p class="note">Round 1: repeat after each sentence. Round 2: read along at the same time as the voice. Round 3: say the paragraph without looking.</p>' +
+    '<p class="note no-note no-voice">Audio isn\'t available here. Read the paragraph out loud 3 times, a little faster each time.</p>');
+
+  const rounds = d.story
+    ? '<div class="round-pills" id="roundPills">' + [240,180,120].map((s, i) => '<span class="rp" data-rp="' + i + '">Round ' + (i + 1) + ' · ' + fmt(s) + '</span>').join("") + '</div>'
+    : "";
+  const speak = setBlock(4, d.story ? "Tell your story three times (4-3-2)" : "Speak for one minute", speakMins,
+    d.story
+      ? "Tell the same story in 4 minutes, then 3, then 2. Each time you have less time, so your brain finds the words faster. This is the fastest way to build fluency."
+      : "This is the main workout. Talk for the full minute without stopping. When a word is missing, use a rescue phrase or describe it, and keep going.",
+    '<p class="topic">' + esc(d.topic) + '</p>' +
+    '<ul class="qs">' + d.qs.map(q => '<li>' + esc(q) + '</li>').join("") + '</ul>' +
+    '<div class="rescue"><p class="label">Stuck? Buy time with</p><div class="chips">' + RESCUE.buy.map(r => '<span class="chip">' + esc(r) + '</span>').join("") + '</div>' +
+    '<p class="label">Missing a word? Describe it</p><div class="chips">' + RESCUE.around.map(r => '<span class="chip">' + esc(r) + '</span>').join("") + '</div></div>' +
+    '<div class="stage" id="stage">' + rounds +
+      '<div class="clock" id="clock" aria-live="off">' + fmt(roundLen(0)) + '</div>' +
+      '<div class="row" style="justify-content:center"><button type="button" class="btn primary" id="startRound">' + I.mic + ' Start speaking</button><button type="button" class="btn live" id="stopRound" hidden>' + I.stop + ' Stop</button></div>' +
+      '<p class="stage-note">The rule: don\'t stop until the time is up. Mistakes are fine. Silence is the only thing to avoid.</p>' +
+      '<label class="check-line only-standalone"><input type="checkbox" id="recOn" checked> Also record my voice, so I can listen back</label>' +
+    '</div>' +
+    '<label class="label" for="speakBox">What you said</label>' +
+    '<div class="field"><textarea id="speakBox" rows="5" placeholder="Press Start speaking and talk. Your words appear here as you speak."></textarea>' + micBtn("speakBox") + '</div>' +
+    '<p class="partial" data-partial-for="speakBox"></p>' +
+    '<p class="note no-note no-mic">Voice typing isn\'t available in this view (it works in Chrome and the Claude desktop app). Speak out loud anyway, then type what you said, or use the microphone on your phone\'s keyboard.</p>' +
+    '<div class="results" id="results"></div>' +
+    '<div class="recorder only-standalone" id="recorder"></div>' +
+    '<div class="row"><button type="button" class="btn primary need-ai" id="checkBtn">Check my English</button></div>' +
+    '<div class="row only-standalone"><button type="button" class="btn primary" id="ltBtn">Check grammar (free)</button><button type="button" class="btn" id="promptBtn">Copy a feedback prompt</button></div>' +
+    '<p class="note only-standalone">The grammar check sends your text to LanguageTool, a free checker. It finds spelling and some grammar mistakes, but not all. For full feedback, copy the prompt and paste it into a free AI chat like Claude, ChatGPT or Gemini.</p>' +
+    '<p class="note no-note no-ai">Feedback from Claude works when this page is open in claude.ai.</p>' +
+    '<div class="feedback" id="feedback" aria-live="polite"></div>');
+
+  const taboo = setBlock(5, "Find the word: talk around it", 3,
+    "When you can't find a word, don't stop. Describe it. This is exactly what fluent speakers do. Describe each word without saying it, then see if Claude can guess it.",
+    '<div class="chips">' + RESCUE.around.map(r => '<span class="chip">' + esc(r) + '</span>').join("") + '</div>' +
+    '<div class="taboo-grid">' + d.tb.map((w, i) =>
+      '<div class="taboo"><p class="taboo-word">' + esc(mainWord(w)) + '</p>' +
+      '<div class="field"><textarea id="tb-' + i + '" rows="2" placeholder="It\'s a kind of… / You use it to…" aria-label="Describe ' + esc(mainWord(w)) + ' without saying it"></textarea>' + micBtn("tb-" + i) + '</div>' +
+      '<p class="partial" data-partial-for="tb-' + i + '"></p>' +
+      '<div class="row"><button type="button" class="btn sm need-ai" data-guess="' + i + '">Can Claude guess it?</button></div>' +
+      '<p class="guess" id="tbr-' + i + '" aria-live="polite"></p></div>').join("") + '</div>' +
+    '<p class="note only-standalone">Check yourself: did you say what it is, what it\'s for, and where you find it? Even better, read your description to a friend or someone in your family and see if they can guess the word.</p>');
+
+  $("#lesson").innerHTML =
+    '<div class="lesson-head"><p class="eyebrow">Week ' + (w + 1) + ' · ' + esc(wk.name) + (d.story ? " · 4-3-2 story day" : "") + '</p>' +
+    '<h2>Day ' + cur + ': ' + esc(d.t) + '</h2>' +
+    '<p class="lede">' + esc(wk.note) + ' Today takes about ' + total + ' minutes. Do the five steps in order, and say everything out loud.</p>' +
+    '<ol class="plan" aria-label="Today\'s plan">' + plan + '</ol></div>' +
+    warm + phrases + shadow + speak + taboo +
+    '<section class="finish" id="finish"></section>';
+
+  S.running = false; clearInterval(S.timer); S.results = [];
+  shadowRun++;
+  renderFinish();
+  markMic();
+}
+
+function renderFinish(msg) {
+  const done = state.done[cur];
+  const next = cur < DAYS.length ? cur + 1 : null;
+  let html;
+  if (msg) {
+    html = '<h3>Day ' + cur + ' saved</h3><p>' + msg + '</p><div class="row">' +
+      (next ? '<button type="button" class="btn go" data-day="' + next + '">Go to Day ' + next + ': ' + esc(DAYS[next - 1].t) + '</button>' : "") + '</div>';
+  } else if (done) {
+    html = '<h3>You finished this day on ' + esc(done.date) + '</h3><p>Repeating a day is good practice. Finish it again to save today\'s speaking speed.</p>' +
+      '<div class="row"><button type="button" class="btn go" id="finishBtn">Finish again</button>' +
+      (next ? '<button type="button" class="btn ghost" data-day="' + next + '">Go to Day ' + next + '</button>' : "") + '</div>';
+  } else {
+    html = '<h3>Finished all five steps?</h3><p>Save today so your streak and speaking speed are tracked. Come back tomorrow for Day ' + (next || cur) + '.</p>' +
+      '<div class="row"><button type="button" class="btn go" id="finishBtn">Finish Day ' + cur + '</button></div>';
+  }
+  $("#finish").innerHTML = html;
+}
+
+function updateStepUI() {
+  const steps = stepsFor(cur);
+  steps.forEach((on, i) => {
+    const k = i + 1, sec = $("#set-" + k);
+    if (sec) sec.classList.toggle("is-done", on);
+    const b = $('[data-step="' + k + '"]');
+    if (b) { b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", String(on)); b.innerHTML = on ? I.check + " Done" : "Mark as done"; }
+    const p = $('[data-jump="' + k + '"]');
+    if (p) p.classList.toggle("done", on);
+  });
+}
+
+function renderAll(withLesson) {
+  renderStats(); renderProgram(); renderBank();
+  if (withLesson) renderLesson();
+}
+
+/* ---------- Speaking rounds ---------- */
+function renderRounds() {
+  const d = DAYS[cur - 1];
+  $("#results").innerHTML = S.results.map((r, i) =>
+    '<div class="result"><span>' + (d.story ? "Round " + (i + 1) + " · " + fmt(roundLen(i)) : "Try " + (i + 1)) + ' · <b>' + r.words + '</b> words in ' + fmt(r.secs) + '</span>' +
+    '<span class="wpm">' + (r.wpm == null ? "–" : r.wpm + " wpm") + '</span></div>').join("") +
+    (S.results.length ? '<p class="ref">Speaking speed is words per minute. Long pauses while you search for words make it lower. Calm, fluent conversation is usually around 110–150 wpm. Watch your own number grow.</p>' : "");
+  if (d.story) $$("[data-rp]").forEach(p => {
+    const i = +p.dataset.rp;
+    p.classList.toggle("done", i < S.results.length);
+    p.classList.toggle("now", i === S.results.length && S.results.length < 3);
+  });
+  const start = $("#startRound");
+  if (d.story) {
+    if (S.results.length >= 3) { start.innerHTML = I.mic + " Start again from round 1"; $("#clock").textContent = fmt(240); }
+    else { start.innerHTML = I.mic + (S.results.length ? " Start round " + (S.results.length + 1) : " Start speaking"); $("#clock").textContent = fmt(roundLen(S.results.length)); }
+  } else {
+    start.innerHTML = I.mic + (S.results.length ? " Try again" : " Start speaking");
+    $("#clock").textContent = fmt(60);
+  }
+}
+function startRound() {
+  if (S.running) return;
+  const d = DAYS[cur - 1];
+  if (d.story && S.results.length >= 3) S.results = [];
+  const box = $("#speakBox");
+  box.value = "";
+  startDictation(box);
+  S.len = roundLen(S.results.length);
+  S.running = true; S.start = Date.now();
+  const recOn = $("#recOn");
+  if (document.body.classList.contains("standalone") && recOn && recOn.checked) startRecording();
+  $("#stage").classList.add("live");
+  $("#startRound").hidden = true; $("#stopRound").hidden = false;
+  $("#feedback").innerHTML = "";
+  if (d.story) $$("[data-rp]").forEach(p => p.classList.toggle("now", +p.dataset.rp === S.results.length));
+  tick();
+  S.timer = setInterval(tick, 250);
+}
+function tick() {
+  if (!S.running) return;
+  const left = Math.max(0, S.len - (Date.now() - S.start) / 1000);
+  const c = $("#clock"); if (c) c.textContent = fmt(left);
+  if (left <= 0) endRound();
+}
+async function endRound() {
+  if (!S.running) return;
+  S.running = false; clearInterval(S.timer);
+  const secs = Math.min(S.len, (Date.now() - S.start) / 1000);
+  $("#stopRound").hidden = true; $("#startRound").hidden = false;
+  $("#stage").classList.remove("live");
+  const box = $("#speakBox");
+  stopRecording();
+  if (V.dict && V.dict.active() && V.target === box) { try { await V.dict.stop(); } catch (e) {} }
+  const text = box.value.trim(), words = countWords(text);
+  S.results.push({words, secs:Math.round(secs), wpm: words > 0 && secs >= 10 ? Math.round(words / (secs / 60)) : null});
+  renderRounds();
+  if (!words) toast("Nothing was captured. Type what you said, or try again with the microphone.");
+}
+
+/* ---------- Free tools (outside claude.ai) ---------- */
+const R = {rec:null, chunks:[], stream:null, url:null};
+function stopTracks() { if (R.stream) { R.stream.getTracks().forEach(t => t.stop()); R.stream = null; } }
+function stopRecording() { if (R.rec && R.rec.state !== "inactive") R.rec.stop(); else stopTracks(); }
+async function startRecording() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) { toast("Recording isn't supported in this browser. Try Chrome."); return; }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    if (!S.running) { stream.getTracks().forEach(t => t.stop()); return; }
+    R.stream = stream; R.chunks = [];
+    const rec = new MediaRecorder(stream);
+    R.rec = rec;
+    rec.ondataavailable = e => { if (e.data && e.data.size) R.chunks.push(e.data); };
+    rec.onstop = () => {
+      const type = rec.mimeType || "audio/webm";
+      stopTracks(); R.rec = null;
+      if (R.chunks.length) showRecording(new Blob(R.chunks, {type}), type);
+    };
+    rec.start();
+  } catch (e) {
+    toast("The recorder couldn't use the microphone. Allow the microphone in your browser to record.");
+  }
+}
+function showRecording(blob, type) {
+  const box = $("#recorder"); if (!box) return;
+  if (R.url) URL.revokeObjectURL(R.url);
+  R.url = URL.createObjectURL(blob);
+  const ext = type.includes("mp4") ? "m4a" : type.includes("ogg") ? "ogg" : "webm";
+  box.innerHTML = '<p class="label">Listen back</p><audio controls src="' + R.url + '"></audio>' +
+    '<p class="note">Ask yourself: Where did I stop for a long time? Which word was I looking for? Find it with “Stuck on a word?” and save it.</p>' +
+    '<div class="row"><a class="btn sm" href="' + R.url + '" download="speaking-day-' + cur + '-try-' + S.results.length + '.' + ext + '">Download recording</a></div>';
+}
+
+async function ltCheck(btn) {
+  const text = $("#speakBox").value.trim(), out = $("#feedback");
+  if (countWords(text) < 5) { out.innerHTML = '<p class="note">Say or type a few sentences first, then check.</p>'; return; }
+  btn.disabled = true; out.innerHTML = '<p class="note thinking">Checking…</p>';
+  try {
+    const res = await fetch("https://api.languagetool.org/v2/check", {method:"POST", body:new URLSearchParams({text:text.slice(0, 15000), language:"en-US"})});
+    if (!res.ok) throw new Error(res.status === 429 ? "busy" : "http");
+    const data = await res.json();
+    // Speech-to-text has no punctuation or capitals, so skip those kinds of rules.
+    const skip = new Set(["CASING","PUNCTUATION","TYPOGRAPHY","WHITESPACE"]);
+    const ms = (data.matches || []).filter(m => !(m.rule && m.rule.category && skip.has(m.rule.category.id))).slice(0, 25);
+    if (!ms.length) { out.innerHTML = '<div class="fb fb-praise"><p><b>No problems found.</b> The checker doesn\'t catch everything, so also listen back to your recording.</p></div>'; return; }
+    out.innerHTML = '<div class="fb"><h4>' + ms.length + (ms.length === 1 ? " thing" : " things") + ' to check</h4>' + ms.map(m => {
+      const bad = text.substr(m.offset, m.length);
+      const reps = (m.replacements || []).slice(0, 2).map(r => r.value);
+      return '<div class="fix"><span class="said">' + esc(bad) + '</span>' + (reps.length ? '<span class="better">' + reps.map(esc).join(" / ") + '</span>' : "") + '<span class="because">' + esc(m.message) + '</span></div>';
+    }).join("") + '</div>';
+  } catch (e) {
+    out.innerHTML = '<p class="note">' + (e.message === "busy" ? "The free checker is busy. Wait a minute and try again." : "The grammar check didn't work. Check your internet connection and try again.") + '</p>';
+  } finally { btn.disabled = false; }
+}
+
+function feedbackPrompt(text) {
+  const d = DAYS[cur - 1], last = S.results[S.results.length - 1];
+  return `You are a warm, encouraging English speaking coach. I am an adult English learner. I know many words, but I struggle to find them quickly when I speak.
+I just spoke for about ${last ? last.secs : 60} seconds about this topic: "${d.topic}"
+This is what I said. It came from speech-to-text, so please ignore punctuation and spelling:
+
+"""
+${text}
+"""
+
+Please reply in simple English (B1 level) with:
+1. One thing I did well.
+2. My most important mistakes (4 at most): what I said → a better way → a short reason.
+3. What I said, rewritten the way a fluent speaker would say it.
+4. 3 useful phrases for this topic, each with an example.
+5. One tip for my next try.`;
+}
+function copyPrompt() {
+  const text = $("#speakBox").value.trim();
+  if (countWords(text) < 5) { toast("Say or type a few sentences first."); return; }
+  const p = feedbackPrompt(text);
+  const fallback = () => {
+    $("#feedback").innerHTML = '<p class="note">Copy this text, then paste it into a free AI chat:</p><textarea id="promptCopy" readonly>' + esc(p) + '</textarea>';
+    const ta = $("#promptCopy"); ta.focus(); ta.select();
+  };
+  try {
+    navigator.clipboard.writeText(p).then(() => toast("Copied. Paste it into a free AI chat like Claude, ChatGPT or Gemini."), fallback);
+  } catch (e) { fallback(); }
+}
+
+const STOP = new Set("a an the is are was were be it its it's thing something someone you your i me my we our they them their he she his her to in on at for with and or but that this these those which who what when where how do does did can could would will very really just like kind sort when".split(" "));
+async function doStuckFree(btn) {
+  const raw = $("#stuckBox").value.trim(), out = $("#stuckOut");
+  const keys = (raw.toLowerCase().match(/[a-z']+/g) || []).filter(w => !STOP.has(w)).slice(0, 6);
+  if (!keys.length) { out.innerHTML = '<p class="note">Write 3–5 key words first, for example: “proof of payment”.</p>'; return; }
+  btn.disabled = true; out.innerHTML = '<p class="note thinking">Looking for words…</p>';
+  try {
+    const res = await fetch("https://api.datamuse.com/words?ml=" + encodeURIComponent(keys.join(" ")) + "&max=8&md=d");
+    const list = await res.json();
+    if (!Array.isArray(list) || !list.length) { out.innerHTML = '<p class="note">No words found. Try other key words: what it is for, or where you find it.</p>'; return; }
+    out.innerHTML = '<div class="stuck-res"><p class="label">Is it one of these?</p>' + list.map(w => {
+      const def = ((w.defs && w.defs[0]) || "").split("\t").pop();
+      return '<div class="save-row"><div><b>' + esc(w.word) + '</b>' + (def ? '<p class="ex">' + esc(def) + '</p>' : "") + '</div>' +
+        '<button type="button" class="btn sm" data-save="' + saveId({t:String(w.word), n:def}) + '">Save</button></div>';
+    }).join("") + '<p class="note">This is a simple free word finder (Datamuse), so it isn\'t always right.</p></div>';
+    markSavedButtons();
+  } catch (e) {
+    out.innerHTML = '<p class="note">The word finder didn\'t work. Check your internet connection and try again.</p>';
+  } finally { btn.disabled = false; }
+}
+
+/* ---------- Feedback, guessing, word finding ---------- */
+async function doCheck(btn) {
+  const d = DAYS[cur - 1], out = $("#feedback");
+  const text = $("#speakBox").value.trim();
+  if (countWords(text) < 5) { out.innerHTML = '<p class="note">Say a few sentences first, then press Check my English.</p>'; return; }
+  const last = S.results[S.results.length - 1];
+  const secs = last ? last.secs : roundLen(0);
+  btn.disabled = true;
+  out.innerHTML = '<p class="note thinking">Your coach is reading what you said…</p>';
+  const prompt =
+`You are a warm, encouraging English speaking coach. Your student is an adult English learner who knows many words but struggles to find them quickly when speaking.
+They just spoke out loud for about ${secs} seconds about this topic: "${d.topic}"
+Below is what they said. It was captured by speech-to-text (or typed), so ignore punctuation, capital letters and spelling, and judge only their spoken English.
+
+TRANSCRIPT:
+"""${text.slice(0, 6000)}"""
+
+Reply with only JSON in exactly this shape:
+{"praise": "one specific thing they did well, one sentence",
+ "natural": "what they said, rewritten the way a fluent speaker would say it. Keep their ideas and roughly the same length.",
+ "fixes": [{"said": "their exact words", "better": "a more natural way to say it", "why": "a very short reason"}],
+ "phrases": [{"phrase": "a useful phrase for this topic", "example": "a short example sentence"}],
+ "words": [{"word": "a word that would help them say their ideas", "meaning": "a simple meaning"}],
+ "tip": "one practical tip for their next try, one sentence"}
+Rules: at most 4 fixes (only the most important), exactly 3 phrases, at most 3 words. Write every explanation in simple English (B1 level). If the transcript is very short, still reply with the JSON and use "tip" to encourage them to keep talking.`;
+  try {
+    const r = await ask(prompt, "default");
+    renderFeedback(r || {});
+  } catch (e) {
+    out.innerHTML = '<p class="note">' + esc(errCopy(e)) + '</p>';
+  } finally { btn.disabled = false; }
+}
+function renderFeedback(r) {
+  const arr = x => Array.isArray(x) ? x.filter(Boolean) : [];
+  const fixes = arr(r.fixes), phrases = arr(r.phrases), words = arr(r.words);
+  let html = "";
+  if (r.praise) html += '<div class="fb fb-praise"><p><b>Well done:</b> ' + esc(r.praise) + '</p></div>';
+  if (r.natural) html += '<div class="fb"><h4>How a fluent speaker might say it</h4><div class="fb-natural"><p>' + esc(r.natural) + '</p>' + playBtn(r.natural, "Listen to the natural version", 0.9) + '</div><p class="note">Listen, then shadow it: say it out loud with the voice.</p></div>';
+  if (fixes.length) html += '<div class="fb"><h4>Small fixes</h4>' + fixes.map(f =>
+    '<div class="fix"><span class="said">' + esc(f.said) + '</span><span class="better">' + esc(f.better) + '</span>' + (f.why ? '<span class="because">' + esc(f.why) + '</span>' : "") + '</div>').join("") + '</div>';
+  if (phrases.length) html += '<div class="fb"><h4>Phrases to try next time</h4>' + phrases.map(p =>
+    '<div class="save-row"><div><span class="mark">' + esc(p.phrase) + '</span>' + (p.example ? '<p class="ex">' + esc(p.example) + '</p>' : "") + '</div>' +
+    '<button type="button" class="btn sm" data-save="' + saveId({t:String(p.phrase || ""), n:String(p.example || "")}) + '">Save</button></div>').join("") + '</div>';
+  if (words.length) html += '<div class="fb"><h4>Words that would help you</h4>' + words.map(w =>
+    '<div class="save-row"><div><b>' + esc(w.word) + '</b>' + (w.meaning ? '<p class="ex">' + esc(w.meaning) + '</p>' : "") + '</div>' +
+    '<button type="button" class="btn sm" data-save="' + saveId({t:String(w.word || ""), n:String(w.meaning || "")}) + '">Save</button></div>').join("") + '</div>';
+  if (r.tip) html += '<div class="fb"><h4>Next time</h4><p>' + esc(r.tip) + '</p></div>';
+  $("#feedback").innerHTML = html || '<p class="note">' + esc(errCopy({code:"invalid_json"})) + '</p>';
+  markSavedButtons();
+}
+function wordMatch(a, target) {
+  const x = norm(a); if (!x) return false;
+  return alts(target).some(t => {
+    const y = norm(t);
+    return x === y || x.replace(/s$/, "") === y.replace(/s$/, "") ||
+      (y.length > 3 && (" " + x + " ").includes(" " + y + " ")) || (x.length > 3 && (" " + y + " ").includes(" " + x + " "));
+  });
+}
+async function doGuess(i, btn) {
+  const target = DAYS[cur - 1].tb[i], word = mainWord(target);
+  const text = $("#tb-" + i).value.trim(), out = $("#tbr-" + i);
+  out.className = "guess";
+  if (countWords(text) < 4) { out.textContent = "Say a little more first: what is it, what is it for, where do you find it?"; return; }
+  if (alts(target).some(t => new RegExp("(^|[^a-z])" + reEsc(t.toLowerCase()) + "s?([^a-z]|$)").test(text.toLowerCase()))) {
+    out.textContent = "You used the word itself! Try again without saying “" + word + "”."; return;
+  }
+  btn.disabled = true; out.classList.add("thinking"); out.textContent = "Claude is guessing…";
+  const prompt =
+`Someone is describing an English word or short phrase without saying it. Guess what it is.
+Description: """${text.slice(0, 1500)}"""
+Reply with only JSON: {"guess": "your best guess, one word or a short phrase", "alternatives": ["second guess", "third guess"]}`;
+  try {
+    const r = await ask(prompt, "quick");
+    const g = String((r && r.guess) || "").trim();
+    const others = (r && Array.isArray(r.alternatives) ? r.alternatives : []).map(String);
+    out.classList.remove("thinking");
+    if (wordMatch(g, target)) { out.classList.add("ok"); out.textContent = "Claude guessed it: “" + g + "”. Great description!"; }
+    else if (others.some(o => wordMatch(o, target))) { out.classList.add("close"); out.textContent = "Close! Claude's first guess was “" + g + "”, but “" + word + "” was its second idea. Add one more detail."; }
+    else { out.textContent = "Claude guessed “" + (g || "something else") + "”. Add a detail: what does it look like, where do you find it, or what do you do with it?"; }
+  } catch (e) {
+    out.classList.remove("thinking"); out.textContent = errCopy(e);
+  } finally { btn.disabled = false; }
+}
+async function doStuck(btn) {
+  const text = $("#stuckBox").value.trim(), out = $("#stuckOut");
+  if (countWords(text) < 2) { out.innerHTML = '<p class="note">Describe the word first, for example: “the thing you use to open a bottle”.</p>'; return; }
+  btn.disabled = true; out.innerHTML = '<p class="note thinking">Looking for your word…</p>';
+  const prompt =
+`An English learner is looking for a word but can't remember it. This is their description (it may mix simple English with words from another language):
+"""${text.slice(0, 1500)}"""
+Reply with only JSON: {"word": "the most likely English word or phrase", "others": ["another possible word", "another"], "meaning": "a simple meaning in B1 English", "example": "a natural example sentence that uses the word"}`;
+  try {
+    const r = await ask(prompt, "quick");
+    const w = String((r && r.word) || "").trim();
+    if (!w) throw {code:"invalid_json"};
+    const others = (Array.isArray(r.others) ? r.others : []).map(String).filter(Boolean);
+    out.innerHTML = '<div class="stuck-res"><p class="w">' + esc(w) + '</p>' +
+      (r.meaning ? '<p>' + esc(r.meaning) + '</p>' : "") +
+      (r.example ? '<p class="ex">“' + esc(r.example) + '”</p>' : "") +
+      (others.length ? '<p class="note">Or maybe: ' + others.map(esc).join(", ") + '</p>' : "") +
+      '<div class="row">' + (r.example ? '<button type="button" class="btn sm need-voice" data-say="' + sayId(r.example) + '" data-rate="0.85">' + I.play + ' Listen</button>' : "") +
+      '<button type="button" class="btn sm primary" data-save="' + saveId({t:w, n:String(r.meaning || "")}) + '">Save to My words</button></div></div>';
+    markSavedButtons();
+  } catch (e) {
+    out.innerHTML = '<p class="note">' + esc(errCopy(e)) + '</p>';
+  } finally { btn.disabled = false; }
+}
+function isSaved(t) { const k = norm(t); return state.bank.some(b => norm(b.t) === k); }
+function markSavedButtons() {
+  $$("[data-save]").forEach(b => {
+    const it = SAVES[+b.dataset.save];
+    if (it && isSaved(it.t)) { b.disabled = true; b.innerHTML = I.check + " Saved"; }
+  });
+}
+function addToBank(it) {
+  if (!it || !it.t || isSaved(it.t)) return;
+  state.bank.push({t:it.t.slice(0, 120), n:(it.n || "").slice(0, 240), d:ymd(new Date())});
+  save(); renderBank(); renderStats(); markSavedButtons();
+  toast("Saved to My words.");
+}
+
+/* ---------- Shadowing ---------- */
+function markSent(i) { $$("[data-sent]").forEach(li => li.classList.toggle("now", +li.dataset.sent === i)); }
+async function playAll() {
+  const run = ++shadowRun;
+  const sents = splitSents(DAYS[cur - 1].sh);
+  $("#playAll").hidden = true; $("#stopAll").hidden = false;
+  try {
+    for (let i = 0; i < sents.length; i++) {
+      if (run !== shadowRun) break;
+      markSent(i);
+      await say(sents[i], V.rate, null);
+      if (run !== shadowRun) break;
+      await sleep(Math.round(countWords(sents[i]) * 430 / V.rate) + 900);
+    }
+  } catch (e) { speakErr(e); }
+  if (run === shadowRun) shadowRun++;
+  markSent(-1);
+  const pa = $("#playAll"), sa = $("#stopAll");
+  if (pa) pa.hidden = false; if (sa) sa.hidden = true;
+}
+
+/* ---------- Events ---------- */
+function goDay(n) {
+  if (V.dict && V.dict.active()) V.dict.stop().catch(() => {});
+  stopSpeech(); stopRecording();
+  cur = n; state.last = n; save();
+  renderProgram(); renderLesson();
+  const top = $("#lesson").getBoundingClientRect().top + window.scrollY - 12;
+  window.scrollTo({top: Math.max(0, top), behavior: "smooth"});
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("button");
+  if (!t) return;
+  if (t.dataset.mic) { toggleMic(t); return; }
+  if (t.id === "startRound") { startRound(); return; }
+  if (t.id === "stopRound") { endRound(); return; }
+  if (t.dataset.say !== undefined) {
+    if (t.classList.contains("playing")) { stopSpeech(); return; }
+    shadowRun++;
+    const rate = parseFloat(t.dataset.rate) || V.rate;
+    const target = t.classList.contains("icon-btn") ? t : null;
+    say(SAY[+t.dataset.say], rate, target).catch(speakErr);
+    return;
+  }
+  if (t.dataset.day) { goDay(+t.dataset.day); return; }
+  if (t.dataset.jump) { const s = $("#set-" + t.dataset.jump); if (s) s.scrollIntoView({behavior:"smooth", block:"start"}); return; }
+  if (t.dataset.step) {
+    const k = +t.dataset.step, arr = stepsFor(cur).slice();
+    arr[k - 1] = !arr[k - 1]; state.steps[cur] = arr; save(); updateStepUI(); return;
+  }
+  if (t.dataset.rep !== undefined) { const on = t.getAttribute("aria-pressed") !== "true"; t.setAttribute("aria-pressed", String(on)); t.classList.toggle("is-on", on); return; }
+  if (t.dataset.speed) {
+    V.rate = parseFloat(t.dataset.speed);
+    $$("[data-speed]").forEach(b => b.setAttribute("aria-pressed", String(b === t)));
+    return;
+  }
+  if (t.id === "playAll") { playAll(); return; }
+  if (t.id === "stopAll") { shadowRun++; stopSpeech(); markSent(-1); return; }
+  if (t.id === "checkBtn") { doCheck(t); return; }
+  if (t.dataset.guess !== undefined) { doGuess(+t.dataset.guess, t); return; }
+  if (t.id === "stuckBtn") { doStuck(t); return; }
+  if (t.id === "stuckFree") { doStuckFree(t); return; }
+  if (t.id === "ltBtn") { ltCheck(t); return; }
+  if (t.id === "promptBtn") { copyPrompt(); return; }
+  if (t.dataset.save !== undefined) { addToBank(SAVES[+t.dataset.save]); return; }
+  if (t.dataset.remove !== undefined) {
+    const i = +t.dataset.remove, it = state.bank[i];
+    if (!it) return;
+    state.bank.splice(i, 1); save(); renderBank(); renderStats();
+    toast("Removed “" + it.t + "”."); return;
+  }
+  if (t.id === "finishBtn") {
+    const last = S.results[S.results.length - 1], prev = state.done[cur] || {};
+    state.done[cur] = {date: ymd(new Date()), wpm: last && last.wpm != null ? last.wpm : (prev.wpm != null ? prev.wpm : null), words: last ? last.words : (prev.words != null ? prev.words : null)};
+    state.steps[cur] = stepsFor(cur).map(() => true);
+    save(); renderStats(); renderProgram(); updateStepUI();
+    const st = streak();
+    renderFinish("Great work. Your streak is " + st + (st === 1 ? " day" : " days") + "." +
+      (last && last.wpm != null ? " Today's speaking speed: " + last.wpm + " words per minute." : "") +
+      " Try to come back tomorrow: a little every day beats a lot once a week.");
+    return;
+  }
+});
+
+/* ---------- Start ---------- */
+renderAll(true);
+setSync("device");
+
+const C = window.claude;
+if (C && typeof C.use === "function") {
+  const caps = [
+    C.use("dictation").then(d => { if (d) { V.dict = d; wireDictation(); document.body.classList.add("has-mic"); markMic(); } }).catch(() => {}),
+    C.use("tts").then(t => { if (t) { V.tts = t; document.body.classList.add("has-voice"); } }).catch(() => {}),
+    C.use("sample").then(s => { if (s) { V.ai = s; document.body.classList.add("has-ai"); } }).catch(() => {})
+  ];
+  Promise.allSettled(caps).then(() => document.body.classList.add("caps-ready"));
+  connectStore(C);
+} else {
+  document.body.classList.add("standalone");
+  const web = makeWebDictation();
+  if (web) { V.dict = web; wireDictation(); document.body.classList.add("has-mic"); markMic(); }
+  document.body.classList.add("caps-ready");
+}
+
+/* Outside claude.ai: use the browser's own speech recognition (Chrome, Edge),
+   wrapped in the same start/stop/onFinal/onPartial/onState shape as Claude dictation. */
+function makeWebDictation() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return null;
+  let rec = null, st = "idle", wantOn = false, lastErr = null, resolveStop = null;
+  const finals = [], partials = [], states = [];
+  const emit = (s, reason) => { st = s; states.forEach(h => h(reason ? {state:s, reason} : {state:s})); };
+  function make() {
+    const r = new SR();
+    r.lang = "en-US"; r.continuous = true; r.interimResults = true;
+    r.onstart = () => emit("listening");
+    r.onresult = e => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const res = e.results[i], t = res[0].transcript;
+        if (res.isFinal) { if (t.trim()) finals.forEach(h => h({text: " " + t.trim()})); }
+        else interim += t;
+      }
+      partials.forEach(h => h({text: interim.trim()}));
+    };
+    r.onerror = e => { lastErr = e.error; };
+    r.onend = () => {
+      // Chrome ends recognition after a pause; keep listening until the page asks to stop.
+      if (wantOn && (!lastErr || lastErr === "no-speech")) {
+        lastErr = null;
+        try { r.start(); return; } catch (err) {}
+      }
+      rec = null; wantOn = false;
+      const reason = (lastErr === "not-allowed" || lastErr === "service-not-allowed") ? "not_granted"
+        : (lastErr && lastErr !== "aborted" && lastErr !== "no-speech") ? "upstream_error" : "stopped";
+      partials.forEach(h => h({text: ""}));
+      emit("idle", reason);
+      if (resolveStop) { const f = resolveStop; resolveStop = null; f(); }
+    };
+    return r;
+  }
+  return {
+    start() {
+      if (rec) return Promise.resolve();
+      lastErr = null; wantOn = true; rec = make(); emit("starting");
+      try { rec.start(); } catch (err) { rec = null; wantOn = false; emit("idle", "upstream_error"); return Promise.reject({code:"upstream_error"}); }
+      return Promise.resolve();
+    },
+    stop() {
+      if (!rec) return Promise.resolve();
+      wantOn = false;
+      return new Promise(res => { resolveStop = res; try { rec.stop(); } catch (err) { resolveStop = null; res(); } });
+    },
+    active() { return st !== "idle"; },
+    onFinal(h) { finals.push(h); return () => {}; },
+    onPartial(h) { partials.push(h); return () => {}; },
+    onState(h) { states.push(h); return () => {}; }
+  };
+}
+})();
+</script>
+
+</body>
+
+</html>

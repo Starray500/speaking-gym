@@ -1,0 +1,1126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Writing Desk</title>
+<meta name="description" content="A 28-day writing program: read a model, steal the pattern, write without stopping, edit, and say it out loud.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: the same coach's workout sheet as the Speaking Gym. Program rail and journal beside today's five writing sets. */
+:root{
+  --bg:#F3F4F9; --surface:#FFFFFF; --ink:#1A2040; --muted:#575E80; --line:#D9DDEA;
+  --accent:#3140A8; --accent-soft:#E5E8FA; --on-accent:#FFFFFF;
+  --mark:#FFE066; --mark-line:#E2B200; --on-mark:#1A2040;
+  --live:#D23838; --live-ring:rgba(210,56,56,.28); --on-live:#FFFFFF; --bad-soft:#FBE4E4;
+  --good:#1B7F52; --good-soft:#E0F3E9; --on-good:#FFFFFF;
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+    --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+    --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+    --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A; --bad-soft:#4A1F27;
+    --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+  --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+  --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+  --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A; --bad-soft:#4A1F27;
+  --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2,h3{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+ul,ol{margin:0}
+button,input,select,textarea{font:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 64px}
+.site-nav{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding-block:0 14px;font-size:14.5px}
+.site-nav a{color:var(--muted);text-decoration:none;font-weight:700;padding:6px 0;border-bottom:2px solid transparent}
+.site-nav a:hover{color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.site-nav .home{font-family:var(--f-display);font-weight:800;color:var(--ink);margin-right:auto}
+
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 28px;padding-bottom:20px;border-bottom:2px solid var(--ink)}
+.brand{display:grid;gap:6px;min-width:0}
+.brand h1{font-size:clamp(30px,5vw,44px);font-weight:800}
+.brand p{color:var(--muted);max-width:46ch}
+.stats{display:flex;flex-wrap:wrap;gap:16px 28px}
+.stat{display:grid;gap:2px;min-width:0}
+.k,.label{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.stat .v{font-family:var(--f-display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:8px;line-height:1.1}
+.stat .v small{font-family:var(--f-body);font-size:13px;font-weight:400;color:var(--muted)}
+
+.layout{display:grid;grid-template-columns:276px minmax(0,1fr);gap:36px;margin-top:28px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}.rail{order:2}}
+.rail{display:grid;gap:26px;min-width:0}
+.rail-sec{display:grid;gap:12px;padding-top:18px;border-top:1px solid var(--line);min-width:0}
+.rail-sec:first-child{border-top:0;padding-top:0}
+.rail-sec h2{font-size:19px;font-weight:800}
+.program{display:grid;gap:14px}
+.week-row{display:grid;gap:6px}
+.wk{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+.wk span{color:var(--muted);text-align:right}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;max-width:340px}
+.day{font-family:var(--f-mono);font-size:13px;font-weight:700;aspect-ratio:1/1;max-width:100%;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0;position:relative}
+.day:hover{border-color:var(--ink)}
+.day.review::after,.day.final::after{content:"";position:absolute;left:28%;right:28%;bottom:4px;height:3px;border-radius:2px;background:var(--mark-line)}
+.day.final::after{left:18%;right:18%;background:var(--live)}
+.day.done{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.day.cur{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px;border:1px solid var(--line);background:var(--surface)}
+.legend i.d{background:var(--accent);border-color:var(--accent)}
+.legend i.r{box-shadow:inset 0 -3px 0 var(--mark-line)}
+.legend i.f{box-shadow:inset 0 -3px 0 var(--live)}
+.saved-note{font-size:13px;color:var(--muted)}
+
+.journal{list-style:none;padding:0;display:grid;gap:10px}
+.journal li{display:grid;gap:6px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.journal li.empty{color:var(--muted);font-size:14.5px;border-bottom:0}
+.journal .jt{font-weight:700;overflow-wrap:anywhere}
+.journal .jm{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.lesson{display:grid;gap:20px;min-width:0}
+.lesson-head{display:grid;gap:10px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.lesson-head h2{font-size:clamp(30px,4.6vw,44px);font-weight:800}
+.lede{color:var(--muted);max-width:62ch}
+.plan{list-style:none;padding:0;margin-top:6px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.plan button{width:100%;height:100%;text-align:left;display:grid;align-content:start;gap:2px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;min-height:64px}
+.plan button:hover{border-color:var(--ink)}
+.plan .pn{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.plan .pt{font-weight:700;font-size:15px;line-height:1.25}
+.plan button.done{border-color:var(--good);background:var(--good-soft)}
+.plan button.done .pn{color:var(--good)}
+@media (max-width:680px){
+  .plan{grid-template-columns:minmax(0,1fr)}
+  .plan button{display:flex;justify-content:space-between;align-items:center;min-height:44px;padding:8px 12px}
+  .plan .pn{order:2}
+}
+
+.set{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:16px;scroll-margin-top:16px;min-width:0}
+.set.is-done{border-color:var(--good)}
+.set-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:start}
+.set-num{width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700;font-size:15px}
+.set.is-done .set-num{background:var(--good);color:var(--on-good)}
+.set-head h3{font-size:23px;font-weight:800}
+.why{color:var(--muted);font-size:15.5px;margin-top:3px;max-width:60ch}
+.mins{font-family:var(--f-mono);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.set-body{display:grid;gap:14px;min-width:0}
+.set-foot{display:flex;justify-content:flex-end}
+@media (max-width:520px){.set{padding:16px}.set-head{grid-template-columns:auto minmax(0,1fr)}.mins{grid-column:2;justify-self:start}}
+
+.btn{font-weight:700;font-size:15.5px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-align:center}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{min-height:36px;padding:0 14px;font-size:14px}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.is-on{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.btn.live{background:var(--live);border-color:var(--live);color:var(--on-live)}
+.btn.playing{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.icon-btn{flex:none;width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:inline-grid;place-items:center;cursor:pointer;padding:0}
+.icon-btn:hover{border-color:var(--ink)}
+.icon-btn.playing{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.mic.listening{background:var(--live);border-color:var(--live);color:var(--on-live);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--live-ring)}50%{box-shadow:0 0 0 7px var(--live-ring)}}
+body:not(.has-mic) .need-mic,body:not(.has-voice) .need-voice{display:none!important}
+.no-note{display:none}
+body:not(.has-mic) .no-mic,body:not(.has-voice) .no-voice{display:block}
+
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.field{display:flex;gap:10px;align-items:flex-start}
+textarea,input[type="text"],select{flex:1;min-width:0;width:100%;font-size:16.5px;line-height:1.5;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea{resize:vertical}
+input[type="text"],select{padding:10px 12px;border-radius:10px}
+textarea:focus,input[type="text"]:focus,select:focus{outline:none;border-color:var(--accent)}
+textarea::placeholder,input::placeholder{color:var(--muted)}
+.partial{font-style:italic;color:var(--muted);font-size:15px}
+.partial:empty{display:none}
+.note{font-size:14.5px;color:var(--muted)}
+.mark{font-weight:700;background:linear-gradient(transparent 8%,var(--mark) 8%,var(--mark) 92%,transparent 92%);color:var(--on-mark);padding:0 .22em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.focus-tag{font-family:var(--f-mono);font-size:12.5px;font-weight:700;color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14.5px;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+
+.model{font-size:18.5px;line-height:1.75;max-width:65ch;white-space:pre-line;padding:18px 20px;border-radius:12px;background:var(--bg)}
+.notice{display:grid;gap:6px}
+.notice ul{padding-left:22px;display:grid;gap:4px}
+.pattern{font-family:var(--f-display);font-size:clamp(21px,3vw,26px);font-weight:600;line-height:1.4}
+.blank{display:inline-block;width:3.2em;border-bottom:3px solid var(--mark-line);margin:0 .12em;vertical-align:-.1em;height:1em}
+.pat-list{display:grid;gap:8px;counter-reset:pat}
+.pat-list label{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:center}
+.pat-list label span{font-family:var(--f-mono);font-size:13px;font-weight:700;color:var(--muted);width:1.4em}
+
+.prompt{font-family:var(--f-display);font-size:clamp(21px,3vw,27px);font-weight:600;line-height:1.3}
+.stage{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding:14px 16px;border-radius:14px;border:1.5px dashed var(--line)}
+.stage.live{border:1.5px solid var(--live)}
+.clock{font-family:var(--f-display);font-weight:800;font-size:clamp(40px,7vw,56px);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stage.live .clock{color:var(--live)}
+.toggle{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-weight:700;font-size:15px;min-height:44px;padding:0 14px 0 6px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.toggle .sw{width:38px;height:22px;border-radius:999px;background:var(--line);position:relative;flex:none;transition:background .15s}
+.toggle .sw::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--surface);transition:transform .15s}
+.toggle[aria-pressed="true"]{border-color:var(--accent)}
+.toggle[aria-pressed="true"] .sw{background:var(--accent)}
+.toggle[aria-pressed="true"] .sw::after{transform:translateX(16px)}
+.draft-wrap{display:grid;gap:10px;max-width:72ch}
+.title-in{font-family:var(--f-display);font-weight:600;font-size:19px}
+.draft{min-height:340px;font-size:18px;line-height:1.8;padding:16px 18px;background:var(--surface)}
+.live-stats{font-family:var(--f-mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.nudge{font-size:14.5px;color:var(--accent);font-weight:700}
+.nudge:empty{display:none}
+.loader{display:grid;gap:8px;padding:14px;border-radius:12px;background:var(--bg)}
+
+.checks{list-style:none;padding:0;display:grid;gap:6px}
+.checks label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding:4px 0}
+.checks input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--good)}
+.statgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.statgrid div{padding:10px 12px;border-radius:10px;background:var(--bg);display:grid;gap:2px}
+.statgrid b{font-family:var(--f-display);font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+@media (max-width:560px){.statgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.longest{font-size:15px;color:var(--muted)}
+.longest:empty{display:none}
+.lt-list{display:grid;gap:10px}
+.lt-list:empty{display:none}
+.lt-item{display:grid;gap:6px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg)}
+.lt-msg{font-weight:700}
+.lt-ctx{font-size:15.5px;color:var(--muted);overflow-wrap:anywhere}
+mark.bad{background:var(--bad-soft);color:var(--ink);text-decoration:underline wavy var(--live);text-underline-offset:3px;padding:0 .1em;border-radius:3px}
+.fallback{display:grid;gap:8px}
+.fallback textarea{min-height:160px;font-family:var(--f-mono);font-size:13.5px}
+.thinking{animation:breathe 1.6s ease-in-out infinite}
+@keyframes breathe{50%{opacity:.45}}
+
+.finish{display:grid;gap:12px;justify-items:start;padding:22px;border-radius:16px;background:var(--ink);color:var(--bg)}
+.finish h3{font-size:24px;font-weight:800}
+.finish p{max-width:58ch}
+.finish .btn{border-color:transparent}
+.finish .btn.go{background:var(--mark);color:var(--on-mark)}
+.finish .btn.ghost{background:transparent;border-color:currentColor;color:var(--bg)}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:10px;font-size:15px;width:max-content;max-width:calc(100% - 32px);z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="speaking.html">Speaking Gym</a><a href="stage.html">The Stage</a><a href="writing.html" aria-current="page">Writing Desk</a></nav>
+
+  <header class="top">
+    <div class="brand">
+      <h1>Writing Desk</h1>
+      <p>20 minutes a day. Read like a writer, steal the pattern, write without stopping, then make it clear.</p>
+    </div>
+    <div class="stats" id="stats" aria-live="polite"></div>
+  </header>
+
+  <div class="layout">
+    <aside class="rail">
+      <section class="rail-sec">
+        <h2>Your 28-day program</h2>
+        <div class="program" id="program"></div>
+        <p class="legend"><span><i class="d"></i>Done</span><span><i class="r"></i>Review day</span><span><i class="f"></i>Final article</span></p>
+      </section>
+
+      <section class="rail-sec">
+        <h2>My journal</h2>
+        <p class="note">Everything you write is saved here, day by day.</p>
+        <ul class="journal" id="journal"></ul>
+        <div class="row"><button type="button" class="btn sm" id="exportBtn">Download all my writing</button></div>
+      </section>
+
+      <p class="saved-note">Your writing is saved in this browser only. Use the same browser every day, and download your writing from time to time as a backup.</p>
+    </aside>
+
+    <main class="lesson" id="lesson"></main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+"use strict";
+
+/* ---------- Program content ---------- */
+const WEEKS = [
+  {name:"Clear sentences", note:"This week you build clear, strong sentences. Short is good. Clear is better."},
+  {name:"Strong paragraphs", note:"This week you join sentences into paragraphs: one main idea, good examples, smooth links and a strong ending."},
+  {name:"Stories", note:"This week you tell stories: real moments, the five senses, dialogue, and the moment everything changes."},
+  {name:"Opinions and articles", note:"This week you write to share ideas and persuade. On Day 28 you write a 400-word article."}
+];
+
+const GENERAL_CHECKS = [
+  "Every sentence starts with a capital letter and ends with . ? or !",
+  "Every sentence has a subject and a verb: who does what.",
+  "Read it aloud. Fix anything that sounds strange to your ear."
+];
+
+const DAYS = [
+ {t:"One idea per sentence", skill:"One idea per sentence", mins:5,
+  model:"My grandmother wakes up before the sun. She lights the stove and boils water for tea. The kitchen fills with the smell of ginger. Then she sits by the window and waits. She is not waiting for anything. She just likes to watch the street come alive. By seven, the first buses roar past. By eight, the market is full of voices. This is her favourite hour, and now it is mine too.",
+  notice:["Each sentence carries one main idea. That makes it easy to read.","The writer moves through time: before the sun, then, by seven, by eight."],
+  pattern:"By ___, ___.", patEx:"By noon, the street was empty.",
+  prompt:"Describe the first hour of your morning. Write one idea per sentence.",
+  check:["Does each sentence have only one main idea?","Is any sentence longer than 20 words? Cut it into two."]},
+ {t:"Strong verbs", skill:"Strong verbs", mins:5,
+  model:"The rain did not fall that night. It hammered the roof. Water rushed down the street and swallowed the drains. A dog ran past, then stopped under a shop sign and shook itself. My brother grabbed his jacket and dashed out to rescue our shoes from the step. He came back soaked, laughing, holding two muddy sandals like a prize.",
+  notice:["The verbs do the work: hammered, rushed, swallowed, dashed.","There are very few adjectives. Strong verbs don't need much help."],
+  pattern:"It didn't just ___. It ___.", patEx:"It didn't just rain. It poured.",
+  prompt:"Write about a time the weather changed your plans. Choose strong verbs instead of go, get, do and make.",
+  check:["Find every go, get, do and make. Can you replace two of them with stronger verbs?","Did you write 'very'? Try one strong word instead (very big → huge)."]},
+ {t:"Specific nouns", skill:"Specific nouns", mins:5,
+  model:"My father's car was not just a car. It was a blue 1998 Toyota with a cracked windscreen and a radio that played only one station. Under the seats you could find old receipts, a broken umbrella and a bag of groundnuts. It smelled of petrol and peppermint. Every Sunday, he washed it with a bucket and an old T-shirt, as if it were new.",
+  notice:["The writer names exact things: a blue 1998 Toyota, groundnuts, peppermint.","Specific nouns put a clear picture in the reader's head."],
+  pattern:"It wasn't just a ___. It was a ___ with ___.", patEx:"It wasn't just a bag. It was a red school bag with a broken zip.",
+  prompt:"Describe an object that is important to you. Use exact names, colours, sizes and details.",
+  check:["Find general words like thing, stuff, food or place. Make two of them specific.","Could a stranger draw your object from your description?"]},
+ {t:"Linking words", skill:"Linking ideas with because, but, so and although", mins:5,
+  model:"I wanted to learn to swim, but I was afraid of deep water. My friend offered to teach me, so we went to the pool every Saturday. At first I held the edge because I didn't trust my legs. Although I swallowed a lot of water, I didn't give up. After six weeks, I swam the whole length. I was tired, but I was proud.",
+  notice:["Linking words join two ideas: but, so, because, although.","Each one shows a relationship: but = contrast, so = result, because = reason."],
+  pattern:"Although ___, I ___.", patEx:"Although I was tired, I finished the race.",
+  prompt:"Write about something you learned to do even though it was difficult. Use but, so, because and although at least once each.",
+  check:["Did you use but, so, because and although?","Does each linking word show the right meaning: reason, result or contrast?"]},
+ {t:"Short and long sentences", skill:"Varying sentence length", mins:5,
+  model:"The bus was late. Again. We stood at the stop for forty minutes while the sun climbed higher and the queue grew longer and an old man beside me told me the full history of his knees. Then, finally, the bus came around the corner. Everyone cheered. It was full.",
+  notice:["Very short sentences create surprise: 'Again.' 'It was full.'","One long sentence makes the reader feel how slow the wait was."],
+  pattern:"___. ___ and ___ and ___. ___.", patEx:"I waited. The clock ticked and the room grew hot and nobody said a word. Then my name was called.",
+  prompt:"Write about a time you waited for something. Mix very short sentences with one long sentence.",
+  check:["Do you have at least one very short sentence (under five words)?","Do you have one long sentence that shows time passing slowly?"]},
+ {t:"Show, don't tell", skill:"Showing feelings instead of naming them", mins:5,
+  model:"Mr. Okafor put down his pen very slowly. He took off his glasses, folded them and placed them on the desk. For a long moment, he said nothing. Then he looked at the broken window, and then at me. 'Who,' he said quietly, 'kicked the ball?'",
+  notice:["The writer never says 'angry'. We see it in his slow, careful actions.","Small actions and silence are stronger than a feeling word."],
+  pattern:"___ didn't say anything. She just ___.", patEx:"My sister didn't say anything. She just closed the door and turned up the music.",
+  prompt:"Write about someone who was nervous, happy or angry. Don't use the feeling word. Show it with actions, the face and the voice.",
+  check:["Did you avoid the feeling word (nervous, happy, angry)?","Did you show the feeling with at least three actions or details?"]},
+ {t:"Review: rewrite your week", skill:"Rewriting with strong verbs, specific nouns and showing", mins:10, review:true, load:[1,6],
+  model:"Before:\nI went to the market. It was very busy. I got some food and went home. I was happy.\n\nAfter:\nI squeezed through the market at noon. Sellers shouted prices over loud music. I bought six ripe mangoes and a bag of rice, then carried them home with sore arms and a smile.",
+  notice:["The rewrite uses strong verbs (squeezed, shouted, carried) and specific nouns (mangoes, rice).","It shows the feeling (a smile) instead of saying 'I was happy'."],
+  pattern:"I ___ (strong verb) ___ (specific noun).", patEx:"I grabbed two warm loaves of bread.",
+  prompt:"Choose one piece from your journal this week. Rewrite it with stronger verbs, more specific nouns, and feelings you show instead of tell.",
+  check:["Did you change at least five verbs or nouns?","Read the old and the new version aloud. Is the new one clearer?"]},
+
+ {t:"The topic sentence", skill:"Starting a paragraph with a topic sentence", mins:10,
+  model:"Markets are the best classrooms in any city. In one hour, you can learn the prices of things, the local words for vegetables, and how people bargain. You hear jokes, arguments and songs. You see who is in a hurry and who has time to talk. No textbook can teach you a place as quickly as a busy market can.",
+  notice:["The first sentence gives the main idea of the whole paragraph.","Every sentence after it supports that one idea."],
+  pattern:"___ is the best ___ for ___.", patEx:"Early morning is the best time for thinking.",
+  prompt:"Write one paragraph about a place you know well. Start with a clear topic sentence. Every sentence after it must support it.",
+  check:["Can a reader find your main idea in the first sentence?","Does every sentence connect to that idea? Delete any that don't."]},
+ {t:"Supporting details", skill:"Supporting an idea with a real example", mins:10,
+  model:"My first job taught me patience. I worked at a phone repair stall, and customers often arrived angry. One woman shouted because her screen had cracked on her wedding day. I listened, fixed the phone in twenty minutes, and gave it back with a new case. She left smiling. That day I learned that most anger is just worry wearing a loud coat.",
+  notice:["The writer supports the main idea with one real moment, not general words.","Exact details (twenty minutes, her wedding day) make it believable."],
+  pattern:"___ taught me ___. One day, ___.", patEx:"Football taught me teamwork. One day, our best player was sick.",
+  prompt:"Write a paragraph that begins: 'My first job (or school, or a hobby) taught me ___.' Support it with one real example.",
+  check:["Does your example say when, where and what happened?","Did you add at least two exact details, like numbers, names or places?"]},
+ {t:"Giving examples", skill:"Using for example and such as", mins:10,
+  model:"Small habits can change a whole day. For example, making my bed takes one minute, but it makes my room feel calm. Drinking water before coffee keeps headaches away. Simple things, such as putting my phone in another room at night, help me sleep better. None of these habits is difficult. Together, they make me feel in control.",
+  notice:["'For example' and 'such as' introduce examples.","Three examples make an idea strong. One example can feel weak."],
+  pattern:"___, such as ___ and ___, ___.", patEx:"Cheap hobbies, such as running and reading, can make you happier.",
+  prompt:"Write a paragraph about small habits that help you, or habits you want. Give three examples and use 'for example' and 'such as'.",
+  check:["Did you give three examples?","Did you use 'for example' and 'such as' correctly?"]},
+ {t:"Transitions", skill:"Guiding the reader with transitions", mins:10,
+  model:"Moving to a new city was hard at first. In the beginning, I didn't know anyone, and I got lost every day. However, I started walking to work instead of taking the bus. As a result, I learned the streets and found a small café I loved. Later, the café owner introduced me to her friends. In the end, the city stopped feeling new and started feeling like home.",
+  notice:["Transitions guide the reader: in the beginning, however, as a result, later, in the end.","They show time and change, so the paragraph flows like a path."],
+  pattern:"At first, ___. However, ___. As a result, ___.", patEx:"At first, I hated coffee. However, I tried it with milk. As a result, I now drink two cups a day.",
+  prompt:"Write a paragraph about a change in your life, from the beginning to the end. Use at least four transitions.",
+  check:["Did you use at least four transitions?","Are the events in an order that makes sense?"]},
+ {t:"A strong last sentence", skill:"Ending with a concluding sentence", mins:10,
+  model:"Cooking for my family is my favourite way to say 'I love you'. I am not good with words at home, but I am good with pepper soup. When my brother had his exams, I made his favourite stew. When my mother was sick, I made light rice and ginger tea. Nobody says much at the table. Still, everyone understands. A full plate says what I can't.",
+  notice:["The last sentence returns to the main idea in a new, memorable way.","A good ending feels like a door closing softly."],
+  pattern:"That's why ___.", patEx:"That's why I always carry a book.",
+  prompt:"Write a paragraph about how you show love or care to people. Finish with a strong sentence that returns to your main idea.",
+  check:["Does your last sentence return to the idea in your first sentence?","Is your last sentence short and easy to remember?"]},
+ {t:"Describing a place", skill:"Describing a place in a clear order", mins:10,
+  model:"The bus station at night is a small city of its own. Yellow lights buzz above the platforms. Women sell roasted corn from metal trays, and the smoke drifts between the buses. Drivers lean on their doors and argue about football. Somewhere, a radio plays old highlife music. Travellers sit on their bags, half asleep, waiting for a journey that always starts later than promised.",
+  notice:["The writer moves the 'camera': the lights above, then the sellers, the drivers and the travellers.","Sound, smell and light make the place feel real."],
+  pattern:"___ is a small ___ of its own.", patEx:"My grandmother's kitchen is a small museum of its own.",
+  prompt:"Describe a busy place you know: a station, a market, a school, a church or a kitchen. Move the 'camera' from one detail to the next.",
+  check:["Did you include something you can see, hear and smell?","Does your description move in an order: near to far, or top to bottom?"]},
+ {t:"Review: rewrite a paragraph", skill:"Rewriting a paragraph with a clear structure", mins:10, review:true, load:[8,13],
+  model:"Before:\nMy school was good. The teachers were nice. I learned many things. I liked it.\n\nAfter:\nMy secondary school gave me more than lessons. Mrs. Bello, our English teacher, lent me novels from her own shelf. Our science teacher turned every class into an experiment. For example, we once built a small rocket from a plastic bottle. When I left, I took more than certificates with me. I took curiosity.",
+  notice:["The rewrite has a clear topic sentence and real examples.","The last sentence returns to the main idea: more than lessons."],
+  pattern:"___ gave me more than ___.", patEx:"That trip gave me more than photos.",
+  prompt:"Choose one paragraph from your journal (Days 8 to 13). Rewrite it with a stronger topic sentence, better examples, transitions and a strong last line.",
+  check:["Is your topic sentence clearer than before?","Did you add a transition and a stronger final sentence?"]},
+
+ {t:"The five senses", skill:"Writing with the five senses", mins:10,
+  model:"The morning I arrived in my grandmother's village, the air tasted of smoke and rain. Roosters argued from every yard. The red earth was soft under my feet and stuck to my shoes. My grandmother pulled me into a hug that smelled of shea butter and woodfire. Her hands were rough, warm and strong.",
+  notice:["The writer uses all five senses: taste, sound, touch, smell and sight.","A surprising mix ('the air tasted of smoke') wakes the reader up."],
+  pattern:"The air smelled of ___ and ___.", patEx:"The air smelled of bread and rain.",
+  prompt:"Write about arriving somewhere for the first time. Use all five senses.",
+  check:["Did you use all five senses: see, hear, smell, taste and touch?","Is there one surprising detail?"]},
+ {t:"A scene", skill:"Slowing down one important moment", mins:10,
+  model:"The phone rang at 2 a.m. I sat up in the dark. My heart was loud in my ears. On the screen, I saw my brother's name. He never called this late. I pressed the green button and held my breath. 'Are you awake?' he whispered. 'I'm going to be a father.'",
+  notice:["A scene shows one moment, second by second, in one place.","The writer slows down the important moment and ends with a surprise."],
+  pattern:"I ___. My heart ___. Then ___.", patEx:"I opened the letter. My heart stopped. Then I read the first word: 'Congratulations'.",
+  prompt:"Write one short scene: the moment you received important news. Slow it down, second by second.",
+  check:["Does your scene happen in one place, in a short time?","Did you slow down the most important moment?"]},
+ {t:"Dialogue", skill:"Writing and punctuating dialogue", mins:10,
+  model:"'You're late,' said my boss, without looking up.\n'The traffic was terrible,' I said.\nShe raised one eyebrow. 'The traffic is terrible every day.'\n'Then I'll leave home earlier,' I said.\nFinally, she looked at me and smiled. 'Good answer.'",
+  notice:["Each new speaker starts on a new line.","The comma or question mark goes inside the quotation marks: 'You're late,' said my boss."],
+  pattern:"'___,' said ___. '___?' asked ___.", patEx:"'I'm hungry,' said my son. 'What's for dinner?' asked my husband.",
+  prompt:"Write a short conversation between two people who disagree about something small. Start a new line for each speaker.",
+  check:["Did you start a new line for each new speaker?","Are the commas, question marks and full stops inside the quotation marks?"]},
+ {t:"Beginning, middle, end", skill:"Building a story with a beginning, a middle and an end", mins:10,
+  model:"Last year, I entered a cooking competition at work. I had never cooked for strangers before. On the day, the gas ran out halfway through my jollof rice. I panicked. Then I borrowed a small stove from the security guard and finished with two minutes to spare. I didn't win. But the judges asked for my recipe, and the security guard asked for a plate.",
+  notice:["Beginning: the situation. Middle: the problem and what the writer did. End: the result.","The ending is small and funny, so we remember it."],
+  pattern:"Last ___, I ___. Then ___. In the end, ___.", patEx:"Last summer, I tried to fix my bike. Then the chain broke. In the end, I took the bus.",
+  prompt:"Tell a short true story about a time something went wrong and what you did. Give it a clear beginning, middle and end.",
+  check:["Can you point to your beginning, middle and end?","Is there a clear problem in the middle?"]},
+ {t:"The turning point", skill:"Showing the moment everything changes", mins:10,
+  model:"For years, I believed I was bad at English. I could read novels, but when someone spoke to me, my mind went white. Then one evening, a tourist asked me for directions. There was no time to be afraid. I pointed, I explained, I even made a joke. She laughed and thanked me. Walking home, I realised something: I wasn't bad at English. I was just out of practice.",
+  notice:["The turning point is the moment everything changes: 'Then one evening…'","The story ends with a new understanding: 'I realised…'"],
+  pattern:"For years, I believed ___. Then ___. I realised ___.", patEx:"For years, I believed I couldn't run. Then I joined a club. I realised I just needed company.",
+  prompt:"Write about a moment that changed the way you see yourself.",
+  check:["Is there a clear 'before' and 'after'?","Did you show the turning point and what you realised?"]},
+ {t:"A personal essay", skill:"Connecting your life to a bigger idea", mins:10,
+  model:"I have always been the quiet one in the room. At school, teachers called me shy. At work, people forgot I was there. For a long time, I wanted to be louder. Now I see it differently. Because I am quiet, I listen. I notice the friend who is sad, the detail everyone missed, the question no one asked. Quiet is not empty. Quiet is full of attention.",
+  notice:["A personal essay connects your life to a bigger idea.","It moves from memories to a new view: 'Now I see it differently.'"],
+  pattern:"___ is not ___. ___ is ___.", patEx:"Failure is not the end. Failure is information.",
+  prompt:"Write about one part of your personality. How did you see it before? How do you see it now?",
+  check:["Does your essay move from the past to the present?","Does it end with a clear idea about life, not only facts?"]},
+ {t:"Review: rewrite a story", skill:"Rewriting a story with senses, a scene and dialogue", mins:10, review:true, load:[15,20],
+  model:"Before:\nI was scared on my first day at university. I didn't know anybody. Then I met a friend and I felt better.\n\nAfter:\nOn my first day at university, I sat in the back row and pretended to read. My hands were cold. Then a girl with a green bag dropped into the seat beside me. 'Is this Economics?' she whispered. 'I hope so,' I said. We both laughed, and suddenly the room felt smaller.",
+  notice:["The rewrite shows the fear (cold hands, the back row) instead of naming it.","Dialogue and one small detail (a green bag) bring the scene to life."],
+  pattern:"My hands were ___. Then ___.", patEx:"My hands were shaking. Then the door opened.",
+  prompt:"Choose one story from your journal (Days 15 to 20). Rewrite it with the senses, a slow scene, some dialogue and a clear turning point.",
+  check:["Did you add at least one sense detail and one line of dialogue?","Is the most important moment slower and clearer now?"]},
+
+ {t:"An opinion paragraph", skill:"Giving an opinion with reasons", mins:10,
+  model:"I believe every school should teach cooking. First, it is a life skill. Everyone eats, but many young people leave home unable to make a simple meal. Second, cooking teaches maths and science: you measure, you time, and you watch things change. Finally, cooking together builds friendships. Some people say there is no time in the school day. I disagree. If we have time for exams, we have time for food.",
+  notice:["The opinion is clear in the first sentence: 'I believe…'","The reasons are in order (First, Second, Finally), and the writer answers the other side."],
+  pattern:"I believe ___. First, ___. Second, ___. Finally, ___.", patEx:"I believe cities need more trees. First, they clean the air. Second, they cool the streets. Finally, they make people calmer.",
+  prompt:"Write an opinion paragraph: should young people learn a second language at school? Give three reasons.",
+  check:["Is your opinion clear in the first sentence?","Did you give three reasons with First, Second and Finally?"]},
+ {t:"Comparing two things", skill:"Comparing with on the other hand and however", mins:10,
+  model:"Reading a book and watching the film are two different ways to meet the same story. A book lets you move at your own speed. You imagine the faces, the rooms and the voices. A film, on the other hand, does the imagining for you. It is faster, and you can share it with friends in two hours. Both are valuable. However, when I love a story, I always want the book first.",
+  notice:["'On the other hand' and 'however' show a contrast.","The writer is fair to both sides, then gives a personal choice."],
+  pattern:"___, on the other hand, ___.", patEx:"Trains, on the other hand, let you read while you travel.",
+  prompt:"Compare two things: city life and village life, phone calls and text messages, or working from home and working in an office. Which do you prefer, and why?",
+  check:["Did you describe both sides fairly?","Did you use 'on the other hand', 'however' or 'while'?"]},
+ {t:"Persuading your reader", skill:"Persuading with a hook and a call to action", mins:10,
+  model:"Imagine a city where you can walk to work without breathing smoke. That city is possible. If we add more buses and safe bike lanes, fewer people will need cars. Less traffic means cleaner air, quieter streets and shorter journeys for everyone. Other cities have done it, and their people are healthier. So next time there is a vote about public transport, don't stay at home. Your lungs will thank you.",
+  notice:["The writer opens with 'Imagine…' to pull the reader in.","It ends with a call to action: it tells the reader what to do."],
+  pattern:"Imagine ___. If we ___, ___. So ___.", patEx:"Imagine a school with no plastic. If we bring our own bottles, we can make it real. So start tomorrow.",
+  prompt:"Persuade your reader to try something you love: a sport, a book, a food or a habit. Start with 'Imagine…' and end with a call to action.",
+  check:["Does your first sentence pull the reader in?","Did you end by telling the reader what to do?"]},
+ {t:"A polite email", skill:"Writing a clear, polite email", mins:10,
+  model:"Dear Mr. Smith,\nI am writing about the order I received on 3 March. Unfortunately, the jacket arrived with a broken zip. I have attached two photos. Would it be possible to send a replacement or give me a refund? I would be grateful for a quick reply, as I need the jacket for a trip next week.\nThank you for your help.\nKind regards,\nAmara",
+  notice:["The first line says why you are writing: 'I am writing about…'","Polite phrases make the request softer: 'Would it be possible…', 'I would be grateful…'"],
+  pattern:"I am writing about ___. Would it be possible to ___?", patEx:"I am writing about my booking for Friday. Would it be possible to change the time?",
+  prompt:"Write a polite email: to a company about a problem, to a teacher asking for help, or to a manager asking for a day off.",
+  check:["Does your first sentence say why you are writing?","Did you use polite phrases and make one clear request?"]},
+ {t:"A blog post", skill:"Writing for readers online", mins:10,
+  model:"Three things I wish I knew before learning English\nI studied English for years, but nobody told me these three things. First: reading is not speaking. You can know thousands of words and still freeze in a conversation. Second: mistakes are part of the plan. Every mistake shows you what to practise next. Third: ten minutes every day beats two hours on Sunday. Small and often wins. Which one surprises you most?",
+  notice:["The title makes a clear promise: three things.","The writer talks to the reader ('you') and ends with a question."],
+  pattern:"___ things I wish I knew before ___.", patEx:"Three things I wish I knew before my first job.",
+  prompt:"Write a short blog post called 'Three things I wish I knew before ___.' Give it a title, talk to the reader, and end with a question.",
+  check:["Does your post have a clear title?","Did you speak to the reader with 'you' and end with a question?"]},
+ {t:"Editing your own work", skill:"Cutting words to make writing stronger", mins:10, load:[1,26],
+  model:"Before editing:\nIn my opinion, I think that it is very, very important for all the people to do exercise, because exercise is good and it is good for the health of people.\n\nAfter editing:\nEveryone needs exercise. It keeps the body strong and the mind clear.",
+  notice:["Editing often means cutting: 'In my opinion, I think' says the same thing twice.","The edited version is shorter, clearer and stronger."],
+  pattern:"Instead of '___', write '___'.", patEx:"Instead of 'at this moment in time', write 'now'.",
+  prompt:"Choose your longest piece from the journal and edit it. Cut repeated words, split long sentences and replace weak verbs. Try to make it 20% shorter.",
+  check:["Did you cut words that repeat an idea (I think, in my opinion, very)?","Is the new version shorter and clearer than the old one?"]},
+ {t:"Your final article", skill:"Writing a complete 400-word article", mins:20, final:true,
+  model:"How I learned to speak again\nFor years, English lived only in my head. I read books and watched films, and I understood almost everything. But when I opened my mouth, the words hid. So I made a plan: twenty minutes of speaking and fifteen minutes of writing, every single day, for twenty-eight days. This is what happened, what I learned, and what I would tell anyone who feels the same.",
+  notice:["A strong title and an opening that makes a promise to the reader.","The last sentence of the opening tells the reader what the article will cover."],
+  pattern:"This is what happened, what I learned, and what ___.", patEx:"This is what happened, what I learned, and what I would do differently.",
+  prompt:"Write a 400-word article about your 28 days: where you started, what was hard, what changed, and your advice for other learners. Use a title, paragraphs, examples and a strong ending.",
+  check:["Does your article have a title, an opening, three or four paragraphs and an ending?","Is it about 400 words?","Read it aloud. Is there any sentence you stumble on? Fix it."]}
+];
+
+const STEPS = [
+  {k:1, name:"Read", mins:3},
+  {k:2, name:"Steal the pattern", mins:3},
+  {k:3, name:"Write", mins:10},
+  {k:4, name:"Edit", mins:4},
+  {k:5, name:"Say it", mins:2}
+];
+
+/* ---------- Helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const countWords = t => (String(t || "").match(/[A-Za-z0-9À-ɏ']+/g) || []).length;
+const splitSents = t => (String(t || "").match(/[^.!?\n]+[.!?]*/g) || []).map(s => s.trim()).filter(s => /[A-Za-z0-9]/.test(s));
+const ymd = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const fmt = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
+
+const I = {
+  play:'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2.5" fill="currentColor"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  check:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  pen:'<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>'
+};
+
+let toastTimer = null;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 4200);
+}
+
+/* ---------- Storage ---------- */
+const LS_KEY = "writing-desk-v1";
+const fresh = () => ({v:1, done:{}, last:0, pieces:{}, pat:{}, steps:{}, checks:{}, say:{}, nodelete:false});
+function loadLocal() { try { const s = localStorage.getItem(LS_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+let state = Object.assign(fresh(), loadLocal() || {});
+["done","pieces","pat","steps","checks","say"].forEach(k => { if (!state[k] || typeof state[k] !== "object") state[k] = {}; });
+function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+let saveTimer = null;
+function saveSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(save, 500); }
+window.addEventListener("pagehide", save);
+
+/* ---------- Voice: browser speech ---------- */
+const V = {dict:null, dstate:"idle", target:null, synth: ("speechSynthesis" in window) ? window.speechSynthesis : null};
+if (V.synth) document.body.classList.add("has-voice");
+let speakRun = 0;
+
+function setPlaying(btn) {
+  $$(".playing").forEach(b => { if (b !== btn) { b.classList.remove("playing"); b.setAttribute("aria-pressed", "false"); } });
+  if (btn) { btn.classList.add("playing"); btn.setAttribute("aria-pressed", "true"); }
+}
+function utter(text, rate) {
+  return new Promise(res => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-GB"; u.rate = rate;
+    u.onend = () => res(); u.onerror = () => res();
+    V.synth.speak(u);
+  });
+}
+async function speak(text, rate, btn) {
+  if (!V.synth) return;
+  if (V.dict && V.dict.active()) { try { await V.dict.stop(); } catch (e) {} }
+  const run = ++speakRun;
+  try { V.synth.cancel(); } catch (e) {}
+  const parts = splitSents(text);
+  if (!parts.length) return;
+  setPlaying(btn);
+  // Long texts are read sentence by sentence: some browsers cut off long utterances.
+  for (const p of parts) { if (run !== speakRun) break; await utter(p, rate); }
+  if (run === speakRun) setPlaying(null);
+}
+function stopSpeech() { speakRun++; if (V.synth) { try { V.synth.cancel(); } catch (e) {} } setPlaying(null); }
+
+/* ---------- Dictation: browser speech recognition ---------- */
+function makeWebDictation() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return null;
+  let rec = null, st = "idle", wantOn = false, lastErr = null, resolveStop = null;
+  const finals = [], partials = [], states = [];
+  const emit = (s, reason) => { st = s; states.forEach(h => h(reason ? {state:s, reason} : {state:s})); };
+  function make() {
+    const r = new SR();
+    r.lang = "en-US"; r.continuous = true; r.interimResults = true;
+    r.onstart = () => emit("listening");
+    r.onresult = e => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const res = e.results[i], t = res[0].transcript;
+        if (res.isFinal) { if (t.trim()) finals.forEach(h => h({text: " " + t.trim()})); }
+        else interim += t;
+      }
+      partials.forEach(h => h({text: interim.trim()}));
+    };
+    r.onerror = e => { lastErr = e.error; };
+    r.onend = () => {
+      // Chrome ends recognition after a pause; keep listening until the page asks to stop.
+      if (wantOn && (!lastErr || lastErr === "no-speech")) {
+        lastErr = null;
+        try { r.start(); return; } catch (err) {}
+      }
+      rec = null; wantOn = false;
+      const reason = (lastErr === "not-allowed" || lastErr === "service-not-allowed") ? "not_granted"
+        : (lastErr && lastErr !== "aborted" && lastErr !== "no-speech") ? "upstream_error" : "stopped";
+      partials.forEach(h => h({text: ""}));
+      emit("idle", reason);
+      if (resolveStop) { const f = resolveStop; resolveStop = null; f(); }
+    };
+    return r;
+  }
+  return {
+    start() {
+      if (rec) return Promise.resolve();
+      lastErr = null; wantOn = true; rec = make(); emit("starting");
+      try { rec.start(); } catch (err) { rec = null; wantOn = false; emit("idle", "upstream_error"); return Promise.reject({code:"upstream_error"}); }
+      return Promise.resolve();
+    },
+    stop() {
+      if (!rec) return Promise.resolve();
+      wantOn = false;
+      return new Promise(res => { resolveStop = res; try { rec.stop(); } catch (err) { resolveStop = null; res(); } });
+    },
+    active() { return st !== "idle"; },
+    onFinal(h) { finals.push(h); return () => {}; },
+    onPartial(h) { partials.push(h); return () => {}; },
+    onState(h) { states.push(h); return () => {}; }
+  };
+}
+function markMic() {
+  const on = V.dstate !== "idle";
+  $$("[data-mic]").forEach(b => {
+    const me = on && V.target && b.dataset.mic === V.target.id;
+    b.classList.toggle("listening", !!me);
+    b.setAttribute("aria-pressed", me ? "true" : "false");
+  });
+}
+function disableMic(msg) {
+  V.dict = null; document.body.classList.remove("has-mic"); V.dstate = "idle"; markMic();
+  if (msg) toast(msg);
+}
+function startDictation(box) {
+  if (!V.dict) return;
+  stopSpeech();
+  V.target = box; markMic();
+  V.dict.start().catch(() => toast("The microphone didn't start. Press it to try again."));
+}
+function toggleMic(btn) {
+  if (!V.dict) return;
+  const box = document.getElementById(btn.dataset.mic);
+  if (!box) return;
+  if (V.dict.active() && V.target === box) { V.dict.stop().catch(() => {}); return; }
+  if (V.dict.active()) { V.dict.stop().then(() => startDictation(box)).catch(() => {}); return; }
+  startDictation(box);
+}
+function wireDictation() {
+  V.dict.onFinal(({text}) => {
+    const box = V.target; if (!box || !text) return;
+    let t = text;
+    if (!box.value) t = t.replace(/^\s+/, "");
+    else if (!/\s$/.test(box.value) && !/^\s/.test(t)) t = " " + t;
+    box.value += t;
+    box.dispatchEvent(new Event("input", {bubbles:true}));
+  });
+  V.dict.onPartial(({text}) => {
+    if (!V.target) return;
+    const p = document.querySelector('[data-partial-for="' + V.target.id + '"]');
+    if (p) p.textContent = text ? text + "…" : "";
+  });
+  V.dict.onState(({state: st, reason}) => {
+    V.dstate = st; markMic();
+    if (st !== "idle") return;
+    $$("[data-partial-for]").forEach(p => { p.textContent = ""; });
+    if (reason === "not_granted") disableMic("The microphone is blocked for this page. You can still type.");
+    else if (reason === "upstream_error") toast("The microphone stopped. Press it to try again.");
+  });
+}
+
+/* ---------- App state ---------- */
+const firstOpen = () => { for (let n = 1; n <= DAYS.length; n++) if (!state.done[n]) return n; return DAYS.length; };
+let cur = (state.last >= 1 && state.last <= DAYS.length) ? state.last : firstOpen();
+const W = {running:false, start:0, len:0, startWords:0, timer:null};
+const LT = {matches:[]};
+
+function dayInfo(n) { const w = Math.floor((n - 1) / 7); return {d: DAYS[n - 1], w, wk: WEEKS[w]}; }
+function stepsFor(n) { return state.steps[n] || [false,false,false,false,false]; }
+function piece(n) { return state.pieces[n] || null; }
+function totalWords() { return Object.values(state.pieces).reduce((s, p) => s + ((p && p.words) || 0), 0); }
+
+function streak() {
+  const dates = new Set(Object.values(state.done).map(x => x && x.date));
+  const d = new Date();
+  if (!dates.has(ymd(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (dates.has(ymd(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+
+/* ---------- Rendering ---------- */
+function renderStats() {
+  const doneN = Object.keys(state.done).length;
+  const st = streak();
+  const total = totalWords();
+  const doneDays = Object.keys(state.done).map(Number).sort((a, b) => (state.done[a].date || "").localeCompare(state.done[b].date || "") || a - b);
+  const lastDay = doneDays.length ? doneDays[doneDays.length - 1] : null;
+  const lastWords = lastDay ? (state.done[lastDay].words || 0) : null;
+  $("#stats").innerHTML =
+    '<div class="stat"><span class="k">Streak</span><span class="v">' + st + '<small>' + (st === 1 ? "day" : "days") + ' in a row</small></span></div>' +
+    '<div class="stat"><span class="k">Program</span><span class="v">' + doneN + '<small>of 28 days</small></span></div>' +
+    '<div class="stat"><span class="k">Words written</span><span class="v">' + total.toLocaleString("en-GB") + '<small>in total</small></span></div>' +
+    '<div class="stat"><span class="k">Last piece</span><span class="v">' + (lastWords == null ? "–" : lastWords) + '<small>' + (lastWords == null ? "finish a day to see it" : "words") + '</small></span></div>';
+}
+
+function renderProgram() {
+  $("#program").innerHTML = WEEKS.map((w, wi) => {
+    let cells = "";
+    for (let j = 0; j < 7; j++) {
+      const n = wi * 7 + j + 1, d = DAYS[n - 1], done = !!state.done[n];
+      const kind = d.final ? " final" : d.review ? " review" : "";
+      cells += '<button type="button" class="day' + (done ? " done" : "") + (n === cur ? " cur" : "") + kind +
+        '" data-day="' + n + '"' + (n === cur ? ' aria-current="step"' : "") +
+        ' aria-label="Day ' + n + ': ' + esc(d.t) + (done ? ", done" : "") + '" title="Day ' + n + ': ' + esc(d.t) + '">' + n + '</button>';
+    }
+    return '<div class="week-row"><div class="wk"><b>Week ' + (wi + 1) + '</b><span>' + esc(w.name) + '</span></div><div class="days">' + cells + '</div></div>';
+  }).join("");
+}
+
+function savedDays() {
+  return Object.keys(state.pieces).map(Number).filter(n => n >= 1 && n <= DAYS.length && state.pieces[n] && String(state.pieces[n].text || "").trim()).sort((a, b) => a - b);
+}
+function pieceTitle(n) { const p = piece(n); return (p && p.title && p.title.trim()) || DAYS[n - 1].t; }
+
+function renderJournal() {
+  const days = savedDays();
+  const list = $("#journal");
+  if (!days.length) {
+    list.innerHTML = '<li class="empty">Nothing here yet. Your first piece appears here as soon as you start writing in Step 3.</li>';
+    return;
+  }
+  list.innerHTML = days.slice().reverse().map(n => {
+    const p = piece(n);
+    return '<li><p class="jt">Day ' + n + ' · ' + esc(pieceTitle(n)) + '</p>' +
+      '<p class="jm">' + esc(p.date || "") + ' · ' + (p.words || 0) + ' words' + (state.done[n] ? " · finished" : " · draft") + '</p>' +
+      '<div class="row"><button type="button" class="btn sm" data-day="' + n + '">Open</button><button type="button" class="btn sm" data-copy-piece="' + n + '">Copy</button></div></li>';
+  }).join("");
+}
+
+function setBlock(k, title, mins, why, body) {
+  const on = stepsFor(cur)[k - 1];
+  return '<section class="set' + (on ? " is-done" : "") + '" id="set-' + k + '" aria-labelledby="set-h-' + k + '">' +
+    '<header class="set-head"><span class="set-num">' + k + '</span><div><h3 id="set-h-' + k + '">' + title + '</h3><p class="why">' + why + '</p></div><span class="mins">' + mins + ' min</span></header>' +
+    '<div class="set-body">' + body + '</div>' +
+    '<footer class="set-foot"><button type="button" class="btn sm done-toggle' + (on ? " is-on" : "") + '" data-step="' + k + '" aria-pressed="' + on + '">' + (on ? I.check + " Done" : "Mark as done") + '</button></footer></section>';
+}
+const micBtn = id => '<button type="button" class="icon-btn mic need-mic" data-mic="' + id + '" aria-label="Speak into this box" aria-pressed="false">' + I.mic + '</button>';
+const patternHTML = p => esc(p).replace(/___/g, '<span class="blank" aria-label="blank"></span>');
+
+function renderLesson() {
+  const {d, w, wk} = dayInfo(cur);
+  const steps = stepsFor(cur);
+  const total = 3 + 3 + d.mins + 4 + 2;
+  const plan = STEPS.map((s, i) =>
+    '<li><button type="button" data-jump="' + s.k + '" class="' + (steps[i] ? "done" : "") + '"><span class="pn">' + s.k + ' · ' + (s.k === 3 ? d.mins : s.mins) + ' min</span><span class="pt">' + s.name + '</span></button></li>').join("");
+  const p = piece(cur) || {};
+  const pats = state.pat[cur] || ["","",""];
+  const checks = state.checks[cur] || [];
+  const allChecks = d.check.concat(GENERAL_CHECKS);
+
+  const read = setBlock(1, "Read like a writer", 3,
+    "You are a strong reader. Use it. Read slowly, and notice what the writer does, not only what they say.",
+    '<p class="focus-tag">Today\'s skill: ' + esc(d.skill) + '</p>' +
+    '<div class="model" id="model">' + esc(d.model) + '</div>' +
+    '<div class="row"><button type="button" class="btn sm need-voice" data-speak="model" aria-pressed="false">' + I.play + ' Listen</button></div>' +
+    '<div class="notice"><p class="label">Notice</p><ul>' + d.notice.map(x => '<li>' + esc(x) + '</li>').join("") + '</ul></div>');
+
+  const steal = setBlock(2, "Steal the pattern", 3,
+    "Writers learn by copying patterns, then making them their own. Fill this pattern with your own life.",
+    '<p class="pattern">' + patternHTML(d.pattern) + '</p>' +
+    '<p class="note">Example: ' + esc(d.patEx) + '</p>' +
+    '<div class="pat-list">' + [0,1,2].map(i =>
+      '<label><span>' + (i + 1) + '</span><input type="text" id="pat-' + i + '" data-pat="' + i + '" value="' + esc(pats[i] || "") + '" placeholder="Your sentence ' + (i + 1) + '" autocomplete="off"></label>').join("") + '</div>');
+
+  let loader = "";
+  if (d.load) {
+    const days = savedDays().filter(n => n !== cur);
+    if (days.length) {
+      const inRange = days.filter(n => n >= d.load[0] && n <= d.load[1]);
+      let pick = inRange.length ? inRange[inRange.length - 1] : days[days.length - 1];
+      if (d.final === undefined && d.load[0] === 1 && d.load[1] === 26) {
+        pick = days.reduce((a, b) => ((piece(b).words || 0) > (piece(a).words || 0) ? b : a), days[0]);
+      }
+      loader = '<div class="loader"><label class="label" for="loadSel">Start from an earlier piece</label>' +
+        '<div class="field"><select id="loadSel">' + days.map(n => '<option value="' + n + '"' + (n === pick ? " selected" : "") + '>Day ' + n + ' · ' + esc(pieceTitle(n)) + ' (' + (piece(n).words || 0) + ' words)</option>').join("") + '</select></div>' +
+        '<div class="row"><button type="button" class="btn sm" id="loadBtn">Copy it into my draft</button></div></div>';
+    } else {
+      loader = '<div class="loader"><p class="note">Your journal is empty, so there is nothing to rewrite yet. Write something new for today\'s prompt instead.</p></div>';
+    }
+  }
+
+  const write = setBlock(3, d.final ? "Write your article" : "Write without stopping", d.mins,
+    "Don't fix mistakes now. Getting ideas out and fixing them are two different jobs. Today, only get the ideas out.",
+    '<p class="prompt">' + esc(d.prompt) + '</p>' + loader +
+    '<div class="stage" id="stage"><div class="clock" id="clock" aria-live="off">' + fmt(d.mins * 60) + '</div>' +
+      '<div class="row"><button type="button" class="btn primary" id="startW">' + I.pen + ' Start writing</button><button type="button" class="btn live" id="stopW" hidden>' + I.stop + ' Stop</button>' +
+      '<button type="button" class="toggle" id="noDel" aria-pressed="' + (state.nodelete ? "true" : "false") + '"><span class="sw" aria-hidden="true"></span>No-delete mode</button></div></div>' +
+    '<p class="note">No-delete mode turns off Backspace and Delete. It feels strange at first, but it trains you to keep going, like speaking without stopping.</p>' +
+    '<p class="nudge" id="nudge" aria-live="polite"></p>' +
+    '<div class="draft-wrap">' +
+      '<input type="text" class="title-in" id="titleIn" placeholder="Title (optional)" value="' + esc(p.title || "") + '" autocomplete="off" aria-label="Title">' +
+      '<div class="field"><textarea id="draft" class="draft" placeholder="Start here. Keep your hand moving. Don\'t stop to fix things." aria-label="Your writing">' + esc(p.text || "") + '</textarea>' + micBtn("draft") + '</div>' +
+      '<p class="partial" data-partial-for="draft"></p>' +
+      '<p class="live-stats" id="liveStats"></p>' +
+    '</div>');
+
+  const edit = setBlock(4, "Edit like an editor", 4,
+    "Now change jobs. Read your text like a stranger would, and make it clearer.",
+    '<ul class="checks">' + allChecks.map((c, i) =>
+      '<li><label><input type="checkbox" data-check="' + i + '"' + (checks[i] ? " checked" : "") + '><span>' + esc(c) + '</span></label></li>').join("") + '</ul>' +
+    '<div class="statgrid" id="editStats"></div>' +
+    '<p class="longest" id="longest"></p>' +
+    '<div class="row"><button type="button" class="btn sm need-voice" data-speak="draft" aria-pressed="false">' + I.play + ' Read it to me</button>' +
+      '<button type="button" class="btn sm primary" id="ltBtn">Check grammar and spelling</button>' +
+      '<button type="button" class="btn sm" id="promptBtn">Copy a feedback prompt</button></div>' +
+    '<p class="note">"Check grammar" sends your text to LanguageTool, a free checker. It finds spelling and some grammar mistakes, not everything, so still read your text aloud. For deeper feedback, "Copy a feedback prompt" and paste it into any free AI chat (Claude, ChatGPT or Gemini).</p>' +
+    '<div class="lt-list" id="ltOut" aria-live="polite"></div>' +
+    '<div class="fallback" id="promptFallback" hidden><p class="note">Copying didn\'t work here. Select all the text below and copy it yourself.</p><textarea id="promptText" readonly aria-label="Feedback prompt"></textarea></div>' +
+    '<p class="note no-note no-voice">Reading aloud isn\'t available in this browser. Read your text out loud yourself, slowly.</p>');
+
+  const sayIt = setBlock(5, "Say it out loud", 2,
+    "Reading your writing aloud trains your speaking too. Your ears will catch mistakes your eyes missed.",
+    '<p>Read your piece out loud, slowly and clearly. Then read it again, a little faster, as if you were telling it to a friend.</p>' +
+    '<div class="row"><button type="button" class="btn sm need-voice" data-speak="draft" aria-pressed="false">' + I.play + ' Listen to my piece first</button></div>' +
+    '<label class="label need-mic" for="sayBox">Optional: record what you say</label>' +
+    '<div class="field need-mic"><textarea id="sayBox" rows="3" placeholder="Press the microphone and read your piece aloud.">' + esc(state.say[cur] || "") + '</textarea>' + micBtn("sayBox") + '</div>' +
+    '<p class="partial" data-partial-for="sayBox"></p>' +
+    '<p class="note" id="sayResult"></p>' +
+    '<p class="note no-note no-mic">Recording a transcript works in Chrome and Edge. In this browser, just read aloud. That is the important part.</p>');
+
+  $("#lesson").innerHTML =
+    '<div class="lesson-head"><p class="eyebrow">Week ' + (w + 1) + ' · ' + esc(wk.name) + (d.review ? " · Review day" : "") + (d.final ? " · Final article" : "") + '</p>' +
+    '<h2>Day ' + cur + ': ' + esc(d.t) + '</h2>' +
+    '<p class="lede">' + esc(wk.note) + ' Today takes about ' + total + ' minutes. Do the five steps in order.</p>' +
+    '<ol class="plan" aria-label="Today\'s plan">' + plan + '</ol></div>' +
+    read + steal + write + edit + sayIt +
+    '<section class="finish" id="finish"></section>';
+
+  W.running = false; clearInterval(W.timer); W.lastWpm = null;
+  LT.matches = [];
+  updateDraftStats();
+  updateSayResult();
+  renderFinish();
+  markMic();
+}
+
+function renderFinish(msg) {
+  const done = state.done[cur];
+  const next = cur < DAYS.length ? cur + 1 : null;
+  let html;
+  if (msg) {
+    html = '<h3>' + (cur === DAYS.length ? "You finished the program!" : "Day " + cur + " saved") + '</h3><p>' + esc(msg) + '</p><div class="row">' +
+      (next ? '<button type="button" class="btn go" data-day="' + next + '">Go to Day ' + next + ': ' + esc(DAYS[next - 1].t) + '</button>' : '<button type="button" class="btn go" id="exportBtn2">Download all my writing</button>') + '</div>';
+  } else if (done) {
+    html = '<h3>You finished this day on ' + esc(done.date) + '</h3><p>Rewriting is how writers grow. If you improved this piece, finish it again to save the new version.</p>' +
+      '<div class="row"><button type="button" class="btn go" id="finishBtn">Finish again</button>' +
+      (next ? '<button type="button" class="btn ghost" data-day="' + next + '">Go to Day ' + next + '</button>' : "") + '</div>';
+  } else {
+    html = '<h3>Finished all five steps?</h3><p>Save today so your streak and your word count are tracked. Your writing is already saved as you type.' + (next ? ' Come back tomorrow for Day ' + next + '.' : "") + '</p>' +
+      '<div class="row"><button type="button" class="btn go" id="finishBtn">Finish Day ' + cur + '</button></div>';
+  }
+  $("#finish").innerHTML = html;
+}
+
+function updateStepUI() {
+  const steps = stepsFor(cur);
+  steps.forEach((on, i) => {
+    const k = i + 1, sec = $("#set-" + k);
+    if (sec) sec.classList.toggle("is-done", on);
+    const b = $('[data-step="' + k + '"]');
+    if (b) { b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", String(on)); b.innerHTML = on ? I.check + " Done" : "Mark as done"; }
+    const pl = $('[data-jump="' + k + '"]');
+    if (pl) pl.classList.toggle("done", on);
+  });
+}
+
+function renderAll() { renderStats(); renderProgram(); renderJournal(); renderLesson(); }
+
+/* ---------- Draft, stats and timer ---------- */
+function storeDraft() {
+  const box = $("#draft"); if (!box) return;
+  const text = box.value, title = ($("#titleIn") || {}).value || "";
+  const prev = piece(cur) || {};
+  if (!text.trim() && !title.trim() && !prev.text) return;
+  state.pieces[cur] = {text, title, words: countWords(text), date: ymd(new Date()), minutes: prev.minutes || 0};
+  saveSoon();
+  renderJournalSoon();
+}
+let journalTimer = null;
+function renderJournalSoon() { clearTimeout(journalTimer); journalTimer = setTimeout(() => { renderJournal(); renderStats(); }, 800); }
+
+function updateDraftStats() {
+  const box = $("#draft"); if (!box) return;
+  const text = box.value, words = countWords(text);
+  let live = words + (words === 1 ? " word" : " words");
+  if (W.running) {
+    const mins = (Date.now() - W.start) / 60000;
+    const added = Math.max(0, words - W.startWords);
+    if (mins > 0.25) live += " · " + Math.round(added / mins) + " words per minute";
+  } else if (W.lastWpm != null) {
+    live += " · last session: " + W.lastWpm + " words per minute";
+  }
+  if (DAYS[cur - 1].final) live += " · goal: 400 words";
+  $("#liveStats").textContent = live;
+
+  const sents = splitSents(text);
+  const lens = sents.map(countWords);
+  const avg = sents.length ? Math.round(words / sents.length) : 0;
+  let longest = -1;
+  lens.forEach((l, i) => { if (longest < 0 || l > lens[longest]) longest = i; });
+  const es = $("#editStats");
+  if (es) es.innerHTML =
+    '<div><span class="k">Words</span><b>' + words + '</b></div>' +
+    '<div><span class="k">Sentences</span><b>' + sents.length + '</b></div>' +
+    '<div><span class="k">Average length</span><b>' + avg + '</b></div>' +
+    '<div><span class="k">Longest</span><b>' + (longest >= 0 ? lens[longest] : 0) + '</b></div>';
+  const lg = $("#longest");
+  if (lg) lg.textContent = (longest >= 0 && lens[longest] > 22)
+    ? "Your longest sentence has " + lens[longest] + " words: “" + sents[longest].slice(0, 140) + (sents[longest].length > 140 ? "…" : "") + "” Can you split it into two?"
+    : "";
+}
+
+function updateSayResult() {
+  const el = $("#sayResult"), box = $("#sayBox"); if (!el || !box) return;
+  const said = countWords(box.value), wrote = countWords(($("#draft") || {}).value || "");
+  el.textContent = said ? "You said " + said + " words. Your piece has " + wrote + " words." : "";
+}
+
+function startWriting() {
+  if (W.running) return;
+  const d = DAYS[cur - 1], box = $("#draft");
+  W.running = true; W.start = Date.now(); W.len = d.mins * 60; W.startWords = countWords(box.value);
+  $("#stage").classList.add("live");
+  $("#startW").hidden = true; $("#stopW").hidden = false;
+  box.focus();
+  const end = box.value.length; try { box.setSelectionRange(end, end); } catch (e) {}
+  tickW();
+  W.timer = setInterval(tickW, 500);
+}
+function tickW() {
+  if (!W.running) return;
+  const left = W.len - (Date.now() - W.start) / 1000;
+  $("#clock").textContent = fmt(left);
+  updateDraftStats();
+  if (left <= 0) stopWriting(true);
+}
+function stopWriting(timeUp) {
+  if (!W.running) return;
+  W.running = false; clearInterval(W.timer);
+  const mins = Math.min(W.len, (Date.now() - W.start) / 1000) / 60;
+  const box = $("#draft");
+  const added = Math.max(0, countWords(box.value) - W.startWords);
+  W.lastWpm = mins >= 0.25 ? Math.round(added / mins) : null;
+  $("#stage").classList.remove("live");
+  $("#startW").hidden = false; $("#stopW").hidden = true;
+  $("#startW").innerHTML = I.pen + " Write for " + DAYS[cur - 1].mins + " more minutes";
+  $("#clock").textContent = fmt(DAYS[cur - 1].mins * 60);
+  const prev = piece(cur);
+  if (prev) { prev.minutes = Math.round(((prev.minutes || 0) + mins) * 10) / 10; saveSoon(); }
+  storeDraft();
+  updateDraftStats();
+  toast(timeUp ? "Time's up! Finish your sentence, then go to Step 4." : "Stopped. You wrote " + added + " new words.");
+}
+
+let nudgeTimer = null;
+function nudge() {
+  const n = $("#nudge"); if (!n) return;
+  n.textContent = "No-delete mode is on. Keep going. You can fix it in Step 4.";
+  clearTimeout(nudgeTimer); nudgeTimer = setTimeout(() => { n.textContent = ""; }, 2600);
+}
+
+/* ---------- Grammar check (LanguageTool) ---------- */
+async function runCheck(btn) {
+  const box = $("#draft"), out = $("#ltOut");
+  const text = box.value;
+  if (countWords(text) < 3) { out.innerHTML = '<p class="note">Write a few sentences first, then check them.</p>'; return; }
+  if (text.length > 19000) { out.innerHTML = '<p class="note">Your text is too long for the free checker. Check one part at a time.</p>'; return; }
+  btn.disabled = true;
+  out.innerHTML = '<p class="note thinking">Checking your text…</p>';
+  try {
+    const res = await fetch("https://api.languagetool.org/v2/check", {method:"POST", body: new URLSearchParams({text, language:"en-US"})});
+    if (res.status === 429) throw {code:"rate"};
+    if (!res.ok) throw {code:"http"};
+    const data = await res.json();
+    LT.matches = (data.matches || []).slice(0, 40).map(m => ({
+      offset: m.offset, length: m.length, message: m.message || m.shortMessage || "Possible problem",
+      bad: text.substr(m.offset, m.length), reps: (m.replacements || []).slice(0, 2).map(r => r.value)
+    }));
+    renderMatches();
+  } catch (e) {
+    out.innerHTML = '<p class="note">' + (e && e.code === "rate"
+      ? "The free checker is busy. Wait one minute, then try again."
+      : "The checker couldn't be reached. Check your internet connection and try again.") + '</p>';
+  } finally { btn.disabled = false; }
+}
+function renderMatches() {
+  const out = $("#ltOut"), text = $("#draft").value;
+  if (!LT.matches.length) {
+    out.innerHTML = '<p class="note">No problems found. The checker misses some mistakes, so read your text aloud too.</p>';
+    return;
+  }
+  out.innerHTML = '<p class="note">' + LT.matches.length + (LT.matches.length === 1 ? " thing" : " things") + ' to look at. You decide: apply a suggestion or ignore it.</p>' +
+    LT.matches.map((m, i) => {
+      const before = text.slice(Math.max(0, m.offset - 40), m.offset), after = text.slice(m.offset + m.length, m.offset + m.length + 40);
+      return '<div class="lt-item"><p class="lt-msg">' + esc(m.message) + '</p>' +
+        '<p class="lt-ctx">' + (m.offset > 40 ? "…" : "") + esc(before) + '<mark class="bad">' + esc(m.bad || " ") + '</mark>' + esc(after) + (m.offset + m.length + 40 < text.length ? "…" : "") + '</p>' +
+        '<div class="row">' + m.reps.map((r, j) => '<button type="button" class="btn sm" data-fix="' + i + '" data-pick="' + j + '">Use “' + esc(r) + '”</button>').join("") +
+        '<button type="button" class="btn sm" data-ignore="' + i + '">Ignore</button></div></div>';
+    }).join("");
+}
+function applyFix(i, j) {
+  const m = LT.matches[i]; if (!m) return;
+  const box = $("#draft"), text = box.value;
+  if (text.substr(m.offset, m.length) !== m.bad) { toast("Your text has changed. Press Check grammar again."); return; }
+  const rep = m.reps[j];
+  box.value = text.slice(0, m.offset) + rep + text.slice(m.offset + m.length);
+  const delta = rep.length - m.length, endOld = m.offset + m.length;
+  LT.matches.splice(i, 1);
+  // Shift the positions of the later suggestions, and drop any that overlapped this one.
+  LT.matches = LT.matches.filter(x => x.offset + x.length <= m.offset || x.offset >= endOld)
+    .map(x => (x.offset >= endOld ? Object.assign({}, x, {offset: x.offset + delta}) : x));
+  storeDraft(); updateDraftStats(); renderMatches();
+}
+
+/* ---------- Copy prompt and export ---------- */
+function buildPrompt() {
+  const d = DAYS[cur - 1], text = $("#draft").value.trim(), title = ($("#titleIn").value || "").trim();
+  return "You are a kind and honest writing coach. I am an adult English learner. I read well, but writing is my weak skill, and I want to become a writer.\n" +
+    "Today I practised: " + d.skill + " (Day " + cur + " of a 28-day writing program).\n" +
+    "The task was: " + d.prompt + "\n\n" +
+    "Please give me feedback on my text:\n" +
+    "1. Two things that work well.\n" +
+    "2. My mistakes, as a list: original → better version → why (short and simple).\n" +
+    "3. A rewritten version that keeps my ideas and my voice, but sounds natural.\n" +
+    "4. One writing skill I should practise next.\n" +
+    "Please use simple English (B1 level).\n\n" +
+    "My text:\n\"\"\"\n" + (title ? title + "\n\n" : "") + text + "\n\"\"\"";
+}
+function showFallback(text) {
+  const fb = $("#promptFallback"), ta = $("#promptText");
+  if (!fb || !ta) return;
+  ta.value = text; fb.hidden = false; ta.focus(); ta.select();
+}
+function copyText(text, onFail) {
+  try {
+    navigator.clipboard.writeText(text).then(() => toast("Copied. Paste it into any free AI chat."), () => onFail(text));
+  } catch (e) { onFail(text); }
+}
+function copyPiece(n) {
+  const p = piece(n); if (!p) return;
+  const text = (p.title ? p.title + "\n\n" : "") + p.text;
+  try {
+    navigator.clipboard.writeText(text).then(() => toast("Day " + n + " copied."), () => toast("Copying didn't work here. Open the day and select the text."));
+  } catch (e) { toast("Copying didn't work here. Open the day and select the text."); }
+}
+function exportAll() {
+  storeDraft(); save();
+  const days = savedDays();
+  if (!days.length) { toast("Nothing to download yet. Write your first piece!"); return; }
+  let out = "MY WRITING\nWriting Desk · downloaded " + ymd(new Date()) + "\n\n";
+  days.forEach(n => {
+    const p = piece(n);
+    out += "Day " + n + ": " + pieceTitle(n) + "\n" + (p.date || "") + " · " + (p.words || 0) + " words\n\n" + String(p.text).trim() + "\n\n----------\n\n";
+  });
+  const blob = new Blob([out], {type:"text/plain;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "my-writing-" + ymd(new Date()) + ".txt";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 3000);
+  toast("Downloaded " + days.length + (days.length === 1 ? " piece." : " pieces."));
+}
+
+/* ---------- Events ---------- */
+function goDay(n) {
+  if (W.running) stopWriting(false);
+  storeDraft();
+  if (V.dict && V.dict.active()) V.dict.stop().catch(() => {});
+  stopSpeech();
+  cur = n; state.last = n; save();
+  renderProgram(); renderLesson();
+  const top = $("#lesson").getBoundingClientRect().top + window.scrollY - 12;
+  window.scrollTo({top: Math.max(0, top), behavior: "smooth"});
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("button");
+  if (!t) return;
+  if (t.dataset.mic) { toggleMic(t); return; }
+  if (t.dataset.speak) {
+    if (t.classList.contains("playing")) { stopSpeech(); return; }
+    const text = t.dataset.speak === "model" ? DAYS[cur - 1].model : (($("#titleIn").value || "").trim() ? $("#titleIn").value.trim() + ". " : "") + $("#draft").value;
+    if (!countWords(text)) { toast("Write something first, then listen to it."); return; }
+    speak(text, t.dataset.speak === "model" ? 0.9 : 0.95, t);
+    return;
+  }
+  if (t.dataset.day) { goDay(+t.dataset.day); return; }
+  if (t.dataset.jump) { const s = $("#set-" + t.dataset.jump); if (s) s.scrollIntoView({behavior:"smooth", block:"start"}); return; }
+  if (t.dataset.step) {
+    const k = +t.dataset.step, arr = stepsFor(cur).slice();
+    arr[k - 1] = !arr[k - 1]; state.steps[cur] = arr; save(); updateStepUI(); return;
+  }
+  if (t.id === "startW") { startWriting(); return; }
+  if (t.id === "stopW") { stopWriting(false); return; }
+  if (t.id === "noDel") {
+    state.nodelete = !state.nodelete; t.setAttribute("aria-pressed", String(state.nodelete)); save();
+    toast(state.nodelete ? "No-delete mode is on. Backspace and Delete are off." : "No-delete mode is off.");
+    return;
+  }
+  if (t.id === "loadBtn") {
+    const n = +$("#loadSel").value, src = piece(n), box = $("#draft");
+    if (!src) return;
+    if (box.value.trim() && t.dataset.armed !== "1") { t.dataset.armed = "1"; t.textContent = "Press again to replace your draft"; return; }
+    box.value = src.text; $("#titleIn").value = src.title || "";
+    t.dataset.armed = ""; t.textContent = "Copy it into my draft";
+    storeDraft(); updateDraftStats(); toast("Day " + n + " is in your draft. Now rewrite it.");
+    return;
+  }
+  if (t.id === "ltBtn") { runCheck(t); return; }
+  if (t.dataset.fix !== undefined) { applyFix(+t.dataset.fix, +t.dataset.pick); return; }
+  if (t.dataset.ignore !== undefined) { LT.matches.splice(+t.dataset.ignore, 1); renderMatches(); return; }
+  if (t.id === "promptBtn") {
+    if (countWords($("#draft").value) < 3) { toast("Write something first, then copy the prompt."); return; }
+    copyText(buildPrompt(), showFallback); return;
+  }
+  if (t.dataset.copyPiece) { copyPiece(+t.dataset.copyPiece); return; }
+  if (t.id === "exportBtn" || t.id === "exportBtn2") { exportAll(); return; }
+  if (t.id === "finishBtn") {
+    if (W.running) stopWriting(false);
+    storeDraft();
+    const words = countWords($("#draft").value);
+    if (!words) { toast("Write something in Step 3 first, then finish the day."); return; }
+    state.done[cur] = {date: ymd(new Date()), words};
+    state.steps[cur] = stepsFor(cur).map(() => true);
+    save(); renderStats(); renderProgram(); renderJournal(); updateStepUI();
+    const st = streak();
+    renderFinish("You wrote " + words + " words today. Your streak is " + st + (st === 1 ? " day" : " days") + ", and you have written " + totalWords().toLocaleString("en-GB") + " words in total." +
+      (cur === DAYS.length ? " That's 28 days of writing. You are a writer now. Keep a daily habit: 10 minutes is enough." : " Come back tomorrow: a little every day is how writers are made."));
+    return;
+  }
+});
+
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.id === "draft" || t.id === "titleIn") { storeDraft(); updateDraftStats(); if (t.id === "draft") updateSayResult(); return; }
+  if (t.dataset && t.dataset.pat !== undefined) {
+    const arr = (state.pat[cur] || ["","",""]).slice(); arr[+t.dataset.pat] = t.value; state.pat[cur] = arr; saveSoon(); return;
+  }
+  if (t.id === "sayBox") { state.say[cur] = t.value; saveSoon(); updateSayResult(); return; }
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.dataset && t.dataset.check !== undefined) {
+    const arr = (state.checks[cur] || []).slice(); arr[+t.dataset.check] = t.checked; state.checks[cur] = arr; save();
+  }
+});
+document.addEventListener("keydown", e => {
+  if (e.target.id !== "draft" || !state.nodelete) return;
+  if (e.key === "Backspace" || e.key === "Delete" || ((e.ctrlKey || e.metaKey) && (e.key === "x" || e.key === "X"))) { e.preventDefault(); nudge(); }
+});
+document.addEventListener("beforeinput", e => {
+  if (e.target.id !== "draft" || !state.nodelete) return;
+  if (e.inputType && (e.inputType.indexOf("delete") === 0 || e.inputType === "historyUndo")) { e.preventDefault(); nudge(); }
+});
+
+/* ---------- Start ---------- */
+const web = makeWebDictation();
+if (web) { V.dict = web; wireDictation(); document.body.classList.add("has-mic"); }
+renderAll();
+})();
+</script>
+</body>
+</html>

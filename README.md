@@ -1,31 +1,30 @@
-# Speaking Gym
+# Active English
 
-A 28-day English speaking program. It helps you turn the words you know into words you can say, without stopping to search for them.
+Daily practice for the **active** side of English: speaking, public speaking and writing. It's for learners who understand English well but find it hard to produce it.
 
 **Open it:** https://starray500.github.io/speaking-gym/
 
-## The daily lesson (about 20 minutes)
+## Three programs, 28 days each
 
-1. **Warm up** (2 min): say a tongue twister slowly, then at normal speed, then fast.
-2. **Phrases** (4 min): learn 5 ready-made phrases and use them in your own sentences.
-3. **Shadowing** (5 min): listen to a sentence, then repeat it straight away, copying the voice.
-4. **Speak** (6 min): talk for one minute without stopping. The page measures your speaking speed in words per minute.
-5. **Find the word** (3 min): describe a word without saying it.
+| Program | Trains | Daily lesson |
+|---|---|---|
+| [Speaking Gym](https://starray500.github.io/speaking-gym/speaking.html) | Fluency: finding words fast | Warm-up, phrases, shadowing, a 1-minute talk, describing words |
+| [The Stage](https://starray500.github.io/speaking-gym/stage.html) | Public speaking | Voice warm-up, a speaking technique, an impromptu talk with recording and filler-word count, self-review, a real-life challenge |
+| [Writing Desk](https://starray500.github.io/speaking-gym/writing.html) | Writing | Read a model, copy the pattern, timed writing, editing, reading it aloud |
 
-Days 7, 14, 21 and 28 are **4-3-2 story days**. You tell the same story in 4 minutes, then 3, then 2.
+The home page shows your streak, your progress in each program, and a plan for the first two months.
 
-## The four weeks
+## Free feedback tools
 
-| Week | Theme |
-|---|---|
-| 1 | Everyday me |
-| 2 | Telling stories |
-| 3 | Explaining and opinions |
-| 4 | Work, plans and real life |
+No subscription is needed. Everything runs in the browser.
+
+- **Copy a feedback prompt**: copies your text with coaching instructions, ready to paste into any free AI chat.
+- **Check grammar**: uses the free [LanguageTool](https://languagetool.org) API (spelling and some grammar).
+- **Stuck on a word?**: uses the free [Datamuse](https://www.datamuse.com/api/) API to find a word from a few key words.
+- **Record and listen back**: records your voice (and video on The Stage) so you can hear yourself.
 
 ## Good to know
 
-- Voice typing uses the browser's microphone. It works in **Chrome** and **Edge**.
-- Your progress is saved in the browser you use, so use the same browser every day.
-- Feedback and word finding from Claude only work in the claude.ai version of this page.
-- Everything is in one file, `index.html`. There's nothing to install.
+- Voice typing uses the browser's speech recognition, which works in **Chrome** and **Edge**.
+- Progress is saved in your browser. Use **Download backup** on the home page every week, and **Restore** on a new device.
+- Each page is one HTML file. There's nothing to install or build.

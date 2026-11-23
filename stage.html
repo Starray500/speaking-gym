@@ -1,0 +1,1257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Stage</title>
+<meta name="description" content="A 28-day public speaking program for English learners: structure, stories, persuasion, voice and body, and a final 3-minute speech.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a speaker's rehearsal sheet. A program rail (4 weeks x 7 days) beside today's five steps, with the timer stage at the centre. */
+:root{
+  --bg:#F3F4F9; --surface:#FFFFFF; --ink:#1A2040; --muted:#575E80; --line:#D9DDEA;
+  --accent:#3140A8; --accent-soft:#E5E8FA; --on-accent:#FFFFFF;
+  --mark:#FFE066; --mark-line:#E2B200; --on-mark:#1A2040;
+  --live:#D23838; --live-ring:rgba(210,56,56,.28); --on-live:#FFFFFF;
+  --good:#1B7F52; --good-soft:#E0F3E9; --on-good:#FFFFFF;
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+    --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+    --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+    --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+    --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+  --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+  --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+  --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+  --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+ul,ol{margin:0}
+button{font:inherit}
+img,video{max-width:100%}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
+.site-nav{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding-block:0 14px;font-size:14.5px}
+.site-nav a{color:var(--muted);text-decoration:none;font-weight:700;padding:6px 0;border-bottom:2px solid transparent}
+.site-nav a:hover{color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.site-nav .home{font-family:var(--f-display);font-weight:800;color:var(--ink);margin-right:auto}
+
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 28px;padding-bottom:20px;border-bottom:2px solid var(--ink)}
+.brand{display:grid;gap:6px;min-width:0}
+.brand h1{font-size:clamp(30px,5vw,44px);font-weight:800}
+.brand p{color:var(--muted);max-width:46ch}
+.stats{display:flex;flex-wrap:wrap;gap:16px 28px}
+.stat{display:grid;gap:2px;min-width:0}
+.k,.label{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.stat .v{font-family:var(--f-display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:8px;line-height:1.1}
+.stat .v small{font-family:var(--f-body);font-size:13px;font-weight:400;color:var(--muted)}
+.spark{display:block;overflow:visible}
+
+.layout{display:grid;grid-template-columns:276px minmax(0,1fr);gap:36px;margin-top:28px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}.rail{order:2}}
+.rail{display:grid;gap:26px;min-width:0}
+.rail-sec{display:grid;gap:12px;padding-top:18px;border-top:1px solid var(--line);min-width:0}
+.rail-sec:first-child{border-top:0;padding-top:0}
+.rail-sec h2{font-size:19px;font-weight:800}
+.program{display:grid;gap:14px}
+.week-row{display:grid;gap:6px}
+.wk{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+.wk span{color:var(--muted);text-align:right}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;max-width:340px}
+.day{font-family:var(--f-mono);font-size:13px;font-weight:700;aspect-ratio:1/1;max-width:100%;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0;position:relative}
+.day:hover{border-color:var(--ink)}
+.day.mini::after{content:"";position:absolute;left:28%;right:28%;bottom:4px;height:3px;border-radius:2px;background:var(--mark-line)}
+.day.final{border:2px dashed var(--accent)}
+.day.done{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.day.cur{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px;border:1px solid var(--line);background:var(--surface)}
+.legend i.d{background:var(--accent);border-color:var(--accent)}
+.legend i.m{box-shadow:inset 0 -3px 0 var(--mark-line)}
+.legend i.f{border:2px dashed var(--accent)}
+.tips{padding-left:20px;display:grid;gap:6px;font-size:15px;color:var(--muted)}
+.saved-note{font-size:13px;color:var(--muted)}
+
+.lesson{display:grid;gap:20px;min-width:0}
+.lesson-head{display:grid;gap:10px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.lesson-head h2{font-size:clamp(30px,4.6vw,44px);font-weight:800}
+.lede{color:var(--muted);max-width:62ch}
+.plan{list-style:none;padding:0;margin-top:6px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.plan button{width:100%;height:100%;text-align:left;display:grid;align-content:start;gap:2px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;min-height:64px}
+.plan button:hover{border-color:var(--ink)}
+.plan .pn{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.plan .pt{font-weight:700;font-size:15px;line-height:1.25}
+.plan button.done{border-color:var(--good);background:var(--good-soft)}
+.plan button.done .pn{color:var(--good)}
+@media (max-width:680px){
+  .plan{grid-template-columns:minmax(0,1fr)}
+  .plan button{display:flex;justify-content:space-between;align-items:center;min-height:44px;padding:8px 12px}
+  .plan .pn{order:2}
+}
+
+.set{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:16px;scroll-margin-top:16px;min-width:0}
+.set.is-done{border-color:var(--good)}
+.set-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:start}
+.set-num{width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700;font-size:15px}
+.set.is-done .set-num{background:var(--good);color:var(--on-good)}
+.set-head h3{font-size:23px;font-weight:800}
+.why{color:var(--muted);font-size:15.5px;margin-top:3px;max-width:60ch}
+.mins{font-family:var(--f-mono);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.set-body{display:grid;gap:14px;min-width:0}
+.set-foot{display:flex;justify-content:flex-end}
+@media (max-width:520px){.set{padding:16px}.set-head{grid-template-columns:auto minmax(0,1fr)}.mins{grid-column:2;justify-self:start}}
+
+.btn{font-weight:700;font-size:15.5px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{min-height:36px;padding:0 14px;font-size:14px}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.is-on{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.btn.live{background:var(--live);border-color:var(--live);color:var(--on-live)}
+.icon-btn{flex:none;width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:inline-grid;place-items:center;cursor:pointer;padding:0}
+.icon-btn:hover{border-color:var(--ink)}
+.icon-btn.playing{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.mic.listening{background:var(--live);border-color:var(--live);color:var(--on-live);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--live-ring)}50%{box-shadow:0 0 0 7px var(--live-ring)}}
+body:not(.has-mic) .need-mic,body:not(.has-voice) .need-voice,body:not(.has-rec) .need-rec{display:none!important}
+.no-note{display:none}
+body:not(.has-mic) .no-mic,body:not(.has-rec) .no-rec,body:not(.has-voice) .no-voice{display:block}
+
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.field{display:flex;gap:10px;align-items:flex-start}
+textarea{flex:1;min-width:0;width:100%;font:inherit;font-size:16.5px;line-height:1.5;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);resize:vertical}
+textarea:focus{outline:none;border-color:var(--accent)}
+textarea::placeholder{color:var(--muted)}
+.partial{font-style:italic;color:var(--muted);font-size:15px}
+.partial:empty{display:none}
+.note{font-size:14.5px;color:var(--muted)}
+.mark{font-weight:700;background:linear-gradient(transparent 8%,var(--mark) 8%,var(--mark) 92%,transparent 92%);color:var(--on-mark);padding:0 .22em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14.5px;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1.5px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.seg button{font-size:14px;font-weight:700;border:0;background:transparent;color:var(--muted);padding:6px 13px;border-radius:999px;cursor:pointer;min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+.warm-name{font-family:var(--f-mono);font-size:12.5px;font-weight:700;color:var(--accent)}
+.steps-list{padding-left:22px;display:grid;gap:4px}
+.say-line{font-family:var(--f-display);font-size:clamp(23px,3.4vw,31px);font-weight:600;line-height:1.28;text-wrap:balance}
+.reps{display:flex;flex-wrap:wrap;gap:8px}
+
+.tool-name{font-family:var(--f-display);font-size:clamp(22px,3vw,27px);font-weight:800}
+.parts{list-style:none;padding:0;display:grid;gap:10px}
+.parts li{display:grid;grid-template-columns:minmax(96px,auto) minmax(0,1fr);gap:12px;align-items:baseline}
+.part-tag{font-family:var(--f-mono);font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap;justify-self:start}
+.model{display:grid;gap:12px;padding:16px;border-radius:12px;background:var(--bg)}
+.model p{font-size:17.5px;line-height:1.65}
+.pause-mark{font-family:var(--f-mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:999px;border:1px dashed var(--muted);color:var(--muted);vertical-align:2px;white-space:nowrap}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14.5px}
+.flow .arrow{color:var(--muted)}
+.builder{display:grid;gap:12px;padding:16px;border-radius:12px;border:1.5px dashed var(--accent)}
+.builder h4{font-size:19px;font-weight:800}
+.builder label{display:grid;gap:6px}
+
+.topic-card{display:grid;gap:10px;padding:16px;border-radius:12px;background:var(--bg)}
+.topic{font-family:var(--f-display);font-size:clamp(22px,3vw,28px);font-weight:600;line-height:1.28}
+.stage{display:grid;justify-items:center;gap:12px;padding:22px 16px;border-radius:14px;border:1.5px dashed var(--line);text-align:center}
+.stage.prep{border:1.5px solid var(--accent)}
+.stage.live{border:1.5px solid var(--live)}
+.phase{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.stage.prep .phase,.stage.prep .clock{color:var(--accent)}
+.stage.live .phase,.stage.live .clock{color:var(--live)}
+.clock{font-family:var(--f-display);font-weight:800;font-size:clamp(60px,11vw,88px);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stage-note{font-size:15px;color:var(--muted);max-width:46ch}
+.preview{width:100%;max-width:340px;aspect-ratio:4/3;object-fit:cover;border-radius:12px;background:var(--bg);transform:scaleX(-1)}
+.results{display:grid;gap:8px}
+.results:empty{display:none}
+.result{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;padding:10px 14px;border-radius:10px;background:var(--bg);font-variant-numeric:tabular-nums}
+.result b{font-family:var(--f-mono)}
+.result .big{font-family:var(--f-display);font-weight:800;font-size:20px}
+.transcript-view{padding:12px 14px;border-radius:12px;background:var(--bg);font-size:16.5px;line-height:1.75;overflow-wrap:anywhere}
+.transcript-view mark{background:var(--mark);color:var(--on-mark);border-radius:4px;padding:0 3px;font-weight:700}
+
+.playback{display:grid;gap:10px;justify-items:start}
+.playback video{width:100%;max-width:560px;border-radius:12px;background:var(--bg)}
+.playback audio{width:100%;max-width:560px}
+.empty{padding:14px;border-radius:12px;border:1.5px dashed var(--line);color:var(--muted);font-size:15px}
+.rubric{display:grid;gap:12px}
+.rub-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
+.rub-row p{font-weight:700}
+.rub-row small{display:block;font-weight:400;color:var(--muted);font-size:14px}
+.scores{display:flex;gap:6px}
+.score{width:42px;height:42px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-family:var(--f-mono);font-weight:700;cursor:pointer;padding:0}
+.score:hover{border-color:var(--ink)}
+.score[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+@media (max-width:520px){.rub-row{grid-template-columns:minmax(0,1fr)}}
+.avg{font-family:var(--f-display);font-weight:800;font-size:22px}
+.lt{display:grid;gap:4px}
+.lt:empty{display:none}
+.lt-item{display:grid;gap:2px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.lt-item:last-child{border-bottom:0}
+.lt-item .bad{text-decoration:line-through;text-decoration-color:var(--live);color:var(--muted)}
+.lt-item .fix{font-weight:700}
+.prompt-out{display:grid;gap:8px}
+.prompt-out:empty{display:none}
+.challenge{font-family:var(--f-display);font-size:clamp(20px,2.8vw,25px);font-weight:600;line-height:1.3}
+
+.finish{display:grid;gap:12px;justify-items:start;padding:22px;border-radius:16px;background:var(--ink);color:var(--bg)}
+.finish h3{font-size:24px;font-weight:800}
+.finish p{max-width:58ch}
+.finish .btn{border-color:transparent}
+.finish .btn.go{background:var(--mark);color:var(--on-mark)}
+.finish .btn.ghost{background:transparent;border-color:currentColor;color:var(--bg)}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:10px;font-size:15px;width:max-content;max-width:calc(100% - 32px);z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="speaking.html">Speaking Gym</a><a href="stage.html" aria-current="page">The Stage</a><a href="writing.html">Writing Desk</a></nav>
+
+  <header class="top">
+    <div class="brand">
+      <h1>The Stage</h1>
+      <p>28 days to speak in front of people with structure, stories and confidence.</p>
+    </div>
+    <div class="stats" id="stats" aria-live="polite"></div>
+  </header>
+
+  <div class="layout">
+    <aside class="rail">
+      <section class="rail-sec">
+        <h2>Your 28-day program</h2>
+        <div class="program" id="program"></div>
+        <p class="legend"><span><i class="d"></i>Done</span><span><i class="m"></i>Mini speech day</span><span><i class="f"></i>Final speech</span></p>
+      </section>
+
+      <section class="rail-sec">
+        <h2>Filler words to watch</h2>
+        <p class="note">These words fill silence but add no meaning. A short pause is better.</p>
+        <div class="chips" id="fillerChips"></div>
+      </section>
+
+      <section class="rail-sec">
+        <h2>Good to know</h2>
+        <ul class="tips">
+          <li>Practise standing up, in a quiet room.</li>
+          <li>Voice typing works in Chrome and Edge. Recording works in most browsers.</li>
+          <li>Your recordings stay on your device. Download the ones you want to keep.</li>
+          <li>Everyone feels nervous. Nervous and prepared is fine.</li>
+        </ul>
+      </section>
+
+      <p class="saved-note">Your progress is saved in this browser only. Use the backup on the home page to keep it safe.</p>
+    </aside>
+
+    <main class="lesson" id="lesson"></main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+"use strict";
+
+/* ---------- Program content ---------- */
+const WEEKS = [
+  {name:"Speak with structure", note:"This week you learn simple structures. With a structure, you always know what to say next, even with no time to prepare."},
+  {name:"Tell stories people remember", note:"This week you learn to tell stories. Stories are the strongest part of any speech, because people remember them."},
+  {name:"Explain and persuade", note:"This week you learn to explain clearly and to change people's minds with reasons, evidence and examples."},
+  {name:"Voice, body and your big speech", note:"This week you work on how you sound and how you stand. On Day 28 you give your final 3-minute speech."}
+];
+
+const WARMS = [
+  {name:"Belly breathing", steps:["Put one hand on your stomach.","Breathe in through your nose for 4 seconds. Your stomach moves out.","Breathe out slowly for 6 seconds. Do this 4 times."]},
+  {name:"Lip trills", steps:["Close your lips loosely.","Blow air through them so they shake: brrrr.","Slide your voice from low to high and back down. Do it 3 times."]},
+  {name:"Humming", steps:["Close your mouth and hum: mmmm.","Feel the buzz on your lips and nose.","Open into “mmm-ah” five times, a little louder each time."]},
+  {name:"Speak to the back wall", steps:["Stand up and look at the far wall.","Imagine a friend standing there.","Say the line so your friend could hear it. Don't shout. Use your breath."]},
+  {name:"Jaw and tongue", steps:["Open your mouth wide like a yawn, then relax. Do it 3 times.","Move your tongue around your lips, 3 times each way.","Say “la-la-la, ta-ta-ta, ka-ka-ka” quickly."]},
+  {name:"Tongue twister", steps:["Say the line very slowly, with every sound clear.","Say it at normal speed.","Say it fast, three times, without mistakes."]},
+  {name:"Voice siren", steps:["Say “woo” on your lowest note.","Slide up to your highest note, like a siren, then back down.","Do it 3 times, then say the line in your normal voice."]},
+  {name:"Count on one breath", steps:["Take a deep belly breath.","Count out loud from 1 to 10 in a clear, strong voice.","On the next breath, try to reach 15. Stay relaxed."]},
+  {name:"Big vowels", steps:["Say A, E, I, O, U slowly. Open your mouth wide.","Make each vowel long: aaay, eeee, aaai, oooh, yooo.","Then say the line with big, clear vowels."]},
+  {name:"Power pose", steps:["Stand tall with your feet apart and your hands on your hips.","Breathe slowly for 30 seconds and lift your chin a little.","Then say the line like you really mean it."]}
+];
+
+const DAYS = [
+ /* Week 1: Speak with structure */
+ {t:"PREP: the simplest structure", warm:[0,"I am calm. I am ready. I have something to say."], secs:60,
+  tool:{name:"PREP", what:"PREP is the easiest way to answer any question. You say your point, give a reason, give an example, and then say your point again. Listeners love it, because it is clear.",
+   parts:[["Point","Say your main idea in one sentence."],["Reason","Say why you think so."],["Example","Give one real example."],["Point","Say your main idea again."]],
+   model:"I think everyone should learn to cook. The main reason is that it saves money and keeps you healthy. For example, last year I started cooking at home three times a week. I spent less on food, and I had more energy in the afternoon. So, if you want one simple change in your life, learn to cook."},
+  challenge:"Answer one question today with PREP: at work, at home, or in a message."},
+ {t:"Past, present, future", warm:[1,"Brrr… Good morning, everyone. Thank you for coming."], secs:60,
+  tool:{name:"Past – Present – Future", what:"This structure works for almost any topic: a city, a job, technology, or yourself. You move through time, so your listener always knows where they are.",
+   parts:[["Past","How it was before."],["Present","How it is now."],["Future","What you expect or hope."]],
+   model:"Ten years ago, I was afraid to speak in front of people. My hands shook, and I spoke very fast. Today, I can share my ideas in meetings, but I still feel nervous at the start. In the future, I want to give a real talk in a big room, and enjoy it. Step by step, I am getting there."},
+  challenge:"Tell someone how one thing in your life has changed: past, present and future."},
+ {t:"Problem, solution, benefit", warm:[4,"Red leather, yellow leather, red leather, yellow leather."], secs:60,
+  tool:{name:"Problem – Solution – Benefit", what:"Use this when you want to suggest an idea. First show the problem, so people care. Then give your solution, and say what will get better.",
+   parts:[["Problem","What is wrong."],["Solution","What we can do."],["Benefit","What gets better."]],
+   model:"Many people in my office feel tired after lunch. We sit for hours without moving. My idea is simple: a ten-minute walk after lunch, every day, together. The benefit is clear. We come back with more energy, we talk to colleagues we don't usually see, and our afternoon work gets better. Ten minutes can change the whole day."},
+  challenge:"Notice one small problem today and explain your solution to someone."},
+ {t:"The rule of three", warm:[3,"There are three things I want you to remember today."], secs:60,
+  tool:{name:"The rule of three", what:"People remember ideas in groups of three. When you say “There are three reasons”, your listener relaxes, because they know the plan. Keep your strongest idea for last.",
+   parts:[["Intro","Say there are three things."],["One","The first idea."],["Two","The second idea."],["Three","The third and strongest idea."]],
+   model:"There are three things that make a good friend. First, a good friend listens. They don't just wait for their turn to talk. Second, a good friend is honest, even when the truth is hard. And third, the most important one: a good friend stays. When life gets difficult, they don't disappear. Listen, be honest, and stay. That's friendship."},
+  challenge:"Give one answer today with three reasons. Say “There are three reasons” out loud."},
+ {t:"What, so what, now what", warm:[5,"The tip of the tongue, the teeth, the lips."], secs:60,
+  tool:{name:"What – So what – Now what", what:"This structure is perfect for news, reports and meetings. You share a fact, you explain why it matters, and you say what to do next.",
+   parts:[["What","What happened: the fact."],["So what","Why it matters."],["Now what","What we should do next."]],
+   model:"Last week, our team missed an important deadline. So what? It means the client is waiting, and they may lose trust in us. Now what? I suggest we meet every Monday for ten minutes to check our plan. If we see a problem early, we can fix it early. A small meeting can protect a big relationship."},
+  challenge:"Share one piece of news with someone using What, So what and Now what."},
+ {t:"Two sides, then your choice", warm:[7,"One, two, three, four, five, six, seven, eight, nine, ten."], secs:60,
+  tool:{name:"Compare and choose", what:"When someone asks “Which is better?”, don't answer too fast. Show both sides fairly, then give your choice. People trust a speaker who sees both sides.",
+   parts:[["Side A","The first option and its good points."],["Side B","The other option and its good points."],["My choice","What you choose, and why."]],
+   model:"Should you work from home or in the office? Working from home saves time. You don't travel, and you can focus. On the other hand, the office helps you connect. You learn from colleagues, and ideas grow faster. My choice? A mix. Two days at home for deep work, three days in the office for people. You get the best of both."},
+  challenge:"Help someone make a decision today by talking about both sides."},
+ {t:"Mini speech: your best advice", kind:"mini", warm:[9,"I'm ready. I'm prepared. And I'm going to enjoy this."], secs:120,
+  topic:"Give your best piece of advice for a happy life.",
+  tool:{name:"Plan, practise, perform", what:"Today you give a 2-minute speech. Choose PREP or the rule of three. Write key words only, not full sentences, so you speak and don't read.",
+   parts:[["Plan","Choose a structure and write 4 or 5 key words."],["Practise","Say it once, quietly, with the key words."],["Perform","Stand up, record yourself, and speak for 2 minutes."]],
+   model:"What is the secret of a happy life? After many years, I have three answers. First, sleep well. Everything feels harder when you are tired. Second, keep good people close. Call them, visit them, and laugh with them. And third, keep learning. A new skill keeps your mind young. Sleep, people and learning. Three simple things, and they are all free."},
+  challenge:"Give your mini speech to one real person today, or send them your recording."},
+
+ /* Week 2: Tell stories people remember */
+ {t:"Start with a hook", warm:[2,"Mmm-ah. Let me tell you a story."], secs:60,
+  tool:{name:"The hook", what:"The first ten seconds decide if people listen. Don't start with “Hello, my name is…”. Start with a question, a surprising moment, or the middle of the action.",
+   parts:[["Hook","One strong first line."],["Context","Who, where and when."],["Story","What happened next."]],
+   model:"“Stop the car!” my mother shouted. It was midnight, on an empty road, and there was a small dog in the middle of it. My father stopped just in time. We took the dog home that night. We called her Lucky, and she lived with us for fourteen years. Sometimes the best things in life arrive when you least expect them."},
+  challenge:"Start one conversation today with a question instead of “How are you?”."},
+ {t:"Set the scene", warm:[8,"It was a cold, grey morning in a quiet little town."], secs:60,
+  tool:{name:"Where, when, who", what:"Before the action, help people see the place. Answer three questions quickly: where, when and who. Two or three sentences are enough.",
+   parts:[["Where","The place."],["When","The time."],["Who","The people."],["Then","The action begins."]],
+   model:"It was my first day at a new job, a cold Monday in January. The office was on the tenth floor, very quiet, with grey walls. My new boss, a tall woman with a serious face, gave me a desk by the window. I sat down, opened my laptop, and then I realised: I had no idea what my job really was."},
+  challenge:"Tell a friend about your morning, and start with where, when and who."},
+ {t:"Add a problem", warm:[5,"Unique New York, unique New York, you know you need unique New York."], secs:60,
+  tool:{name:"Conflict", what:"A story without a problem is not really a story. The problem makes people care. Show what you wanted, and what stood in the way.",
+   parts:[["Want","What you wanted."],["Problem","What stood in the way."],["Struggle","What you tried."]],
+   model:"I wanted to pass my driving test more than anything. But I had a problem: every time the examiner sat next to me, my hands started to shake. I failed the first time. I failed the second time. So I tried something different. Before the third test, I practised with my uncle, who acted just like an examiner. Slowly, my hands stopped shaking."},
+  challenge:"Listen for the problem in a story someone tells you today."},
+ {t:"The turning point", warm:[6,"And then, everything changed."], secs:60,
+  tool:{name:"The turning point", what:"The turning point is the moment everything changes. Slow down here. Use a short pause just before it, so people lean in.",
+   parts:[["Before","How things were."],["The moment","What changed. Say it slowly."],["After","How things were different."]],
+   model:"For two years, I hated my job. I came home tired and angry every day. Then one evening, my little daughter asked me, “Daddy, why are you always sad?” [pause] I didn't have an answer. That was the moment. The next week, I started evening classes. A year later, I had a new job. Now I come home and play with her."},
+  challenge:"Think of one turning point in your life. Tell it to yourself in the mirror."},
+ {t:"End with the lesson", warm:[0,"That day, I learned something I will never forget."], secs:60,
+  tool:{name:"The lesson", what:"End your story with what you learned. Say it in one short sentence. This is the part people take home with them.",
+   parts:[["Story","What happened, told briefly."],["Lesson","What you learned, in one sentence."],["Link","Why it matters to the listener."]],
+   model:"When I was twelve, I broke my neighbour's window with a football. I wanted to run away. But I knocked on her door and told her the truth. She was angry, but then she smiled and said, “Thank you for being honest.” I learned something that day. Telling the truth is scary for a minute, but a lie is heavy for years."},
+  challenge:"Share one lesson you learned with someone today, in one sentence."},
+ {t:"Details and dialogue", warm:[4,"Fresh bread, hot pepper, and the noise of the busy market."], secs:60,
+  tool:{name:"The senses and real words", what:"Small details make a story feel real. Use the senses: what you saw, heard and smelled. Add one line of dialogue, with the exact words someone said.",
+   parts:[["See","One thing you saw."],["Hear","A sound, or a line of dialogue."],["Feel","One feeling in your body."]],
+   model:"The market was loud and full of colour. I could smell fresh bread and hot pepper. An old man behind a table of oranges looked at me and said, “You look lost, my friend.” I was lost. My phone was dead, and my heart was beating fast. He gave me an orange, drew a map on a paper bag, and pointed the way."},
+  challenge:"Describe one thing you saw today, with a detail about colour, sound or smell."},
+ {t:"Mini speech: a moment that changed me", kind:"mini", warm:[9,"I have a story, and you're going to love it."], secs:120,
+  topic:"Tell the story of a moment that changed you.",
+  tool:{name:"The full story", what:"Today you put the whole week together in a 2-minute story. Plan it with key words for each part. Remember to slow down at the turning point.",
+   parts:[["Hook","A strong first line."],["Scene","Where, when and who."],["Problem","What went wrong."],["Turning point","The moment it changed."],["Lesson","What you learned."]],
+   model:"“You can't do this.” That's what my teacher said when I was fifteen. It was a small classroom, hot and noisy, and I had just failed a maths test. I wanted to give up. But that night, my older brother sat with me and explained every problem, slowly, again and again. [pause] Three months later, I got the top mark in the class. I learned that one person who believes in you can be louder than ten who don't."},
+  challenge:"Tell your story to a friend or family member tonight."},
+
+ /* Week 3: Explain and persuade */
+ {t:"Explain a process in 3 steps", warm:[3,"First, next, and finally. Three steps, and you're done."], secs:90,
+  tool:{name:"Signposts", what:"When you explain how to do something, use signposts: first, next, finally. They work like road signs for your listener. Keep it to three main steps.",
+   parts:[["Goal","What we will learn."],["First","Step one."],["Next","Step two."],["Finally","Step three."]],
+   model:"Here's how to make a great first impression, in three steps. First, smile and make eye contact before you speak. Next, say the other person's name: “Nice to meet you, Sarah.” People love hearing their own name. Finally, ask one question about them, and really listen to the answer. Smile, use their name, and ask a question. That's it."},
+  challenge:"Explain how to do something simple to someone today, using first, next and finally."},
+ {t:"Reason plus evidence", warm:[1,"The evidence is clear, and the numbers don't lie."], secs:90,
+  tool:{name:"Claim – Reason – Evidence", what:"An opinion is stronger with proof. After your reason, add evidence: a number, a fact, or something you saw yourself. Then say what it means.",
+   parts:[["Claim","What you believe."],["Reason","Why."],["Evidence","A fact, a number, or what you saw."],["So","What it means."]],
+   model:"I believe our city needs more bike lanes. The reason is safety. Right now, cyclists ride next to cars and buses. The evidence? On my street alone, I have seen three accidents with bikes this year. When people feel safe, more of them will cycle. So more bike lanes mean fewer accidents, less traffic and cleaner air."},
+  challenge:"When you give an opinion today, add one piece of evidence."},
+ {t:"Use a real example", warm:[5,"Six sticky sausages sizzled in a silver pan."], secs:90,
+  tool:{name:"For example…", what:"General ideas are easy to forget. Real examples are easy to remember. After a big idea, say “For example…” and tell one short, real case.",
+   parts:[["Big idea","The general point."],["For example","One real case, with a name or a place."],["So","Back to the big idea."]],
+   model:"Small habits can change your life. For example, my friend Sam wanted to read more, but he never had time. So he started reading just two pages every night before bed. Only two pages. After one year, he had finished eleven books. So don't wait for big changes. Start with something small, and do it every day."},
+  challenge:"Use “For example” at least three times in conversations today."},
+ {t:"Answer a hard question", warm:[7,"That's a fair question. Let me answer it."], secs:90,
+  topic:"Answer this question: “Isn't it too late to learn something new at your age?”",
+  tool:{name:"The bridge", what:"Sometimes people ask a difficult question. Don't panic. First accept the question, then use a bridge phrase to move to your main message.",
+   parts:[["Accept","“That's a fair question.”"],["Bridge","“What's really important is…”"],["Message","Your main point, with a reason."]],
+   model:"Someone asked me, “Isn't learning English at your age too late?” That's a fair question, and many people worry about it. But what's really important is not your age. It's your habits. I practise twenty minutes every day. In one month, I speak more clearly than I did after a year of only reading. So it's never too late. It's only too late if you stop."},
+  challenge:"If someone asks you a difficult question today, pause, then say “That's a good question.”"},
+ {t:"A clear call to action", warm:[8,"Start today. Start small. But please, start."], secs:90,
+  tool:{name:"The call to action", what:"A persuasive talk should end with action. Tell people exactly what to do, and make it small and easy. “Start tomorrow” is better than “Change your life”.",
+   parts:[["Problem","Why it matters."],["Idea","What you suggest."],["Action","One clear, small step for the listener."]],
+   model:"Most of us spend more than three hours a day on our phones. That's over forty days a year. I'm not saying throw your phone away. I'm saying take back one hour. So here is my challenge for you: tonight, put your phone in another room one hour before you sleep. Just tonight. Try it, and see how you feel tomorrow."},
+  challenge:"End one message or conversation today with a clear next step."},
+ {t:"Answer the other side", warm:[2,"I see your point. But here is what I believe."], secs:90,
+  tool:{name:"Yes, but…", what:"Strong speakers mention the other side before someone else does. Say what others think, agree with a small part, and then explain why you still believe your point.",
+   parts:[["My view","What I believe."],["Others say","The other side, said fairly."],["Yes, but","Why my view is still stronger."]],
+   model:"I think every school should teach public speaking. Some people say there's no time, because students already have too many subjects. Yes, the timetable is full. But speaking is not just another subject. Students use it in every class, in every job interview, and in every meeting for the rest of their lives. One hour a week is a small price for a skill that lasts forever."},
+  challenge:"In a discussion today, say “I see your point, but…” once."},
+ {t:"Mini speech: persuade us", kind:"mini", warm:[9,"I'm here to change your mind."], secs:120,
+  topic:"Persuade us to try one habit that changed your life.",
+  tool:{name:"The persuasive talk", what:"Today you give a 2-minute persuasive speech. Use this week's tools: a reason with evidence, a real example, and a clear call to action at the end.",
+   parts:[["Hook","A question or a number."],["Reason + evidence","Why it works, with proof."],["Example","A real case: you or someone you know."],["Call to action","One small step to take today."]],
+   model:"How many minutes do you spend worrying every day? Ten? Thirty? I want you to try one simple habit: writing down three good things before you sleep. Many people say it helps them feel calmer, and for me it worked in two weeks. I worried less, and I slept better. So tonight, take a pen and write three good things. That's all. Just try it for one week."},
+  challenge:"Persuade one person to try your habit for a week."},
+
+ /* Week 4: Voice, body and your big speech */
+ {t:"Pace and pauses", warm:[0,"Slow down. Pause. And let your words land."], secs:120,
+  tool:{name:"The power of the pause", what:"Nervous speakers talk too fast. Slow down a little, and use pauses. A pause after an important sentence gives people time to think, and it makes you look confident.",
+   parts:[["Say it","An important sentence."],["Pause","Count two seconds in your head."],["Continue","Start the next idea."]],
+   model:"In my first presentation, I spoke so fast that nobody understood me. Afterwards, a friend gave me one piece of advice. Here is what she taught me. [pause] Silence is not your enemy. [pause] When you stop for two seconds, the audience doesn't think you forgot your words. They think you are confident. [pause] So next time you feel nervous, don't speak faster. Speak slower. [pause] And let the silence work for you."},
+  challenge:"In one conversation today, pause for two seconds before you answer a question."},
+ {t:"Volume and emphasis", warm:[6,"I didn't say it was easy. I said it was worth it."], secs:120,
+  tool:{name:"Stress the key words", what:"Stress the key words, and your message becomes clear. Say the important word a little louder and a little slower. The same sentence can mean different things.",
+   parts:[["Find","The key word in each sentence."],["Stress","Say it louder and longer."],["Contrast","Keep the other words light."]],
+   model:"I didn't say she took the money. [pause] I didn't say SHE took the money. [pause] I didn't say she TOOK the money. [pause] One sentence, three different meanings. The words are the same, but the stress changes everything. When you speak, choose your key words before you start, and give them more voice. Try it now: say the first sentence three times, and stress a different word each time."},
+  challenge:"Read one paragraph from a book or article out loud, stressing the key words."},
+ {t:"Eye contact and posture", warm:[9,"I stand tall, I look at you, and I speak clearly."], secs:120,
+  tool:{name:"One sentence, one person", what:"Stand tall, with your feet apart and your shoulders relaxed. Look at one person for one full sentence, then move to another person. When you practise alone, look into the camera.",
+   parts:[["Feet","Flat on the floor, hip-width apart."],["Shoulders","Down and relaxed."],["Eyes","One sentence, one person."]],
+   model:"When I started speaking in public, I looked at the floor the whole time. I thought it made me safer. It didn't. People stopped listening. Then a coach told me, “Give each sentence to one person.” So I tried it. One sentence to the woman on the left. One sentence to the man at the back. Suddenly, it felt like a conversation, not a speech."},
+  challenge:"Hold eye contact for one full sentence with three different people today."},
+ {t:"Gestures", warm:[4,"Big ideas, small steps, open hands."], secs:120,
+  tool:{name:"Hands that help", what:"Your hands can help your words. Keep them in front of you, between your waist and your shoulders. Use them to show size, numbers or direction, then let them rest.",
+   parts:[["Rest","Hands together and relaxed."],["Show","One gesture for one idea."],["Return","Back to rest."]],
+   model:"There are two kinds of people in a meeting. The first kind keeps their ideas small and close, like this. The second kind opens up and shares them with everyone. One idea, two ideas, three ideas. Your hands can count, show size, and point the way. But don't move all the time. Show the idea, and then let your hands rest."},
+  challenge:"Record yourself on video for one minute and count your gestures."},
+ {t:"Strong openings", warm:[3,"Imagine you could do anything. What would you do first?"], secs:120,
+  tool:{name:"Open with a hook", what:"Never waste your first sentence. Open with a question, a surprising fact, a short story, or the word “Imagine”. Your name and your topic can come after.",
+   parts:[["Hook","A question, a fact, a story, or “Imagine…”"],["Bridge","Connect it to your topic."],["Promise","Tell people what they will get."]],
+   model:"Imagine you wake up tomorrow and you can speak any language perfectly. What would you do first? Call an old friend? Apply for your dream job? Most of us would change something big. Today, I want to show you that you don't need a miracle to start. You need twenty minutes a day, and the courage to sound imperfect."},
+  challenge:"Write three possible openings for your final speech in the speech builder."},
+ {t:"Strong closings", warm:[8,"So, to finish, remember this one thing."], secs:120,
+  tool:{name:"Close with power", what:"The last thing you say is what people remember. Don't end with “That's all” or “That's it”. Go back to your opening, give a call to action, or say one memorable line.",
+   parts:[["Signal","“So, to finish…”"],["Summary","Your key ideas in one sentence."],["Final line","Back to the hook, or a call to action."]],
+   model:"So, to finish. We started with a question: what would you do if you could speak any language? Today we saw that confidence doesn't come from talent. It comes from practice, from mistakes, and from showing up every day, even when you feel nervous. So don't wait for the perfect moment. Start today, with just twenty minutes. [pause] Your future self is already listening."},
+  challenge:"Practise the last sentence of your final speech until you can say it without looking."},
+ {t:"Your final speech", kind:"final", warm:[0,"I've practised. I'm ready. Let's begin."], secs:180,
+  topic:"Your final speech. Choose your own topic, for example: “What learning English taught me”, “A person who changed my life”, or “One habit everyone should try”.",
+  tool:{name:"Hook – 3 points – Close", what:"This is your big day. Use the speech builder below to plan your 3-minute speech. Write key words, practise twice, then record your final speech on video.",
+   parts:[["Hook","A question, a story, a fact, or “Imagine…”"],["Point 1","Your first idea, with an example."],["Point 2","Your second idea, with an example."],["Point 3","Your strongest idea, with a story."],["Close","Back to the hook, or a call to action."]],
+   model:"A year ago, I was afraid to say one sentence in English at work. Today, I'm speaking to you for three minutes. What changed? Three things. First, I practised every day, even when I didn't want to. Second, I stopped waiting to be perfect. And third, I found people who believed in me. Let me tell you about each one."},
+  challenge:"Share your final speech with one person you trust. Then celebrate: you finished 28 days!"}
+];
+
+const TOPICS = [
+  "What is the best gift you have ever received?","Should children have mobile phones?","Describe your perfect weekend.","What makes a good leader?",
+  "Is it better to live in a city or a village?","What is one skill everyone should learn?","Tell us about a teacher you remember.","What would you change about your city?",
+  "Are books better than films?","What does success mean to you?","Should people work four days a week?","What is the best way to learn a language?",
+  "Describe a place where you feel calm.","What makes a good friend?","Is social media good for us?","What is your favourite time of day, and why?",
+  "Should everyone learn to cook?","What advice would you give your younger self?","Can money buy happiness?","Describe a tradition from your culture.",
+  "What job would you like to try for one day?","Should public transport be free?","What is the best way to start the day?","How has technology changed your life?",
+  "Is it important to travel?","What makes a meal special?","Should students wear school uniforms?","Describe someone you admire.",
+  "What is harder: speaking or writing?","How do you deal with stress?","Should we spend less time on screens?","What is one good habit you have?",
+  "What is the most useful thing you own?","Is it better to work alone or in a team?","Describe your dream home.","What do you do when you can't sleep?",
+  "Should people retire later?","What always makes you laugh?","How can we help older people in our community?","What makes a good presentation?",
+  "Is it ever OK to tell a small lie?","What would you do with an extra hour every day?","Describe the best meal you ever had.","Should everyone learn a second language?",
+  "What is the hardest decision you have made?","How do you choose a good book or film?","Is it better to save money or enjoy it now?","What makes a city a good place to live?",
+  "Describe your favourite season.","What is one thing you want to learn this year?","Should we eat less meat?","What makes you feel proud?",
+  "How do you make new friends as an adult?","What is the best advice you have ever received?","Should homework be banned?","What does a perfect day at work look like?",
+  "Is it important to be on time?","Describe a small thing that made your day better.","What will the world look like in 20 years?","Should cars be banned from city centres?",
+  "What is the most important invention?","Why do people love sport?","What new rule would you add in your country?","How can we waste less food?"
+];
+
+const FILLERS = ["um","uh","er","erm","like","you know","so","actually","basically","I mean","kind of","sort of"];
+const FILLER_RE = /\b(u+m+|u+h+|e+r+m*|like|you know|so|actually|basically|i mean|kind of|sort of)\b/gi;
+const RUBRIC = [
+  ["s","Structure","Did you follow today's structure?"],
+  ["c","Clarity","Was each idea easy to understand?"],
+  ["p","Pace and pauses","Not too fast, with some pauses?"],
+  ["v","Voice and confidence","Clear, strong voice? Did you sound sure?"],
+  ["f","Few fillers","Few um, uh and like?"]
+];
+const STEPS = [
+  {k:1, name:"Warm up", mins:2},
+  {k:2, name:"Today's tool", mins:3},
+  {k:3, name:"Speak", mins:6},
+  {k:4, name:"Review", mins:3},
+  {k:5, name:"Real-life challenge", mins:1}
+];
+
+/* ---------- Helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const countWords = t => (String(t || "").match(/[A-Za-z0-9À-ɏ']+/g) || []).length;
+const ymd = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const fmt = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
+
+const I = {
+  play:'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2.5" fill="currentColor"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  check:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  dot:'<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="currentColor"/></svg>'
+};
+
+let toastTimer = null;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 4500);
+}
+
+/* ---------- Progress storage ---------- */
+const LS_KEY = "stage-v1";
+const fresh = () => ({v:1, done:{}, steps:{}, scores:{}, notes:{}, next:{}, challenges:{}, builder:{hook:"",p1:"",p2:"",p3:"",close:""}, last:0});
+function loadLocal() { try { const s = localStorage.getItem(LS_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+let state = (() => {
+  const base = fresh(), got = loadLocal();
+  if (!got || typeof got !== "object") return base;
+  const out = Object.assign(base, got);
+  ["done","steps","scores","notes","next","challenges"].forEach(k => { if (!out[k] || typeof out[k] !== "object") out[k] = {}; });
+  out.builder = Object.assign(fresh().builder, out.builder || {});
+  return out;
+})();
+function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+let saveTimer = null;
+function saveSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(save, 400); }
+
+/* ---------- Voice: speaking the examples ---------- */
+const V = {dict:null, dstate:"idle", target:null, synth: ("speechSynthesis" in window) ? window.speechSynthesis : null, run:0};
+if (V.synth) document.body.classList.add("has-voice");
+
+function setPlaying(btn) {
+  $$(".playing").forEach(b => { if (b !== btn) b.classList.remove("playing"); });
+  if (btn) btn.classList.add("playing");
+}
+function synthSay(text, rate) {
+  return new Promise((res, rej) => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-GB"; u.rate = rate;
+    u.onend = () => res();
+    u.onerror = e => rej({code: (e.error === "interrupted" || e.error === "canceled") ? "stopped" : "error"});
+    V.synth.speak(u);
+  });
+}
+async function sayChunks(text, rate, btn) {
+  if (!V.synth) return;
+  const run = ++V.run;
+  try { V.synth.cancel(); } catch (e) {}
+  if (V.dict && V.dict.active()) { try { await V.dict.stop(); } catch (e) {} }
+  setPlaying(btn);
+  const chunks = text.split(/\s*\[pause\]\s*/).filter(Boolean);
+  try {
+    for (let i = 0; i < chunks.length; i++) {
+      if (run !== V.run) break;
+      await synthSay(chunks[i], rate);
+      if (i < chunks.length - 1) await sleep(1400);
+    }
+  } catch (e) {
+    if (e && e.code !== "stopped") toast("The audio didn't play. Press play to try again.");
+  }
+  if (run === V.run && btn) btn.classList.remove("playing");
+}
+function stopSpeech() {
+  V.run++;
+  if (V.synth) { try { V.synth.cancel(); } catch (e) {} }
+  setPlaying(null);
+}
+
+/* ---------- Voice typing (browser speech recognition) ---------- */
+function markMic() {
+  const on = V.dstate !== "idle";
+  $$("[data-mic]").forEach(b => {
+    const me = on && V.target && b.dataset.mic === V.target.id;
+    b.classList.toggle("listening", !!me);
+    b.setAttribute("aria-pressed", me ? "true" : "false");
+  });
+}
+function disableMic(msg) {
+  V.dict = null; document.body.classList.remove("has-mic"); V.dstate = "idle"; markMic();
+  if (msg) toast(msg);
+}
+function onDictError(e) {
+  const c = e && e.code;
+  if (c === "stopped") return;
+  if (c === "not_granted") return disableMic("The microphone is blocked for voice typing. You can still record yourself and type.");
+  toast("Voice typing didn't start. Press the microphone to try again.");
+}
+function startDictation(box) {
+  if (!V.dict) return;
+  stopSpeech();
+  V.target = box; markMic();
+  V.dict.start({language:"en"}).catch(onDictError);
+}
+function toggleMic(btn) {
+  if (!V.dict) return;
+  const box = document.getElementById(btn.dataset.mic);
+  if (!box) return;
+  if (V.dict.active() && V.target === box) { V.dict.stop().catch(() => {}); return; }
+  if (V.dict.active()) { V.target = box; markMic(); return; }
+  startDictation(box);
+}
+function wireDictation() {
+  V.dict.onFinal(({text}) => {
+    const box = V.target; if (!box || !text) return;
+    let t = text;
+    if (!box.value) t = t.replace(/^\s+/, "");
+    else if (!/\s$/.test(box.value) && !/^\s/.test(t)) t = " " + t;
+    box.value += t;
+    box.dispatchEvent(new Event("input", {bubbles:true}));
+  });
+  V.dict.onPartial(({text}) => {
+    if (!V.target) return;
+    const p = document.querySelector('[data-partial-for="' + V.target.id + '"]');
+    if (p) p.textContent = text ? text + "…" : "";
+  });
+  V.dict.onState(({state: st, reason}) => {
+    V.dstate = st; markMic();
+    if (st !== "idle") return;
+    $$("[data-partial-for]").forEach(p => { p.textContent = ""; });
+    if (reason === "not_granted") disableMic("The microphone is blocked for voice typing. You can still record yourself and type.");
+    else if (reason === "upstream_error") toast("Voice typing stopped. Press the microphone to start again.");
+  });
+}
+
+/* Browser speech recognition (Chrome, Edge), wrapped in a start/stop/onFinal/onPartial/onState shape. */
+function makeWebDictation() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return null;
+  let rec = null, st = "idle", wantOn = false, lastErr = null, resolveStop = null;
+  const finals = [], partials = [], states = [];
+  const emit = (s, reason) => { st = s; states.forEach(h => h(reason ? {state:s, reason} : {state:s})); };
+  function make() {
+    const r = new SR();
+    r.lang = "en-US"; r.continuous = true; r.interimResults = true;
+    r.onstart = () => emit("listening");
+    r.onresult = e => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const res = e.results[i], t = res[0].transcript;
+        if (res.isFinal) { if (t.trim()) finals.forEach(h => h({text: " " + t.trim()})); }
+        else interim += t;
+      }
+      partials.forEach(h => h({text: interim.trim()}));
+    };
+    r.onerror = e => { lastErr = e.error; };
+    r.onend = () => {
+      // Chrome ends recognition after a pause; keep listening until the page asks to stop.
+      if (wantOn && (!lastErr || lastErr === "no-speech")) {
+        lastErr = null;
+        try { r.start(); return; } catch (err) {}
+      }
+      rec = null; wantOn = false;
+      const reason = (lastErr === "not-allowed" || lastErr === "service-not-allowed") ? "not_granted"
+        : (lastErr && lastErr !== "aborted" && lastErr !== "no-speech") ? "upstream_error" : "stopped";
+      partials.forEach(h => h({text: ""}));
+      emit("idle", reason);
+      if (resolveStop) { const f = resolveStop; resolveStop = null; f(); }
+    };
+    return r;
+  }
+  return {
+    start() {
+      if (rec) return Promise.resolve();
+      lastErr = null; wantOn = true; rec = make(); emit("starting");
+      try { rec.start(); } catch (err) { rec = null; wantOn = false; emit("idle", "upstream_error"); return Promise.reject({code:"upstream_error"}); }
+      return Promise.resolve();
+    },
+    stop() {
+      if (!rec) return Promise.resolve();
+      wantOn = false;
+      return new Promise(res => { resolveStop = res; try { rec.stop(); } catch (err) { resolveStop = null; res(); } });
+    },
+    active() { return st !== "idle"; },
+    onFinal(h) { finals.push(h); return () => {}; },
+    onPartial(h) { partials.push(h); return () => {}; },
+    onState(h) { states.push(h); return () => {}; }
+  };
+}
+
+/* ---------- Recording (MediaRecorder) ---------- */
+const R = {mode:"audio", stream:null, rec:null, chunks:[], url:null, type:"", kind:"", day:0};
+const canRecord = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+if (canRecord) document.body.classList.add("has-rec");
+else R.mode = "none";
+
+function pickMime(kind) {
+  const list = kind === "video"
+    ? ["video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm","video/mp4"]
+    : ["audio/webm;codecs=opus","audio/webm","audio/mp4","audio/ogg"];
+  try { return list.find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || ""; } catch (e) { return ""; }
+}
+async function openStream(kind) {
+  const c = kind === "video" ? {audio:true, video:{facingMode:"user", width:{ideal:640}, height:{ideal:480}}} : {audio:true};
+  R.stream = await navigator.mediaDevices.getUserMedia(c);
+  R.kind = kind;
+  if (kind === "video") {
+    const pv = $("#preview");
+    if (pv) { pv.srcObject = R.stream; pv.hidden = false; pv.play().catch(() => {}); }
+  }
+}
+function stopTracks() {
+  if (R.stream) { R.stream.getTracks().forEach(t => t.stop()); R.stream = null; }
+  const pv = $("#preview");
+  if (pv) { pv.srcObject = null; pv.hidden = true; }
+}
+function startRecorder() {
+  if (!R.stream) return;
+  R.chunks = [];
+  const mime = pickMime(R.kind);
+  try { R.rec = mime ? new MediaRecorder(R.stream, {mimeType:mime}) : new MediaRecorder(R.stream); }
+  catch (e) { try { R.rec = new MediaRecorder(R.stream); } catch (e2) { R.rec = null; toast("Recording isn't supported in this browser."); return; } }
+  R.rec.ondataavailable = e => { if (e.data && e.data.size) R.chunks.push(e.data); };
+  R.rec.start(1000);
+}
+function stopRecorder() {
+  return new Promise(res => {
+    if (!R.rec || R.rec.state === "inactive") { R.rec = null; stopTracks(); res(false); return; }
+    const rec = R.rec;
+    rec.onstop = () => {
+      const type = rec.mimeType || pickMime(R.kind) || (R.kind === "video" ? "video/webm" : "audio/webm");
+      const blob = new Blob(R.chunks, {type});
+      stopTracks(); R.rec = null;
+      if (!blob.size) { res(false); return; }
+      if (R.url) URL.revokeObjectURL(R.url);
+      R.url = URL.createObjectURL(blob); R.type = type; R.day = cur;
+      res(true);
+    };
+    try { rec.stop(); } catch (e) { stopTracks(); R.rec = null; res(false); }
+  });
+}
+function stopRecording() {
+  if (R.rec && R.rec.state !== "inactive") { try { R.rec.onstop = null; R.rec.stop(); } catch (e) {} }
+  R.rec = null; stopTracks();
+}
+function recErrorCopy(e) {
+  const n = e && e.name;
+  if (n === "NotAllowedError" || n === "SecurityError") return "The camera or microphone is blocked. Allow it in your browser's site settings (the icon next to the address), then try again.";
+  if (n === "NotFoundError" || n === "OverconstrainedError") return "No camera or microphone was found. Try audio only, or check your device.";
+  if (n === "NotReadableError") return "Another app is using the camera or microphone. Close it and try again.";
+  return "Recording didn't start. You can still speak and type your words.";
+}
+
+/* ---------- App state ---------- */
+const firstOpen = () => { for (let n = 1; n <= DAYS.length; n++) if (!state.done[n]) return n; return DAYS.length; };
+let cur = (state.last >= 1 && state.last <= DAYS.length) ? state.last : firstOpen();
+const S = {phase:"idle", timer:null, start:0, len:0, prepEnd:0, topic:"", last:null};
+
+function dayInfo(n) { const w = Math.floor((n - 1) / 7); return {d: DAYS[n - 1], w, wk: WEEKS[w]}; }
+function stepsFor(n) { return state.steps[n] || [false,false,false,false,false]; }
+function pickTopic(avoid) {
+  if (TOPICS.length < 2) return TOPICS[0];
+  let t; do { t = TOPICS[Math.floor(Math.random() * TOPICS.length)]; } while (t === avoid);
+  return t;
+}
+function fillerStats(text) {
+  const counts = {};
+  let total = 0;
+  String(text || "").replace(FILLER_RE, m => {
+    let k = m.toLowerCase();
+    if (/^u+m+$/.test(k)) k = "um"; else if (/^u+h+$/.test(k)) k = "uh"; else if (/^e+r+m+$/.test(k)) k = "erm"; else if (/^e+r+$/.test(k)) k = "er";
+    counts[k] = (counts[k] || 0) + 1; total++;
+    return m;
+  });
+  return {total, counts};
+}
+function highlightFillers(text) { return esc(text).replace(FILLER_RE, m => "<mark>" + m + "</mark>"); }
+function avgScore(n) {
+  const sc = state.scores[n] || {};
+  const vals = RUBRIC.map(r => sc[r[0]]).filter(v => typeof v === "number");
+  return vals.length ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length * 10) / 10 : null;
+}
+
+function streak() {
+  const dates = new Set(Object.values(state.done).map(x => x && x.date));
+  const d = new Date();
+  if (!dates.has(ymd(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (dates.has(ymd(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function doneSeries(field) {
+  return Object.keys(state.done).map(k => Object.assign({k:+k}, state.done[k]))
+    .filter(x => typeof x[field] === "number")
+    .sort((a, b) => (a.date || "").localeCompare(b.date || "") || a.k - b.k)
+    .map(x => x[field]).slice(-14);
+}
+function sparkSVG(vals) {
+  const W = 92, H = 30, p = 3;
+  const lo = Math.min(...vals), hi = Math.max(...vals), span = Math.max(0.5, hi - lo);
+  const pts = vals.map((v, i) => [p + i * (W - 2 * p) / (vals.length - 1), H - p - (v - lo) / span * (H - 2 * p)]);
+  const line = pts.map(q => q[0].toFixed(1) + "," + q[1].toFixed(1)).join(" ");
+  const area = "M" + pts[0][0].toFixed(1) + "," + (H - p) + " L" + line.replace(/ /g, " L") + " L" + pts[pts.length - 1][0].toFixed(1) + "," + (H - p) + " Z";
+  const e = pts[pts.length - 1];
+  return '<svg class="spark" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">' +
+    '<path d="' + area + '" fill="var(--accent-soft)"/>' +
+    '<polyline points="' + line + '" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' +
+    '<circle cx="' + e[0].toFixed(1) + '" cy="' + e[1].toFixed(1) + '" r="3.2" fill="var(--accent)"/></svg>';
+}
+
+/* ---------- Rendering ---------- */
+function renderStats() {
+  const doneN = Object.keys(state.done).length, st = streak();
+  const sc = doneSeries("score"), fl = doneSeries("fillersPerMin"), wp = doneSeries("wpm");
+  const last = a => a.length ? a[a.length - 1] : null;
+  const lsc = last(sc), lfl = last(fl), lwp = last(wp);
+  $("#stats").innerHTML =
+    '<div class="stat"><span class="k">Streak</span><span class="v">' + st + '<small>' + (st === 1 ? "day" : "days") + ' in a row</small></span></div>' +
+    '<div class="stat"><span class="k">Program</span><span class="v">' + doneN + '<small>of 28 days</small></span></div>' +
+    '<div class="stat"><span class="k">Self-score</span><span class="v">' + (lsc == null ? "–" : lsc) + (sc.length >= 2 ? sparkSVG(sc) : "") + '<small>' + (lsc == null ? "finish a day to see it" : "out of 5") + '</small></span></div>' +
+    '<div class="stat"><span class="k">Fillers</span><span class="v">' + (lfl == null ? "–" : lfl) + (fl.length >= 2 ? sparkSVG(fl) : "") + '<small>' + (lfl == null ? "per minute" : "per min, lower is better") + '</small></span></div>' +
+    '<div class="stat"><span class="k">Speed</span><span class="v">' + (lwp == null ? "–" : lwp) + '<small>words / min</small></span></div>';
+}
+
+function renderProgram() {
+  $("#program").innerHTML = WEEKS.map((w, wi) => {
+    let cells = "";
+    for (let j = 0; j < 7; j++) {
+      const n = wi * 7 + j + 1, d = DAYS[n - 1], done = !!state.done[n];
+      const kind = d.kind === "mini" ? " mini" : d.kind === "final" ? " final" : "";
+      const extra = d.kind === "mini" ? ", mini speech day" : d.kind === "final" ? ", final speech" : "";
+      cells += '<button type="button" class="day' + (done ? " done" : "") + (n === cur ? " cur" : "") + kind +
+        '" data-day="' + n + '"' + (n === cur ? ' aria-current="step"' : "") +
+        ' aria-label="Day ' + n + ': ' + esc(d.t) + extra + (done ? ", done" : "") + '" title="Day ' + n + ': ' + esc(d.t) + '">' + n + '</button>';
+    }
+    return '<div class="week-row"><div class="wk"><b>Week ' + (wi + 1) + '</b><span>' + esc(w.name) + '</span></div><div class="days">' + cells + '</div></div>';
+  }).join("");
+}
+
+function setBlock(k, title, mins, why, body) {
+  const on = stepsFor(cur)[k - 1];
+  return '<section class="set' + (on ? " is-done" : "") + '" id="set-' + k + '" aria-labelledby="set-h-' + k + '">' +
+    '<header class="set-head"><span class="set-num">' + k + '</span><div><h3 id="set-h-' + k + '">' + title + '</h3><p class="why">' + why + '</p></div><span class="mins">' + mins + ' min</span></header>' +
+    '<div class="set-body">' + body + '</div>' +
+    '<footer class="set-foot"><button type="button" class="btn sm done-toggle' + (on ? " is-on" : "") + '" data-step="' + k + '" aria-pressed="' + on + '">' + (on ? I.check + " Done" : "Mark as done") + '</button></footer></section>';
+}
+const micBtn = id => '<button type="button" class="icon-btn mic need-mic" data-mic="' + id + '" aria-label="Voice typing into this box" aria-pressed="false">' + I.mic + '</button>';
+function modelHTML(t) { return esc(t).replace(/\s*\[pause\]\s*/g, ' <span class="pause-mark">pause</span> '); }
+
+function renderLesson() {
+  const {d, w, wk} = dayInfo(cur);
+  const steps = stepsFor(cur);
+  const speakMins = Math.max(6, Math.round(d.secs / 60) + 4);
+  const total = 2 + 3 + speakMins + 3 + 1;
+  const label = d.kind === "mini" ? " · Mini speech day" : d.kind === "final" ? " · Final speech" : "";
+  const plan = STEPS.map((s, i) =>
+    '<li><button type="button" data-jump="' + s.k + '" class="' + (steps[i] ? "done" : "") + '"><span class="pn">' + s.k + ' · ' + (s.k === 3 ? speakMins : s.mins) + ' min</span><span class="pt">' + s.name + '</span></button></li>').join("");
+
+  const wu = WARMS[d.warm[0]];
+  const warm = setBlock(1, "Warm up your voice", 2,
+    "Your voice is a muscle. Two minutes of warm-up makes it stronger, clearer and calmer.",
+    '<p class="warm-name">' + esc(wu.name) + '</p>' +
+    '<ol class="steps-list">' + wu.steps.map(s => '<li>' + esc(s) + '</li>').join("") + '</ol>' +
+    '<p class="label">Then say this line out loud, 3 times</p>' +
+    '<p class="say-line">' + esc(d.warm[1]) + '</p>' +
+    '<div class="row"><button type="button" class="btn sm need-voice" data-listen="warm">' + I.play + ' Listen</button></div>' +
+    '<div class="reps">' + ["Calm","Clear","Strong"].map((r, i) => '<button type="button" class="btn sm" data-rep="' + i + '" aria-pressed="false">' + (i + 1) + ' · ' + r + '</button>').join("") + '</div>');
+
+  const flow = d.tool.parts.map(p => '<span class="chip">' + esc(p[0]) + '</span>').join('<span class="arrow" aria-hidden="true">→</span>');
+  const showBuilder = cur >= 26;
+  const b = state.builder;
+  const builder = showBuilder
+    ? '<div class="builder"><h4>Speech builder</h4><p class="note">Plan your final speech here. Write key words, not full sentences. It saves automatically.</p>' +
+      [["hook","Hook","A question, a story, a fact, or “Imagine…”"],["p1","Point 1","Your first idea and an example"],["p2","Point 2","Your second idea and an example"],["p3","Point 3","Your strongest idea and a story"],["close","Close","Back to the hook, or a call to action"]].map(f =>
+        '<label for="b-' + f[0] + '"><span class="label">' + f[1] + '</span><textarea id="b-' + f[0] + '" data-builder="' + f[0] + '" rows="2" placeholder="' + esc(f[2]) + '">' + esc(b[f[0]] || "") + '</textarea></label>').join("") +
+      '</div>'
+    : "";
+  const tool = setBlock(2, "Today's tool", 3,
+    "One technique a day. Learn it, listen to the example, and then use it in step 3.",
+    '<p class="tool-name"><span class="mark">' + esc(d.tool.name) + '</span></p>' +
+    '<p>' + esc(d.tool.what) + '</p>' +
+    '<ul class="parts">' + d.tool.parts.map(p => '<li><span class="part-tag">' + esc(p[0]) + '</span><span>' + esc(p[1]) + '</span></li>').join("") + '</ul>' +
+    '<div class="model"><p class="label">Example</p><p>' + modelHTML(d.tool.model) + '</p>' +
+      '<div class="row"><button type="button" class="btn sm need-voice" data-listen="model" data-rate="0.9">' + I.play + ' Listen to the example</button><button type="button" class="btn sm need-voice" data-listen="stop">' + I.stop + ' Stop</button></div>' +
+      '<p class="note">Listen once. Then read it out loud yourself, slowly, with the pauses.</p></div>' +
+    '<p class="note no-note no-voice">Audio isn\'t available in this browser. Read the example out loud twice.</p>' +
+    builder);
+
+  if (!S.topic || S.topicDay !== cur) { S.topic = d.topic || pickTopic(); S.topicDay = cur; }
+  const speak = setBlock(3, d.kind === "final" ? "Give your final speech" : d.kind === "mini" ? "Give your mini speech" : "Impromptu round", speakMins,
+    d.kind ? "Prepare with your key words, then speak for the full time. Don't stop to fix mistakes. Keep going."
+           : "Real life doesn't give you time to prepare. You get 30 seconds to plan with today's structure, then you speak until the timer ends.",
+    '<div class="topic-card"><p class="label">Your topic</p><p class="topic" id="topic">' + esc(S.topic) + '</p>' +
+      '<div class="row"><button type="button" class="btn sm" id="newTopic">' + (d.topic ? "Use a random topic instead" : "New topic") + '</button>' +
+      (d.topic ? '<button type="button" class="btn sm" id="dayTopic">Back to today\'s topic</button>' : "") + '</div></div>' +
+    '<div class="flow" aria-label="Today\'s structure"><span class="label">Structure</span>' + flow + '</div>' +
+    '<label class="label" for="notesBox">Notes: key words only</label>' +
+    '<textarea id="notesBox" rows="2" placeholder="' + esc(d.tool.parts.map(p => p[0]).join(" → ")) + '">' + esc(state.notes[cur] || "") + '</textarea>' +
+    '<div class="row need-rec"><span class="label">Record</span><div class="seg" role="group" aria-label="Recording">' +
+      [["none","Don't record"],["audio","Audio"],["video","Video"]].map(m => '<button type="button" data-recmode="' + m[0] + '" aria-pressed="' + (R.mode === m[0]) + '">' + m[1] + '</button>').join("") +
+    '</div></div>' +
+    '<p class="note no-note no-rec">Recording isn\'t available in this browser. You can still use the timer.</p>' +
+    '<div class="stage" id="stage">' +
+      '<p class="phase" id="phase">Ready</p>' +
+      '<div class="clock" id="clock" aria-live="off">' + fmt(d.secs) + '</div>' +
+      '<video class="preview" id="preview" muted playsinline autoplay hidden></video>' +
+      '<div class="row" style="justify-content:center">' +
+        '<button type="button" class="btn primary" id="prepBtn">Prepare 30 seconds, then speak</button>' +
+        '<button type="button" class="btn" id="speakNow">' + I.mic + ' Speak now</button>' +
+        '<button type="button" class="btn live" id="stopBtn" hidden>' + I.stop + ' Stop</button>' +
+        '<button type="button" class="btn" id="cancelBtn" hidden>Cancel</button>' +
+      '</div>' +
+      '<p class="stage-note" id="stageNote">Speak for ' + fmt(d.secs) + '. Stand up, breathe, and follow your structure. If you lose your words, pause and look at your notes.</p>' +
+    '</div>' +
+    '<label class="label" for="speakBox">What you said</label>' +
+    '<div class="field"><textarea id="speakBox" rows="5" placeholder="When you speak, your words appear here. You can also type them."></textarea>' + micBtn("speakBox") + '</div>' +
+    '<p class="partial" data-partial-for="speakBox"></p>' +
+    '<p class="note no-note no-mic">Voice typing works in Chrome and Edge. You can still record yourself and type.</p>' +
+    '<div class="results" id="results"></div>' +
+    '<div id="tview"></div>');
+
+  const sc = state.scores[cur] || {};
+  const review = setBlock(4, "Review: watch, score, improve", 3,
+    "Listening to yourself feels strange at first, but it is the fastest way to improve. Be kind and honest.",
+    '<div class="playback" id="playback"></div>' +
+    '<p class="label">Score yourself from 1 (hard) to 5 (great)</p>' +
+    '<div class="rubric">' + RUBRIC.map(r =>
+      '<div class="rub-row"><p>' + esc(r[1]) + '<small>' + esc(r[2]) + '</small></p><div class="scores" role="group" aria-label="' + esc(r[1]) + ' score">' +
+      [1,2,3,4,5].map(v => '<button type="button" class="score" data-score="' + r[0] + '" data-v="' + v + '" aria-pressed="' + (sc[r[0]] === v) + '" aria-label="' + esc(r[1]) + ': ' + v + '">' + v + '</button>').join("") +
+      '</div></div>').join("") + '</div>' +
+    '<p>Average: <span class="avg" id="avg">' + (avgScore(cur) == null ? "–" : avgScore(cur)) + '</span></p>' +
+    '<label class="label" for="nextBox">Next time I will…</label>' +
+    '<textarea id="nextBox" rows="2" placeholder="Next time I will pause after each point.">' + esc(state.next[cur] || "") + '</textarea>' +
+    '<p class="label">Get more feedback (free)</p>' +
+    '<div class="row"><button type="button" class="btn sm" id="ltBtn">Check grammar</button><button type="button" class="btn sm primary" id="promptBtn">Copy a feedback prompt</button></div>' +
+    '<p class="note"><b>Check grammar</b> sends what you said to LanguageTool, a free checker. It finds spelling and some grammar mistakes, not everything. <b>Copy a feedback prompt</b> copies your speech with coaching instructions. Paste it into any free AI chat, like Claude, ChatGPT or Gemini.</p>' +
+    '<div class="lt" id="ltOut" aria-live="polite"></div>' +
+    '<div class="prompt-out" id="promptOut"></div>');
+
+  const ch = !!state.challenges[cur];
+  const challenge = setBlock(5, "Real-life challenge", 1,
+    "Practice at home is good. Practice with real people is where confidence grows.",
+    '<p class="challenge">' + esc(d.challenge) + '</p>' +
+    '<div class="row"><button type="button" class="btn sm' + (ch ? " is-on" : "") + '" id="chBtn" aria-pressed="' + ch + '">' + (ch ? I.check + " I did it" : "I did it") + '</button></div>');
+
+  $("#lesson").innerHTML =
+    '<div class="lesson-head"><p class="eyebrow">Week ' + (w + 1) + ' · ' + esc(wk.name) + label + '</p>' +
+    '<h2>Day ' + cur + ': ' + esc(d.t) + '</h2>' +
+    '<p class="lede">' + esc(wk.note) + ' Today takes about ' + total + ' minutes. Stand up and say everything out loud.</p>' +
+    '<ol class="plan" aria-label="Today\'s plan">' + plan + '</ol></div>' +
+    warm + tool + speak + review + challenge +
+    '<section class="finish" id="finish"></section>';
+
+  resetStage();
+  S.last = null;
+  renderPlayback();
+  renderFinish();
+  markMic();
+}
+
+function renderPlayback() {
+  const box = $("#playback"); if (!box) return;
+  if (!R.url || R.day !== cur) {
+    box.innerHTML = '<p class="empty">No recording yet. Choose Audio or Video in step 3, give your talk, and it appears here.</p>';
+    return;
+  }
+  const isVideo = /^video\//.test(R.type);
+  const ext = /mp4/.test(R.type) ? (isVideo ? "mp4" : "m4a") : /ogg/.test(R.type) ? "ogg" : "webm";
+  box.innerHTML = (isVideo ? '<video controls playsinline src="' + R.url + '"></video>' : '<audio controls src="' + R.url + '"></audio>') +
+    '<a class="btn sm" href="' + R.url + '" download="the-stage-day-' + cur + '.' + ext + '">Download recording</a>' +
+    '<p class="note">Listen for “um” and “uh” too. Voice typing often removes them, so the count in step 3 can be too low.</p>';
+}
+
+function renderFinish(msg) {
+  const done = state.done[cur];
+  const next = cur < DAYS.length ? cur + 1 : null;
+  let html;
+  if (msg) {
+    html = '<h3>Day ' + cur + ' saved</h3><p>' + esc(msg) + '</p><div class="row">' +
+      (next ? '<button type="button" class="btn go" data-day="' + next + '">Go to Day ' + next + ': ' + esc(DAYS[next - 1].t) + '</button>' : "") + '</div>';
+  } else if (done) {
+    html = '<h3>You finished this day on ' + esc(done.date) + '</h3><p>Repeating a day is great practice. Finish it again to save today\'s numbers.</p>' +
+      '<div class="row"><button type="button" class="btn go" id="finishBtn">Finish again</button>' +
+      (next ? '<button type="button" class="btn ghost" data-day="' + next + '">Go to Day ' + next + '</button>' : "") + '</div>';
+  } else {
+    html = '<h3>Finished all five steps?</h3><p>Save today so your streak, self-score and filler words are tracked.' + (next ? ' Come back tomorrow for Day ' + next + '.' : "") + '</p>' +
+      '<div class="row"><button type="button" class="btn go" id="finishBtn">Finish Day ' + cur + '</button></div>';
+  }
+  $("#finish").innerHTML = html;
+}
+
+function updateStepUI() {
+  stepsFor(cur).forEach((on, i) => {
+    const k = i + 1, sec = $("#set-" + k);
+    if (sec) sec.classList.toggle("is-done", on);
+    const b = $('[data-step="' + k + '"]');
+    if (b) { b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", String(on)); b.innerHTML = on ? I.check + " Done" : "Mark as done"; }
+    const p = $('[data-jump="' + k + '"]');
+    if (p) p.classList.toggle("done", on);
+  });
+}
+
+/* ---------- The speaking stage ---------- */
+function resetStage() {
+  clearInterval(S.timer); S.phase = "idle";
+  const d = DAYS[cur - 1];
+  const st = $("#stage"); if (!st) return;
+  st.classList.remove("prep", "live");
+  $("#phase").textContent = "Ready";
+  $("#clock").textContent = fmt(d.secs);
+  $("#prepBtn").hidden = false; $("#speakNow").hidden = false; $("#stopBtn").hidden = true; $("#cancelBtn").hidden = true;
+}
+function setRecMode(m) {
+  R.mode = m;
+  $$("[data-recmode]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.recmode === m)));
+}
+function prepareMedia() {
+  if (!canRecord || R.mode === "none" || R.stream) return Promise.resolve(true);
+  if (R.opening) return R.opening;
+  R.opening = openStream(R.mode).then(() => {
+    // The round was cancelled while the browser was asking: release the camera and microphone.
+    if (S.phase !== "prep" && S.phase !== "speak") { stopTracks(); return false; }
+    return true;
+  }).catch(e => { toast(recErrorCopy(e)); setRecMode("none"); return false; })
+    .finally(() => { R.opening = null; });
+  return R.opening;
+}
+function startPrep() {
+  if (S.phase !== "idle") return;
+  S.phase = "prep";
+  S.prepEnd = Date.now() + 30000;
+  $("#stage").classList.add("prep");
+  $("#phase").textContent = "Prepare";
+  $("#prepBtn").hidden = true; $("#cancelBtn").hidden = false; $("#speakNow").hidden = false;
+  $("#stageNote").textContent = "Plan with today's structure. Write key words in the notes box. Speaking starts by itself.";
+  prepareMedia();
+  tickPrep();
+  clearInterval(S.timer);
+  S.timer = setInterval(tickPrep, 250);
+}
+function tickPrep() {
+  if (S.phase !== "prep") return;
+  const left = (S.prepEnd - Date.now()) / 1000;
+  $("#clock").textContent = fmt(left);
+  if (left <= 0) beginSpeak();
+}
+async function beginSpeak() {
+  if (S.phase === "speak") return;
+  clearInterval(S.timer);
+  const d = DAYS[cur - 1];
+  const box = $("#speakBox");
+  box.value = "";
+  $("#results").innerHTML = ""; $("#tview").innerHTML = ""; $("#ltOut").innerHTML = ""; $("#promptOut").innerHTML = "";
+  S.phase = "speak";
+  startDictation(box);
+  $("#stage").classList.remove("prep"); $("#stage").classList.add("live");
+  $("#phase").textContent = "Speak";
+  $("#prepBtn").hidden = true; $("#speakNow").hidden = true; $("#cancelBtn").hidden = true; $("#stopBtn").hidden = false;
+  $("#stageNote").textContent = "Keep going until the time is up. Mistakes are fine. Pauses are fine. Just don't stop.";
+  S.len = d.secs;
+  S.start = Date.now();
+  tickSpeak();
+  S.timer = setInterval(tickSpeak, 250);
+  const ok = await prepareMedia();
+  if (ok && R.stream && S.phase === "speak" && !R.rec) startRecorder();
+}
+function tickSpeak() {
+  if (S.phase !== "speak") return;
+  const left = S.len - (Date.now() - S.start) / 1000;
+  $("#clock").textContent = fmt(left);
+  if (left <= 0) endSpeak();
+}
+function cancelPrep() {
+  stopRecording();
+  resetStage();
+  $("#stageNote").textContent = "Cancelled. Press a button to start again.";
+}
+async function endSpeak() {
+  if (S.phase !== "speak") return;
+  S.phase = "ending";
+  clearInterval(S.timer);
+  const secs = Math.min(S.len, (Date.now() - S.start) / 1000);
+  const box = $("#speakBox");
+  const waits = [stopRecorder()];
+  if (V.dict && V.dict.active() && V.target === box) waits.push(V.dict.stop().catch(() => {}));
+  await Promise.all(waits);
+  resetStage();
+  $("#stageNote").textContent = "Well done. Now look at your numbers, then review your recording in step 4.";
+  renderPlayback();
+  analyse(Math.round(secs));
+}
+function analyse(secs) {
+  const text = $("#speakBox").value.trim();
+  const words = countWords(text);
+  const f = fillerStats(text);
+  const mins = Math.max(secs, 1) / 60;
+  const wpm = words > 0 && secs >= 10 ? Math.round(words / mins) : null;
+  const fpm = words > 0 && secs >= 10 ? Math.round(f.total / mins * 10) / 10 : null;
+  S.last = {secs, words, wpm, fillers:f.total, fpm, counts:f.counts, text};
+  const top = Object.keys(f.counts).sort((a, b) => f.counts[b] - f.counts[a]).slice(0, 4).map(k => k + " × " + f.counts[k]).join(", ");
+  $("#results").innerHTML =
+    '<div class="result"><span><b>' + words + '</b> words in ' + fmt(secs) + '</span><span class="big">' + (wpm == null ? "–" : wpm + " wpm") + '</span></div>' +
+    '<div class="result"><span>Filler words: <b>' + f.total + '</b>' + (top ? " (" + esc(top) + ")" : "") + '</span><span class="big">' + (fpm == null ? "–" : fpm + " / min") + '</span></div>' +
+    '<p class="note">For public speaking, about 120–150 words per minute is a good, calm speed. Try to keep fillers under 2 per minute. “Like” and “so” only count as fillers when they add no meaning.</p>';
+  $("#tview").innerHTML = text ? '<p class="label">Your words, with fillers marked</p><div class="transcript-view">' + highlightFillers(text) + '</div>' : "";
+  if (!words) toast("No words were captured. You can type what you said, then press “Count my words”.");
+  if (!words || !V.dict) $("#results").insertAdjacentHTML("beforeend", '<div class="row"><button type="button" class="btn sm" id="recount" data-secs="' + secs + '">Count my words</button></div>');
+}
+
+/* ---------- Free feedback helpers ---------- */
+async function grammarCheck(btn) {
+  const text = $("#speakBox").value.trim(), out = $("#ltOut");
+  if (countWords(text) < 5) { out.innerHTML = '<p class="note">Speak or type a few sentences first.</p>'; return; }
+  btn.disabled = true; out.innerHTML = '<p class="note">Checking with LanguageTool…</p>';
+  try {
+    const body = new URLSearchParams({text: text.slice(0, 18000), language: "en-US"});
+    const r = await fetch("https://api.languagetool.org/v2/check", {method:"POST", body});
+    if (r.status === 429) throw new Error("busy");
+    if (!r.ok) throw new Error("http");
+    const data = await r.json();
+    const ms = (data && Array.isArray(data.matches)) ? data.matches : [];
+    if (!ms.length) { out.innerHTML = '<p class="note">LanguageTool found no mistakes. Remember: it doesn\'t catch everything, so the feedback prompt can help too.</p>'; return; }
+    out.innerHTML = '<p class="label">' + ms.length + (ms.length === 1 ? " thing" : " things") + ' to check</p>' + ms.slice(0, 15).map(m => {
+      const ctx = m.context || {}, bad = String(ctx.text || "").substr(ctx.offset || 0, ctx.length || 0);
+      const reps = (m.replacements || []).slice(0, 2).map(x => x.value).filter(Boolean);
+      return '<div class="lt-item"><span><span class="bad">' + esc(bad) + '</span>' + (reps.length ? ' → <span class="fix">' + esc(reps.join(" / ")) + '</span>' : "") + '</span><span class="note">' + esc(m.message || "") + '</span></div>';
+    }).join("");
+  } catch (e) {
+    out.innerHTML = '<p class="note">' + (e && e.message === "busy" ? "LanguageTool is busy. Wait one minute, then try again." : "The grammar check didn't work. Check your internet connection and try again.") + '</p>';
+  } finally { btn.disabled = false; }
+}
+function buildPrompt() {
+  const d = DAYS[cur - 1];
+  const text = $("#speakBox").value.trim();
+  const L = S.last;
+  const notes = ($("#notesBox").value || "").trim();
+  return `You are a kind, encouraging public speaking coach. I am an adult English learner. I am good at reading and listening, but speaking is hard for me. I am doing a 28-day public speaking program.
+
+Today I practised: ${d.tool.name} (${d.tool.parts.map(p => p[0]).join(" → ")}).
+My topic: ${S.topic}
+${L ? `I spoke for ${L.secs} seconds, at about ${L.wpm == null ? "unknown" : L.wpm} words per minute. The computer counted ${L.fillers} filler words.` : ""}${notes ? `\nMy notes before speaking: ${notes}` : ""}
+
+Here is what I said. It comes from speech-to-text, so please ignore punctuation and small transcription errors:
+"""
+${text || "(I did not capture the words. Please ask me to paste them.)"}
+"""
+
+Please give me:
+1. Two things I did well.
+2. Feedback on my structure: did I follow ${d.tool.name}? What was missing or unclear?
+3. Three sentences from my talk, rewritten in more natural spoken English.
+4. A comment on my filler words, and what I can say instead.
+5. One clear tip for my next talk.
+
+Please use simple English and short sentences.`;
+}
+function copyPrompt() {
+  const out = $("#promptOut");
+  const p = buildPrompt();
+  const showBox = () => {
+    out.innerHTML = '<p class="note">Copying didn\'t work here. Select the text below and copy it (Ctrl+C, or Cmd+C on a Mac).</p><textarea id="promptText" rows="8" readonly>' + esc(p) + '</textarea>';
+    const t = $("#promptText"); if (t) { t.focus(); t.select(); }
+  };
+  try {
+    navigator.clipboard.writeText(p).then(() => {
+      out.innerHTML = '<p class="note"><b>Copied.</b> Now open any free AI chat (Claude, ChatGPT or Gemini), paste it, and send. Read the feedback, then try the same topic again.</p>';
+      toast("Feedback prompt copied.");
+    }).catch(showBox);
+  } catch (e) { showBox(); }
+}
+
+/* ---------- Events ---------- */
+function goDay(n) {
+  if (S.phase === "speak" || S.phase === "prep") { clearInterval(S.timer); S.phase = "idle"; }
+  if (V.dict && V.dict.active()) V.dict.stop().catch(() => {});
+  stopSpeech(); stopRecording();
+  cur = n; state.last = n; save();
+  renderProgram(); renderLesson();
+  const top = $("#lesson").getBoundingClientRect().top + window.scrollY - 12;
+  window.scrollTo({top: Math.max(0, top), behavior: "smooth"});
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("button");
+  if (!t) return;
+  const d = DAYS[cur - 1];
+  if (t.dataset.mic) { toggleMic(t); return; }
+  if (t.dataset.listen) {
+    if (t.dataset.listen === "stop") { stopSpeech(); return; }
+    if (t.classList.contains("playing")) { stopSpeech(); return; }
+    const text = t.dataset.listen === "warm" ? d.warm[1] : d.tool.model;
+    sayChunks(text, parseFloat(t.dataset.rate) || 0.9, t);
+    return;
+  }
+  if (t.dataset.day) { goDay(+t.dataset.day); return; }
+  if (t.dataset.jump) { const s = $("#set-" + t.dataset.jump); if (s) s.scrollIntoView({behavior:"smooth", block:"start"}); return; }
+  if (t.dataset.step) {
+    const k = +t.dataset.step, arr = stepsFor(cur).slice();
+    arr[k - 1] = !arr[k - 1]; state.steps[cur] = arr; save(); updateStepUI(); return;
+  }
+  if (t.dataset.rep !== undefined) { const on = t.getAttribute("aria-pressed") !== "true"; t.setAttribute("aria-pressed", String(on)); t.classList.toggle("is-on", on); return; }
+  if (t.dataset.recmode) { if (S.phase === "idle") setRecMode(t.dataset.recmode); else toast("Change the recording option before you start."); return; }
+  if (t.dataset.score) {
+    const k = t.dataset.score, v = +t.dataset.v;
+    const sc = Object.assign({}, state.scores[cur] || {});
+    sc[k] = sc[k] === v ? undefined : v;
+    if (sc[k] === undefined) delete sc[k];
+    state.scores[cur] = sc; save();
+    $$('[data-score="' + k + '"]').forEach(b => b.setAttribute("aria-pressed", String(sc[k] === +b.dataset.v)));
+    const a = avgScore(cur); $("#avg").textContent = a == null ? "–" : a;
+    return;
+  }
+  switch (t.id) {
+    case "newTopic": S.topic = pickTopic(S.topic); $("#topic").textContent = S.topic; return;
+    case "dayTopic": S.topic = d.topic || S.topic; $("#topic").textContent = S.topic; return;
+    case "prepBtn": startPrep(); return;
+    case "speakNow": beginSpeak(); return;
+    case "stopBtn": endSpeak(); return;
+    case "cancelBtn": cancelPrep(); return;
+    case "recount": analyse(+t.dataset.secs || d.secs); return;
+    case "ltBtn": grammarCheck(t); return;
+    case "promptBtn": copyPrompt(); return;
+    case "chBtn": {
+      const on = !state.challenges[cur]; state.challenges[cur] = on; save();
+      t.classList.toggle("is-on", on); t.setAttribute("aria-pressed", String(on)); t.innerHTML = on ? I.check + " I did it" : "I did it";
+      return;
+    }
+    case "finishBtn": {
+      const L = S.last, prev = state.done[cur] || {};
+      state.done[cur] = {
+        date: ymd(new Date()),
+        wpm: L && L.wpm != null ? L.wpm : (prev.wpm != null ? prev.wpm : null),
+        fillersPerMin: L && L.fpm != null ? L.fpm : (prev.fillersPerMin != null ? prev.fillersPerMin : null),
+        fillers: L ? L.fillers : (prev.fillers != null ? prev.fillers : null),
+        score: avgScore(cur) != null ? avgScore(cur) : (prev.score != null ? prev.score : null)
+      };
+      state.steps[cur] = stepsFor(cur).map(() => true);
+      save(); renderStats(); renderProgram(); updateStepUI();
+      const st = streak(), x = state.done[cur];
+      renderFinish("Great work. Your streak is " + st + (st === 1 ? " day" : " days") + "." +
+        (x.score != null ? " Your self-score: " + x.score + " out of 5." : "") +
+        (x.fillersPerMin != null ? " Filler words: " + x.fillersPerMin + " per minute." : "") +
+        (cur === DAYS.length ? " You finished all 28 days. You are a speaker now." : " See you tomorrow."));
+      return;
+    }
+  }
+});
+
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.id === "notesBox") { state.notes[cur] = t.value.slice(0, 2000); saveSoon(); }
+  else if (t.id === "nextBox") { state.next[cur] = t.value.slice(0, 1000); saveSoon(); }
+  else if (t.dataset && t.dataset.builder) { state.builder[t.dataset.builder] = t.value.slice(0, 2000); saveSoon(); }
+});
+
+window.addEventListener("beforeunload", () => { save(); stopRecording(); });
+
+/* ---------- Start ---------- */
+$("#fillerChips").innerHTML = FILLERS.map(f => '<span class="chip">' + esc(f) + '</span>').join("");
+const web = makeWebDictation();
+if (web) { V.dict = web; wireDictation(); document.body.classList.add("has-mic"); }
+renderStats(); renderProgram(); renderLesson();
+})();
+</script>
+</body>
+</html>
