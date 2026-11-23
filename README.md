@@ -15,6 +15,10 @@ Daily practice for the **active** side of English: speaking, public speaking and
 
 The home page shows your streak, your progress in each program, and a plan for the first two months.
 
+## Daily tool: My Notebook
+
+[My Notebook](https://starray500.github.io/speaking-gym/notebook.html) turns your mistakes and "lost words" into cards. You answer every card out loud, and spaced repetition brings each card back just before you forget it. Paste any feedback ("you said → better") and it becomes cards. About 5 minutes a day.
+
 ## Free feedback tools
 
 No subscription is needed. Everything runs in the browser.

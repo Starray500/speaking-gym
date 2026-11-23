@@ -1,0 +1,1611 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>My Notebook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Your English mistakes and lost words, practised out loud with spaced repetition. Five minutes a day.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a flashcard desk. Today's review is the hero, the tools for adding cards sit beside it, and the whole notebook sits below. */
+:root{
+  --bg:#F3F4F9; --surface:#FFFFFF; --ink:#1A2040; --muted:#575E80; --line:#D9DDEA;
+  --accent:#3140A8; --accent-soft:#E5E8FA; --on-accent:#FFFFFF;
+  --mark:#FFE066; --mark-line:#E2B200; --on-mark:#1A2040;
+  --live:#D23838; --live-soft:#FBE6E6; --live-ring:rgba(210,56,56,.28); --on-live:#FFFFFF;
+  --good:#1B7F52; --good-soft:#E0F3E9; --on-good:#FFFFFF;
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+    --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+    --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+    --live:#FF6B6B; --live-soft:#3A1E2A; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+    --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+  --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+  --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+  --live:#FF6B6B; --live-soft:#3A1E2A; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+  --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+ul,ol{margin:0}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
+.site-nav{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding-block:0 14px;font-size:14.5px}
+.site-nav a{color:var(--muted);text-decoration:none;font-weight:700;padding:6px 0;border-bottom:2px solid transparent}
+.site-nav a:hover{color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.site-nav .home{font-family:var(--f-display);font-weight:800;color:var(--ink);margin-right:auto}
+
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 28px;padding-bottom:20px;border-bottom:2px solid var(--ink)}
+.brand{display:grid;gap:6px;min-width:0}
+.brand h1{font-size:clamp(30px,5vw,44px);font-weight:800}
+.brand p{color:var(--muted);max-width:50ch}
+.stats{display:flex;flex-wrap:wrap;gap:16px 28px}
+.stat{display:grid;gap:2px;min-width:0}
+.k,.label{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.stat .v{font-family:var(--f-display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:8px;line-height:1.1}
+.stat .v small{font-family:var(--f-body);font-size:13px;font-weight:400;color:var(--muted)}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-areas:"review rail" "list rail";grid-template-rows:auto 1fr;gap:36px 36px;margin-top:28px;align-items:start}
+.review-area{grid-area:review;min-width:0}
+.rail{grid-area:rail;min-width:0;display:grid;gap:26px}
+.list-area{grid-area:list;min-width:0;display:grid;gap:14px;align-content:start}
+@media (max-width:980px){.layout{grid-template-columns:minmax(0,1fr);grid-template-areas:"review" "rail" "list";grid-template-rows:auto}}
+.rail-sec{display:grid;gap:12px;padding-top:18px;border-top:1px solid var(--line);min-width:0}
+.rail-sec h2{font-size:19px;font-weight:800}
+.rail-sec h3{font-size:16px;font-weight:800;margin-top:4px}
+.tips{padding-left:20px;display:grid;gap:6px;font-size:15px;color:var(--muted)}
+.tips b{color:var(--ink)}
+.saved-note{font-size:13px;color:var(--muted)}
+
+.review{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;display:grid;gap:18px;min-width:0;scroll-margin-top:12px}
+.rv-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px;align-items:baseline}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.rv-count{font-family:var(--f-mono);font-size:13px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:99px;background:var(--accent-soft);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.front{display:grid;gap:12px;min-width:0}
+.say-area{display:grid;gap:6px;min-width:0}
+.visually{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.big-line{font-family:var(--f-display);font-size:clamp(23px,3.4vw,31px);font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.wrong-line{display:flex;gap:12px;align-items:baseline}
+.wrong-line .x{color:var(--live);font-family:var(--f-display);font-weight:800;font-size:24px;flex:none}
+.wrong{text-decoration:underline wavy var(--live);text-decoration-thickness:2px;text-underline-offset:7px;text-decoration-skip-ink:none}
+.hint{padding:10px 14px;border-radius:10px;background:var(--bg);font-size:17px;overflow-wrap:anywhere}
+.hint.letters{font-family:var(--f-mono);letter-spacing:.04em;font-size:18px}
+.answer{display:grid;gap:8px;padding:16px;border-radius:14px;background:var(--good-soft);border:1.5px solid var(--good);min-width:0}
+.answer .label{color:var(--good)}
+.ans-line{display:flex;gap:12px;align-items:center;min-width:0}
+.ans-line .big-line{flex:1;min-width:0;font-weight:700}
+.rule,.example{font-size:17px;overflow-wrap:anywhere}
+.verdict{font-weight:700;font-size:17px}
+.verdict.ok{color:var(--good)}
+.verdict.no{color:var(--live)}
+.diff{display:grid;gap:4px;padding:12px 14px;border-radius:12px;background:var(--bg);min-width:0}
+.dline{font-size:17px;line-height:1.75;overflow-wrap:anywhere;margin-bottom:4px}
+.extra{color:var(--live);text-decoration:line-through;text-decoration-thickness:2px}
+.miss{background:var(--mark);color:var(--on-mark);border-radius:4px;padding:0 .2em;font-weight:700}
+.own{display:grid;gap:10px;padding-top:14px;border-top:1px dashed var(--line);min-width:0}
+.own h3{font-size:19px;font-weight:800}
+.own-check{font-weight:700;font-size:16px}
+.own-check:empty{display:none}
+.own-check.ok{color:var(--good)}
+.grades{display:grid;gap:8px}
+.grade-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:480px){.grade-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.grade{position:relative;display:grid;gap:2px;justify-items:center;align-content:center;padding:10px 6px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;min-height:66px;text-align:center}
+.grade:hover{border-color:var(--ink)}
+.grade b{font-size:16.5px}
+.grade small{font-size:12.5px;color:var(--muted);line-height:1.3}
+.grade kbd{position:absolute;top:5px;right:7px}
+.g-again b{color:var(--live)}
+.g-again{border-color:var(--live)}
+.g-good{border-color:var(--good);background:var(--good-soft)}
+.g-good b{color:var(--good)}
+kbd{font-family:var(--f-mono);font-size:11px;font-weight:700;padding:1px 6px;border-radius:5px;border:1px solid var(--line);color:var(--muted);background:var(--bg)}
+@media (hover:none){kbd,.kbd-note{display:none!important}}
+.done-box{display:grid;gap:14px;justify-items:start}
+.done-box h2{font-size:clamp(26px,4vw,34px);font-weight:800}
+.done-box p{max-width:56ch}
+.big-stats{display:flex;flex-wrap:wrap;gap:12px}
+.big-stat{display:grid;gap:2px;padding:12px 16px;border-radius:12px;background:var(--bg);min-width:120px}
+.big-stat b{font-family:var(--f-display);font-size:28px;font-weight:800;line-height:1.1}
+
+.btn{font-weight:700;font-size:15.5px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none;text-align:center}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{min-height:36px;padding:0 14px;font-size:14px}
+.btn.danger{border-color:var(--live);color:var(--live)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn kbd{border-color:currentColor;background:transparent;color:inherit;opacity:.8}
+.icon-btn{flex:none;width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:inline-grid;place-items:center;cursor:pointer;padding:0}
+.icon-btn:hover{border-color:var(--ink)}
+.icon-btn.playing{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.mic.listening{background:var(--live);border-color:var(--live);color:var(--on-live);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--live-ring)}50%{box-shadow:0 0 0 7px var(--live-ring)}}
+body:not(.has-mic) .need-mic,body:not(.has-voice) .need-voice,body:not(.has-ai) .need-ai,body:not(.has-dl) .need-dl{display:none!important}
+.no-note{display:none}
+body.caps-ready:not(.has-ai) .no-ai{display:block}
+/* One file, two homes: the website (body.standalone) and claude.ai (Claude capabilities). */
+body:not(.standalone) .only-standalone,body:not(.standalone) .site-nav{display:none!important}
+body.standalone .only-claude,body.standalone .no-ai{display:none!important}
+.ai-out{display:grid;gap:8px;padding:12px 14px;border-radius:12px;background:var(--bg);font-size:16px;line-height:1.6;overflow-wrap:anywhere}
+.ai-out:empty{display:none}
+.ai-out ol,.ai-out ul{padding-left:22px;display:grid;gap:4px}
+
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.field{display:flex;gap:10px;align-items:flex-start}
+textarea,input[type="text"],input[type="search"]{min-width:0;width:100%;font:inherit;font-size:16.5px;line-height:1.5;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea{flex:1;resize:vertical}
+textarea:focus,input:focus{outline:none;border-color:var(--accent)}
+textarea::placeholder,input::placeholder{color:var(--muted)}
+.partial{font-style:italic;color:var(--muted);font-size:15px}
+.partial:empty{display:none}
+.note{font-size:14.5px;color:var(--muted)}
+.note a{color:var(--accent);font-weight:700;overflow-wrap:anywhere}
+.mark{font-weight:700;background:linear-gradient(transparent 8%,var(--mark) 8%,var(--mark) 92%,transparent 92%);color:var(--on-mark);padding:0 .2em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.seg{display:inline-flex;flex-wrap:wrap;border:1.5px solid var(--line);border-radius:18px;padding:3px;gap:2px;max-width:100%}
+.seg button{font-size:14px;font-weight:700;border:0;background:transparent;color:var(--muted);padding:6px 13px;border-radius:999px;cursor:pointer;min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.check-line{display:flex;gap:8px;align-items:center;font-size:15px;cursor:pointer;color:var(--muted)}
+.check-line input{width:19px;height:19px;accent-color:var(--accent);flex:none;margin:0}
+.lt{display:grid;gap:4px}
+.lt:empty{display:none}
+.lt-item{display:grid;gap:2px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.lt-item:last-child{border-bottom:0}
+.lt-item .bad{text-decoration:line-through;text-decoration-color:var(--live);color:var(--muted)}
+.lt-item .fix{font-weight:700}
+
+.addbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;min-width:0}
+.addbox > h2{font-size:21px;font-weight:800}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tabs button{font-weight:700;font-size:15px;min-height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.tabs button:hover{border-color:var(--ink);color:var(--ink)}
+.tabs button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.tab-panel{display:grid;gap:12px;min-width:0}
+.tab-panel > .seg,.list-tools > .seg{justify-self:start}
+.form{display:grid;gap:12px;min-width:0}
+.form label{display:grid;gap:6px;min-width:0}
+.preview{list-style:none;padding:0;display:grid;gap:10px;margin:0}
+.pv{display:grid;gap:6px;padding:10px;border-radius:12px;background:var(--bg);min-width:0}
+.pv input[type="text"]{background:var(--surface);font-size:15.5px;padding:8px 10px}
+.pv.off > :not(.check-line){opacity:.55}
+.pv .arrow{font-family:var(--f-mono);color:var(--muted);font-size:13px;text-align:center;line-height:1}
+.words-prev{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--bg)}
+
+.list-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-top:24px;border-top:2px solid var(--ink)}
+.list-head h2{font-size:clamp(24px,3.6vw,30px);font-weight:800}
+.count{font-family:var(--f-mono);font-size:14px;color:var(--muted);font-weight:700;letter-spacing:0}
+.list-tools{display:grid;gap:10px;min-width:0}
+.clist{list-style:none;padding:0;display:grid;gap:10px;margin:0}
+.crow{display:grid;gap:6px;padding:12px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--line);min-width:0}
+.crow-top{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.crow-meta{margin-left:auto;font-family:var(--f-mono);font-size:12px;color:var(--muted);font-weight:700}
+.tag{font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.t-mistake{background:var(--live-soft);color:var(--live)}
+.t-starter{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.t-learned{background:var(--good-soft);color:var(--good)}
+.crow-main{font-size:17px;overflow-wrap:anywhere}
+.crow-main .was{text-decoration:line-through;text-decoration-color:var(--live);color:var(--muted)}
+.crow-main .arr{color:var(--muted)}
+.crow-sub{font-size:14.5px;color:var(--muted);overflow-wrap:anywhere}
+.empty{padding:14px;border-radius:12px;border:1.5px dashed var(--line);color:var(--muted);font-size:15px}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:10px;font-size:15px;width:max-content;max-width:calc(100% - 32px);z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+@media (max-width:520px){.review,.addbox{padding:16px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<div class="wrap">
+  <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="speaking.html">Speaking Gym</a><a href="conversation.html">Conversation Coach</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a><a href="notebook.html" aria-current="page">My Notebook</a></nav>
+
+  <header class="top">
+    <div class="brand">
+      <h1>My Notebook</h1>
+      <p>Your mistakes and your lost words, practised out loud. Five minutes a day, and they become words you can use.</p>
+    </div>
+    <div class="stats" id="stats" aria-live="polite"></div>
+  </header>
+
+  <div class="layout">
+    <main class="review-area">
+      <section class="review" id="review" aria-label="Today's review"></section>
+    </main>
+
+    <aside class="rail">
+      <section class="addbox" aria-labelledby="h-add">
+        <h2 id="h-add">Add cards</h2>
+        <div class="tabs" id="tabs">
+          <button type="button" data-tab="add" aria-pressed="true">Add</button>
+          <button type="button" data-tab="paste" aria-pressed="false">Paste</button>
+          <button type="button" data-tab="import" aria-pressed="false" class="only-standalone">Import</button>
+        </div>
+        <div class="tab-panel" id="tab-add"></div>
+        <div class="tab-panel" id="tab-paste" hidden>
+          <p class="note">Paste feedback from Claude, ChatGPT, Gemini or a teacher. A “Today's small lesson” table works too. The page finds the corrections for you.</p>
+          <textarea id="pasteBox" rows="6" placeholder="Paste your feedback here…"></textarea>
+          <div class="row">
+            <button type="button" class="btn primary" data-act="parse">Find corrections</button>
+            <button type="button" class="btn need-ai" data-act="aiparse">Let Claude find them</button>
+          </div>
+          <div id="pasteOut" class="tab-panel"></div>
+        </div>
+        <div class="tab-panel only-standalone" id="tab-import" hidden></div>
+      </section>
+
+      <section class="rail-sec" aria-labelledby="h-how">
+        <h2 id="h-how">How it works</h2>
+        <ul class="tips">
+          <li><b>Say every answer out loud.</b> Speaking it is what moves a word from “I know it” to “I can use it”.</li>
+          <li><b>Cards come back just before you forget them:</b> tomorrow, then in 3 days, a week, two weeks, a month…</li>
+          <li><b>Five minutes a day is enough.</b> Do it before your other practice.</li>
+          <li><b>“Again” is not a failure.</b> It's how your memory learns.</li>
+        </ul>
+        <h3>Where cards come from</h3>
+        <ul class="tips">
+          <li>After any feedback, paste it into <b>Paste</b>. Every correction becomes a card.</li>
+          <li>When you can't find a word while speaking, add it in <b>Add</b> as soon as you can.</li>
+          <li class="only-standalone">Words you saved in Speaking Gym: use <b>Import</b>.</li>
+          <li class="only-claude">To bring in words you saved in Speaking Gym, use the website version of this page.</li>
+        </ul>
+      </section>
+
+      <section class="rail-sec" aria-labelledby="h-npd">
+        <h2 id="h-npd">New cards a day</h2>
+        <div class="seg" id="npd" role="group" aria-label="New cards a day">
+          <button type="button" data-npd="5" aria-pressed="false">5</button>
+          <button type="button" data-npd="10" aria-pressed="false">10</button>
+          <button type="button" data-npd="20" aria-pressed="false">20</button>
+        </div>
+        <p class="note">Fewer new cards means a shorter review. Cards that come back are always shown.</p>
+      </section>
+
+      <p class="saved-note" id="sync">Your notebook is saved in this browser only. Use the backup on the home page to keep it safe.</p>
+    </aside>
+
+    <section class="list-area" aria-labelledby="h-list">
+      <div class="list-head">
+        <h2 id="h-list">All cards <span class="count" id="listCount"></span></h2>
+        <button type="button" class="btn sm need-dl" data-act="csv">Download as CSV</button>
+      </div>
+      <div class="list-tools">
+        <input type="search" id="q" placeholder="Search your cards" aria-label="Search your cards">
+        <div class="seg" id="filters" role="group" aria-label="Show">
+          <button type="button" data-f="all" aria-pressed="true">All</button>
+          <button type="button" data-f="mistake" aria-pressed="false">Mistakes</button>
+          <button type="button" data-f="word" aria-pressed="false">Words</button>
+          <button type="button" data-f="due" aria-pressed="false">Due</button>
+          <button type="button" data-f="learned" aria-pressed="false">Learned</button>
+          <button type="button" data-f="starter" aria-pressed="false">Starter</button>
+        </div>
+      </div>
+      <ul class="clist" id="clist"></ul>
+      <div class="row" id="moreRow"></div>
+    </section>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+"use strict";
+
+/* Two homes: inside claude.ai the page gets Claude capabilities; on the website it uses free browser tools. */
+const CLAUDE = !!(window.claude && typeof window.claude.use === "function");
+if (!CLAUDE) document.body.classList.add("standalone", "has-dl");
+
+/* ---------- Helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const clone = x => JSON.parse(JSON.stringify(x));
+const ymd = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const today = () => ymd(new Date());
+const isDate = s => typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s);
+function addDays(s, n) { const [y, m, d] = s.split("-").map(Number); return ymd(new Date(y, m - 1, d + n)); }
+function daysBetween(a, b) { const [y1, m1, d1] = a.split("-").map(Number), [y2, m2, d2] = b.split("-").map(Number); return Math.round((Date.UTC(y2, m2 - 1, d2) - Date.UTC(y1, m1 - 1, d1)) / 86400000); }
+const escRe = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const settle = (p, ms) => Promise.race([Promise.resolve(p).catch(() => {}), sleep(ms || 2500)]);
+/* Lower case, plain apostrophes, no punctuation: for comparing sentences and finding duplicates. */
+const norm = s => String(s == null ? "" : s).toLowerCase().replace(/[’‘`]/g, "'").replace(/[^a-z0-9' ]+/g, " ").replace(/(^|\s)'+|'+(?=\s|$)/g, " ").replace(/\s+/g, " ").trim();
+const stripMd = s => String(s == null ? "" : s).replace(/\*\*|__|`/g, "").trim();
+
+const I = {
+  play:'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+};
+
+let toastTimer = null;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 4800);
+}
+
+/* ---------- Starter cards: real mistakes from the learner's own messages ---------- */
+const STARTER_M = [
+  ["s01", "speacking", "speaking", "Spelling: speak → speaking."],
+  ["s02", "articlating lesson", "articulation lessons", "articulate (verb) → articulation (noun). More than one → lessons."],
+  ["s03", "for the future use", "for future use", "No “the” before general ideas."],
+  ["s04", "I will like it to be public", "I would like it to be public", "A polite wish: I would like…"],
+  ["s05", "it might be another thing else", "it might be something else", "Say “something else”, not “another thing else”."],
+  ["s06", "I'm good at passive the reading and the listening", "I'm good at the passive skills: reading and listening.", "Name the group first, then the list."],
+  ["s07", "Did you include the artifact verions to the new updates?", "Did you add the new updates to the artifact versions?", "Add something TO something. Spelling: versions."],
+  ["s08", "What are other things I can build?", "What else can I build?", "“What else…?” is short and natural."],
+  ["s09", "The reason I why I need English is comprise all the options", "I need English for all the reasons you listed.", "Keep it simple: I need English for…"],
+  ["s10", "what motivate me more", "what motivates me most", "he / she / it / what + verb‑s. The biggest = most."],
+  ["s11", "some wired face", "some weird faces", "wired = with wires. weird = strange."],
+  ["s12", "expecially", "especially", "Spelling: es‑pe‑cial‑ly."],
+  ["s13", "she start to shaking her head", "she started shaking her head", "Past: started. start + ‑ing."],
+  ["s14", "I went on a date with one girl", "I went on a date with a girl", "Use “a”, not “one”, unless the number matters."],
+  ["s15", "What else we can still build?", "What else can we build?", "In questions: can + we."]
+];
+const STARTER_W = [
+  ["w01", "receipt", "proof that you paid", "Can I have a receipt, please?"],
+  ["w02", "landlord", "the person who owns the house you rent", "My landlord fixed the window last week."],
+  ["w03", "appointment", "a fixed time to meet someone, like a doctor", "I have a doctor's appointment at ten."],
+  ["w04", "embarrassed", "feeling shy or silly because people are looking at you", "I felt embarrassed when I forgot her name."],
+  ["w05", "How can I put this…", "a phrase that gives you time to think while speaking", "How can I put this… the film was long, but good."]
+];
+
+/* ---------- Storage ---------- */
+const LS_KEY = "notebook-v1";
+const INTERVALS = [0, 1, 3, 7, 14, 30, 60, 120];
+const fresh = () => ({v:1, cards:[], days:{}, settings:{newPerDay:10}});
+const str = (x, n) => String(x == null ? "" : x).slice(0, n || 500);
+const int = (x, lo, hi) => { const n = Math.round(+x); return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : lo; };
+/* Every card goes through here, so all cards have the same fields in the same order (that keeps sync comparisons exact). */
+function cleanCard(c) {
+  if (!c || typeof c !== "object") return null;
+  const id = str(c.id, 64);
+  if (!/^[A-Za-z0-9_-]{1,64}$/.test(id)) return null;
+  const type = c.type === "word" ? "word" : c.type === "mistake" ? "mistake" : null;
+  if (!type) return null;
+  const t = today();
+  const out = {id, type, created: isDate(c.created) ? c.created : t, updated: Math.max(0, +c.updated || 0)};
+  if (c.deleted) out.deleted = true;
+  if (type === "mistake") { out.wrong = str(c.wrong, 300); out.right = str(c.right, 300); out.note = str(c.note, 300); }
+  else { out.word = str(c.word, 120); out.meaning = str(c.meaning, 300); out.example = str(c.example, 300); }
+  out.box = int(c.box, 0, 7);
+  out.due = isDate(c.due) ? c.due : out.created;
+  out.reps = int(c.reps, 0, 1e6);
+  out.lapses = int(c.lapses, 0, 1e6);
+  out.last = isDate(c.last) ? c.last : "";
+  out.seen = isDate(c.seen) ? c.seen : "";   // the day the card was first reviewed: limits new cards per day
+  if (c.starter) out.starter = true;
+  if (!out.deleted && type === "mistake" && !(out.wrong.trim() && out.right.trim())) return null;
+  if (!out.deleted && type === "word" && !out.word.trim()) return null;
+  return out;
+}
+function cleanDays(d) {
+  const out = {};
+  if (d && typeof d === "object" && !Array.isArray(d)) Object.keys(d).forEach(k => {
+    if (!isDate(k) || !d[k] || typeof d[k] !== "object") return;
+    out[k] = {reviewed: int(d[k].reviewed, 0, 1e6), again: int(d[k].again, 0, 1e6)};
+  });
+  return out;
+}
+function normalize(got) {
+  const out = fresh();
+  if (!got || typeof got !== "object") return out;
+  const seen = new Set();
+  (Array.isArray(got.cards) ? got.cards : []).forEach(c => { const x = cleanCard(c); if (x && !seen.has(x.id)) { seen.add(x.id); out.cards.push(x); } });
+  out.days = cleanDays(got.days);
+  const npd = got.settings && +got.settings.newPerDay;
+  out.settings = {newPerDay: [5, 10, 20].includes(npd) ? npd : 10};
+  return out;
+}
+function loadLocal() { try { const s = localStorage.getItem(LS_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+function starterCards() {
+  // Three mistakes, then one word, so the first review mixes both kinds.
+  const out = [], t = today();
+  let w = 0;
+  STARTER_M.forEach((m, i) => {
+    out.push({id:m[0], type:"mistake", created:t, updated:0, wrong:m[1], right:m[2], note:m[3], starter:true});
+    if (i % 3 === 2 && w < STARTER_W.length) { const x = STARTER_W[w++]; out.push({id:x[0], type:"word", created:t, updated:0, word:x[1], meaning:x[2], example:x[3], starter:true}); }
+  });
+  while (w < STARTER_W.length) { const x = STARTER_W[w++]; out.push({id:x[0], type:"word", created:t, updated:0, word:x[1], meaning:x[2], example:x[3], starter:true}); }
+  return out.map(cleanCard).filter(Boolean);
+}
+const firstLoad = loadLocal();
+let state = normalize(firstLoad);
+if (!firstLoad) state.cards = starterCards();   // starter ids are fixed, so two devices never get two copies
+
+const liveCards = () => state.cards.filter(c => !c.deleted);
+const getCard = id => state.cards.find(c => c.id === id) || null;
+const newId = () => "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+function save() {
+  saveLocal();
+  if (SY.on) { clearTimeout(SY.timer); SY.timer = setTimeout(syncRemote, 1200); }
+}
+
+/* ---------- Sync to the Claude account (only inside claude.ai) ----------
+   One small document for days and settings, and one document per card,
+   so a big notebook never hits the size limit of a single document. */
+const SY = {on:false, meta:null, col:null, cards:{}, timer:null};
+let syncMode = CLAUDE ? "device" : "site";
+function setSync(mode) {
+  syncMode = mode;
+  const el = $("#sync"); if (!el) return;
+  el.textContent = mode === "account"
+    ? "Your notebook is saved to your Claude account, so it follows you to other devices."
+    : mode === "device" ? "Your notebook is saved in this browser only."
+    : "Your notebook is saved in this browser only. Use the backup on the home page to keep it safe.";
+}
+const metaBody = s => ({v:1, days:s.days, settings:s.settings});
+function mergeState(a, b) {   // a = this browser, b = the Claude account
+  const out = fresh();
+  const map = new Map();
+  a.cards.forEach(c => map.set(c.id, c));
+  b.cards.forEach(c => { const x = map.get(c.id); if (!x || (c.updated || 0) > (x.updated || 0)) map.set(c.id, c); });
+  // Keep this browser's order, then any cards that only the account has.
+  const order = a.cards.map(c => c.id).concat(b.cards.map(c => c.id).filter(id => !a.cards.some(c => c.id === id)));
+  out.cards = order.map(id => map.get(id)).filter(Boolean);
+  Array.from(new Set(Object.keys(a.days).concat(Object.keys(b.days)))).forEach(k => {
+    const x = a.days[k] || {reviewed:0, again:0}, y = b.days[k] || {reviewed:0, again:0};
+    out.days[k] = {reviewed: Math.max(x.reviewed, y.reviewed), again: Math.max(x.again, y.again)};
+  });
+  out.settings = {newPerDay: (b.settings && b.settings.newPerDay) || a.settings.newPerDay || 10};
+  return out;
+}
+async function setWithRetry(ref, data) {
+  try { await ref.set(data); }
+  catch (e) {
+    if (!e || e.code !== "unavailable") throw e;
+    await sleep(400 + Math.random() * 800);
+    await ref.set(data);
+  }
+}
+function syncFailed(e) {
+  if (!SY.on) return;
+  SY.on = false; clearTimeout(SY.timer);
+  setSync("device");
+  if (e && e.code === "quota_exceeded") toast("The storage in your Claude account is full. Your notebook is still saved in this browser.");
+}
+/* At most four writes at a time, and one at a time for each document. */
+const LIM = {n:0, q:[]};
+const slot = () => new Promise(res => { if (LIM.n < 4) { LIM.n++; res(); } else LIM.q.push(res); });
+const release = () => { const next = LIM.q.shift(); if (next) next(); else LIM.n--; };
+async function flushDoc(sd) {
+  if (!SY.on || sd.busy || sd.want == null || sd.want === sd.last) return;
+  sd.busy = true;
+  await slot();
+  const body = sd.want;
+  try { if (SY.on) { await setWithRetry(sd.ref, JSON.parse(body)); sd.last = body; } }
+  catch (e) { syncFailed(e); }
+  finally { release(); }
+  sd.busy = false;
+  if (SY.on && sd.want !== sd.last) flushDoc(sd);
+}
+function syncRemote() {
+  if (!SY.on) return;
+  SY.meta.want = JSON.stringify(metaBody(state)); flushDoc(SY.meta);
+  state.cards.forEach(c => {
+    const body = JSON.stringify(c);
+    const sd = SY.cards[c.id] || (SY.cards[c.id] = {ref: SY.col.doc(c.id), last:null, want:null, busy:false});
+    sd.want = body; flushDoc(sd);   // returns at once when nothing changed
+  });
+}
+async function connectStore(C) {
+  try {
+    const [db, user] = await Promise.all([C.use("db"), C.use("user")]);
+    if (!db || !user) { setSync("device"); return; }
+    const uid = await user.id();
+    if (!uid) { setSync("device"); return; }
+    const base = "data/users/" + uid + "/notebook";
+    const metaRef = db.doc(base), col = db.collection(base + "/cards");
+    const [metaSnap, cardSnap] = await Promise.race([
+      Promise.all([metaRef.get(), col.limit(1000).get()]),
+      sleep(10000).then(() => { throw new Error("timeout"); })
+    ]);
+    const raw = {cards:[], days:{}, settings:{}};
+    if (metaSnap && metaSnap.exists) { const m = clone(metaSnap.data() || {}); raw.days = m.days; raw.settings = m.settings; }
+    ((cardSnap && cardSnap.docs) || []).forEach(d => { if (d && d.exists) raw.cards.push(Object.assign(clone(d.data() || {}), {id: d.id})); });
+    const remote = normalize(raw);
+    const remoteBodies = {};
+    remote.cards.forEach(c => { remoteBodies[c.id] = JSON.stringify(c); });
+    state = mergeState(state, remote);
+    SY.meta = {ref: metaRef, last: metaSnap && metaSnap.exists ? JSON.stringify(metaBody(remote)) : null, want:null, busy:false};
+    SY.col = col;
+    Object.keys(remoteBodies).forEach(cid => { SY.cards[cid] = {ref: col.doc(cid), last: remoteBodies[cid], want:null, busy:false}; });
+    SY.on = true;
+    setSync("account");
+    refreshAfterMerge();
+    save();
+  } catch (e) { setSync("device"); }
+}
+/* After the account's copy arrives, refresh what's safe to refresh without losing what the learner is doing. */
+function refreshAfterMerge() {
+  renderStats(); renderList(); renderNpd();
+  const busy = S.reviewed > 0 || S.revealed || S.said.trim() || (V.dict && V.dict.active());
+  if (!busy) startSession(false); else renderReview();
+}
+window.addEventListener("pagehide", () => { saveLocal(); if (SY.on) { clearTimeout(SY.timer); syncRemote(); } });
+
+/* ---------- Spaced repetition ---------- */
+function previewDays(c, g) {
+  const b = c.box | 0;
+  if (g === "again") return 0;
+  if (g === "hard") return Math.max(1, Math.round(INTERVALS[b] / 2));
+  if (g === "good") return INTERVALS[Math.min(7, b + 1)];
+  return INTERVALS[Math.min(7, b + 2)];
+}
+function whenLabel(n) {
+  if (n <= 0) return "again today";
+  if (n === 1) return "tomorrow";
+  if (n % 30 === 0) { const m = n / 30; return "in " + m + (m === 1 ? " month" : " months"); }
+  if (n % 7 === 0) { const w = n / 7; return "in " + w + (w === 1 ? " week" : " weeks"); }
+  return "in " + n + " days";
+}
+function applyGrade(c, g) {
+  const t = today(), n = previewDays(c, g);
+  if (g === "again") { c.box = 0; c.lapses++; }
+  else if (g === "good") c.box = Math.min(7, c.box + 1);
+  else if (g === "easy") c.box = Math.min(7, c.box + 2);
+  c.due = addDays(t, n); c.reps++; c.last = t; if (!c.seen) c.seen = t; c.updated = Date.now();
+  const d = state.days[t] || (state.days[t] = {reviewed:0, again:0});
+  d.reviewed++; if (g === "again") d.again++;
+}
+const isNew = c => !c.reps;
+const isDue = (c, t) => c.reps > 0 && c.due <= (t || today());
+function newAllowance() {
+  const t = today();
+  const introduced = liveCards().filter(c => c.seen === t).length;
+  return Math.max(0, state.settings.newPerDay - introduced);
+}
+function dueTodayCount() {
+  const live = liveCards(), t = today();
+  return live.filter(c => isDue(c, t)).length + Math.min(live.filter(isNew).length, newAllowance());
+}
+function lightShuffle(arr) {
+  for (let i = 0; i < arr.length; i += 5) {
+    const end = Math.min(arr.length, i + 5);
+    for (let j = end - 1; j > i; j--) { const k = i + Math.floor(Math.random() * (j - i + 1)); const x = arr[j]; arr[j] = arr[k]; arr[k] = x; }
+  }
+  return arr;
+}
+function buildQueue() {
+  const live = liveCards(), t = today();
+  const due = live.filter(c => isDue(c, t)).sort((a, b) => a.due < b.due ? -1 : a.due > b.due ? 1 : 0);
+  const fresh = live.filter(isNew).slice(0, newAllowance());
+  return lightShuffle(due).concat(lightShuffle(fresh)).map(c => c.id);
+}
+function moreQueue() {
+  const live = liveCards();
+  const fresh = live.filter(isNew);
+  if (fresh.length) return lightShuffle(fresh.slice(0, 10)).map(c => c.id);
+  return lightShuffle(live.filter(c => c.reps > 0).sort((a, b) => (a.due < b.due ? -1 : a.due > b.due ? 1 : a.box - b.box)).slice(0, 10)).map(c => c.id);
+}
+function streak() {
+  let d = today();
+  if (!(state.days[d] && state.days[d].reviewed > 0)) d = addDays(d, -1);
+  let n = 0;
+  while (state.days[d] && state.days[d].reviewed > 0) { n++; d = addDays(d, -1); }
+  return n;
+}
+
+/* ---------- Comparing what you said with the better version ---------- */
+const CONTR = {"i'm":"i am","you're":"you are","we're":"we are","they're":"they are","he's":"he is","she's":"she is","it's":"it is","that's":"that is",
+  "what's":"what is","there's":"there is","don't":"do not","doesn't":"does not","didn't":"did not","can't":"cannot","won't":"will not","isn't":"is not",
+  "aren't":"are not","wasn't":"was not","weren't":"were not","i'd":"i would","you'd":"you would","we'd":"we would","i'll":"i will","you'll":"you will",
+  "we'll":"we will","i've":"i have","you've":"you have","we've":"we have","let's":"let us","couldn't":"could not","wouldn't":"would not",
+  "shouldn't":"should not","haven't":"have not","hasn't":"has not","can not":"cannot"};
+const FILLERS = new Set(["um","uh","er","erm","hmm","ah","mm"]);   // thinking sounds don't count as mistakes
+function units(s) {
+  const disp = String(s || "").split(/\s+/).filter(Boolean).slice(0, 120);
+  const keys = [];
+  disp.forEach((w, di) => {
+    const n = norm(w); if (!n) return;
+    n.split(" ").forEach(p => { if (FILLERS.has(p)) return; const ex = CONTR[p]; (ex ? ex.split(" ") : [p]).forEach(k => keys.push({k, di})); });
+  });
+  return {disp, keys};
+}
+function lcs(a, b) {
+  const n = a.length, m = b.length;
+  const dp = Array.from({length: n + 1}, () => new Uint16Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const ma = new Set(), mb = new Set();
+  let i = 0, j = 0;
+  while (i < n && j < m) {
+    if (a[i] === b[j]) { ma.add(i); mb.add(j); i++; j++; }
+    else if (dp[i + 1][j] >= dp[i][j + 1]) i++; else j++;
+  }
+  return {ma, mb, len: dp[0][0]};
+}
+function compare(said, right) {
+  const A = units(said), B = units(right);
+  const a = A.keys.map(x => x.k), b = B.keys.map(x => x.k);
+  if (!a.length || !b.length) return null;
+  const {ma, mb, len} = lcs(a, b);
+  const badA = new Set(), badB = new Set();
+  A.keys.forEach((x, i) => { if (!ma.has(i)) badA.add(x.di); });
+  B.keys.forEach((x, i) => { if (!mb.has(i)) badB.add(x.di); });
+  const score = 2 * len / (a.length + b.length);
+  const missing = b.length - len, extra = a.length - len;
+  return {A, B, badA, badB, score, exact: missing === 0 && extra === 0};
+}
+function wordForms(w) {
+  const base = norm(String(w || "").replace(/[….]+$/g, ""));
+  if (!base) return [];
+  if (base.includes(" ")) return [base];
+  const f = new Set([base, base + "s", base + "es", base + "ed", base + "d", base + "ing"]);
+  if (base.endsWith("e")) f.add(base.slice(0, -1) + "ing");
+  if (base.endsWith("y")) { f.add(base.slice(0, -1) + "ies"); f.add(base.slice(0, -1) + "ied"); }
+  if (/[^aeiou][aeiou][bdgklmnprt]$/.test(base)) { const d = base + base.slice(-1); f.add(d + "ed"); f.add(d + "ing"); }
+  return Array.from(f);
+}
+function hasWord(text, w) {
+  const t = " " + norm(text) + " ";
+  return wordForms(w).some(f => t.includes(" " + f + " "));
+}
+/* A pattern that finds the word (or phrase) inside an example sentence. */
+function wordRe(w) {
+  const words = String(w || "").replace(/[….]+$/g, "").trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return null;
+  if (words.length > 1) return new RegExp(words.map(escRe).join("[\\s,]+") + "(?:…|\\.\\.\\.)?", "gi");
+  const forms = wordForms(words[0]).sort((a, b) => b.length - a.length);
+  if (!forms.length) return null;
+  return new RegExp("\\b(?:" + forms.map(escRe).join("|") + ")\\b", "gi");
+}
+function blanked(example, w) { const re = wordRe(w); return re ? String(example).replace(re, "____") : String(example); }
+function highlighted(example, w) {
+  const re = wordRe(w), s = String(example || "");
+  if (!re) return esc(s);
+  let out = "", last = 0, m;
+  while ((m = re.exec(s))) { out += esc(s.slice(last, m.index)) + '<span class="mark">' + esc(m[0]) + "</span>"; last = m.index + m[0].length; if (!m[0].length) re.lastIndex++; }
+  return out + esc(s.slice(last));
+}
+function letters(w) {
+  return String(w || "").split(/\s+/).filter(Boolean).map(x => {
+    const l = x.replace(/[^A-Za-z']/g, "");
+    return l ? l[0] + " _".repeat(Math.max(0, l.length - 1)) : x;
+  }).join("   ");
+}
+
+/* ---------- Voice: hearing the answer ---------- */
+const V = {dict:null, dstate:"idle", target:null, synth: ("speechSynthesis" in window) ? window.speechSynthesis : null, run:0,
+           tts:null, ttsOff:false, ai:null, aiCtl:null, dl:null};
+if (V.synth) document.body.classList.add("has-voice");
+function setPlaying(btn) {
+  $$(".playing").forEach(b => { if (b !== btn) b.classList.remove("playing"); });
+  if (btn) btn.classList.add("playing");
+}
+function synthSay(text, rate) {
+  return new Promise((res, rej) => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-GB"; u.rate = rate;
+    u.onend = () => res();
+    u.onerror = e => rej({code: (e.error === "interrupted" || e.error === "canceled") ? "stopped" : "error"});
+    V.synth.speak(u);
+  });
+}
+function speakErr(e) {
+  const c = e && e.code;
+  if (!c || c === "stopped" || c === "cancelled" || c === "canceled" || c === "viewer_stopped" || c === "interrupted") return;
+  if (c === "not_granted") {
+    V.ttsOff = true; V.tts = null; document.body.classList.remove("has-voice");
+    toast("Reading aloud is off for this page. Say the answer out loud yourself instead.");
+    return;
+  }
+  if (c === "busy") { toast("Stop the microphone first, then press play."); return; }
+  if (c === "rate_limited") { toast("That's a lot of listening for now. Wait a minute, then try again."); return; }
+  toast("The audio didn't play. Press play to try again.");
+}
+async function say(text, btn) {
+  if (V.ttsOff || (!V.tts && !V.synth) || !text) return;
+  const run = ++V.run;
+  if (V.synth) { try { V.synth.cancel(); } catch (e) {} }
+  if (V.dict && V.dict.active()) await settle(V.dict.stop(), 2000);
+  if (run !== V.run) return;
+  setPlaying(btn);
+  try {
+    if (V.tts) await V.tts.speak(text, {rate: 0.9, language: "en"});
+    else await synthSay(text, 0.9);
+  } catch (e) { if (run === V.run) speakErr(e); }
+  if (run === V.run && btn) btn.classList.remove("playing");
+}
+function stopSpeech() {
+  V.run++;
+  if (V.tts) { try { const p = V.tts.stop(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
+  if (V.synth) { try { V.synth.cancel(); } catch (e) {} }
+  setPlaying(null);
+}
+
+/* ---------- Voice typing ---------- */
+function markMic() {
+  const on = V.dstate !== "idle";
+  $$("[data-mic]").forEach(b => {
+    const me = on && V.target && b.dataset.mic === V.target.id;
+    b.classList.toggle("listening", !!me);
+    b.setAttribute("aria-pressed", me ? "true" : "false");
+  });
+}
+function disableMic(msg) {
+  if (!V.dict && !document.body.classList.contains("has-mic")) return;
+  V.dict = null; document.body.classList.remove("has-mic"); V.dstate = "idle"; markMic();
+  if (msg) toast(msg);
+}
+const MIC_OFF = CLAUDE ? "The microphone is off for this page. You can still say your answers out loud and type them."
+                       : "The microphone is blocked for voice typing. You can still say your answers out loud and type them.";
+function onDictError(e) {
+  const c = e && e.code;
+  if (c === "stopped") return;
+  if (c === "not_granted") return disableMic(MIC_OFF);
+  if (c === "unavailable") return disableMic("Voice typing isn't available here. You can still say your answers out loud.");
+  if (c === "dismissed") return toast("Press the microphone again and choose Allow to use voice typing.");
+  if (c === "rate_limited") return toast("Voice typing is busy. Try again in a moment.");
+  if (c === "no_gesture") return toast("Press the microphone to turn on voice typing.");
+  toast("Voice typing didn't start. Press the microphone to try again.");
+}
+/* Claude's voice typing must start straight from a click: toggleMic only runs inside the click handler. */
+function toggleMic(btn) {
+  if (!V.dict) return;
+  const box = document.getElementById(btn.dataset.mic);
+  if (!box) return;
+  if (V.dict.active() && V.target === box) { V.dict.stop().catch(() => {}); return; }
+  if (V.dict.active()) { V.target = box; markMic(); return; }
+  stopSpeech();
+  V.target = box; markMic();
+  V.dict.start({language:"en"}).catch(onDictError);
+}
+/* The review re-draws itself; keep the microphone pointed at the box with the same id, or at the answer box. */
+function retargetMic() {
+  if (!V.dict || !V.dict.active()) { markMic(); return; }
+  const id = V.target && V.target.id;
+  const el = (id && document.getElementById(id)) || document.getElementById("sayBox");
+  if (el) V.target = el;
+  markMic();
+}
+function wireDictation() {
+  V.dict.onFinal(({text}) => {
+    const box = V.target; if (!box || !text || !document.body.contains(box)) return;
+    let t = text;
+    if (!box.value) t = t.replace(/^\s+/, "");
+    else if (!/\s$/.test(box.value) && !/^\s/.test(t)) t = " " + t;
+    box.value += t;
+    box.dispatchEvent(new Event("input", {bubbles:true}));
+  });
+  V.dict.onPartial(({text}) => {
+    if (!V.target) return;
+    const p = document.querySelector('[data-partial-for="' + V.target.id + '"]');
+    if (p) p.textContent = text ? text + "…" : "";
+  });
+  V.dict.onState(({state: st, reason}) => {
+    V.dstate = st; markMic();
+    if (st !== "idle") return;
+    $$("[data-partial-for]").forEach(p => { p.textContent = ""; });
+    if (reason === "not_granted") disableMic(MIC_OFF);
+    else if (reason === "unavailable") disableMic("Voice typing isn't available here. You can still say your answers out loud.");
+    else if (reason === "upstream_error") toast("Voice typing stopped. Press the microphone to start again.");
+  });
+}
+/* Browser speech recognition (Chrome, Edge), wrapped in a start/stop/onFinal/onPartial/onState shape. */
+function makeWebDictation() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return null;
+  let rec = null, st = "idle", wantOn = false, lastErr = null, resolveStop = null;
+  const finals = [], partials = [], states = [];
+  const emit = (s, reason) => { st = s; states.forEach(h => h(reason ? {state:s, reason} : {state:s})); };
+  function make() {
+    const r = new SR();
+    r.lang = "en-US"; r.continuous = true; r.interimResults = true;
+    r.onstart = () => emit("listening");
+    r.onresult = e => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const res = e.results[i], t = res[0].transcript;
+        if (res.isFinal) { if (t.trim()) finals.forEach(h => h({text: " " + t.trim()})); }
+        else interim += t;
+      }
+      partials.forEach(h => h({text: interim.trim()}));
+    };
+    r.onerror = e => { lastErr = e.error; };
+    r.onend = () => {
+      // Chrome ends recognition after a pause; keep listening until the page asks to stop.
+      if (wantOn && (!lastErr || lastErr === "no-speech")) {
+        lastErr = null;
+        if (resolveStop) { const f = resolveStop; resolveStop = null; f(); }
+        try { r.start(); return; } catch (err) {}
+      }
+      rec = null; wantOn = false;
+      const reason = (lastErr === "not-allowed" || lastErr === "service-not-allowed") ? "not_granted"
+        : (lastErr && lastErr !== "aborted" && lastErr !== "no-speech") ? "upstream_error" : "stopped";
+      partials.forEach(h => h({text: ""}));
+      emit("idle", reason);
+      if (resolveStop) { const f = resolveStop; resolveStop = null; f(); }
+    };
+    return r;
+  }
+  return {
+    start() {
+      if (rec) { wantOn = true; return Promise.resolve(); }
+      lastErr = null; wantOn = true; rec = make(); emit("starting");
+      try { rec.start(); } catch (err) { rec = null; wantOn = false; emit("idle", "upstream_error"); return Promise.reject({code:"upstream_error"}); }
+      return Promise.resolve();
+    },
+    stop() {
+      if (!rec) return Promise.resolve();
+      wantOn = false;
+      return new Promise(res => { resolveStop = res; try { rec.stop(); } catch (err) { resolveStop = null; res(); } });
+    },
+    active() { return st !== "idle"; },
+    onFinal(h) { finals.push(h); return () => {}; },
+    onPartial(h) { partials.push(h); return () => {}; },
+    onState(h) { states.push(h); return () => {}; }
+  };
+}
+
+/* ---------- Claude and the free tools ---------- */
+const AI_OFF = ["not_granted","sampling_disabled","capability_disabled","capability_removed","not_declared"];
+function aiErrCopy(e) {
+  const c = e && e.code;
+  if (AI_OFF.includes(c)) return "Claude's help is turned off for this page. You can turn it on in the page's Permissions menu.";
+  if (c === "rate_limited" || c === "queue_overflow") return "Too many requests right now. Wait a minute, then try again.";
+  if (c === "prompt_too_large") return "That's too long for Claude. Try a shorter text.";
+  if (c === "session_expired") return "Your Claude session has ended. Reload the page, then try again.";
+  if (c === "invalid_json") return "Claude's answer didn't come back in the right shape. Press the button to try again.";
+  return "Something went wrong. Press the button to try again.";
+}
+function aiFailed(e) {
+  if (e && AI_OFF.includes(e.code)) { V.ai = null; document.body.classList.remove("has-ai"); }
+  if (!(e && e.code === "cancelled")) toast(aiErrCopy(e));
+}
+function aiHTML(text) {
+  const lines = String(text || "").slice(0, 4000).replace(/\*\*|__/g, "").replace(/^#+\s*/gm, "").split(/\n+/).map(s => s.trim()).filter(Boolean);
+  let html = "", list = null;
+  const close = () => { if (list) { html += "</" + list + ">"; list = null; } };
+  lines.forEach(l => {
+    let m;
+    if ((m = l.match(/^(\d+)[.)]\s+(.*)$/))) { if (list !== "ol") { close(); html += "<ol>"; list = "ol"; } html += "<li>" + esc(m[2]) + "</li>"; }
+    else if ((m = l.match(/^[-*•]\s+(.*)$/))) { if (list !== "ul") { close(); html += "<ul>"; list = "ul"; } html += "<li>" + esc(m[1]) + "</li>"; }
+    else { close(); html += "<p>" + esc(l) + "</p>"; }
+  });
+  close();
+  return html;
+}
+async function ltMatches(text) {
+  const body = new URLSearchParams({text: String(text).slice(0, 18000), language: "en-US"});
+  const r = await fetch("https://api.languagetool.org/v2/check", {method:"POST", body});
+  if (r.status === 429) throw new Error("busy");
+  if (!r.ok) throw new Error("http");
+  const data = await r.json();
+  return (data && Array.isArray(data.matches)) ? data.matches.filter(m => !/^(CASING|TYPOGRAPHY|WHITESPACE)$/.test((m.rule && m.rule.category && m.rule.category.id) || "")) : [];
+}
+const ltErr = e => e && e.message === "busy" ? "LanguageTool is busy. Wait one minute, then try again." : "The grammar check didn't work. Check your internet connection and try again.";
+
+/* ---------- Header stats ---------- */
+function renderStats() {
+  const live = liveCards();
+  const learned = live.filter(c => c.box >= 4).length, s = streak();
+  $("#stats").innerHTML =
+    '<div class="stat"><span class="k">Due today</span><span class="v">' + dueTodayCount() + '<small>cards</small></span></div>' +
+    '<div class="stat"><span class="k">Learned</span><span class="v">' + learned + '<small>of ' + live.length + '</small></span></div>' +
+    '<div class="stat"><span class="k">Total cards</span><span class="v">' + live.length + '<small>' + live.filter(c => c.type === "mistake").length + ' mistakes · ' + live.filter(c => c.type === "word").length + ' words</small></span></div>' +
+    '<div class="stat"><span class="k">Review streak</span><span class="v">' + s + '<small>' + (s === 1 ? "day" : "days") + ' in a row</small></span></div>';
+}
+
+/* ---------- Today's review ---------- */
+const S = {queue:[], pos:0, revealed:false, said:"", own:"", hints:{}, reviewed:0, again:0, more:false};
+function resetCard() { S.revealed = false; S.said = ""; S.own = ""; S.hints = {}; if (V.aiCtl) { V.aiCtl.abort(); V.aiCtl = null; } }
+function startSession(more) {
+  S.queue = more ? moreQueue() : buildQueue(); S.pos = 0; S.reviewed = 0; S.again = 0; S.more = !!more;
+  resetCard(); renderReview(); renderStats();
+}
+function curCard() {
+  while (S.pos < S.queue.length) {
+    const c = getCard(S.queue[S.pos]);
+    if (c && !c.deleted) return c;
+    S.queue.splice(S.pos, 1);
+  }
+  return null;
+}
+const micBtn = id => '<button type="button" class="icon-btn mic need-mic" data-mic="' + id + '" aria-label="Voice typing" aria-pressed="false">' + I.mic + '</button>';
+function sayArea(placeholder) {
+  return '<div class="say-area"><label class="label" for="sayBox">My answer <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>' +
+    '<div class="field"><textarea id="sayBox" rows="2" placeholder="' + esc(placeholder) + '">' + esc(S.said) + '</textarea>' + micBtn("sayBox") + '</div>' +
+    '<p class="partial" data-partial-for="sayBox" aria-live="polite"></p></div>';
+}
+function gradesHTML(c) {
+  const g = [["again","Again","1"],["hard","Hard","2"],["good","Good","3"],["easy","Easy","4"]];
+  return '<div class="grades"><p class="label" id="gradeLabel">How did it go?</p><div class="grade-row" role="group" aria-labelledby="gradeLabel">' +
+    g.map(([k, name, key]) => '<button type="button" class="grade g-' + k + '" data-grade="' + k + '"><kbd>' + key + '</kbd><b>' + name + '</b><small>' + whenLabel(previewDays(c, k)) + '</small></button>').join("") +
+    '</div><p class="note kbd-note">Keyboard: <kbd>Space</kbd> shows the answer, <kbd>1</kbd>–<kbd>4</kbd> choose.</p></div>';
+}
+function diffHTML(c) {
+  const said = S.said.trim();
+  if (c.type === "word") {
+    if (!said) return "";
+    return hasWord(said, c.word)
+      ? '<p class="verdict ok">✓ You found it!</p>'
+      : '<p class="verdict no">Not this time. The word is “' + esc(c.word.replace(/[….]+$/, "")) + '”. Say it three times.</p>';
+  }
+  if (!said) return '<p class="note need-mic">Tip: press the microphone before you speak. The page will compare your words with the better version.</p>';
+  const r = compare(said, c.right);
+  if (!r) return "";
+  // Saying the old sentence again must never count, even when the fix is one small word.
+  const rw = compare(said, c.wrong);
+  const oldOne = !r.exact && !!rw && rw.score >= r.score;
+  const ok = r.exact || (r.score >= 0.95 && !oldOne);
+  const verdict = ok ? '<p class="verdict ok">✓ Matches! Well said.</p>'
+    : oldOne ? '<p class="verdict no">That\'s still close to the old version. Look at the highlighted words, then say the better one.</p>'
+    : r.score >= 0.6 ? '<p class="verdict">Close! Look at the marked words, then say it again.</p>'
+    : '<p class="verdict no">Not yet. Listen to the better version, then say it again slowly.</p>';
+  if (r.exact) return verdict;
+  return verdict + '<div class="diff"><p class="label">You said</p><p class="dline">' +
+    r.A.disp.map((w, i) => r.badA.has(i) ? '<span class="extra">' + esc(w) + '</span>' : esc(w)).join(" ") +
+    '</p><p class="label">Better</p><p class="dline">' + r.B.disp.map((w, i) => r.badB.has(i) ? '<span class="miss">' + esc(w) + '</span>' : esc(w)).join(" ") +
+    '</p><p class="note">Crossed out: extra or different in what you said. Highlighted: missing or different in the better version. Voice typing can mishear, so trust your ears too.</p></div>';
+}
+function ownCheckHTML(c) {
+  const t = S.own.trim();
+  if (!t) return "";
+  return hasWord(t, c.word) ? "✓ You used “" + esc(c.word.replace(/[….]+$/, "")) + "”." : "Try to use “" + esc(c.word.replace(/[….]+$/, "")) + "” in your sentence.";
+}
+function doneHTML() {
+  const live = liveCards();
+  if (!live.length) {
+    return '<div class="done-box"><p class="eyebrow">Your notebook</p><h2>Your notebook is empty</h2>' +
+      '<p>Add your first card: a mistake you made, or a word you couldn\'t find. Then come back here and say it out loud.</p>' +
+      '<div class="row"><button type="button" class="btn primary" data-act="goadd">Add a card</button><button type="button" class="btn" data-act="gopaste">Paste feedback</button></div></div>';
+  }
+  const s = streak(), t = today();
+  const moreLeft = live.length > 0;
+  if (S.reviewed > 0) {
+    return '<div class="done-box"><p class="eyebrow">' + (S.more ? "Extra practice" : "Today's review") + '</p><h2>' + (S.more ? "Nice extra practice!" : "Done for today!") + '</h2>' +
+      '<div class="big-stats"><div class="big-stat"><span class="k">Practised</span><b>' + S.reviewed + '</b></div>' +
+      '<div class="big-stat"><span class="k">“Again”</span><b>' + S.again + '</b></div>' +
+      '<div class="big-stat"><span class="k">Streak</span><b>' + s + '</b><span class="note">' + (s === 1 ? "day" : "days") + ' in a row</span></div></div>' +
+      '<p>' + (S.again ? "The cards you marked “Again” come back first next time. That's normal: it's how your memory learns." : "Great work. Every card you said out loud is a little easier to say in a real conversation.") + '</p>' +
+      '<div class="row">' + (moreLeft ? '<button type="button" class="btn primary" data-act="more">Practise more</button>' : "") + '<button type="button" class="btn" data-act="goadd">Add a card</button></div></div>';
+  }
+  const next = live.filter(c => c.reps > 0).map(c => c.due).filter(d => d > t).sort()[0];
+  const nextN = next ? live.filter(c => c.reps > 0 && c.due === next).length : 0;
+  return '<div class="done-box"><p class="eyebrow">Today\'s review</p><h2>Nothing to review right now</h2>' +
+    '<p>' + (next ? "Your next " + (nextN === 1 ? "card comes" : nextN + " cards come") + " back " + whenLabel(daysBetween(t, next)) + "." : "You've seen all your cards.") +
+    ' You can practise more now, or add new cards from today\'s conversations.</p>' +
+    '<div class="row"><button type="button" class="btn primary" data-act="more">Practise more</button><button type="button" class="btn" data-act="goadd">Add a card</button></div></div>';
+}
+function renderReview() {
+  const box = $("#review");
+  const c = curCard();
+  if (!c) { box.innerHTML = doneHTML(); retargetMic(); return; }
+  const total = S.queue.length, n = S.pos + 1;
+  let h = '<div class="rv-head"><p class="eyebrow">' + (S.more ? "Extra practice" : "Today's review") + (isNew(c) ? " · new card" : "") + '</p><p class="rv-count">Card ' + n + ' of ' + total + '</p></div>' +
+    '<div class="bar" aria-hidden="true"><i style="width:' + Math.round((S.pos / Math.max(1, total)) * 100) + '%"></i></div>';
+  if (c.type === "mistake") {
+    h += '<div class="front"><p class="label">Say it correctly</p>' +
+      '<p class="big-line wrong-line"><span class="x" aria-hidden="true">✗</span><span><span class="visually">What I said: </span><span class="wrong">' + esc(c.wrong) + '</span></span></p>' +
+      '<p class="note">This is how you said it before. Say the better version out loud.</p>' +
+      (c.note && !S.revealed ? '<div class="row"><button type="button" class="btn sm" data-act="hint" data-h="rule" aria-expanded="' + (S.hints.rule ? "true" : "false") + '">Hint</button></div>' : "") +
+      (c.note && S.hints.rule && !S.revealed ? '<p class="hint">' + esc(c.note) + '</p>' : "") + '</div>';
+    h += sayArea(V.dict ? "Say it out loud. Your words appear here." : "Say it out loud, then type it here.");
+    if (!S.revealed) h += '<div class="row"><button type="button" class="btn primary" data-act="reveal">Show answer <kbd>Space</kbd></button></div>';
+    else {
+      h += '<div class="answer"><p class="label">Better</p><div class="ans-line"><p class="big-line">' + esc(c.right) + '</p>' +
+        '<button type="button" class="icon-btn need-voice" data-act="play" aria-label="Listen">' + I.play + '</button></div>' +
+        (c.note ? '<p class="rule">' + esc(c.note) + '</p>' : "") + '</div>' +
+        '<div id="diffOut" aria-live="polite">' + diffHTML(c) + '</div>' +
+        '<p class="note">Say the better version one more time, slowly. Then choose how it went.</p>' + gradesHTML(c);
+    }
+  } else {
+    const hasMeaning = !!c.meaning.trim();
+    h += '<div class="front">' + (hasMeaning
+      ? '<p class="label">Which word or phrase means…?</p><p class="big-line">' + esc(c.meaning) + '</p>'
+      : '<p class="label">Do you remember this word?</p><p class="big-line">' + esc(c.word) + '</p><p class="note">Say what it means, in your own words. Then use it in a sentence.</p>');
+    if (hasMeaning && !S.revealed) {
+      h += '<div class="row"><button type="button" class="btn sm" data-act="hint" data-h="first" aria-expanded="' + (S.hints.first ? "true" : "false") + '">First letter</button>' +
+        (c.example ? '<button type="button" class="btn sm" data-act="hint" data-h="ex" aria-expanded="' + (S.hints.ex ? "true" : "false") + '">Example</button>' : "") + '</div>' +
+        (S.hints.first ? '<p class="hint letters" aria-label="Hint: it starts with ' + esc(c.word.trim()[0] || "") + '">' + esc(letters(c.word)) + '</p>' : "") +
+        (S.hints.ex && c.example ? '<p class="hint">' + esc(blanked(c.example, c.word)) + '</p>' : "");
+    }
+    h += '</div>';
+    if (hasMeaning) h += sayArea(V.dict ? "Say the word out loud." : "Say the word, then type it here.");
+    if (!S.revealed) h += '<div class="row"><button type="button" class="btn primary" data-act="reveal">' + (hasMeaning ? "Show answer" : "Continue") + ' <kbd>Space</kbd></button></div>';
+    else {
+      h += '<div class="answer"><p class="label">The word</p><div class="ans-line"><p class="big-line">' + esc(c.word) + '</p>' +
+        '<button type="button" class="icon-btn need-voice" data-act="play" aria-label="Listen">' + I.play + '</button></div>' +
+        (c.example ? '<p class="example">' + highlighted(c.example, c.word) + '</p>' : "") + '</div>' +
+        '<div id="diffOut" aria-live="polite">' + diffHTML(c) + '</div>' +
+        '<div class="own"><h3>Now say your own sentence with it</h3>' +
+        '<p class="note">Make it about your life: your work, your family, your weekend.</p>' +
+        '<div class="field"><textarea id="ownBox" rows="2" placeholder="' + (V.dict ? "Say your sentence out loud." : "Say it, then type it here.") + '">' + esc(S.own) + '</textarea>' + micBtn("ownBox") + '</div>' +
+        '<p class="partial" data-partial-for="ownBox" aria-live="polite"></p>' +
+        '<p class="own-check' + (S.own.trim() && hasWord(S.own, c.word) ? " ok" : "") + '" id="ownCheck" aria-live="polite">' + ownCheckHTML(c) + '</p>' +
+        '<div class="row"><button type="button" class="btn sm need-ai" data-act="aicheck">Check my sentence</button>' +
+        '<button type="button" class="btn sm only-standalone" data-act="ltown">Check grammar (free)</button></div>' +
+        '<div class="ai-out" id="ownOut" aria-live="polite"></div><div class="lt" id="ownLt"></div></div>' + gradesHTML(c);
+    }
+  }
+  box.innerHTML = h;
+  retargetMic();
+}
+function grade(g) {
+  const c = curCard(); if (!c || !S.revealed) return;
+  applyGrade(c, g);
+  S.reviewed++;
+  if (g === "again") { S.again++; S.queue.splice(Math.min(S.pos + 4, S.queue.length), 0, c.id); }
+  S.pos++;
+  stopSpeech(); resetCard();
+  save(); renderReview(); renderStats(); renderList();
+  const r = $("#review"); if (r && r.getBoundingClientRect().top < 0) r.scrollIntoView({block:"start"});
+}
+function reveal() {
+  if (S.revealed || !curCard()) return;
+  S.revealed = true; renderReview();
+  const a = $("#review .answer"); if (a && a.getBoundingClientRect().bottom > window.innerHeight) a.scrollIntoView({block:"nearest"});
+}
+
+async function aiCheck(btn) {
+  const c = curCard(); if (!c || !V.ai) return;
+  const out = $("#ownOut"); if (!out) return;
+  const text = S.own.trim();
+  if ((text.match(/[A-Za-z']+/g) || []).length < 2) { out.innerHTML = '<p class="note">Say or type your own sentence first.</p>'; return; }
+  if (V.aiCtl) V.aiCtl.abort();
+  const ctl = new AbortController(); V.aiCtl = ctl;
+  btn.disabled = true; out.innerHTML = '<p class="note">Claude is reading your sentence…</p>';
+  const prompt = "You are a kind English coach for an adult learner (about B1). The learner is practising the word or phrase \"" + c.word + "\"" +
+    (c.meaning ? " (meaning: " + c.meaning + ")" : "") + ". This is their own sentence, from speech-to-text, so ignore punctuation and capital letters:\n\"\"\"\n" + text.slice(0, 600) + "\n\"\"\"\n\n" +
+    "Reply in simple English, under 50 words, plain text only. First line: \"Good!\", \"Almost.\" or \"Not yet.\" Then, if needed, a better version of the sentence. Then one short tip.";
+  try {
+    const r = await V.ai(prompt, {modelTier:"quick", signal:ctl.signal, onText: ({text: t}) => { if (V.aiCtl === ctl && t) out.innerHTML = aiHTML(t); }});
+    if (V.aiCtl !== ctl) return;
+    out.innerHTML = aiHTML(r && r.text);
+  } catch (e) {
+    if (V.aiCtl !== ctl) return;
+    if (e && e.code === "cancelled") { out.innerHTML = ""; return; }
+    out.innerHTML = (e && e.text ? aiHTML(e.text) : "") + '<p class="note">' + esc(aiErrCopy(e)) + '</p>';
+    if (e && AI_OFF.includes(e.code)) { V.ai = null; document.body.classList.remove("has-ai"); }
+  } finally {
+    if (V.aiCtl === ctl) V.aiCtl = null;
+    if (document.body.contains(btn)) btn.disabled = false;
+  }
+}
+async function ltOwn(btn) {
+  const out = $("#ownLt"); if (!out) return;
+  const text = S.own.trim();
+  if ((text.match(/[A-Za-z']+/g) || []).length < 2) { out.innerHTML = '<p class="note">Say or type your own sentence first.</p>'; return; }
+  btn.disabled = true; out.innerHTML = '<p class="note">Checking with LanguageTool…</p>';
+  try {
+    const ms = (await ltMatches(text)).filter(m => !/^PUNCTUATION$/.test((m.rule && m.rule.category && m.rule.category.id) || ""));
+    if (!ms.length) { out.innerHTML = '<p class="note">LanguageTool found no mistakes. Well done!</p>'; return; }
+    out.innerHTML = ms.slice(0, 8).map(m => {
+      const ctx = m.context || {}, bad = String(ctx.text || "").substr(ctx.offset || 0, ctx.length || 0);
+      const reps = (m.replacements || []).slice(0, 2).map(x => x.value).filter(Boolean);
+      return '<div class="lt-item"><span><span class="bad">' + esc(bad) + '</span>' + (reps.length ? ' → <span class="fix">' + esc(reps.join(" / ")) + '</span>' : "") + '</span><span class="note">' + esc(m.message || "") + '</span></div>';
+    }).join("");
+  } catch (e) { out.innerHTML = '<p class="note">' + ltErr(e) + '</p>'; }
+  finally { if (document.body.contains(btn)) btn.disabled = false; }
+}
+
+/* ---------- Adding cards ---------- */
+let TAB = "add";
+const AF = {type:"mistake", wrong:"", right:"", note:"", word:"", meaning:"", example:""};
+function setTab(t) {
+  if (t === "import" && CLAUDE) t = "add";
+  TAB = t;
+  $$("#tabs [data-tab]").forEach(b => b.setAttribute("aria-pressed", b.dataset.tab === t ? "true" : "false"));
+  ["add","paste","import"].forEach(k => { const p = $("#tab-" + k); if (p) p.hidden = k !== t; });
+  if (t === "import") renderImport();
+}
+function renderAdd() {
+  const m = AF.type === "mistake";
+  const inp = (id, f, label, ph, req) => '<label><span class="label">' + label + '</span><input type="text" id="' + id + '" data-af="' + f + '" maxlength="300" placeholder="' + esc(ph) + '" value="' + esc(AF[f]) + '"' + (req ? " required" : "") + '></label>';
+  $("#tab-add").innerHTML =
+    '<div class="seg" role="group" aria-label="Kind of card"><button type="button" data-addtype="mistake" aria-pressed="' + m + '">Mistake</button><button type="button" data-addtype="word" aria-pressed="' + !m + '">Word or phrase</button></div>' +
+    '<form class="form" id="addForm" novalidate>' +
+    (m ? inp("fWrong", "wrong", "What I said", "e.g. She start to shaking her head", true) + inp("fRight", "right", "Better", "e.g. She started shaking her head", true) + inp("fNote", "note", "Rule (optional)", "e.g. Past: started")
+       : inp("fWord", "word", "Word or phrase", "e.g. receipt", true) + inp("fMeaning", "meaning", "Meaning, in simple English", "e.g. proof that you paid") + inp("fExample", "example", "Example (optional)", "e.g. Can I have a receipt, please?")) +
+    '<div class="row"><button type="submit" class="btn primary">Add card</button>' +
+    (m ? '<button type="button" class="btn sm need-ai" data-act="aifix">Correct it for me</button><button type="button" class="btn sm only-standalone" data-act="ltfix">Suggest a fix (free)</button>'
+       : '<button type="button" class="btn sm need-ai" data-act="aifill">Fill it in</button><button type="button" class="btn sm only-standalone" data-act="dmfill">Fill it in (free)</button>') +
+    '</div></form>' +
+    '<p class="note">' + (m ? "Write what you really said, then the better version. You'll practise saying the better one." : "You'll see the meaning and say the word. Writing the meaning yourself is great practice too.") + '</p>' +
+    '<p class="note no-note no-ai">Claude\'s help isn\'t available here, so fill in the fields yourself.</p>';
+}
+function makeCard(o) {
+  const t = today();
+  return cleanCard(Object.assign({id: newId(), created: t, updated: Date.now(), box: 0, due: t, reps: 0, lapses: 0, last: "", seen: ""}, o));
+}
+const mistakeKey = (w, r) => norm(w) + "→" + norm(r);
+function hasMistake(w, r) { const k = mistakeKey(w, r); return liveCards().some(c => c.type === "mistake" && mistakeKey(c.wrong, c.right) === k); }
+function hasWordCard(w) { const k = norm(w); return liveCards().some(c => c.type === "word" && norm(c.word) === k); }
+/* A new card joins today's review straight away if there's room for new cards today. */
+function offerToSession(ids) {
+  if (!ids.length) return;
+  if (!curCard()) { startSession(false); return; }
+  let room = newAllowance() - S.queue.slice(S.pos).filter(id => { const c = getCard(id); return c && isNew(c); }).length;
+  ids.forEach(id => { if (room > 0 && !S.queue.includes(id)) { S.queue.push(id); room--; } });
+  renderReview();
+}
+function addFromForm() {
+  if (AF.type === "mistake") {
+    const w = AF.wrong.trim(), r = AF.right.trim();
+    if (!w || !r) { toast("Fill in “What I said” and “Better”."); (w ? $("#fRight") : $("#fWrong")).focus(); return; }
+    if (w === r) { toast("The two sentences are the same. Change the better version."); return; }
+    if (hasMistake(w, r)) { toast("That card is already in your notebook."); return; }
+    const c = makeCard({type:"mistake", wrong:w, right:r, note:AF.note.trim()});
+    state.cards.push(c); AF.wrong = AF.right = AF.note = "";
+    after([c.id], "Added. You'll practise it in your review.");
+  } else {
+    const w = AF.word.trim();
+    if (!w) { toast("Write the word or phrase first."); $("#fWord").focus(); return; }
+    if (hasWordCard(w)) { toast("That word is already in your notebook."); return; }
+    const hadMeaning = !!AF.meaning.trim();
+    const c = makeCard({type:"word", word:w, meaning:AF.meaning.trim(), example:AF.example.trim()});
+    state.cards.push(c); AF.word = AF.meaning = AF.example = "";
+    after([c.id], hadMeaning ? "Added. You'll practise it in your review." : "Added. Tip: add a meaning so you can practise finding the word.");
+  }
+  renderAdd();
+  const first = $("#addForm input"); if (first) first.focus();
+}
+function after(ids, msg) {
+  save(); renderStats(); renderList(); offerToSession(ids);
+  if (msg) toast(msg);
+}
+async function aiFill(btn) {
+  const w = AF.word.trim();
+  if (!w) { toast("Write the word or phrase first."); return; }
+  if (!V.ai) return;
+  btn.disabled = true;
+  try {
+    const r = await V.ai.json("You help an adult English learner (about B1). For the English word or phrase \"" + w.slice(0, 120) + "\", reply with only a JSON object like " +
+      "{\"meaning\": \"proof that you paid\", \"example\": \"Can I have a receipt, please?\"}. The meaning: simple English, under 15 words, without the word itself. " +
+      "The example: one natural, everyday sentence under 15 words that uses the word or phrase.", {modelTier:"quick"});
+    const meaning = r && typeof r.meaning === "string" ? r.meaning.trim().slice(0, 300) : "";
+    const example = r && typeof r.example === "string" ? r.example.trim().slice(0, 300) : "";
+    if (!meaning && !example) throw {code:"invalid_json"};
+    if (meaning) AF.meaning = meaning;
+    if (example && !AF.example.trim()) AF.example = example;
+    if (AF.type === "word") renderAdd();
+  } catch (e) { aiFailed(e); }
+  finally { if (document.body.contains(btn)) btn.disabled = false; }
+}
+async function aiFix(btn) {
+  const w = AF.wrong.trim();
+  if (!w) { toast("Write what you said first."); return; }
+  if (!V.ai) return;
+  btn.disabled = true;
+  try {
+    const r = await V.ai.json("You help an adult English learner (about B1). Correct this sentence they said. Keep their meaning and change as little as possible, so it sounds natural:\n\"" + w.slice(0, 300) + "\"\n\n" +
+      "Reply with only a JSON object like {\"right\": \"She started shaking her head.\", \"note\": \"Past: started. start + -ing.\"}. The note is the rule in under 12 simple words. If the sentence is already correct, return it unchanged with the note \"Already correct\".", {modelTier:"quick"});
+    const right = r && typeof r.right === "string" ? r.right.trim().slice(0, 300) : "";
+    if (!right) throw {code:"invalid_json"};
+    AF.right = right;
+    if (r && typeof r.note === "string" && r.note.trim()) AF.note = r.note.trim().slice(0, 300);
+    if (AF.type === "mistake") renderAdd();
+  } catch (e) { aiFailed(e); }
+  finally { if (document.body.contains(btn)) btn.disabled = false; }
+}
+async function dmFill(btn) {
+  const w = AF.word.trim().replace(/[….]+$/, "");
+  if (!w) { toast("Write the word or phrase first."); return; }
+  btn.disabled = true;
+  try {
+    // The extra "_" value makes every request unique: the service's cache can otherwise return an answer the browser refuses.
+    const r = await fetch("https://api.datamuse.com/words?sp=" + encodeURIComponent(w.toLowerCase()) + "&md=d&max=1&_=" + Date.now());
+    if (!r.ok) throw new Error("http");
+    const data = await r.json();
+    const def = data && data[0] && Array.isArray(data[0].defs) && data[0].defs[0] ? String(data[0].defs[0]).replace(/^[a-z]+\t/, "").trim() : "";
+    if (!def) { toast("No meaning found. Write it in your own words: that's good practice too."); return; }
+    AF.meaning = def.slice(0, 300);
+    if (AF.type === "word") renderAdd();
+    toast("Meaning added. Make it simpler if you like.");
+  } catch (e) { toast("The word finder didn't answer. Check your internet connection and try again."); }
+  finally { if (document.body.contains(btn)) btn.disabled = false; }
+}
+async function ltFix(btn) {
+  const w = AF.wrong.trim();
+  if (!w) { toast("Write what you said first."); return; }
+  btn.disabled = true;
+  try {
+    const ms = (await ltMatches(w)).filter(m => m.replacements && m.replacements.length && m.replacements[0].value != null);
+    if (!ms.length) { toast("LanguageTool found nothing. Ask a free AI chat, or write the better version yourself."); return; }
+    let fixed = w;
+    ms.slice().sort((a, b) => b.offset - a.offset).forEach(m => { fixed = fixed.slice(0, m.offset) + m.replacements[0].value + fixed.slice(m.offset + m.length); });
+    AF.right = fixed;
+    if (!AF.note.trim() && ms[0].shortMessage) AF.note = String(ms[0].shortMessage).slice(0, 120);
+    if (AF.type === "mistake") renderAdd();
+    toast("Check the suggestion. LanguageTool doesn't catch everything.");
+  } catch (e) { toast(ltErr(e)); }
+  finally { if (document.body.contains(btn)) btn.disabled = false; }
+}
+
+/* ---------- Paste corrections ---------- */
+let PV = [];
+const HEAD_WORDS = /^(you (wrote|said)|i (wrote|said)|what (i|you) (said|wrote)|more natural|natural|better( version)?|correct(ion|ed)?( version)?|wrong|right|original|mistake|instead of|try|fix|before|after|say|improved)$/i;
+const ARROW = /\s*(?:→|->|=>|⟶|➜|➔)\s*/;
+function cleanSide(s) {
+  return stripMd(s)
+    .replace(/^\s*(?:[-*•]|\d+[.)])\s+/, "")
+    .replace(/^\s*(?:you said|you wrote|i said|i wrote|what you (?:said|wrote)|original|wrong|instead of|incorrect|mistake|before)\s*[:：]\s*/i, "")
+    .replace(/^\s*(?:better|correct(?:ion|ed)?|more natural|natural|say|try|right|after|improved|fix(?:ed)?)\s*[:：]\s*/i, "")
+    .trim()
+    .replace(/^["“”‘]+|["“”’]+$/g, "")
+    .replace(/(?:…|\.\.\.)$/, "")
+    .trim();
+}
+function splitNote(right) {
+  let r = stripMd(right).trim(), note = "", m;
+  if ((m = r.match(/^["“]([^"”]+)["”]\s*[-–—:,]?\s*\(?(.*?)\)?\s*\.?$/))) { r = m[1]; note = m[2]; }
+  else if ((m = r.match(/^(.*?)\s*\(([^()]{2,140})\)\s*\.?$/))) { r = m[1]; note = m[2]; }
+  else if ((m = r.match(/^(.*?)\s+[–—]\s+(.{2,160})$/))) { r = m[1]; note = m[2]; }
+  return {right: cleanSide(r), note: stripMd(note).trim()};
+}
+function bigrams(s) { const t = norm(s).replace(/ /g, ""); const out = []; for (let i = 0; i < t.length - 1; i++) out.push(t.slice(i, i + 2)); return out; }
+function looksLikeFix(a, b) {
+  const wa = new Set(norm(a).split(" ").filter(Boolean)), wb = norm(b).split(" ").filter(Boolean);
+  if (wb.some(w => wa.has(w))) return true;
+  const x = bigrams(a), y = bigrams(b); if (!x.length || !y.length) return false;
+  const pool = y.slice(); let hit = 0;
+  x.forEach(g => { const i = pool.indexOf(g); if (i >= 0) { hit++; pool.splice(i, 1); } });
+  return 2 * hit / (x.length + y.length) >= 0.4;
+}
+function parseCorrections(text) {
+  const found = [];
+  const push = (w, r, note) => {
+    w = cleanSide(w); r = String(r || "").trim();
+    if (!w || !r || w.length > 300 || r.length > 300) return;
+    if (w === r) return;
+    found.push({wrong: w, right: r, note: String(note || "").trim().slice(0, 300)});
+  };
+  const lines = String(text || "").replace(/\r/g, "").split("\n");
+  const SAID = /^\s*(?:[-*•]\s*)?(?:you said|you wrote|i said|i wrote|original|instead of|wrong|incorrect)\s*[:：]\s*(.+)$/i;
+  const BETTER = /^\s*(?:[-*•]\s*)?(?:better|correct(?:ion|ed)?|more natural|natural|say|try|right|improved)\s*[:：]\s*(.+)$/i;
+  let pendingSaid = null;
+  lines.forEach(raw => {
+    const line = raw.trim();
+    if (!line) return;
+    const plain = stripMd(line);
+    // Markdown table rows: | what I said | better | (rule) |
+    if (/^\|.*\|$/.test(line) || (line.split("|").length >= 3 && !ARROW.test(line))) {
+      const cells = line.replace(/^\|/, "").replace(/\|$/, "").split("|").map(s => s.trim());
+      if (cells.length < 2) return;
+      if (cells.every(c => !c || /^:?-{2,}:?$/.test(c))) return;
+      if (HEAD_WORDS.test(stripMd(cells[0])) || HEAD_WORDS.test(stripMd(cells[1]))) return;
+      const w = cleanSide(cells[0]);
+      if (!w || /^\(.*\)$/.test(w)) return;
+      const sn = splitNote(cells[1]);
+      push(w, sn.right, sn.note || (cells[2] ? stripMd(cells[2]) : ""));
+      pendingSaid = null; return;
+    }
+    // "You said: …" then "Better: …" on the next line
+    let m;
+    if ((m = plain.match(SAID)) && !ARROW.test(plain)) { pendingSaid = m[1]; return; }
+    if (pendingSaid && (m = plain.match(BETTER))) { const sn = splitNote(m[1]); push(pendingSaid, sn.right, sn.note); pendingSaid = null; return; }
+    pendingSaid = null;
+    // Arrow lines: what I said → better (rule)
+    if (ARROW.test(line)) {
+      const i = line.search(ARROW), arrow = line.match(ARROW)[0];
+      const left = line.slice(0, i), rightPart = line.slice(i + arrow.length);
+      const sn = splitNote(rightPart);
+      push(left, sn.right, sn.note);
+      return;
+    }
+    // Dash lines: wrong — right
+    if ((m = plain.match(/^(.{1,200}?)\s+[—–]\s+(.{1,200})$/))) {
+      const sn = splitNote(m[2]);
+      push(m[1], sn.right, sn.note);
+    }
+  });
+  return found;
+}
+function toPreview(items) {
+  const seen = new Set();
+  PV = [];
+  items.forEach(it => {
+    const w = String(it.wrong || "").trim(), r = String(it.right || "").trim();
+    if (!w || !r) return;
+    const k = mistakeKey(w, r);
+    if (seen.has(k)) return; seen.add(k);
+    const dup = hasMistake(w, r), odd = !looksLikeFix(w, r);
+    PV.push({wrong: w.slice(0, 300), right: r.slice(0, 300), note: String(it.note || "").trim().slice(0, 300), on: !dup && !odd, dup, odd});
+  });
+  PV = PV.slice(0, 60);
+  renderPreview();
+}
+function renderPreview() {
+  const out = $("#pasteOut");
+  if (!PV.length) {
+    out.innerHTML = '<p class="note">I couldn\'t find any corrections. Lines like <b>what I said → better</b> work, and so do tables. You can also add cards one by one in <b>Add</b>.</p>';
+    return;
+  }
+  const n = PV.filter(p => p.on).length;
+  out.innerHTML = '<p class="label">Found ' + PV.length + (PV.length === 1 ? " correction" : " corrections") + '. Check them, then add.</p><ul class="preview">' +
+    PV.map((p, i) => '<li class="pv' + (p.on ? "" : " off") + '"><label class="check-line"><input type="checkbox" data-pvon="' + i + '"' + (p.on ? " checked" : "") + '> Add this card</label>' +
+      '<input type="text" data-pv="' + i + '" data-f="wrong" value="' + esc(p.wrong) + '" aria-label="What I said">' +
+      '<span class="arrow" aria-hidden="true">↓</span>' +
+      '<input type="text" data-pv="' + i + '" data-f="right" value="' + esc(p.right) + '" aria-label="Better">' +
+      '<input type="text" data-pv="' + i + '" data-f="note" value="' + esc(p.note) + '" placeholder="Rule (optional)" aria-label="Rule">' +
+      (p.dup ? '<p class="note">Already in your notebook.</p>' : p.odd ? '<p class="note">This doesn\'t look like a correction. Tick it if it is.</p>' : "") + '</li>').join("") +
+    '</ul><div class="row"><button type="button" class="btn primary" data-act="addpv"' + (n ? "" : " disabled") + '>Add ' + n + (n === 1 ? " card" : " cards") + '</button><button type="button" class="btn sm" data-act="clearpv">Clear</button></div>';
+}
+function addPreview() {
+  const ids = [];
+  PV.filter(p => p.on).forEach(p => {
+    const w = p.wrong.trim(), r = p.right.trim();
+    if (!w || !r || w === r || hasMistake(w, r)) return;
+    const c = makeCard({type:"mistake", wrong:w, right:r, note:p.note.trim()});
+    if (c) { state.cards.push(c); ids.push(c.id); }
+  });
+  if (!ids.length) { toast("Nothing new to add."); return; }
+  PV = []; $("#pasteBox").value = ""; $("#pasteOut").innerHTML = "";
+  after(ids, "Added " + ids.length + (ids.length === 1 ? " card." : " cards.") + " Say them out loud in your review.");
+}
+async function aiParse(btn) {
+  const text = $("#pasteBox").value.trim();
+  if (!text) { toast("Paste your feedback first."); return; }
+  if (!V.ai) return;
+  btn.disabled = true;
+  $("#pasteOut").innerHTML = '<p class="note">Claude is looking for corrections…</p>';
+  try {
+    const r = await V.ai.json("From the text below, find every English correction for the learner. Reply with only a JSON array like " +
+      "[{\"wrong\": \"she start to shaking her head\", \"right\": \"she started shaking her head\", \"note\": \"Past: started\"}]. " +
+      "wrong = what the learner wrote or said; right = the better version; note = the rule in under 12 simple words (or \"\"). " +
+      "Only include corrections that are really in the text, at most 30. If there are none, reply [].\n\nText:\n\"\"\"\n" + text.slice(0, 12000) + "\n\"\"\"", {modelTier:"default"});
+    const items = Array.isArray(r) ? r.filter(x => x && typeof x.wrong === "string" && typeof x.right === "string") : [];
+    toPreview(items.map(x => ({wrong: x.wrong, right: x.right, note: typeof x.note === "string" ? x.note : ""})));
+  } catch (e) {
+    $("#pasteOut").innerHTML = '<p class="note">' + esc(aiErrCopy(e)) + '</p>';
+    if (e && AI_OFF.includes(e.code)) { V.ai = null; document.body.classList.remove("has-ai"); }
+  } finally { if (document.body.contains(btn)) btn.disabled = false; }
+}
+
+/* ---------- Import from Speaking Gym (website only: same browser storage) ---------- */
+function gymWords() {
+  let bank = [];
+  try { const s = JSON.parse(localStorage.getItem("speaking-gym-v1") || "null"); if (s && Array.isArray(s.bank)) bank = s.bank; } catch (e) {}
+  const seen = new Set();
+  return bank.filter(b => b && typeof b.t === "string" && b.t.trim()).filter(b => {
+    const k = norm(b.t); if (!k || seen.has(k) || hasWordCard(b.t)) return false; seen.add(k); return true;
+  });
+}
+function renderImport() {
+  const p = $("#tab-import"); if (!p || CLAUDE) return;
+  const list = gymWords();
+  p.innerHTML = '<p class="note">Words you saved in Speaking Gym (“My words”) can become cards here, in the same browser.</p>' +
+    (list.length
+      ? '<div class="words-prev">' + list.slice(0, 12).map(b => '<span class="chip">' + esc(b.t) + '</span>').join("") + (list.length > 12 ? '<span class="chip">+' + (list.length - 12) + ' more</span>' : "") + '</div>' +
+        '<div class="row"><button type="button" class="btn primary" data-act="import">Import ' + list.length + (list.length === 1 ? " word" : " words") + ' from Speaking Gym</button></div>'
+      : '<p class="empty">No new words to import. In Speaking Gym, use “Stuck on a word?” and save the words you find. Then come back here.</p>');
+}
+function importGym() {
+  const ids = [];
+  gymWords().forEach(b => {
+    const word = b.t.trim().slice(0, 120), n = String(b.n || "").trim();
+    // Speaking Gym keeps a meaning, or an example for phrases: an example contains the word itself.
+    const isEx = n && norm(n).includes(norm(word));
+    const c = makeCard({type:"word", word, meaning: isEx ? "" : n, example: isEx ? n : ""});
+    if (c) { state.cards.push(c); ids.push(c.id); }
+  });
+  if (!ids.length) { toast("Nothing new to import."); renderImport(); return; }
+  after(ids, "Imported " + ids.length + (ids.length === 1 ? " word." : " words."));
+  renderImport();
+}
+
+/* ---------- All cards ---------- */
+const LIST = {q:"", f:"all", limit:40, edit:null, del:null};
+function statusText(c) {
+  if (isNew(c)) return "New";
+  const d = daysBetween(today(), c.due);
+  const when = d <= 0 ? "due today" : d === 1 ? "due tomorrow" : "due in " + d + " days";
+  return "Box " + c.box + " · " + when;
+}
+function matches(c, t) {
+  if (LIST.f === "mistake" && c.type !== "mistake") return false;
+  if (LIST.f === "word" && c.type !== "word") return false;
+  if (LIST.f === "due" && !isDue(c, t)) return false;
+  if (LIST.f === "learned" && c.box < 4) return false;
+  if (LIST.f === "starter" && !c.starter) return false;
+  if (!LIST.q) return true;
+  const q = norm(LIST.q);
+  return norm([c.wrong, c.right, c.note, c.word, c.meaning, c.example].join(" ")).includes(q);
+}
+function editHTML(c) {
+  const f = (k, label) => '<label><span class="label">' + label + '</span><input type="text" data-ef="' + k + '" maxlength="300" value="' + esc(c[k]) + '"></label>';
+  return '<li class="crow"><form class="form" data-editform="' + esc(c.id) + '">' +
+    (c.type === "mistake" ? f("wrong", "What I said") + f("right", "Better") + f("note", "Rule") : f("word", "Word or phrase") + f("meaning", "Meaning") + f("example", "Example")) +
+    '<div class="row"><button type="submit" class="btn sm primary">Save</button><button type="button" class="btn sm" data-act="editno">Cancel</button></div></form></li>';
+}
+function rowHTML(c) {
+  if (LIST.edit === c.id) return editHTML(c);
+  const id = esc(c.id);
+  const main = c.type === "mistake"
+    ? '<span class="was">' + esc(c.wrong) + '</span> <span class="arr">→</span> <b>' + esc(c.right) + '</b>'
+    : '<b>' + esc(c.word) + '</b>' + (c.meaning ? ' <span class="arr">—</span> ' + esc(c.meaning) : ' <span class="arr">— no meaning yet</span>');
+  const sub = c.type === "mistake" ? c.note : c.example;
+  return '<li class="crow"><div class="crow-top"><span class="tag' + (c.type === "mistake" ? " t-mistake" : "") + '">' + (c.type === "mistake" ? "Mistake" : "Word") + '</span>' +
+    (c.box >= 4 ? '<span class="tag t-learned">Learned</span>' : "") + (c.starter ? '<span class="tag t-starter">Starter</span>' : "") +
+    '<span class="crow-meta">' + statusText(c) + '</span></div><p class="crow-main">' + main + '</p>' + (sub ? '<p class="crow-sub">' + esc(sub) + '</p>' : "") +
+    '<div class="row">' + (LIST.del === c.id
+      ? '<span class="note">Delete this card?</span><button type="button" class="btn sm danger" data-act="delyes" data-id="' + id + '">Yes, delete</button><button type="button" class="btn sm" data-act="delno">No</button>'
+      : '<button type="button" class="btn sm" data-act="edit" data-id="' + id + '">Edit</button><button type="button" class="btn sm" data-act="del" data-id="' + id + '">Delete</button>') + '</div></li>';
+}
+function renderList() {
+  const t = today(), live = liveCards();
+  const rows = live.slice().reverse().filter(c => matches(c, t));
+  $("#listCount").textContent = live.length ? "(" + live.length + ")" : "";
+  $$("#filters [data-f]").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === LIST.f ? "true" : "false"));
+  $("#clist").innerHTML = rows.length ? rows.slice(0, LIST.limit).map(rowHTML).join("")
+    : '<li class="empty">' + (live.length ? "No cards match. Try another filter or search." : "No cards yet. Add your first one above.") + '</li>';
+  $("#moreRow").innerHTML = rows.length > LIST.limit ? '<button type="button" class="btn sm" data-act="showmore">Show more (' + (rows.length - LIST.limit) + ' left)</button>' : "";
+}
+function saveEdit(form) {
+  const c = getCard(form.dataset.editform); if (!c) return;
+  const v = {};
+  $$("[data-ef]", form).forEach(i => { v[i.dataset.ef] = i.value.trim(); });
+  if (c.type === "mistake" && (!v.wrong || !v.right)) { toast("“What I said” and “Better” can't be empty."); return; }
+  if (c.type === "word" && !v.word) { toast("The word can't be empty."); return; }
+  Object.keys(v).forEach(k => { c[k] = v[k].slice(0, k === "word" ? 120 : 300); });
+  c.updated = Date.now();
+  LIST.edit = null;
+  save(); renderList(); renderStats();
+  if (curCard() === c) renderReview();
+  toast("Saved.");
+}
+function deleteCard(id) {
+  const c = getCard(id); if (!c) return;
+  c.deleted = true; c.updated = Date.now();
+  LIST.del = null;
+  save(); renderList(); renderStats();
+  if (S.queue[S.pos] === id) { resetCard(); }
+  renderReview();
+  toast("Deleted.");
+}
+function exportCSV() {
+  const live = liveCards();
+  if (!live.length) { toast("Nothing to download yet. Add your first card!"); return; }
+  const cell = s => { s = String(s == null ? "" : s); return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  const lines = ["front,back,note"].concat(live.map(c => c.type === "mistake"
+    ? [c.wrong, c.right, c.note].map(cell).join(",")
+    : [c.meaning || c.word, c.word, c.example].map(cell).join(",")));
+  const data = "﻿" + lines.join("\r\n") + "\r\n";
+  const name = "my-notebook-" + today() + ".csv", count = live.length + (live.length === 1 ? " card." : " cards.");
+  if (CLAUDE) {   // in claude.ai the file is offered through Claude, and the viewer confirms it
+    if (!V.dl) { toast("Downloading isn't available here."); return; }
+    V.dl.save({filename: name, data}).then(() => toast("Saved " + count)).catch(e => {
+      const c = e && e.code;
+      if (c === "declined") return;
+      if (c === "rate_limited") { toast("A download question is already open. Answer it first."); return; }
+      V.dl = null; document.body.classList.remove("has-dl");
+      toast("Downloading isn't available here.");
+    });
+    return;
+  }
+  const url = URL.createObjectURL(new Blob([data], {type:"text/csv;charset=utf-8"}));
+  const a = document.createElement("a"); a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 3000);
+  toast("Downloaded " + count);
+}
+function renderNpd() { $$("#npd [data-npd]").forEach(b => b.setAttribute("aria-pressed", +b.dataset.npd === state.settings.newPerDay ? "true" : "false")); }
+
+/* ---------- Events ---------- */
+document.addEventListener("click", e => {
+  const t = e.target.closest("button"); if (!t) return;
+  if (t.dataset.mic) { toggleMic(t); return; }
+  if (t.dataset.grade) { grade(t.dataset.grade); return; }
+  if (t.dataset.tab) { setTab(t.dataset.tab); return; }
+  if (t.dataset.addtype) { AF.type = t.dataset.addtype; renderAdd(); return; }
+  if (t.dataset.f) { LIST.f = t.dataset.f; LIST.limit = 40; LIST.edit = LIST.del = null; renderList(); return; }
+  if (t.dataset.npd) {
+    state.settings.newPerDay = +t.dataset.npd; save(); renderNpd(); renderStats();
+    if (!curCard() && S.reviewed === 0) startSession(false);
+    return;
+  }
+  const act = t.dataset.act; if (!act) return;
+  const c = curCard();
+  if (act === "reveal") reveal();
+  else if (act === "hint") { S.hints[t.dataset.h] = !S.hints[t.dataset.h]; renderReview(); }
+  else if (act === "play" && c) say(c.type === "mistake" ? c.right : c.word.replace(/[….]+$/, "") + (c.example ? ". " + c.example : ""), t);
+  else if (act === "more") startSession(true);
+  else if (act === "goadd" || act === "gopaste") { setTab(act === "goadd" ? "add" : "paste"); const el = act === "goadd" ? $("#addForm input") : $("#pasteBox"); if (el) { el.scrollIntoView({block:"center"}); el.focus(); } }
+  else if (act === "aicheck") aiCheck(t);
+  else if (act === "ltown") ltOwn(t);
+  else if (act === "aifill") aiFill(t);
+  else if (act === "dmfill") dmFill(t);
+  else if (act === "aifix") aiFix(t);
+  else if (act === "ltfix") ltFix(t);
+  else if (act === "parse") toPreview(parseCorrections($("#pasteBox").value));
+  else if (act === "aiparse") aiParse(t);
+  else if (act === "addpv") addPreview();
+  else if (act === "clearpv") { PV = []; $("#pasteOut").innerHTML = ""; }
+  else if (act === "import") importGym();
+  else if (act === "edit") { LIST.edit = t.dataset.id; LIST.del = null; renderList(); const f = $('[data-editform] input'); if (f) f.focus(); }
+  else if (act === "editno") { LIST.edit = null; renderList(); }
+  else if (act === "del") { LIST.del = t.dataset.id; LIST.edit = null; renderList(); }
+  else if (act === "delno") { LIST.del = null; renderList(); }
+  else if (act === "delyes") deleteCard(t.dataset.id);
+  else if (act === "showmore") { LIST.limit += 40; renderList(); }
+  else if (act === "csv") exportCSV();
+});
+document.addEventListener("submit", e => {
+  e.preventDefault();
+  const f = e.target;
+  if (f.id === "addForm") addFromForm();
+  else if (f.dataset.editform) saveEdit(f);
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.id === "sayBox") {
+    S.said = t.value.slice(0, 1000);
+    const c = curCard(), d = $("#diffOut");
+    if (c && S.revealed && d) d.innerHTML = diffHTML(c);
+  } else if (t.id === "ownBox") {
+    S.own = t.value.slice(0, 1000);
+    const c = curCard(), o = $("#ownCheck");
+    if (c && o) { o.innerHTML = ownCheckHTML(c); o.classList.toggle("ok", !!(S.own.trim() && hasWord(S.own, c.word))); }
+  } else if (t.dataset && t.dataset.af) AF[t.dataset.af] = t.value;
+  else if (t.dataset && t.dataset.pv !== undefined) { const p = PV[+t.dataset.pv]; if (p) p[t.dataset.f] = t.value; }
+  else if (t.id === "q") { LIST.q = t.value; LIST.limit = 40; renderList(); }
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.dataset && t.dataset.pvon !== undefined) {
+    const p = PV[+t.dataset.pvon]; if (!p) return;
+    p.on = t.checked;
+    const li = t.closest(".pv"); if (li) li.classList.toggle("off", !p.on);
+    const n = PV.filter(x => x.on).length, b = $('[data-act="addpv"]');
+    if (b) { b.disabled = !n; b.textContent = "Add " + n + (n === 1 ? " card" : " cards"); }
+  }
+});
+/* Space shows the answer and 1–4 choose, but never while typing or when a button has focus. */
+document.addEventListener("keydown", e => {
+  if (e.defaultPrevented || e.isComposing || e.ctrlKey || e.metaKey || e.altKey) return;
+  const el = e.target, tag = el && el.tagName;
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || tag === "BUTTON" || tag === "A" || (el && el.isContentEditable)) return;
+  const c = curCard(); if (!c) return;
+  const r = $("#review").getBoundingClientRect();
+  if (r.bottom < 40 || r.top > window.innerHeight - 40) return;   // don't take over Space while the learner scrolls the list
+  if ((e.key === " " || e.code === "Space") && !S.revealed) { e.preventDefault(); reveal(); return; }
+  if (S.revealed && ["1","2","3","4"].includes(e.key)) { e.preventDefault(); grade(["again","hard","good","easy"][+e.key - 1]); }
+});
+
+/* ---------- Start ---------- */
+if (!CLAUDE) {
+  const web = makeWebDictation();
+  if (web) { V.dict = web; wireDictation(); document.body.classList.add("has-mic"); }
+  document.body.classList.add("caps-ready");
+  setSync("site");
+} else setSync("device");
+if (!firstLoad) saveLocal();
+renderAdd(); renderNpd(); renderList(); startSession(false);
+if (CLAUDE) {
+  const C = window.claude;
+  const caps = [
+    C.use("dictation").then(d => { if (d) { V.dict = d; wireDictation(); document.body.classList.add("has-mic"); markMic(); } }).catch(() => {}),
+    C.use("tts").then(t => { if (t) { V.tts = t; document.body.classList.add("has-voice"); } }).catch(() => {}),
+    C.use("sample").then(s => { if (s) { V.ai = s; document.body.classList.add("has-ai"); } }).catch(() => {}),
+    C.use("downloads").then(d => { if (d) { V.dl = d; document.body.classList.add("has-dl"); } }).catch(() => {})
+  ];
+  Promise.allSettled(caps).then(() => document.body.classList.add("caps-ready"));
+  connectStore(C);
+}
+})();
+</script>
+</body>
+</html>
