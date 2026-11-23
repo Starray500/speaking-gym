@@ -1,0 +1,2126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Conversation Coach</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A 28-day conversation program for English learners: keep your turn, tell your stories, ask good questions, and practise real situations with role-plays.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a conversation coach's practice sheet. A program rail beside today's five steps, with a toolkit below for real life. */
+:root{
+  --bg:#F3F4F9; --surface:#FFFFFF; --ink:#1A2040; --muted:#575E80; --line:#D9DDEA;
+  --accent:#3140A8; --accent-soft:#E5E8FA; --on-accent:#FFFFFF;
+  --mark:#FFE066; --mark-line:#E2B200; --on-mark:#1A2040;
+  --live:#D23838; --live-ring:rgba(210,56,56,.28); --on-live:#FFFFFF;
+  --good:#1B7F52; --good-soft:#E0F3E9; --on-good:#FFFFFF;
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+    --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+    --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+    --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+    --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+  --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+  --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+  --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+  --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+ul,ol{margin:0}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
+.site-nav{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding-block:0 14px;font-size:14.5px}
+.site-nav a{color:var(--muted);text-decoration:none;font-weight:700;padding:6px 0;border-bottom:2px solid transparent}
+.site-nav a:hover{color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.site-nav .home{font-family:var(--f-display);font-weight:800;color:var(--ink);margin-right:auto}
+
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 28px;padding-bottom:20px;border-bottom:2px solid var(--ink)}
+.brand{display:grid;gap:6px;min-width:0}
+.brand h1{font-size:clamp(30px,5vw,44px);font-weight:800}
+.brand p{color:var(--muted);max-width:50ch}
+.stats{display:flex;flex-wrap:wrap;gap:16px 28px}
+.stat{display:grid;gap:2px;min-width:0}
+.k,.label{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.stat .v{font-family:var(--f-display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:8px;line-height:1.1}
+.stat .v small{font-family:var(--f-body);font-size:13px;font-weight:400;color:var(--muted)}
+.spark{display:block;overflow:visible}
+
+.layout{display:grid;grid-template-columns:276px minmax(0,1fr);gap:36px;margin-top:28px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}.rail{order:2}}
+.rail{display:grid;gap:26px;min-width:0}
+.rail-sec{display:grid;gap:12px;padding-top:18px;border-top:1px solid var(--line);min-width:0}
+.rail-sec:first-child{border-top:0;padding-top:0}
+.rail-sec h2{font-size:19px;font-weight:800}
+.program{display:grid;gap:14px}
+.week-row{display:grid;gap:6px}
+.wk{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+.wk span{color:var(--muted);text-align:right}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;max-width:340px}
+.day{font-family:var(--f-mono);font-size:13px;font-weight:700;aspect-ratio:1/1;max-width:100%;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0;position:relative}
+.day:hover{border-color:var(--ink)}
+.day.review::after{content:"";position:absolute;left:28%;right:28%;bottom:4px;height:3px;border-radius:2px;background:var(--mark-line)}
+.day.final{border:2px dashed var(--accent)}
+.day.done{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.day.cur{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px;border:1px solid var(--line);background:var(--surface)}
+.legend i.d{background:var(--accent);border-color:var(--accent)}
+.legend i.m{box-shadow:inset 0 -3px 0 var(--mark-line)}
+.legend i.f{border:2px dashed var(--accent)}
+.tips{padding-left:20px;display:grid;gap:6px;font-size:15px;color:var(--muted)}
+.saved-note{font-size:13px;color:var(--muted)}
+.remember{display:grid;gap:8px;padding:16px;border-radius:14px;background:var(--accent-soft)}
+.remember .big{font-family:var(--f-display);font-weight:800;font-size:21px;line-height:1.2}
+.remember ul{padding-left:20px;display:grid;gap:2px;font-weight:700}
+
+.lesson-col{display:grid;gap:40px;min-width:0}
+.lesson{display:grid;gap:20px;min-width:0}
+.lesson-head{display:grid;gap:10px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.lesson-head h2{font-size:clamp(30px,4.6vw,44px);font-weight:800}
+.lede{color:var(--muted);max-width:62ch}
+.plan{list-style:none;padding:0;margin-top:6px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.plan button{width:100%;height:100%;text-align:left;display:grid;align-content:start;gap:2px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;min-height:64px}
+.plan button:hover{border-color:var(--ink)}
+.plan .pn{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.plan .pt{font-weight:700;font-size:15px;line-height:1.25}
+.plan button.done{border-color:var(--good);background:var(--good-soft)}
+.plan button.done .pn{color:var(--good)}
+@media (max-width:680px){
+  .plan{grid-template-columns:minmax(0,1fr)}
+  .plan button{display:flex;justify-content:space-between;align-items:center;min-height:44px;padding:8px 12px}
+  .plan .pn{order:2}
+}
+
+.set,.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:16px;scroll-margin-top:16px;min-width:0}
+.set.is-done{border-color:var(--good)}
+.set-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:start}
+.set-num{width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700;font-size:15px}
+.set.is-done .set-num{background:var(--good);color:var(--on-good)}
+.set-head h3,.panel h3{font-size:23px;font-weight:800}
+.why{color:var(--muted);font-size:15.5px;margin-top:3px;max-width:60ch}
+.mins{font-family:var(--f-mono);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.set-body{display:grid;gap:14px;min-width:0}
+.set-foot{display:flex;justify-content:flex-end}
+@media (max-width:520px){.set,.panel{padding:16px}.set-head{grid-template-columns:auto minmax(0,1fr)}.mins{grid-column:2;justify-self:start}}
+
+.btn{font-weight:700;font-size:15.5px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none;text-align:center}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{min-height:36px;padding:0 14px;font-size:14px}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.is-on{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.btn.live{background:var(--live);border-color:var(--live);color:var(--on-live)}
+.icon-btn{flex:none;width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:inline-grid;place-items:center;cursor:pointer;padding:0}
+.icon-btn.sm{width:34px;height:34px}
+.icon-btn:hover{border-color:var(--ink)}
+.icon-btn.playing,.btn.playing{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.mic.listening{background:var(--live);border-color:var(--live);color:var(--on-live);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--live-ring)}50%{box-shadow:0 0 0 7px var(--live-ring)}}
+body:not(.has-mic) .need-mic,body:not(.has-voice) .need-voice,body:not(.has-rec) .need-rec,body:not(.has-ai) .need-ai{display:none!important}
+.no-note{display:none}
+body.caps-ready:not(.has-mic) .no-mic,body:not(.has-voice) .no-voice,body.caps-ready:not(.has-ai) .no-ai{display:block}
+/* One file, two homes: the website (body.standalone) and claude.ai (Claude capabilities). */
+body:not(.standalone) .only-standalone,body:not(.standalone) .site-nav{display:none!important}
+body.standalone .only-claude,body.standalone .no-ai{display:none!important}
+body.has-ai .script-note{display:none!important}
+.note a{color:var(--accent);font-weight:700;overflow-wrap:anywhere}
+.ai-out{display:grid;gap:10px;padding:14px 16px;border-radius:12px;background:var(--bg);font-size:16px;line-height:1.6;overflow-wrap:anywhere}
+.ai-out:empty{display:none}
+.ai-out ol,.ai-out ul{padding-left:22px;display:grid;gap:6px}
+
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.field{display:flex;gap:10px;align-items:flex-start}
+textarea,input[type="text"],input[type="date"]{min-width:0;width:100%;font:inherit;font-size:16.5px;line-height:1.5;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea{flex:1;resize:vertical}
+textarea:focus,input:focus{outline:none;border-color:var(--accent)}
+textarea::placeholder,input::placeholder{color:var(--muted)}
+.partial{font-style:italic;color:var(--muted);font-size:15px}
+.partial:empty{display:none}
+.note{font-size:14.5px;color:var(--muted)}
+.mark{font-weight:700;background:linear-gradient(transparent 8%,var(--mark) 8%,var(--mark) 92%,transparent 92%);color:var(--on-mark);padding:0 .22em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14.5px;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+button.chip{cursor:pointer;text-align:left}
+button.chip:hover{border-color:var(--ink)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1.5px solid var(--line);border-radius:18px;padding:3px;gap:2px;max-width:100%}
+.seg button{font-size:14px;font-weight:700;border:0;background:transparent;color:var(--muted);padding:6px 13px;border-radius:999px;cursor:pointer;min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+.steps-list{padding-left:22px;display:grid;gap:4px}
+.say-line{font-family:var(--f-display);font-size:clamp(23px,3.4vw,31px);font-weight:600;line-height:1.28;text-wrap:balance}
+.reps{display:flex;flex-wrap:wrap;gap:8px}
+.phrases{list-style:none;padding:0;display:grid;gap:8px}
+.phrase{display:flex;gap:12px;align-items:center;padding:8px 10px;border-radius:12px;background:var(--bg);min-width:0}
+.phrase .txt{flex:1;min-width:0;font-size:18px;font-weight:700;line-height:1.35;overflow-wrap:anywhere}
+.count-btn{flex:none;font-family:var(--f-mono);font-size:13px;font-weight:700;min-width:54px;min-height:36px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.count-btn.full{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.cards{display:grid;gap:10px}
+.card{display:grid;gap:10px;padding:14px 16px;border-radius:12px;border:1.5px dashed var(--line);justify-items:start}
+.card .sit{font-weight:700;font-size:17px}
+.ideas{list-style:none;padding:0;display:grid;gap:6px;width:100%}
+.ideas li{display:flex;gap:10px;align-items:center}
+.ideas li span{flex:1;min-width:0}
+
+.topic-card{display:grid;gap:10px;padding:16px;border-radius:12px;background:var(--bg)}
+.topic{font-family:var(--f-display);font-size:clamp(22px,3vw,28px);font-weight:600;line-height:1.28}
+.parts{list-style:none;padding:0;display:grid;gap:10px}
+.parts li{display:grid;grid-template-columns:minmax(96px,auto) minmax(0,1fr);gap:12px;align-items:baseline}
+.part-tag{font-family:var(--f-mono);font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap;justify-self:start}
+.model{display:grid;gap:12px;padding:16px;border-radius:12px;background:var(--bg)}
+.model p{font-size:17.5px;line-height:1.65}
+.stage{display:grid;justify-items:center;gap:12px;padding:22px 16px;border-radius:14px;border:1.5px dashed var(--line);text-align:center}
+.stage.live{border:1.5px solid var(--live)}
+.phase{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.stage.live .phase,.stage.live .clock{color:var(--live)}
+.clock{font-family:var(--f-display);font-weight:800;font-size:clamp(56px,10vw,80px);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stage-note{font-size:15px;color:var(--muted);max-width:46ch}
+.results{display:grid;gap:8px}
+.results:empty{display:none}
+.result{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;padding:10px 14px;border-radius:10px;background:var(--bg);font-variant-numeric:tabular-nums}
+.result b{font-family:var(--f-mono)}
+.result .big{font-family:var(--f-display);font-weight:800;font-size:20px}
+.check-line{display:flex;gap:10px;align-items:flex-start;font-size:16px;cursor:pointer}
+.check-line input{width:20px;height:20px;margin-top:3px;accent-color:var(--accent);flex:none}
+.checks{list-style:none;padding:0;display:grid;gap:10px}
+.playback{display:grid;gap:10px;justify-items:start}
+.playback:empty{display:none}
+.playback audio{width:100%;max-width:560px}
+.empty{padding:14px;border-radius:12px;border:1.5px dashed var(--line);color:var(--muted);font-size:15px}
+.lt{display:grid;gap:4px}
+.lt:empty{display:none}
+.lt-item{display:grid;gap:2px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.lt-item:last-child{border-bottom:0}
+.lt-item .bad{text-decoration:line-through;text-decoration-color:var(--live);color:var(--muted)}
+.lt-item .fix{font-weight:700}
+.prompt-out{display:grid;gap:8px}
+.prompt-out:empty{display:none}
+.challenge{font-family:var(--f-display);font-size:clamp(20px,2.8vw,25px);font-weight:600;line-height:1.3}
+
+.host{display:grid;gap:14px;min-width:0}
+.host:empty{display:none}
+.rp-setup{display:grid;gap:10px;padding:16px;border-radius:12px;background:var(--bg)}
+.rp-setup .tips{color:var(--ink)}
+.chat{display:grid;gap:10px}
+.chat:empty{display:none}
+.bubble{max-width:min(88%,560px);padding:10px 14px;border-radius:16px;display:grid;gap:2px;overflow-wrap:anywhere;font-size:17px;line-height:1.5}
+.bubble .who{font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bubble.p{background:var(--surface);border:1.5px solid var(--line);justify-self:start;border-bottom-left-radius:4px}
+.bubble.u{background:var(--accent-soft);justify-self:end;border-bottom-right-radius:4px}
+.bubble.typing p{color:var(--muted);font-style:italic}
+.rp-tip{padding:10px 14px;border-radius:10px;background:var(--mark);color:var(--on-mark);font-weight:700;font-size:15.5px}
+.rp-input{display:grid;gap:10px}
+.rp-end{display:grid;gap:12px}
+.rp-end:empty{display:none}
+.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.pick button{display:grid;gap:2px;text-align:left;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;min-height:56px}
+.pick button:hover{border-color:var(--ink)}
+.pick button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.pick b{font-size:15px;line-height:1.3}
+.pick small{font-size:13px;color:var(--muted)}
+
+.toolkit{display:grid;gap:16px;padding-top:24px;border-top:2px solid var(--ink);min-width:0;scroll-margin-top:16px}
+.toolkit > h2{font-size:clamp(26px,4vw,34px);font-weight:800}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tabs button{font-weight:700;font-size:15px;min-height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.tabs button:hover{border-color:var(--ink);color:var(--ink)}
+.tabs button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.tk-panel{display:grid;gap:16px;min-width:0}
+.ready-steps{padding-left:22px;display:grid;gap:16px}
+.ready-steps li{display:grid;gap:8px;justify-items:start}
+.ready-steps li > *{max-width:100%}
+.ready-steps .phrases,.ready-steps .rq{width:100%}
+.notes-view{padding:10px 14px;border-radius:10px;background:var(--bg);white-space:pre-wrap;overflow-wrap:anywhere;width:100%}
+.rq{display:grid;gap:8px}
+.small-clock{font-family:var(--f-mono);font-weight:700;font-size:18px;font-variant-numeric:tabular-nums}
+.form{display:grid;gap:12px}
+.form label{display:grid;gap:6px}
+.form-2{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr);gap:12px}
+@media (max-width:560px){.form-2{grid-template-columns:minmax(0,1fr)}}
+.scores{display:flex;flex-wrap:wrap;gap:6px}
+.score{width:44px;height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-family:var(--f-mono);font-weight:700;cursor:pointer;padding:0}
+.score:hover{border-color:var(--ink)}
+.score[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.trend{display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center}
+.entries{list-style:none;padding:0;display:grid;gap:10px}
+.entry{display:grid;gap:4px;padding:12px 14px;border-radius:12px;background:var(--bg);overflow-wrap:anywhere}
+.entry-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;align-items:center}
+.feel{font-family:var(--f-mono);font-weight:700;font-size:13px;color:var(--accent)}
+.group-h{font-size:19px;font-weight:800}
+.group-note{font-size:14.5px;color:var(--muted);margin-top:-6px}
+
+.finish{display:grid;gap:12px;justify-items:start;padding:22px;border-radius:16px;background:var(--ink);color:var(--bg)}
+.finish h3{font-size:24px;font-weight:800}
+.finish p{max-width:58ch}
+.finish .btn{border-color:transparent}
+.finish .btn.go{background:var(--mark);color:var(--on-mark)}
+.finish .btn.ghost{background:transparent;border-color:currentColor;color:var(--bg)}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:10px;font-size:15px;width:max-content;max-width:calc(100% - 32px);z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<div class="wrap">
+  <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="speaking.html">Speaking Gym</a><a href="conversation.html" aria-current="page">Conversation Coach</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a></nav>
+
+  <header class="top">
+    <div class="brand">
+      <h1>Conversation Coach</h1>
+      <p>28 days to feel at home in real conversations. Keep your turn, tell your stories, and ask good questions.</p>
+    </div>
+    <div class="stats" id="stats" aria-live="polite"></div>
+  </header>
+
+  <div class="layout">
+    <aside class="rail">
+      <section class="rail-sec">
+        <h2>Your 28-day program</h2>
+        <div class="program" id="program"></div>
+        <p class="legend"><span><i class="d"></i>Done</span><span><i class="m"></i>Review day</span><span><i class="f"></i>Big conversation</span></p>
+      </section>
+
+      <section class="rail-sec">
+        <div class="remember">
+          <p class="label">Remember</p>
+          <p class="big">A confused face is not a “no”.</p>
+          <ul><li>Slow down.</li><li>Keep your turn.</li><li>Fix it out loud.</li></ul>
+        </div>
+      </section>
+
+      <section class="rail-sec">
+        <h2>Good to know</h2>
+        <ul class="tips">
+          <li>Say everything out loud. Reading silently doesn't train speaking.</li>
+          <li class="only-standalone">Voice typing works in Chrome and Edge. Recording works in most browsers.</li>
+          <li class="only-standalone">For a live partner, copy a role-play prompt into a free AI voice chat, like ChatGPT or Gemini.</li>
+          <li class="only-claude">In role-plays, Claude plays the other person. Press the microphone to answer.</li>
+          <li class="only-claude">To record yourself, use the website version of this page.</li>
+          <li>After a real conversation, write it in your Brave Log, even when it felt hard.</li>
+        </ul>
+      </section>
+
+      <p class="saved-note" id="sync">Your progress is saved in this browser only. Use the backup on the home page to keep it safe.</p>
+    </aside>
+
+    <main class="lesson-col">
+      <div class="lesson" id="lesson"></div>
+      <section class="toolkit" id="toolkit" aria-label="Your toolkit"></section>
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+"use strict";
+
+/* Two homes: inside claude.ai the page gets Claude capabilities; on the website it uses free browser tools. */
+const CLAUDE = !!(window.claude && typeof window.claude.use === "function");
+if (!CLAUDE) document.body.classList.add("standalone");
+const SITE_URL = "https://starray500.github.io/speaking-gym/conversation.html";
+const SITE_LINK = '<a href="' + SITE_URL + '" target="_blank" rel="noopener">starray500.github.io/speaking-gym/conversation.html</a>';
+
+/* ---------- Program content ---------- */
+const WEEKS = [
+  {name:"Keep your turn", note:"This week you learn to keep talking when it gets hard: thinking phrases instead of silence, describing lost words, speaking slowly, and finishing your sentences."},
+  {name:"Your stories", note:"This week you prepare your “about me” stories. People ask the same questions again and again. When your answers are ready, you can relax and listen."},
+  {name:"Ask and listen", note:"This week you learn to ask good questions, show interest and fix confusion. When you ask, the other person talks, and you have time to think."},
+  {name:"Real situations", note:"This week you practise real conversations: a date, small talk, a group, an interview, a phone call and your opinion. On Day 28 you have your big conversation."}
+];
+
+/* The phrase bank: every group, with a short note. */
+const PG = {
+  think:{name:"Thinking phrases", note:"Say these instead of silence. They tell people: wait, I'm still talking.", list:["Let me think…","How can I put this…","Give me a second…","That's a good question.","What's the word…"]},
+  lost:{name:"When you lose a word", note:"Describe the word you can't find. People often help you.", list:["It's a kind of…","It's the thing you use to…","It's like a … but …","It's a person who…","It's a place where…","I don't know the word in English, but…"]},
+  slow:{name:"Slow down and finish", note:"Short, finished sentences are easier to follow.", list:["Let me start again.","What I'm trying to say is…","In other words,…","So, my point is…","Anyway, as I was saying…"]},
+  keep:{name:"Keep your turn", note:"Smile, keep your voice friendly, and finish your point.", list:["Sorry, let me finish.","Just one more thing…","Hold on, let me explain.","And another thing…"]},
+  story:{name:"Telling your stories", note:"Small words that make a story easy to follow.", list:["So, basically,…","What I love about it is…","The hardest part is…","At first… but then…","In the end,…","The funny thing is…"]},
+  ask:{name:"Open questions", note:"Questions with what, how and why get longer answers.", list:["What do you love about…?","How did you get into…?","What's the best part of…?","What was that like?","What do you do for fun?"]},
+  follow:{name:"Follow-up questions", note:"Show that you really listened.", list:["Really? Tell me more.","What happened next?","How did that feel?","Why did you choose that?","What about you?"]},
+  react:{name:"Showing interest", note:"Short reactions keep the conversation warm.", list:["That sounds amazing!","Oh, I didn't know that.","No way!","Me too!","Oh, that's a shame."]},
+  repeat:{name:"Asking to repeat", note:"Asking is better than nodding.", list:["Sorry, could you say that again?","Sorry, I didn't catch that.","Could you speak a bit more slowly, please?","What does that word mean?"]},
+  check:{name:"Checking you understood", note:"Stop small confusion before it grows.", list:["Do you mean…?","So you're saying…","Let me check I understood.","Is that right?"]},
+  fix:{name:"Fixing confusion out loud", note:"A confused face is not a “no”. Say it another way.", list:["Let me say that another way.","What I mean is…","Let me give you an example.","Does that make sense?","Sorry, that wasn't clear. Let me try again."]},
+  join:{name:"Getting a turn in a group", note:"Groups move fast. Use a phrase to step in.", list:["Can I add something?","Sorry to jump in, but…","Going back to what you said…","I'd like to say something about that."]},
+  opinion:{name:"Opinions and polite disagreeing", note:"Give a reason. Disagree kindly.", list:["In my opinion,… because…","I see your point, but…","I see it a bit differently.","That's true, but…","What do you think?"]},
+  date:{name:"Dates and small talk", note:"Easy questions that open a conversation.", list:["How's your week going?","Have you been here before?","Any plans for the weekend?","I really enjoyed this.","Would you like to do this again sometime?"]},
+  interview:{name:"Interviews", note:"Take your time, and always give an example.", list:["That's a good question. Let me think.","For example, in my last job,…","What I learned from that is…","I'm good at… For example,…","Could you tell me more about the role?"]},
+  phone:{name:"On the phone", note:"Phone calls are hard for everyone. Check the details.", list:["Hi, I'm calling about…","Sorry, the line is bad. Could you repeat that?","Could you spell that, please?","Let me check: Tuesday at nine fifteen?","Thanks for your help. Bye!"]}
+};
+
+/* 28 days. main.type: talk (timed answer), story (one of your stories), rp (role-play). */
+const DAYS = [
+ /* Week 1: Keep your turn */
+ {t:"Never be silent", warm:"I can take my time. Good speakers pause.",
+  ph:["Let me think…","How can I put this…","Give me a second…","That's a good question."],
+  why:"When you search for a word in silence, people think you've finished, and they start talking. A thinking phrase tells them: wait, I'm still talking.",
+  cards:[["Someone asks: “Why did you choose your job?” You need a moment.",["That's a good question. Let me think…","Hmm, how can I put this… I chose it because…"]],
+         ["You forget a word in the middle of a sentence.",["Give me a second… what's the word…","Let me think… it's like…"]],
+         ["A friend asks: “What's your favourite film?” Your mind goes empty.",["Oh, that's a hard one. Let me think…","Give me a second… I think it's…"]]],
+  main:{type:"talk", q:"What did you do last weekend?", secs:60, tip:"Every time you need time, use a thinking phrase. Don't stop. Don't go silent."},
+  mission:"Use “Let me think…” once today, in any conversation."},
+ {t:"Lost a word? Describe it", warm:"If I lose a word, I describe it.",
+  ph:["It's a kind of…","It's the thing you use to…","It's like a … but …","It's a person who…","It's a place where…"],
+  why:"You know thousands of words. When one hides, describe it. The other person often gives you the word, and the conversation keeps moving.",
+  cards:[["You need the word “landlord”.",["It's the person who owns the flat I rent.","It's a person who gets my rent every month."]],
+         ["You need the word “receipt”.",["It's the little paper you get after you pay in a shop.","It's a kind of paper that shows what you paid."]],
+         ["You need the word “ladder”.",["It's the thing you use to climb up high.","It's like stairs, but you can carry it."]]],
+  main:{type:"talk", q:"Describe five things in your home without saying their names. For example: a fridge, a mirror, a kettle, a key and a sofa.", secs:60, tip:"Use “It's the thing you use to…”, “It's a kind of…” and “It's like a … but …”."},
+  mission:"When you can't find a word today, describe it. Don't stop talking."},
+ {t:"Slow down", warm:"I speak slowly, so people understand me.",
+  ph:["Let me start again.","What I'm trying to say is…","In other words,…","So, my point is…"],
+  why:"Many confused faces come from speed, not from mistakes. When you speak slowly, people understand you the first time, and you have time to find your next word.",
+  cards:[["You started too fast, and your sentence got lost.",["Sorry, let me start again.","Let me say that more slowly."]],
+         ["You said something long and complicated.",["In other words,…","What I'm trying to say is…"]]],
+  main:{type:"talk", q:"Tell me about your job or your studies.", secs:60, tip:"Speak slowly. Pause at every full stop. Aim for about 110–140 words per minute."},
+  mission:"In one conversation today, speak a little slower than usual. Watch the other person's face."},
+ {t:"Finish your sentences", warm:"Short sentences. Clear ideas. One at a time.",
+  ph:["So, my point is…","What I mean is…","In short,…","Anyway, as I was saying…"],
+  why:"Half sentences confuse people. Short, finished sentences are better than long, broken ones. Simple English is good English.",
+  cards:[["You started a long sentence and lost the end.",["Anyway, what I mean is…","In short, I really like it."]],
+         ["You went off topic. Go back.",["Anyway, as I was saying…","So, my point is…"]]],
+  main:{type:"talk", q:"What's the best thing about the city or town where you live?", secs:60, tip:"Use short sentences: one idea, then a full stop. Finish every sentence."},
+  mission:"Today, finish every sentence you start, even if it's simple."},
+ {t:"Keep your turn", warm:"I have something to say, and I will finish it.",
+  ph:["Sorry, let me finish.","Just one more thing…","Hold on, let me explain.","And another thing…"],
+  why:"Some people jump in when you pause. That's normal, not rude. Smile, keep your voice friendly, and finish your point.",
+  cards:[["Your friend starts talking before you finish.",["Sorry, let me just finish my point.","Hold on, just one more thing…"]],
+         ["You want to add a second idea.",["And another thing…","Also, one more thing…"]]],
+  main:{type:"rp", key:"friend", goal:"Today's goal: when Pat jumps in, smile and keep your turn."},
+  mission:"If someone interrupts you today, smile and say “Just one more thing…”."},
+ {t:"A confused face is not a “no”", warm:"A confused face is not a no. I can say it another way.",
+  ph:["Let me say that another way.","What I mean is…","Let me give you an example.","Does that make sense?"],
+  why:"When someone looks confused, they are still listening. They want to understand you. Say it again more simply, or give an example. Fluent speakers do this all the time.",
+  cards:[["You explain your job, and the person frowns.",["Let me say that another way.","Let me give you an example."]],
+         ["You aren't sure the person understood.",["Does that make sense?","Is that clear?"]],
+         ["Someone shakes their head while you talk.",["It can mean “wow”, not “no”. Keep going.","Smile and ask: “Does that make sense?”"]]],
+  main:{type:"talk", q:"Explain how to cook your favourite dish, step by step.", secs:75, tip:"Give one example. Say “Does that make sense?” at least once."},
+  mission:"When you see a confused face today, say “Let me say that another way.”"},
+ {t:"Review: keep your turn", kind:"review", warm:"I take my time, I keep my turn, I fix it out loud.",
+  ph:["Let me think…","It's the thing you use to…","Just one more thing…","Let me say that another way."],
+  why:"This week you learned to keep talking when it gets hard. Today you use all of it in one conversation.",
+  cards:[["You get a hard question.",["That's a good question. Let me think…"]],
+         ["You lose a word, and the person looks confused.",["It's a kind of… Let me say that another way."]]],
+  main:{type:"rp", key:"party", goal:"Today's goal: no silence. Use a thinking phrase every time you need time."},
+  mission:"Have one 5-minute conversation in English. Then write it in your Brave Log."},
+
+ /* Week 2: Your stories */
+ {t:"Story 1: my work or studies", warm:"I know my story. I can tell it.",
+  ph:["So, basically,…","What I love about it is…","The hardest part is…","What about you?"],
+  why:"People ask the same questions again and again. When your answers are ready, you can relax, and you have more energy to listen.",
+  cards:[["Someone asks: “So, what do you do?”",["So, basically, I work as… What I love about it is…","I'm a student. I study… What about you?"]],
+         ["You finished your answer. Keep the conversation going.",["What about you?","How about you? What do you do?"]]],
+  main:{type:"story", key:"work", secs:75},
+  mission:"Tell one person about your work or studies today. Then ask: “What about you?”"},
+ {t:"Story 2: where I'm from", warm:"My home has a story, and I can share it.",
+  ph:["I'm from…, a city in…","It's famous for…","The thing I miss most is…","Have you ever been to…?"],
+  why:"“Where are you from?” is one of the first questions in any new conversation. A short, colourful answer makes people curious.",
+  cards:[["Someone asks: “Where are you from?”",["I'm from…, a city in the south. It's famous for…"]],
+         ["They don't know your city.",["It's a big city near the sea.","It's like London, but warmer and smaller."]]],
+  main:{type:"story", key:"home", secs:75},
+  mission:"Tell someone one thing you love about the place you're from."},
+ {t:"Story 3: my family", warm:"I speak about the people I love.",
+  ph:["There are … of us.","I'm closest to…","We always…","Do you have any brothers or sisters?"],
+  why:"Family stories are warm and easy to share. They also invite the other person to share theirs.",
+  cards:[["Someone asks: “Do you have a big family?”",["Yes, there are six of us. I'm closest to my sister.","Not really. It's just me and my parents."]],
+         ["You want to keep the topic going.",["Do you have any brothers or sisters?","Are you close to your family?"]]],
+  main:{type:"story", key:"family", secs:75},
+  mission:"Ask someone about their family today, and really listen to the answer."},
+ {t:"Story 4: what I do for fun", warm:"I love what I do, and it shows.",
+  ph:["In my free time, I…","I got into it when…","It helps me…","What do you do for fun?"],
+  why:"When you talk about something you love, your face and voice change. People feel your energy, even if your English isn't perfect.",
+  cards:[["Someone asks: “What do you do at the weekend?”",["Usually I… and on Sundays I…","In my free time, I play football with friends."]],
+         ["Someone asks: “How did you start that?”",["I got into it when I was a child.","A friend showed me, and I loved it."]]],
+  main:{type:"story", key:"fun", secs:75},
+  mission:"Ask someone “What do you do for fun?” today."},
+ {t:"Story 5: something I'm proud of", warm:"I did hard things before. I can do this too.",
+  ph:["It wasn't easy, but…","At first… but then…","In the end,…","I learned that…"],
+  why:"A short story with a problem and an ending is easy to follow. It also shows people who you are.",
+  cards:[["Someone asks: “What's something you're proud of?”",["I'm proud that I… It wasn't easy, but…"]],
+         ["You want to end your story well.",["In the end, I learned that…","So that's why I'm proud of it."]]],
+  main:{type:"story", key:"proud", secs:75},
+  mission:"Tell someone about one small win from this week."},
+ {t:"Story 6: a funny or surprising moment", warm:"I can laugh, and I can make people laugh.",
+  ph:["You won't believe what happened…","The funny thing is…","Suddenly,…","Has anything like that ever happened to you?"],
+  why:"Funny stories help people relax, and you relax too. Small mistakes in a funny story don't matter. The smile matters.",
+  cards:[["Start a funny story.",["You won't believe what happened to me last week…","The funny thing is…"]],
+         ["Finish your story and invite the other person.",["Has anything like that ever happened to you?"]]],
+  main:{type:"story", key:"funny", secs:75},
+  mission:"Tell a short funny story to someone. Smile when you tell it."},
+ {t:"Review: “Tell me about yourself”", kind:"review", warm:"I know who I am, and I can say it simply.",
+  ph:["Let me tell you a bit about myself.","Outside work,…","Right now, I'm…","What about you?"],
+  why:"On a date, at work, in an interview: someone always says “Tell me about yourself.” Today you build one short answer from your stories.",
+  cards:[["On a date: “So, tell me about yourself.”",["Let me tell you a bit about myself. I'm from… I work as… Outside work, I love…"]],
+         ["In an interview: “Tell me about yourself.”",["I'm a … with … years of experience. Right now, I'm…"]]],
+  main:{type:"story", key:"intro", secs:60},
+  mission:"Introduce yourself to someone new this week. Use your “about me”."},
+
+ /* Week 3: Ask and listen */
+ {t:"Open questions", warm:"I'm curious about people.",
+  ph:["What do you love about…?","How did you get into…?","What's the best part of…?","What was that like?"],
+  why:"Questions are your best friend. When you ask, the other person talks, you listen, and you have time to think. Open questions start with what, how and why.",
+  cards:[["Someone says: “I'm a nurse.”",["Oh, what do you love about it?","How did you get into nursing?"]],
+         ["Someone says: “I just came back from Spain.”",["What was that like?","What was the best part of the trip?"]]],
+  main:{type:"talk", q:"Imagine you meet someone new. Ask six open questions out loud: about work, home, free time, food, travel and music.", secs:60, tip:"Start each question with what, how or why. Say them slowly, with a smile."},
+  mission:"Ask one person an open question today: “What do you love about…?”"},
+ {t:"Follow-up questions", warm:"I listen, then I ask more.",
+  ph:["Really? Tell me more.","What happened next?","How did that feel?","Why did you choose that?"],
+  why:"A follow-up question shows you really listened. People love talking to someone who is interested.",
+  cards:[["Someone says: “I started running last month.”",["Really? How did you get into it?","How does it feel now?"]],
+         ["Someone says: “I had a crazy day at work.”",["Oh no, what happened?","Really? Tell me more."]]],
+  main:{type:"rp", key:"work", goal:"Today's goal: ask at least two follow-up questions."},
+  mission:"In one conversation today, ask a follow-up question."},
+ {t:"Show interest and react", warm:"I listen with my face and my voice.",
+  ph:["That sounds amazing!","Oh, I didn't know that.","No way!","Me too!","Oh, that's a shame."],
+  why:"Short reactions show you're listening. They also give you a moment to think before your next sentence.",
+  cards:[["Someone says: “I just got a new job!”",["That's amazing! Congratulations!","No way! Tell me more."]],
+         ["Someone says: “I missed my flight.”",["Oh no, that's a shame. What did you do?"]],
+         ["Someone says: “I love cooking.”",["Me too! What do you like to cook?"]]],
+  main:{type:"talk", q:"Your friend says: “I'm moving to a new city next month.” Talk for one minute: react, ask questions, and share your own experience.", secs:60, tip:"Start with a reaction, then ask two questions, then share something about you."},
+  mission:"Today, react with “Really? Tell me more.” at least once."},
+ {t:"Ask them to repeat", warm:"It's okay not to understand. I can ask.",
+  ph:["Sorry, could you say that again?","Sorry, I didn't catch that.","Could you speak a bit more slowly, please?","What does that word mean?"],
+  why:"Not understanding is normal, even for native speakers. Asking is better than nodding. It shows confidence, not weakness.",
+  cards:[["Someone speaks very fast.",["Sorry, could you speak a bit more slowly, please?"]],
+         ["You didn't hear the name of a place.",["Sorry, I didn't catch that. Where?"]],
+         ["You hear a word you don't know.",["Sorry, what does that word mean?"]]],
+  main:{type:"rp", key:"phone", goal:"Today's goal: ask the receptionist to repeat or slow down at least once."},
+  mission:"Today, ask someone to repeat something. Notice: nobody minds."},
+ {t:"Check you understood", warm:"I check, so we understand each other.",
+  ph:["Do you mean…?","So you're saying…","Let me check I understood.","Is that right?"],
+  why:"Checking stops small confusion from growing. It also shows the other person that you care about what they said.",
+  cards:[["Your colleague explains a long task.",["So you're saying I should finish the report first. Is that right?"]],
+         ["Your date says: “I'm not really a city person.”",["Do you mean you prefer the countryside?"]]],
+  main:{type:"talk", q:"Your friend says: “I want to change my job, but I'm scared.” Check that you understood, ask questions, and give one idea.", secs:60, tip:"Use “So you're saying…” or “Do you mean…?” at the start."},
+  mission:"Use “Do you mean…?” once today."},
+ {t:"Fix confusion out loud", warm:"When it's not clear, I fix it calmly.",
+  ph:["Sorry, that wasn't clear. Let me try again.","What I mean is…","For example,…","Does that make sense?"],
+  why:"The best speakers don't avoid confusion. They fix it calmly. When you fix it out loud, the other person relaxes, and so do you.",
+  cards:[["You explained something, and your friend looks lost.",["Sorry, that wasn't clear. Let me try again.","Let me give you an example."]],
+         ["Your date shakes their head while you talk.",["Maybe it means “wow”. Keep going, then ask: “Does that make sense?”"]]],
+  main:{type:"talk", q:"Explain your job, or something you know well, to a 10-year-old child.", secs:75, tip:"Use very simple words. Give one example. Say “What I mean is…” once."},
+  mission:"Today, when you see a confused face, fix it out loud: “What I mean is…”."},
+ {t:"Review: ask and listen", kind:"review", warm:"I ask, I listen, I react.",
+  ph:["What do you love about…?","Really? Tell me more.","Sorry, I didn't catch that.","Do you mean…?"],
+  why:"This week you learned to ask, listen and check. Today you use all of it with a friend who loves to talk.",
+  cards:[["Your friend says: “I just started a new hobby.”",["Really? What is it? How did you get into it?"]],
+         ["You didn't understand the last thing your friend said.",["Sorry, I didn't catch that. Do you mean…?"]]],
+  main:{type:"rp", key:"friend", goal:"Today's goal: ask three questions and react to the answers."},
+  mission:"Have one conversation where you ask more questions than the other person. Write it in your Brave Log."},
+
+ /* Week 4: Real situations */
+ {t:"A first date", warm:"I'm curious, I'm calm, and I'm enough.",
+  ph:["How's your week going?","Have you been here before?","What do you do for fun?","I really enjoyed this."],
+  why:"A good date feels like a game of catch: you share a little, then you ask. You don't need perfect English. You need warmth, questions and a smile.",
+  cards:[["Your date asks: “So, what do you do?”",["So, basically, I work as… What about you?"]],
+         ["There's a silence.",["So, have you been here before?","What are you excited about right now?"]],
+         ["Your date looks confused after your answer.",["Let me say that another way.","What I mean is…"]]],
+  main:{type:"rp", key:"date", goal:"Today's goal: share, then ask. Keep the ball moving."},
+  mission:"Before your next date or meeting, use the Get ready checklist in your toolkit."},
+ {t:"Small talk at work", warm:"Small talk is small. I can do it.",
+  ph:["How's your week going?","Any plans for the weekend?","How long have you been here?","Nice talking to you!"],
+  why:"Small talk is short and simple. The goal isn't deep ideas. The goal is a friendly connection.",
+  cards:[["You meet a colleague in the kitchen.",["Hi! How's your week going?"]],
+         ["You want to end the chat politely.",["Anyway, I'd better get back to work. Nice talking to you!"]]],
+  main:{type:"rp", key:"work", goal:"Today's goal: keep the chat going, then end it politely."},
+  mission:"Start one small-talk conversation at work, at school or in a shop."},
+ {t:"Get a turn in a group", warm:"My voice matters in the group too.",
+  ph:["Can I add something?","Sorry to jump in, but…","Going back to what you said…","Just one more thing…"],
+  why:"In a group, people don't wait for a pause. You have to step in, kindly. A short phrase opens the door, and then you keep your turn.",
+  cards:[["Two friends are talking fast. You have an idea.",["Sorry to jump in, but…","Can I add something?"]],
+         ["The topic moved on, but you want to go back.",["Going back to what you said about…"]]],
+  main:{type:"rp", key:"group", goal:"Today's goal: get a turn at least twice, and finish your point."},
+  mission:"In a group conversation, say “Can I add something?”"},
+ {t:"A job interview", warm:"I take my time, and I give examples.",
+  ph:["That's a good question. Let me think.","For example, in my last job,…","What I learned from that is…","Could you tell me more about the role?"],
+  why:"Interviewers like calm answers with examples. A short pause with a thinking phrase looks confident, not weak.",
+  cards:[["“What's your biggest strength?”",["I'm good at solving problems. For example, in my last job,…"]],
+         ["“Tell me about a time you had a problem at work.”",["That's a good question. Let me think. Last year,…"]]],
+  main:{type:"rp", key:"interview", goal:"Today's goal: answer every question with an example."},
+  mission:"Write your answer to “Tell me about yourself” in My stories, then say it out loud twice."},
+ {t:"A phone call", warm:"On the phone, I speak slowly and check the details.",
+  ph:["Hi, I'm calling about…","Sorry, the line is bad. Could you repeat that?","Could you spell that, please?","Let me check: Tuesday at nine fifteen?"],
+  why:"Phone calls are hard for everyone, because you can't see the face. Speak slowly, ask for repeats, and check the details at the end.",
+  cards:[["You call a restaurant.",["Hi, I'm calling about a table for two on Friday."]],
+         ["You didn't hear the time.",["Sorry, the line is bad. Could you repeat the time?"]]],
+  main:{type:"rp", key:"phone", goal:"Today's goal: check the day, the time and your name at the end."},
+  mission:"Make one phone call in English, or leave a voice message for a friend."},
+ {t:"Give your opinion, disagree politely", warm:"I can disagree and still be kind.",
+  ph:["In my opinion,… because…","I see your point, but…","I see it a bit differently.","What do you think?"],
+  why:"Good conversations have different opinions. Give a reason, disagree kindly, and ask what the other person thinks.",
+  cards:[["Your friend says: “Social media is terrible.”",["I see your point, but it also helps me stay in touch with my family."]],
+         ["You agree a little, but not completely.",["That's true, but…","Maybe, but I see it a bit differently."]]],
+  main:{type:"rp", key:"opinion", goal:"Today's goal: give two reasons, and disagree politely once."},
+  mission:"Share one opinion today. If you disagree, say “I see it a bit differently.”"},
+ {t:"Your big conversation", kind:"final", warm:"I've practised. I'm ready. Let's talk.",
+  ph:["Let me think…","Let me say that another way.","Really? Tell me more.","Can I add something?"],
+  why:"Today is your big conversation. Choose a situation that matters to you. Use everything: thinking phrases, your stories, questions, and fixing confusion.",
+  cards:[["You lose a word.",["It's the thing you use to… Let me think…"]],
+         ["The other person looks confused.",["Let me say that another way. What I mean is…"]],
+         ["There's a silence.",["So, tell me more about…","What about you?"]]],
+  main:{type:"rp", key:"date", long:true, choose:true, goal:"Today's goal: use everything. Take your time, ask questions, fix confusion out loud."},
+  mission:"Have a real 10-minute conversation in English with someone new, or with someone you'd like to know better. Then write it in your Brave Log."}
+];
+
+const CHECKS = [
+  ["I used a thinking phrase instead of silence.","When I lost a word, I described it.","I spoke slowly and paused between ideas.","I finished my sentences."],
+  ["My story had a clear start, middle and end.","I used my key words, not a script.","I spoke slowly and clearly.","I ended with a question, like “What about you?”"],
+  ["I asked open questions (what, how, why).","I asked a follow-up question.","I showed interest: “Really? Tell me more.”","When something wasn't clear, I checked or fixed it out loud."],
+  ["I kept my turn and finished my points.","I asked questions and listened to the answers.","When the other person looked confused, I said it another way.","I stayed calm, even after a mistake."]
+];
+
+/* Your "about me" stories. Week 2 teaches six; "intro" joins them together. */
+const STORY = {
+  work:{title:"My work or studies", q:"So, what do you do?",
+    frame:[["What","Your job, or what you study."],["Every day","One thing you do every day."],["Love it","What you like about it."],["Hard part","One hard thing, said simply."],["Ask back","“What about you?”"]],
+    model:"So, basically, I work as a nurse in a big hospital. Every day I check on my patients and give them their medicine. What I love about it is that I help people when they need it most. The hardest part is the night shifts. They're really tiring. But I wouldn't change my job. What about you? What do you do?"},
+  home:{title:"Where I'm from", q:"Where are you from?",
+    frame:[["Where","Your city or town, and where it is."],["Famous for","One thing it's known for."],["Picture","Something you can see, hear or smell there."],["Miss","What you miss, or what you love."],["Ask back","“Have you ever been there?”"]],
+    model:"I'm from a city in the north of my country, near the sea. It's famous for its old bridges and its markets. When I think of home, I see the river and the colourful houses, and I smell fish on the grill. The thing I miss most is Sunday lunch with my family. Have you ever been to my country?"},
+  family:{title:"My family", q:"Do you have a big family?",
+    frame:[["Who","Who is in your family."],["Closest","Who you are closest to, and why."],["Together","Something you always do together."],["Memory","A short memory."],["Ask back","“Do you have brothers or sisters?”"]],
+    model:"There are five of us: my parents, my two sisters and me. I'm closest to my younger sister, because we talk every day. We always eat together on Sundays, and it's very loud and happy. I remember the first time she cooked for the family. She burned the rice! We still laugh about it. Do you have any brothers or sisters?"},
+  fun:{title:"What I do for fun", q:"What do you do for fun?",
+    frame:[["Hobby","What you love to do."],["Start","How you got into it."],["Weekend","What a typical weekend looks like."],["Feeling","How it makes you feel."],["Ask back","“What do you do for fun?”"]],
+    model:"In my free time, I play football with my friends. I got into it when I was a child, playing in the street. On a typical Saturday, I play in the morning, and then I relax at home and watch a film. It helps me forget about work, and I feel strong. What do you do for fun?"},
+  proud:{title:"Something I'm proud of", q:"What's something you're proud of?",
+    frame:[["What","What you did."],["Problem","Why it wasn't easy."],["Action","What you did about it."],["End","How it ended."],["Lesson","What you learned."]],
+    model:"I'm proud that I learned to drive last year. It wasn't easy, because I was really nervous in traffic. At first, I failed my test, but then I practised every weekend with my uncle. In the end, I passed the second time. I learned that being nervous is okay, if you keep going."},
+  funny:{title:"A funny or surprising moment", q:"Has anything funny happened to you recently?",
+    frame:[["When","When and where it happened."],["Normal","What was normal at first."],["Suddenly","The surprise."],["Reaction","What you did or said."],["Ask back","“Has that ever happened to you?”"]],
+    model:"You won't believe what happened last week. I was on the bus, going to work, reading my phone. Suddenly, a man sat next to me and started talking to me like an old friend. The funny thing is, I didn't know him at all! He thought I was his cousin. We both laughed a lot. Has anything like that ever happened to you?"},
+  intro:{title:"Tell me about yourself", q:"So, tell me about yourself.",
+    frame:[["Where","Where you're from, and where you live now."],["Work","What you do, in one sentence."],["Fun","What you love outside work."],["Now","What you're working on right now."],["Ask back","“What about you?”"]],
+    model:"Sure. Let me tell you a bit about myself. I'm from a small city by the sea, but I live in the capital now. I work in IT support, so I help people fix their computers. Outside work, I love cooking and long walks. Right now, I'm working hard on my English, and I practise every day. What about you?"}
+};
+
+/* Role-play scenarios. "lines" is the ready-made partner (used on the website, or when Claude isn't available).
+   Lines are general questions and reactions, so they make sense after almost any answer.
+   tag: confused / interrupt / fast marks a surprise to practise fixing. */
+const SC = {
+  date:{title:"First date at a café", partner:"Sam", who:"your date. Friendly and a little shy.",
+    setting:"You are on a first date at a café. You and Sam have just sat down with your drinks.",
+    scene:"A first date at a café, just after sitting down with drinks.",
+    role:"You are Sam, the learner's date. You are friendly and a little shy. You work as a graphic designer, and you love travel and cooking.",
+    twist:"Once, if it feels natural, look a little confused and ask what the learner means.",
+    goals:["Tell Sam a little about yourself.","Ask at least three questions.","If Sam looks confused, fix it out loud."],
+    lines:["Hi! It's so nice to finally meet you. How's your day been?",
+      "That's nice. So, tell me a bit about yourself. What do you do?",
+      "Oh, interesting! What do you like most about it?",
+      {s:"Sorry, I'm not sure I understood. What do you mean?", tag:"confused"},
+      "Ah, I see now. And what do you like to do when you're not working?",
+      "That sounds fun. How did you get into that?",
+      "I love that. Have you travelled much?",
+      "Where would you love to go next?",
+      "Me too, I'd love that. So, what are you excited about right now?",
+      "This was really nice. Would you like to do this again sometime?"]},
+  party:{title:"Small talk at a party", partner:"Alex", who:"a friend of the host. Chatty and relaxed.",
+    setting:"You are at a friend's birthday party. You don't know many people. Alex is standing next to you near the food.",
+    scene:"A friend's birthday party. Two guests who don't know each other are standing near the food.",
+    role:"You are Alex, a friend of the host. You are chatty and relaxed. You work in a bank and you play football at the weekend.",
+    twist:"Once, get distracted for a moment (for example by the food), then ask the learner to go on.",
+    goals:["Start and keep a friendly chat.","Use a thinking phrase instead of silence.","Ask a follow-up question."],
+    lines:["Hi! I don't think we've met. I'm Alex. How do you know the host?",
+      "Oh, nice! So, what do you do?",
+      "Really? Is it a busy job?",
+      {s:"Oh, wait, sorry! This food is amazing. Have you tried it? Anyway, you were saying?", tag:"interrupt"},
+      "Ha, true. So, what do you usually do at the weekend?",
+      "Oh, that's cool. Is there a good place for that around here?",
+      "I'll try it. Have you lived here long?",
+      "And what do you miss most about home?",
+      "That makes sense. It was really nice talking to you. Are you staying long tonight?"]},
+  work:{title:"A new colleague at work", partner:"Jordan", who:"a new colleague who started this week. Friendly.",
+    setting:"You are in the kitchen at work, making coffee. Jordan, a new colleague, comes in.",
+    scene:"The kitchen at work, by the coffee machine. One of you started the job this week.",
+    role:"You are Jordan, the learner's new colleague. You started this week and you moved from another city. You are friendly and curious.",
+    twist:"Once, ask the learner to explain something more simply, because you're new.",
+    goals:["Make the new person feel welcome.","Ask open questions: what, how, why.","Ask at least one follow-up question."],
+    lines:["Hi! I'm Jordan. I just started this week. Have you worked here long?",
+      "Nice. What do you do here, exactly?",
+      {s:"Sorry, I'm still learning everyone's jobs. Could you say that again, more simply?", tag:"confused"},
+      "Ah, got it, thanks. Is it a good place to work?",
+      "Good to know! Any tips for a new person like me?",
+      "That's really helpful. Where's a good place to eat lunch around here?",
+      "Great. And how's your week going so far?",
+      "Ha, I know that feeling. Any plans for the weekend?",
+      "Sounds good. Well, I'd better get back to my desk. Nice talking to you!"]},
+  group:{title:"Getting a turn in a group", partner:"Maria and Tom", who:"two friends who talk fast and sometimes jump in.", multi:true,
+    setting:"You are with two friends, Maria and Tom, planning a weekend trip together. They talk fast and jump in.",
+    scene:"Three friends planning a weekend trip together.",
+    role:"You play two friends, Maria and Tom, who are planning a weekend trip with the learner. They are friendly, but they talk fast.",
+    twist:"Sometimes one friend jumps in before the learner finishes, then says sorry and lets them continue.",
+    goals:["Get a turn: “Can I add something?”","Keep your turn until you finish.","Give one idea and one reason."],
+    lines:["Maria: Okay, we need to choose: the beach or the mountains. Tom wants the beach. What do you think?",
+      {s:"Tom: The beach, obviously! Sun, sea, ice cream… Oh, sorry. Go on, what were you saying?", tag:"interrupt"},
+      "Maria: Hmm, interesting. But how do we get there? Any ideas?",
+      {s:"Tom: Wait, wait, I can drive! Oh, sorry again. You were saying?", tag:"interrupt"},
+      "Maria: Good point. And where should we stay?",
+      {s:"Maria: Sorry, I didn't really follow that. What do you mean?", tag:"confused"},
+      "Tom: Okay, that makes sense. What should we do in the evenings?",
+      "Maria: Love it. So, is everyone happy with the plan?",
+      "Tom: Great. Can you send us a message with the plan later?"]},
+  interview:{title:"Job interview", partner:"Ms Taylor", who:"the manager. Polite and a little formal.",
+    setting:"You are in a job interview for a job you really want. Ms Taylor is the manager.",
+    scene:"A job interview for a job the learner really wants.",
+    role:"You are Ms Taylor, the manager interviewing the learner. You are polite, professional and a little formal.",
+    twist:"Once, ask the learner to explain an answer again, more clearly.",
+    goals:["Answer with an example, not just yes or no.","Use “That's a good question. Let me think.” when you need time.","Ask one question at the end."],
+    lines:["Good morning, and thank you for coming. Please, tell me about yourself.",
+      "Thank you. Why are you interested in this job?",
+      "What would you say is your biggest strength? Can you give me an example?",
+      {s:"I'm sorry, I didn't quite follow. Could you explain that example again?", tag:"confused"},
+      "Thank you, that's clearer. Tell me about a time you had a problem at work. What did you do?",
+      "And what did you learn from that?",
+      "How do you usually work in a team?",
+      "Where do you see yourself in five years?",
+      "Thank you. Do you have any questions for me?",
+      "Good question. We'll be in touch next week. Thank you for your time."]},
+  phone:{title:"Phone call: a doctor's appointment", partner:"Receptionist", who:"a busy receptionist at a clinic. Kind, but speaks quickly.",
+    setting:"You are calling a clinic to book an appointment with a doctor. The receptionist answers.",
+    scene:"A phone call to a medical clinic to book an appointment.",
+    role:"You are the receptionist at Green Street Clinic. You are busy and speak quickly, but you are kind.",
+    twist:"Once, speak in a hurry or say the line is bad, so the learner has to ask you to repeat.",
+    goals:["Say clearly why you're calling.","Ask the receptionist to repeat or slow down if you need to.","Check the details at the end: day, time, name."],
+    lines:["Good morning, Green Street Clinic. How can I help you?",
+      "Okay. Can I have your full name, please?",
+      "Thank you. Could you spell your last name for me?",
+      {s:"Sorry, the line's a bit bad. Could you say that again?", tag:"confused"},
+      "Got it, thanks. And why do you need to see the doctor?",
+      {s:"Okay, so we have Tuesday at nine fifteen, or Thursday at four thirty. Which is better for you?", tag:"fast"},
+      "Perfect. And what's the best phone number for you?",
+      "Great. Is there anything else I can help you with?",
+      "You're welcome. See you then. Goodbye!"]},
+  opinion:{title:"Giving your opinion", partner:"Chris", who:"a friend who likes to discuss things, and disagrees with you.",
+    setting:"You are having a coffee with your friend Chris. Chris starts talking about working from home.",
+    scene:"Two friends having coffee and talking about working from home.",
+    role:"You are Chris, the learner's friend. You think working from home is better than working in an office. You are friendly, but you like to disagree.",
+    twist:"Disagree politely with the learner at least once, and ask for an example.",
+    goals:["Give your opinion with a reason: “In my opinion… because…”","Disagree politely: “I see your point, but…”","Ask Chris a question about their opinion."],
+    lines:["I think everyone should work from home. Offices are a waste of time. What do you think?",
+      "Really? Why do you think that?",
+      "Hmm, I see it differently. At home, I don't lose two hours on the bus every day. Isn't that better?",
+      {s:"Sorry, I didn't get your point. Can you give me an example?", tag:"confused"},
+      "Okay, that's fair. But what about people with children? Isn't home better for them?",
+      {s:"No, no, listen. At home you can… oh, sorry, I interrupted you. Go on.", tag:"interrupt"},
+      "Interesting. So, what would be the perfect solution for you?",
+      "Maybe you're right. Do you think this will change in the future?",
+      "Good chat! We don't agree on everything, but I like talking with you."]},
+  friend:{title:"A friend who talks a lot", partner:"Pat", who:"an old friend who loves to talk, and sometimes jumps in.",
+    setting:"You meet your old friend Pat in the street. Pat is very happy to see you and talks a lot.",
+    scene:"Two old friends meet by chance in the street.",
+    role:"You are Pat, the learner's old friend. You are warm and kind, you love to talk, and you get excited.",
+    twist:"Sometimes jump in before the learner finishes, then say sorry and let them continue.",
+    goals:["Keep your turn: “Sorry, let me finish.”","Finish your sentences.","Share one piece of your own news."],
+    lines:["Hey! Oh my goodness, it's been so long! How are you? What's new?",
+      {s:"Oh wow, that's… oh, wait, I have to tell you, I got a dog! Sorry, sorry, you were saying?", tag:"interrupt"},
+      "Ha, okay, go on. So, how's work, or your studies?",
+      {s:"Oh, that reminds me of my job… no, wait, finish your story first. Sorry!", tag:"interrupt"},
+      "Really? And how do you feel about that?",
+      "So, what are you doing this weekend?",
+      {s:"Hmm, sorry, I didn't catch that. What do you mean?", tag:"confused"},
+      "Ah, okay! We should meet properly. When are you free?",
+      "Perfect! It was so good to see you. Message me, okay?"]}
+};
+const TIPS = {
+  confused:p => "Surprise: " + p + " looks confused. Try: “Let me say that another way.” or “What I mean is…”",
+  interrupt:p => "Surprise: " + p + " jumped in. Smile, then keep your turn: “Sorry, let me finish my point.”",
+  fast:p => p + " spoke fast. Try: “Sorry, could you speak a bit more slowly, please?”"
+};
+
+const READY_Q = {
+  date:["What do you love about your job?","What do you do for fun?","What's the best trip you've ever had?","What are you excited about right now?","What's your favourite food?"],
+  interview:["What does a typical day look like in this job?","What do you like most about working here?","How does the team work together?","What are the next steps?"],
+  meeting:["Can I add something?","Could you explain that again?","What's the next step?","Who is working on this?"],
+  party:["How do you know the host?","What do you do?","Have you lived here long?","Any plans for the weekend?"]
+};
+const STEPS = [
+  {k:1, name:"Warm-up", mins:1},
+  {k:2, name:"Phrases", mins:3},
+  {k:3, name:"Practice", mins:5},
+  {k:4, name:"Check yourself", mins:2},
+  {k:5, name:"Real-life mission", mins:1}
+];
+
+/* ---------- Helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const countWords = t => (String(t || "").match(/[A-Za-z0-9À-ɏ']+/g) || []).length;
+const ymd = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const fmt = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
+const escRe = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const lineOf = l => typeof l === "string" ? {s:l, tag:""} : {s:l.s, tag:l.tag || ""};
+/* Wait for the microphone or recorder to finish, but never forever. */
+const settle = (p, ms) => Promise.race([Promise.resolve(p).catch(() => {}), sleep(ms || 2500)]);
+
+const I = {
+  play:'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
+  stop:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2.5" fill="currentColor"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  check:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  send:'<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z" fill="currentColor"/></svg>'
+};
+
+let toastTimer = null;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 4800);
+}
+
+/* Phrases the page recognises in your words, to show which ones you used. */
+const ALLOW2 = new Set(["me too","no way","in short","for example"]);
+function stemOf(p) {
+  return String(p).split("…")[0].toLowerCase().replace(/[’]/g, "'").replace(/[^a-z' ]/g, " ").replace(/\s+/g, " ").trim();
+}
+const STEMS = (() => {
+  const all = [];
+  Object.values(PG).forEach(g => g.list.forEach(p => all.push(p)));
+  DAYS.forEach(d => d.ph.forEach(p => all.push(p)));
+  return Array.from(new Set(all.map(stemOf))).filter(s => s.split(" ").length >= 3 || ALLOW2.has(s));
+})();
+function phrasesUsed(text) {
+  const t = " " + String(text || "").toLowerCase().replace(/[’]/g, "'").replace(/[^a-z' ]/g, " ").replace(/\s+/g, " ") + " ";
+  return STEMS.filter(s => t.includes(" " + s + " "));
+}
+const isQuestion = t => /\?|^\s*(what|how|why|where|when|who|which|do|does|did|are|is|have|has|can|could|would|will)\b|\b(what about you|how about you|and you)\b/i.test(String(t || ""));
+
+/* ---------- Progress storage ---------- */
+const LS_KEY = "conversation-v1";
+const fresh = () => ({v:1, done:{}, steps:{}, checks:{}, missions:{}, notes:{}, next:{}, stories:{}, brave:[],
+  ready:{sit:"date", q:["","",""]}, tab:"ready", tkStory:"intro", tkRp:"date", finalKey:"", last:0});
+function loadLocal() { try { const s = localStorage.getItem(LS_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+function normalize(got) {
+  const base = fresh();
+  if (!got || typeof got !== "object") return base;
+  const out = Object.assign(base, got);
+  ["done","steps","checks","missions","notes","next","stories"].forEach(k => { if (!out[k] || typeof out[k] !== "object" || Array.isArray(out[k])) out[k] = {}; });
+  out.brave = Array.isArray(out.brave) ? out.brave.filter(e => e && typeof e === "object" && e.id) : [];
+  const r = out.ready && typeof out.ready === "object" ? out.ready : {};
+  out.ready = {sit: READY_Q[r.sit] ? r.sit : "date", q:[0,1,2].map(i => String((Array.isArray(r.q) && r.q[i]) || ""))};
+  if (!["ready","stories","phrases","rp","brave"].includes(out.tab)) out.tab = "ready";
+  if (!STORY[out.tkStory]) out.tkStory = "intro";
+  if (!SC[out.tkRp]) out.tkRp = "date";
+  if (out.finalKey && !SC[out.finalKey]) out.finalKey = "";
+  return out;
+}
+let state = normalize(loadLocal());
+function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+function storyState(k) { if (!state.stories[k] || typeof state.stories[k] !== "object") state.stories[k] = {notes:"", count:0, wpm:null, date:""}; return state.stories[k]; }
+
+/* Inside claude.ai, progress is also kept in the viewer's own private Claude storage. */
+function merge(a, b) {
+  const out = fresh();
+  const keys = (x, y) => Array.from(new Set(Object.keys(x || {}).concat(Object.keys(y || {}))));
+  keys(a.done, b.done).forEach(k => {
+    const x = a.done[k], y = b.done[k];
+    out.done[k] = !x ? y : !y ? x : ((x.date || "") > (y.date || "") ? x : y);
+  });
+  keys(a.steps, b.steps).forEach(k => { const x = a.steps[k] || [], y = b.steps[k] || []; out.steps[k] = [0,1,2,3,4].map(i => !!(x[i] || y[i])); });
+  keys(a.checks, b.checks).forEach(k => { const x = a.checks[k] || [], y = b.checks[k] || []; out.checks[k] = [0,1,2,3].map(i => !!(x[i] || y[i])); });
+  keys(a.missions, b.missions).forEach(k => { out.missions[k] = !!(a.missions[k] || b.missions[k]); });
+  ["notes","next"].forEach(f => keys(a[f], b[f]).forEach(k => { out[f][k] = String(b[f][k] || a[f][k] || ""); }));
+  keys(a.stories, b.stories).forEach(k => {
+    const x = a.stories[k] || {}, y = b.stories[k] || {};
+    const newer = (x.date || "") >= (y.date || "") ? x : y;
+    out.stories[k] = {notes: String(y.notes || x.notes || ""), count: Math.max(+x.count || 0, +y.count || 0),
+                      wpm: newer.wpm != null ? newer.wpm : (x.wpm != null ? x.wpm : (y.wpm != null ? y.wpm : null)), date: newer.date || ""};
+  });
+  const seen = new Map();
+  b.brave.concat(a.brave).forEach(e => { if (e && e.id && !seen.has(e.id)) seen.set(e.id, e); });
+  out.brave = Array.from(seen.values());
+  out.ready = {sit: a.ready.sit || b.ready.sit, q:[0,1,2].map(i => a.ready.q[i] || b.ready.q[i] || "")};
+  ["tab","tkStory","tkRp","finalKey"].forEach(k => { out[k] = a[k] || b[k]; });
+  out.last = b.last || a.last || 0;
+  return out;
+}
+let remote = null, writing = false, pending = false;
+function setSync(mode) {
+  const el = $("#sync"); if (!el) return;
+  el.textContent = mode === "account"
+    ? "Your progress is saved to your Claude account, so it follows you to other devices."
+    : mode === "device" ? "Your progress is saved in this browser only."
+    : "Your progress is saved in this browser only. Use the backup on the home page to keep it safe.";
+}
+async function save() {
+  saveLocal();
+  if (!remote) return;
+  if (writing) { pending = true; return; }
+  writing = true;
+  try { await remote.set(JSON.parse(JSON.stringify(state))); }
+  catch (e) { remote = null; setSync("device"); if (e && e.code === "quota_exceeded") toast("Your Claude storage is full, so progress is saved in this browser only."); }
+  writing = false;
+  if (pending) { pending = false; save(); }
+}
+let saveTimer = null;
+function saveSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(save, 600); }
+async function connectStore(C) {
+  try {
+    const [db, user] = await Promise.all([C.use("db"), C.use("user")]);
+    if (!db || !user) { setSync("device"); return; }
+    const id = await user.id();
+    if (!id) { setSync("device"); return; }
+    const ref = db.doc("data/users/" + id + "/conversation");
+    const snap = await Promise.race([ref.get(), sleep(10000).then(() => { throw new Error("timeout"); })]);
+    if (snap && snap.exists) {
+      state = merge(state, normalize(JSON.parse(JSON.stringify(snap.data() || {}))));
+      renderStats(); renderProgram();
+      if (!P && !typing()) {
+        if (state.last >= 1 && state.last <= DAYS.length) cur = state.last;
+        renderProgram(); renderLesson(); renderToolkit();
+      } else updateStepUI();
+    }
+    remote = ref; setSync("account"); save();
+  } catch (e) { setSync("device"); }
+}
+/* True while the viewer has unsent words in a box, so a late sync never wipes them. */
+function typing() { return $$("textarea, input[type=text]").some(el => el.value.trim() && el === document.activeElement); }
+
+/* ---------- Voice: hearing phrases and the partner ---------- */
+const V = {dict:null, dstate:"idle", target:null, synth: ("speechSynthesis" in window) ? window.speechSynthesis : null, run:0,
+           tts:null, ttsOff:false, ai:null, aiCtl:null};
+if (V.synth) document.body.classList.add("has-voice");
+
+function setPlaying(btn) {
+  $$(".playing").forEach(b => { if (b !== btn) b.classList.remove("playing"); });
+  if (btn) btn.classList.add("playing");
+}
+function synthSay(text, rate, lang) {
+  return new Promise((res, rej) => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang || "en-GB"; u.rate = rate;
+    u.onend = () => res();
+    u.onerror = e => rej({code: (e.error === "interrupted" || e.error === "canceled") ? "stopped" : "error"});
+    V.synth.speak(u);
+  });
+}
+function speakErr(e) {
+  const c = e && e.code;
+  if (!c || c === "stopped" || c === "cancelled" || c === "canceled" || c === "viewer_stopped" || c === "interrupted") return;
+  if (c === "not_granted") {
+    V.ttsOff = true; V.tts = null; document.body.classList.remove("has-voice");
+    toast("Reading aloud is off for this page. Read the text out loud yourself instead.");
+    return;
+  }
+  if (c === "busy") { toast("Stop the microphone first, then press play."); return; }
+  if (c === "rate_limited") { toast("That's a lot of listening for now. Wait a minute, then try again."); return; }
+  toast("The audio didn't play. Press play to try again.");
+}
+/* o.rate, o.partner (a different voice for the role-play partner). */
+async function say(text, o, btn) {
+  if (V.ttsOff || (!V.tts && !V.synth) || !text) return;
+  const run = ++V.run;
+  if (V.synth) { try { V.synth.cancel(); } catch (e) {} }
+  if (V.dict && V.dict.active()) await settle(V.dict.stop(), 2000);
+  if (run !== V.run) return;
+  setPlaying(btn);
+  try {
+    if (V.tts) {
+      const opt = {rate: o.rate || 0.9, language: "en"};
+      if (o.partner) opt.voice = "airy";
+      await V.tts.speak(text, opt);
+    } else await synthSay(text, o.rate || 0.9, o.partner ? "en-US" : "en-GB");
+  } catch (e) {
+    if (run === V.run) speakErr(e);
+  }
+  if (run === V.run && btn) btn.classList.remove("playing");
+}
+function stopSpeech() {
+  V.run++;
+  if (V.tts) { try { const p = V.tts.stop(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
+  if (V.synth) { try { V.synth.cancel(); } catch (e) {} }
+  setPlaying(null);
+}
+
+/* ---------- Voice typing ---------- */
+function markMic() {
+  const on = V.dstate !== "idle";
+  $$("[data-mic]").forEach(b => {
+    const me = on && V.target && b.dataset.mic === V.target.id;
+    b.classList.toggle("listening", !!me);
+    b.setAttribute("aria-pressed", me ? "true" : "false");
+  });
+}
+function disableMic(msg) {
+  if (!V.dict && !document.body.classList.contains("has-mic")) return;
+  V.dict = null; document.body.classList.remove("has-mic"); V.dstate = "idle"; markMic();
+  if (msg) toast(msg);
+}
+const MIC_OFF = CLAUDE ? "The microphone is off for this page. You can still speak out loud and type your words."
+                       : "The microphone is blocked for voice typing. You can still speak out loud and type.";
+function onDictError(e) {
+  const c = e && e.code;
+  if (c === "stopped") return;
+  if (c === "not_granted") return disableMic(MIC_OFF);
+  if (c === "unavailable") return disableMic("Voice typing isn't available here. You can still speak out loud and type your words.");
+  if (c === "dismissed") return toast("Press the microphone again and choose Allow to use voice typing.");
+  if (c === "rate_limited") return toast("Voice typing is busy. Try again in a moment.");
+  if (c === "no_gesture") return toast("Press the microphone to turn on voice typing.");
+  toast("Voice typing didn't start. Press the microphone to try again.");
+}
+/* Claude's voice typing must start straight from a click: every caller below runs inside a click handler. */
+function startDictation(box) {
+  if (!V.dict) return;
+  stopSpeech();
+  V.target = box; markMic();
+  V.dict.start({language:"en"}).catch(onDictError);
+}
+function toggleMic(btn) {
+  if (!V.dict) return;
+  const box = document.getElementById(btn.dataset.mic);
+  if (!box) return;
+  if (V.dict.active() && V.target === box) { V.dict.stop().catch(() => {}); return; }
+  if (V.dict.active()) { V.target = box; markMic(); return; }
+  startDictation(box);
+}
+function wireDictation() {
+  V.dict.onFinal(({text}) => {
+    const box = V.target; if (!box || !text || !document.body.contains(box)) return;
+    let t = text;
+    if (!box.value) t = t.replace(/^\s+/, "");
+    else if (!/\s$/.test(box.value) && !/^\s/.test(t)) t = " " + t;
+    box.value += t;
+    box.dispatchEvent(new Event("input", {bubbles:true}));
+  });
+  V.dict.onPartial(({text}) => {
+    if (!V.target) return;
+    const p = document.querySelector('[data-partial-for="' + V.target.id + '"]');
+    if (p) p.textContent = text ? text + "…" : "";
+  });
+  V.dict.onState(({state: st, reason}) => {
+    V.dstate = st; markMic();
+    if (st !== "idle") return;
+    $$("[data-partial-for]").forEach(p => { p.textContent = ""; });
+    if (reason === "not_granted") disableMic(MIC_OFF);
+    else if (reason === "unavailable") disableMic("Voice typing isn't available here. You can still speak out loud and type your words.");
+    else if (reason === "upstream_error") toast("Voice typing stopped. Press the microphone to start again.");
+  });
+}
+
+/* Browser speech recognition (Chrome, Edge), wrapped in a start/stop/onFinal/onPartial/onState shape. */
+function makeWebDictation() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return null;
+  let rec = null, st = "idle", wantOn = false, lastErr = null, resolveStop = null;
+  const finals = [], partials = [], states = [];
+  const emit = (s, reason) => { st = s; states.forEach(h => h(reason ? {state:s, reason} : {state:s})); };
+  function make() {
+    const r = new SR();
+    r.lang = "en-US"; r.continuous = true; r.interimResults = true;
+    r.onstart = () => emit("listening");
+    r.onresult = e => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const res = e.results[i], t = res[0].transcript;
+        if (res.isFinal) { if (t.trim()) finals.forEach(h => h({text: " " + t.trim()})); }
+        else interim += t;
+      }
+      partials.forEach(h => h({text: interim.trim()}));
+    };
+    r.onerror = e => { lastErr = e.error; };
+    r.onend = () => {
+      // Chrome ends recognition after a pause; keep listening until the page asks to stop.
+      if (wantOn && (!lastErr || lastErr === "no-speech")) {
+        lastErr = null;
+        // A stop() that was overtaken by a new start() still resolves.
+        if (resolveStop) { const f = resolveStop; resolveStop = null; f(); }
+        try { r.start(); return; } catch (err) {}
+      }
+      rec = null; wantOn = false;
+      const reason = (lastErr === "not-allowed" || lastErr === "service-not-allowed") ? "not_granted"
+        : (lastErr && lastErr !== "aborted" && lastErr !== "no-speech") ? "upstream_error" : "stopped";
+      partials.forEach(h => h({text: ""}));
+      emit("idle", reason);
+      if (resolveStop) { const f = resolveStop; resolveStop = null; f(); }
+    };
+    return r;
+  }
+  return {
+    start() {
+      if (rec) { wantOn = true; return Promise.resolve(); }
+      lastErr = null; wantOn = true; rec = make(); emit("starting");
+      try { rec.start(); } catch (err) { rec = null; wantOn = false; emit("idle", "upstream_error"); return Promise.reject({code:"upstream_error"}); }
+      return Promise.resolve();
+    },
+    stop() {
+      if (!rec) return Promise.resolve();
+      wantOn = false;
+      return new Promise(res => { resolveStop = res; try { rec.stop(); } catch (err) { resolveStop = null; res(); } });
+    },
+    active() { return st !== "idle"; },
+    onFinal(h) { finals.push(h); return () => {}; },
+    onPartial(h) { partials.push(h); return () => {}; },
+    onState(h) { states.push(h); return () => {}; }
+  };
+}
+
+/* ---------- Recording your voice (website only) ---------- */
+const R = {stream:null, rec:null, chunks:[], url:null, type:"", host:"", day:0, opening:false};
+// Artifacts on claude.ai can't use the recorder, so recording is a website-only feature.
+const canRecord = !CLAUDE && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+if (canRecord) document.body.classList.add("has-rec");
+function pickMime() {
+  const list = ["audio/webm;codecs=opus","audio/webm","audio/mp4","audio/ogg"];
+  try { return list.find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || ""; } catch (e) { return ""; }
+}
+function stopTracks() { if (R.stream) { R.stream.getTracks().forEach(t => t.stop()); R.stream = null; } }
+function recErrorCopy(e) {
+  const n = e && e.name;
+  if (n === "NotAllowedError" || n === "SecurityError") return "The microphone is blocked for recording. Allow it in your browser's site settings (the icon next to the address), then try again.";
+  if (n === "NotFoundError") return "No microphone was found. Check your device, then try again.";
+  if (n === "NotReadableError") return "Another app is using the microphone. Close it and try again.";
+  return "Recording didn't start. You can still practise and type your words.";
+}
+async function recStart(h) {
+  if (!canRecord || R.opening) return;
+  const cb = $("#" + h + "-recOn");
+  if (!cb || !cb.checked) return;
+  R.opening = true;
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    if (!P || P.host !== h) { stream.getTracks().forEach(t => t.stop()); return; }
+    R.stream = stream; R.chunks = []; R.host = h;
+    const mime = pickMime();
+    try { R.rec = mime ? new MediaRecorder(stream, {mimeType:mime}) : new MediaRecorder(stream); }
+    catch (e) { R.rec = new MediaRecorder(stream); }
+    R.rec.ondataavailable = e => { if (e.data && e.data.size) R.chunks.push(e.data); };
+    R.rec.start(1000);
+  } catch (e) {
+    stopTracks(); R.rec = null; toast(recErrorCopy(e));
+  } finally { R.opening = false; }
+}
+function recStop() {
+  return new Promise(res => {
+    if (!R.rec || R.rec.state === "inactive") { R.rec = null; stopTracks(); res(false); return; }
+    const rec = R.rec, host = R.host;
+    rec.onstop = () => {
+      const type = rec.mimeType || pickMime() || "audio/webm";
+      const blob = new Blob(R.chunks, {type});
+      stopTracks(); R.rec = null;
+      if (!blob.size) { res(false); return; }
+      if (R.url) URL.revokeObjectURL(R.url);
+      R.url = URL.createObjectURL(blob); R.type = type; R.for = host; R.day = cur;
+      res(true);
+    };
+    try { rec.stop(); } catch (e) { stopTracks(); R.rec = null; res(false); }
+  });
+}
+function recAbort() {
+  if (R.rec && R.rec.state !== "inactive") { try { R.rec.onstop = null; R.rec.stop(); } catch (e) {} }
+  R.rec = null; stopTracks();
+}
+function playbackHTML(h) {
+  if (CLAUDE) return "";
+  if (!R.url || R.for !== h || (h === "day" && R.day !== cur)) {
+    return h === "day" ? '<p class="empty">No recording yet. Tick “Also record my voice” in step 3, then practise. Your recording appears here.</p>' : "";
+  }
+  const ext = /mp4/.test(R.type) ? "m4a" : /ogg/.test(R.type) ? "ogg" : "webm";
+  return '<p class="label">Listen to yourself</p><audio controls src="' + R.url + '"></audio>' +
+    '<a class="btn sm" href="' + R.url + '" download="conversation-coach-day-' + cur + '.' + ext + '">Download recording</a>' +
+    '<p class="note">Listen for your speed and your pauses. Would a stranger understand you the first time?</p>';
+}
+
+/* ---------- App state ---------- */
+const firstOpen = () => { for (let n = 1; n <= DAYS.length; n++) if (!state.done[n]) return n; return DAYS.length; };
+let cur = (state.last >= 1 && state.last <= DAYS.length) ? state.last : firstOpen();
+let P = null;                         // the one live practice: {host, kind:"round"|"rp", ...}
+const CFG = {day:null, tool:null};    // what each practice area (day lesson, toolkit) shows
+const LAST = {day:null, tool:null};   // the last finished practice in each area, for feedback
+const RP = {host:null, key:null, turns:[], idx:0, live:false, busy:false, ended:true, ctl:null, max:10, pturns:0, needReply:false, goals:[]};
+
+function dayInfo(n) { const w = Math.floor((n - 1) / 7); return {d: DAYS[n - 1], w, wk: WEEKS[w]}; }
+function stepsFor(n) { return state.steps[n] || [false,false,false,false,false]; }
+function streak() {
+  const dates = new Set(Object.values(state.done).map(x => x && x.date));
+  const d = new Date();
+  if (!dates.has(ymd(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (dates.has(ymd(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function doneSeries(field) {
+  return Object.keys(state.done).map(k => Object.assign({k:+k}, state.done[k]))
+    .filter(x => typeof x[field] === "number")
+    .sort((a, b) => (a.date || "").localeCompare(b.date || "") || a.k - b.k)
+    .map(x => x[field]).slice(-14);
+}
+const braveSorted = () => state.brave.slice().sort((a, b) => (a.date || "").localeCompare(b.date || "") || (a.t || 0) - (b.t || 0));
+function sparkSVG(vals) {
+  const W = 92, H = 30, p = 3;
+  const lo = Math.min(...vals), hi = Math.max(...vals), span = Math.max(0.5, hi - lo);
+  const pts = vals.map((v, i) => [p + i * (W - 2 * p) / (vals.length - 1), H - p - (v - lo) / span * (H - 2 * p)]);
+  const line = pts.map(q => q[0].toFixed(1) + "," + q[1].toFixed(1)).join(" ");
+  const area = "M" + pts[0][0].toFixed(1) + "," + (H - p) + " L" + line.replace(/ /g, " L") + " L" + pts[pts.length - 1][0].toFixed(1) + "," + (H - p) + " Z";
+  const e = pts[pts.length - 1];
+  return '<svg class="spark" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">' +
+    '<path d="' + area + '" fill="var(--accent-soft)"/>' +
+    '<polyline points="' + line + '" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' +
+    '<circle cx="' + e[0].toFixed(1) + '" cy="' + e[1].toFixed(1) + '" r="3.2" fill="var(--accent)"/></svg>';
+}
+
+/* ---------- Rendering: header, program, lesson ---------- */
+function renderStats() {
+  const doneN = Object.keys(state.done).length, st = streak();
+  const wp = doneSeries("wpm"), lwp = wp.length ? wp[wp.length - 1] : null;
+  const feels = braveSorted().map(e => e.feel).filter(v => typeof v === "number").slice(-14);
+  const last5 = feels.slice(-5);
+  const avg = last5.length ? Math.round(last5.reduce((a, b) => a + b, 0) / last5.length * 10) / 10 : null;
+  $("#stats").innerHTML =
+    '<div class="stat"><span class="k">Streak</span><span class="v">' + st + '<small>' + (st === 1 ? "day" : "days") + ' in a row</small></span></div>' +
+    '<div class="stat"><span class="k">Program</span><span class="v">' + doneN + '<small>of 28 days</small></span></div>' +
+    '<div class="stat"><span class="k">Speed</span><span class="v">' + (lwp == null ? "–" : lwp) + (wp.length >= 2 ? sparkSVG(wp) : "") + '<small>words / min</small></span></div>' +
+    '<div class="stat"><span class="k">Brave Log</span><span class="v">' + state.brave.length + '<small>real ' + (state.brave.length === 1 ? "conversation" : "conversations") + '</small></span></div>' +
+    '<div class="stat"><span class="k">Feeling</span><span class="v">' + (avg == null ? "–" : avg) + (feels.length >= 2 ? sparkSVG(feels) : "") + '<small>' + (avg == null ? "after real talks" : "out of 5") + '</small></span></div>';
+}
+function renderProgram() {
+  $("#program").innerHTML = WEEKS.map((w, wi) => {
+    let cells = "";
+    for (let j = 0; j < 7; j++) {
+      const n = wi * 7 + j + 1, d = DAYS[n - 1], done = !!state.done[n];
+      const kind = d.kind === "review" ? " review" : d.kind === "final" ? " final" : "";
+      const extra = d.kind === "review" ? ", review day" : d.kind === "final" ? ", big conversation" : "";
+      cells += '<button type="button" class="day' + (done ? " done" : "") + (n === cur ? " cur" : "") + kind +
+        '" data-day="' + n + '"' + (n === cur ? ' aria-current="step"' : "") +
+        ' aria-label="Day ' + n + ': ' + esc(d.t) + extra + (done ? ", done" : "") + '" title="Day ' + n + ': ' + esc(d.t) + '">' + n + '</button>';
+    }
+    return '<div class="week-row"><div class="wk"><b>Week ' + (wi + 1) + '</b><span>' + esc(w.name) + '</span></div><div class="days">' + cells + '</div></div>';
+  }).join("");
+}
+function setBlock(k, title, mins, why, body) {
+  const on = stepsFor(cur)[k - 1];
+  return '<section class="set' + (on ? " is-done" : "") + '" id="set-' + k + '" aria-labelledby="set-h-' + k + '">' +
+    '<header class="set-head"><span class="set-num">' + k + '</span><div><h3 id="set-h-' + k + '">' + title + '</h3><p class="why">' + why + '</p></div><span class="mins">' + mins + ' min</span></header>' +
+    '<div class="set-body">' + body + '</div>' +
+    '<footer class="set-foot"><button type="button" class="btn sm done-toggle' + (on ? " is-on" : "") + '" data-step="' + k + '" aria-pressed="' + on + '">' + (on ? I.check + " Done" : "Mark as done") + '</button></footer></section>';
+}
+const micBtn = id => '<button type="button" class="icon-btn mic need-mic" data-mic="' + id + '" aria-label="Voice typing into this box" aria-pressed="false">' + I.mic + '</button>';
+const noMicNotes = '<p class="note no-note no-mic only-standalone">Voice typing works in Chrome and Edge. Here, speak out loud, then type the main things you said.</p>' +
+  '<p class="note no-note no-mic only-claude">Voice typing isn\'t available here. Speak out loud, then type the main things you said.</p>';
+function phraseRow(p) {
+  return '<li class="phrase"><button type="button" class="icon-btn sm need-voice" data-say-text="' + esc(p) + '" data-rate="0.85" aria-label="Listen: ' + esc(p) + '">' + I.play + '</button>' +
+    '<span class="txt">' + esc(p) + '</span><button type="button" class="count-btn" data-count="0" aria-label="Times I said it: 0 of 3">0/3</button></li>';
+}
+function cardHTML(c, i) {
+  return '<div class="card"><p class="sit">' + esc(c[0]) + '</p>' +
+    '<button type="button" class="btn sm" data-reveal="idea-' + i + '" aria-expanded="false">I said it. Show ideas</button>' +
+    '<ul class="ideas" id="idea-' + i + '" hidden>' + c[1].map(a =>
+      '<li><button type="button" class="icon-btn sm need-voice" data-say-text="' + esc(a) + '" data-rate="0.9" aria-label="Listen">' + I.play + '</button><span>' + esc(a) + '</span></li>').join("") + '</ul></div>';
+}
+
+function renderLesson() {
+  const {d, w, wk} = dayInfo(cur);
+  const steps = stepsFor(cur);
+  const pMins = d.kind === "final" ? 8 : 5;
+  const total = 1 + 3 + pMins + 2 + 1;
+  const label = d.kind === "review" ? " · Review day" : d.kind === "final" ? " · Big conversation" : "";
+  const plan = STEPS.map((s, i) =>
+    '<li><button type="button" data-jump="' + s.k + '" class="' + (steps[i] ? "done" : "") + '"><span class="pn">' + s.k + ' · ' + (s.k === 3 ? pMins : s.mins) + ' min</span><span class="pt">' + s.name + '</span></button></li>').join("");
+
+  const warm = setBlock(1, "Warm up", 1,
+    "Relax your body first. A calm body makes a calm voice.",
+    '<ol class="steps-list"><li>Breathe in through your nose for 4 seconds.</li><li>Breathe out slowly for 6 seconds. Do this 3 times.</li><li>Drop your shoulders, and smile.</li></ol>' +
+    '<p class="label">Then say this line slowly, 3 times</p>' +
+    '<p class="say-line">' + esc(d.warm) + '</p>' +
+    '<div class="row"><button type="button" class="btn sm need-voice" data-say-text="' + esc(d.warm) + '" data-rate="0.8">' + I.play + ' Listen</button></div>' +
+    '<div class="reps">' + ["Slow","Clear","Calm"].map((r, i) => '<button type="button" class="btn sm" data-rep="' + i + '" aria-pressed="false">' + (i + 1) + ' · ' + r + '</button>').join("") + '</div>');
+
+  const phrases = setBlock(2, "Phrases of the day", 3, esc(d.why),
+    '<ul class="phrases">' + d.ph.map(phraseRow).join("") + '</ul>' +
+    '<p class="note">Listen to each phrase, then say it 3 times. Tap the counter each time. Make it sound easy and friendly.</p>' +
+    '<p class="label">Situation cards</p>' +
+    '<p class="note">Read the situation. Say your answer out loud first. Then look at some ideas.</p>' +
+    '<div class="cards">' + d.cards.map(cardHTML).join("") + '</div>' +
+    '<p class="note no-note no-voice">Audio isn\'t available here. Read each phrase out loud, slowly.</p>');
+
+  const m = d.main;
+  const pTitle = d.kind === "final" ? "Your big conversation" : m.type === "rp" ? "Role-play: " + esc(SC[m.key].title)
+    : m.type === "story" ? "Tell your story: " + esc(STORY[m.key].title) : "Speak for " + (m.secs >= 60 && m.secs % 60 === 0 ? (m.secs / 60) + " minute" : fmt(m.secs));
+  const pWhy = m.type === "rp" ? "A real conversation, in a safe place. Answer with your voice. Mistakes are welcome here."
+    : m.type === "story" ? "Write a few key words, listen to the example once, and then tell your own story. Don't read: talk."
+    : "Speak until the timer ends. If you lose a word, use today's phrases and keep going.";
+  const practice = setBlock(3, pTitle, pMins, pWhy, '<div class="host" id="day-main">' + hostHTML("day") + '</div>');
+
+  const ck = state.checks[cur] || [];
+  const check = setBlock(4, "Check yourself", 2,
+    "Be kind and honest. Notice one thing that went well, and one thing to try next time.",
+    '<ul class="checks">' + CHECKS[w].map((c, i) =>
+      '<li><label class="check-line"><input type="checkbox" data-check="' + i + '"' + (ck[i] ? " checked" : "") + '> <span>' + esc(c) + '</span></label></li>').join("") + '</ul>' +
+    '<div class="playback only-standalone" id="playback"></div>' +
+    '<label class="label" for="nextBox">Next time I will…</label>' +
+    '<textarea id="nextBox" rows="2" placeholder="Next time I will say “Let me think…” instead of stopping.">' + esc(state.next[cur] || "") + '</textarea>' +
+    fbBlock("day"));
+
+  const mis = !!state.missions[cur];
+  const mission = setBlock(5, "Real-life mission", 1,
+    "Practice at home is good. A real conversation is where confidence grows.",
+    '<p class="challenge">' + esc(d.mission) + '</p>' +
+    '<div class="row"><button type="button" class="btn sm' + (mis ? " is-on" : "") + '" id="misBtn" aria-pressed="' + mis + '">' + (mis ? I.check + " I did it" : "I did it") + '</button>' +
+    '<button type="button" class="btn sm" id="toBrave">Write it in my Brave Log</button></div>');
+
+  $("#lesson").innerHTML =
+    '<div class="lesson-head"><p class="eyebrow">Week ' + (w + 1) + ' · ' + esc(wk.name) + label + '</p>' +
+    '<h2>Day ' + cur + ': ' + esc(d.t) + '</h2>' +
+    '<p class="lede">' + esc(wk.note) + ' Today takes about ' + total + ' minutes. Say everything out loud.</p>' +
+    '<ol class="plan" aria-label="Today\'s plan">' + plan + '</ol></div>' +
+    warm + phrases + practice + check + mission +
+    '<section class="finish" id="finish"></section>';
+
+  LAST.day = null;
+  renderPlayback();
+  renderFinish();
+  markMic();
+}
+function renderPlayback() { const b = $("#playback"); if (b) b.innerHTML = playbackHTML("day"); }
+
+function renderFinish(msg) {
+  const done = state.done[cur];
+  const next = cur < DAYS.length ? cur + 1 : null;
+  let html;
+  if (msg) {
+    html = '<h3>Day ' + cur + ' saved</h3><p>' + esc(msg) + '</p><div class="row">' +
+      (next ? '<button type="button" class="btn go" data-day="' + next + '">Go to Day ' + next + ': ' + esc(DAYS[next - 1].t) + '</button>' : "") + '</div>';
+  } else if (done) {
+    html = '<h3>You finished this day on ' + esc(done.date) + '</h3><p>Repeating a day is great practice. Finish it again to save today\'s numbers.</p>' +
+      '<div class="row"><button type="button" class="btn go" id="finishBtn">Finish again</button>' +
+      (next ? '<button type="button" class="btn ghost" data-day="' + next + '">Go to Day ' + next + '</button>' : "") + '</div>';
+  } else {
+    html = '<h3>Finished all five steps?</h3><p>Save today, so your streak and your speed are tracked.' + (next ? ' Come back tomorrow for Day ' + next + '.' : "") + '</p>' +
+      '<div class="row"><button type="button" class="btn go" id="finishBtn">Finish Day ' + cur + '</button></div>';
+  }
+  $("#finish").innerHTML = html;
+}
+function updateStepUI() {
+  stepsFor(cur).forEach((on, i) => {
+    const k = i + 1, sec = $("#set-" + k);
+    if (sec) sec.classList.toggle("is-done", on);
+    const b = $('[data-step="' + k + '"]');
+    if (b) { b.classList.toggle("is-on", on); b.setAttribute("aria-pressed", String(on)); b.innerHTML = on ? I.check + " Done" : "Mark as done"; }
+    const p = $('[data-jump="' + k + '"]');
+    if (p) p.classList.toggle("done", on);
+  });
+}
+
+/* Feedback tools for one practice area ("day" in step 4, or "tool" in the toolkit). */
+function fbBlock(h) {
+  return '<p class="label only-standalone">Get feedback (free)</p>' +
+    '<div class="row only-standalone"><button type="button" class="btn sm" data-lt="' + h + '">Check grammar</button><button type="button" class="btn sm primary" data-copyfb="' + h + '">Copy a feedback prompt</button></div>' +
+    '<p class="note only-standalone"><b>Check grammar</b> sends your words to LanguageTool, a free checker. It finds some mistakes, not all. <b>Copy a feedback prompt</b> copies your words with coaching instructions. Paste it into any free AI chat, like Claude, ChatGPT or Gemini.</p>' +
+    '<p class="label need-ai">Feedback from Claude</p>' +
+    '<div class="row need-ai"><button type="button" class="btn sm primary" data-ai="' + h + '" id="' + h + '-aiBtn">Get my feedback</button></div>' +
+    '<p class="note no-note no-ai">Feedback from Claude isn\'t available here. The website version has free feedback tools: ' + SITE_LINK + '</p>' +
+    '<div class="ai-out" id="' + h + '-ai" aria-live="polite"></div>' +
+    '<div class="lt" id="' + h + '-lt" aria-live="polite"></div>' +
+    '<div class="prompt-out" id="' + h + '-prompt"></div>';
+}
+function clearFb(h) { ["-ai","-lt","-prompt"].forEach(s => { const e = $("#" + h + s); if (e) e.innerHTML = ""; }); }
+
+/* ---------- Practice areas: a timed round, or a role-play ---------- */
+function storyCfg(key, secs) { return {kind:"story", key, q: STORY[key].q, secs: secs || 75}; }
+function hostHTML(h) {
+  let c = null, pre = "";
+  if (h === "day") {
+    const d = DAYS[cur - 1], m = d.main;
+    if (m.type === "talk") c = {kind:"talk", q:m.q, secs:m.secs, tip:m.tip};
+    else if (m.type === "story") c = storyCfg(m.key, m.secs);
+    else {
+      const key = (m.choose && SC[state.finalKey]) ? state.finalKey : m.key;
+      c = {kind:"rp", rp:key, goal:m.goal || "", long:!!m.long};
+      if (m.choose) pre = '<p class="label">Choose your situation</p><div class="pick" id="finalPick">' + Object.keys(SC).map(k =>
+        '<button type="button" data-final="' + k + '" aria-pressed="' + (k === key) + '"><b>' + esc(SC[k].title) + '</b><small>with ' + esc(SC[k].partner) + '</small></button>').join("") + '</div>';
+    }
+  } else {
+    if (state.tab === "stories") c = storyCfg(state.tkStory, state.tkStory === "intro" ? 60 : 75);
+    else if (state.tab === "rp") c = {kind:"rp", rp:state.tkRp, goal:"", long:false};
+  }
+  CFG[h] = c;
+  if (!c) return "";
+  return pre + (c.kind === "rp" ? rpHTML(h, c) : roundHTML(h, c));
+}
+function rerenderHost(h) {
+  const el = $("#" + h + "-main"); if (!el) return;
+  el.innerHTML = hostHTML(h); markMic();
+}
+const recCheck = h => '<label class="check-line only-standalone need-rec"><input type="checkbox" id="' + h + '-recOn" checked> <span>Also record my voice, so I can listen back</span></label>';
+function notesFor(c) { return c.kind === "story" ? (storyState(c.key).notes || "") : (state.notes[cur] || ""); }
+
+function roundHTML(h, c) {
+  const st = c.kind === "story" ? STORY[c.key] : null;
+  let html = '<div class="topic-card"><p class="label">' + (st ? "Someone asks you" : "Your topic") + '</p><p class="topic">' + esc(c.q) + '</p>' +
+    (c.tip ? '<p class="note">' + esc(c.tip) + '</p>' : "") + '</div>';
+  if (st) {
+    html += '<ul class="parts">' + st.frame.map(p => '<li><span class="part-tag">' + esc(p[0]) + '</span><span>' + esc(p[1]) + '</span></li>').join("") + '</ul>' +
+      '<div class="model"><p class="label">Example</p><p>' + esc(st.model) + '</p>' +
+      '<div class="row"><button type="button" class="btn sm need-voice" data-say-text="' + esc(st.model) + '" data-rate="0.9">' + I.play + ' Listen to the example</button></div>' +
+      '<p class="note">This is only an example. Your story is yours: use your own life.</p></div>';
+  }
+  html += '<label class="label" for="' + h + '-notes">' + (st ? "Your key words (saved in My stories)" : "Notes: key words only") + '</label>' +
+    '<textarea id="' + h + '-notes" data-notes="' + h + '" rows="2" placeholder="' + (st ? esc(st.frame.map(p => p[0]).join(" → ")) : "A few key words, not full sentences") + '">' + esc(notesFor(c)) + '</textarea>' +
+    recCheck(h) +
+    '<div class="stage" id="' + h + '-stage"><p class="phase" id="' + h + '-phase">Ready</p>' +
+      '<div class="clock" id="' + h + '-clock" aria-live="off">' + fmt(c.secs) + '</div>' +
+      '<div class="row" style="justify-content:center"><button type="button" class="btn primary" data-rstart="' + h + '">' + I.mic + ' Start speaking</button>' +
+      '<button type="button" class="btn live" data-rstop="' + h + '" hidden>' + I.stop + ' Stop</button></div>' +
+      '<p class="stage-note" id="' + h + '-note">Speak for ' + fmt(c.secs) + '. Look at your key words, not a script. If you lose a word, use a thinking phrase and keep going.</p></div>' +
+    '<label class="label" for="' + h + '-box">What you said</label>' +
+    '<div class="field"><textarea id="' + h + '-box" rows="4" placeholder="When you speak, your words appear here. You can also type them."></textarea>' + micBtn(h + "-box") + '</div>' +
+    '<p class="partial" data-partial-for="' + h + '-box"></p>' + noMicNotes +
+    '<div class="results" id="' + h + '-results"></div>';
+  return html;
+}
+
+function rpHTML(h, c) {
+  const sc = SC[c.rp];
+  const goals = (c.goal ? [c.goal] : []).concat(sc.goals);
+  return '<div class="rp-setup"><p class="label">Role-play</p><p class="topic">' + esc(sc.title) + '</p>' +
+    '<p>' + esc(sc.setting) + '</p>' +
+    '<p><span class="label">You talk with</span><br><b>' + esc(sc.partner) + '</b>, ' + esc(sc.who) + '</p>' +
+    '<p class="label">Your goals</p><ul class="tips">' + goals.map(g => '<li>' + esc(g) + '</li>').join("") + '</ul>' +
+    '<p class="note need-ai">Claude plays ' + esc(sc.partner) + ' and answers what you really say. Press the microphone and answer with your voice, or type.</p>' +
+    '<p class="note script-note">' + esc(sc.partner) + '\'s lines are ready-made, so they won\'t always match your answer. That\'s fine: answer like it\'s real, and keep talking.</p>' +
+    '<p class="note only-standalone">For a live partner who answers what you say, copy a prompt into a free AI voice chat, like ChatGPT or Gemini voice mode.</p>' +
+    recCheck(h) +
+    '<div class="row"><button type="button" class="btn primary" data-rpstart="' + h + '">Start the role-play</button>' +
+    '<button type="button" class="btn only-standalone" data-rpcopy="' + h + '" data-out="' + h + '-rpcopy">Copy a prompt for an AI voice chat</button></div>' +
+    '<div class="prompt-out" id="' + h + '-rpcopy"></div></div>' +
+    '<div class="chat" id="' + h + '-chat" aria-live="polite"></div>' +
+    '<div class="rp-input" id="' + h + '-input" hidden>' +
+      '<p class="rp-tip" id="' + h + '-tip" hidden></p>' +
+      '<label class="label" for="' + h + '-ans">Your answer</label>' +
+      '<div class="field"><textarea id="' + h + '-ans" rows="2" placeholder="Press the microphone and speak, or type your answer."></textarea>' + micBtn(h + "-ans") + '</div>' +
+      '<p class="partial" data-partial-for="' + h + '-ans"></p>' + noMicNotes +
+      '<div class="row"><button type="button" class="btn primary" data-rpsend="' + h + '">' + I.send + ' Send</button>' +
+      '<button type="button" class="btn sm need-voice" data-rpagain="' + h + '">' + I.play + ' Hear it again</button>' +
+      '<button type="button" class="btn sm" data-rpend="' + h + '">End and get feedback</button></div>' +
+      '<p class="note" id="' + h + '-count"></p>' +
+    '</div>' +
+    '<div class="rp-end" id="' + h + '-end"></div>';
+}
+
+/* Only one practice runs at a time. keepMic: the caller starts a new practice and reuses the microphone. */
+function stopPractice(keepMic) {
+  const p = P; P = null;
+  if (p && p.kind === "round") { clearInterval(p.timer); resetRoundUI(p.host); }
+  if (p && p.kind === "rp") {
+    RP.ended = true; RP.busy = false;
+    if (RP.ctl) { RP.ctl.abort(); RP.ctl = null; }
+    const inp = $("#" + p.host + "-input"); if (inp) inp.hidden = true;
+    RP.turns = RP.turns.filter(t => !t.typing); renderChat();
+  }
+  if (V.dict && V.dict.active()) { if (keepMic) { V.target = null; markMic(); } else V.dict.stop().catch(() => {}); }
+  recAbort(); stopSpeech();
+}
+
+/* ---------- Timed round ---------- */
+function resetRoundUI(h) {
+  const st = $("#" + h + "-stage"); if (!st) return;
+  st.classList.remove("live");
+  $("#" + h + "-phase").textContent = "Ready";
+  const c = CFG[h]; if (c && c.secs) $("#" + h + "-clock").textContent = fmt(c.secs);
+  const a = $('[data-rstart="' + h + '"]'), b = $('[data-rstop="' + h + '"]');
+  if (a) a.hidden = false; if (b) b.hidden = true;
+}
+function startRound(h) {
+  const c = CFG[h]; if (!c || c.kind === "rp") return;
+  stopPractice(true);
+  const box = $("#" + h + "-box"); if (!box) return;
+  box.value = ""; $("#" + h + "-results").innerHTML = "";
+  LAST[h] = null; clearFb(h);
+  P = {host:h, kind:"round", start:Date.now(), len:c.secs, timer:null};
+  if (V.dict) { if (V.dict.active()) { V.target = box; markMic(); } else startDictation(box); }
+  $("#" + h + "-stage").classList.add("live");
+  $("#" + h + "-phase").textContent = "Speak";
+  $('[data-rstart="' + h + '"]').hidden = true; $('[data-rstop="' + h + '"]').hidden = false;
+  $("#" + h + "-note").textContent = "Keep going until the time is up. Mistakes are fine. Pauses are fine. Just don't stop.";
+  P.timer = setInterval(tickRound, 250); tickRound();
+  recStart(h);
+}
+function tickRound() {
+  if (!P || P.kind !== "round") return;
+  const left = P.len - (Date.now() - P.start) / 1000;
+  const el = $("#" + P.host + "-clock"); if (el) el.textContent = fmt(left);
+  if (left <= 0) endRound();
+}
+async function endRound() {
+  if (!P || P.kind !== "round" || P.ending) return;
+  const p = P; p.ending = true; clearInterval(p.timer);
+  const h = p.host, secs = Math.round(Math.min(p.len, (Date.now() - p.start) / 1000));
+  const box = $("#" + h + "-box");
+  const waits = [recStop()];
+  if (V.dict && V.dict.active() && V.target === box) waits.push(V.dict.stop().catch(() => {}));
+  await settle(Promise.all(waits));
+  if (P !== p) return;            // another practice started meanwhile
+  P = null;
+  resetRoundUI(h);
+  const note = $("#" + h + "-note"); if (note) note.textContent = "Well done. Look at your numbers below.";
+  analyseRound(h, secs, true);
+}
+function speedNote(wpm) {
+  if (wpm == null) return "";
+  if (wpm > 150) return "That's quite fast for a conversation. Slow down a little and pause between ideas. People will understand you the first time.";
+  if (wpm < 90) return "That's a slow, careful speed, and that's okay. Next time, try to keep going with thinking phrases instead of silence.";
+  return "Great: that's a calm, clear speed for a conversation.";
+}
+function usedLine(used) {
+  return used.length
+    ? 'Conversation phrases you used: <b>' + used.slice(0, 6).map(s => "“" + esc(s) + "…”").join(", ") + '</b>'
+    : "No phrases from the program were found. Next time, try one phrase from step 2.";
+}
+function analyseRound(h, secs, counted) {
+  const c = CFG[h], box = $("#" + h + "-box"), out = $("#" + h + "-results");
+  if (!c || !box || !out) return;
+  const text = box.value.trim(), words = countWords(text);
+  const wpm = words > 0 && secs >= 10 ? Math.round(words / (Math.max(secs, 1) / 60)) : null;
+  const used = phrasesUsed(text);
+  LAST[h] = {kind:"round", cfg:c, text, secs, words, wpm, used, day:cur};
+  if (counted && c.kind === "story" && words > 0) {
+    const s = storyState(c.key); s.count = (+s.count || 0) + 1; if (wpm != null) s.wpm = wpm; s.date = ymd(new Date()); save();
+    const pick = $("#storyPick"); if (pick) pick.outerHTML = storyPickHTML();
+  }
+  out.innerHTML =
+    '<div class="result"><span><b>' + words + '</b> words in ' + fmt(secs) + '</span><span class="big">' + (wpm == null ? "–" : wpm + " wpm") + '</span></div>' +
+    (wpm != null ? '<p class="note">' + esc(speedNote(wpm)) + ' A calm conversation speed is about 110–140 words per minute.</p>' : "") +
+    (words ? '<p class="note">' + usedLine(used) + '</p>' : "") +
+    (!words || !V.dict ? '<div class="row"><button type="button" class="btn sm" data-recount="' + h + '" data-secs="' + secs + '">Count my words</button></div>' : "") +
+    (h === "day"
+      ? '<p class="note">Now go to step 4: check yourself' + (CLAUDE ? ' and get feedback from Claude.' : ', listen to your recording, and get free feedback.') + '</p><div class="row"><button type="button" class="btn sm" data-jump="4">Go to step 4</button></div>'
+      : '<div class="playback" id="tool-play">' + playbackHTML("tool") + '</div>' + fbBlock("tool"));
+  if (!words) toast("No words were captured. Type what you said, then press “Count my words”.");
+  if (h === "day") renderPlayback();
+}
+
+/* ---------- Role-play ---------- */
+function splitName(sc, text) {
+  if (!sc.multi) return {name: sc.partner, text};
+  const m = String(text).match(/^([A-Z][a-z]+):\s*(.*)$/s);
+  return m ? {name: m[1], text: m[2]} : {name: sc.partner, text};
+}
+function renderChat() {
+  const h = RP.host; if (!h) return;
+  const box = $("#" + h + "-chat"); if (!box) return;
+  const sc = SC[RP.key];
+  box.innerHTML = RP.turns.map(t => {
+    if (t.who === "u") return '<div class="bubble u"><span class="who">You</span><p>' + esc(t.text) + '</p></div>';
+    const x = splitName(sc, t.text);
+    return '<div class="bubble p' + (t.typing ? " typing" : "") + '"><span class="who">' + esc(x.name) + '</span><p>' + esc(t.typing && !t.text ? "is answering…" : x.text) + '</p></div>';
+  }).join("");
+  const last = box.lastElementChild;
+  if (last && P && P.kind === "rp") { try { last.scrollIntoView({block:"nearest", behavior:"smooth"}); } catch (e) {} }
+}
+function showTip(tag) {
+  const el = $("#" + RP.host + "-tip"); if (!el) return;
+  const fn = TIPS[tag];
+  el.hidden = !fn;
+  el.textContent = fn ? fn(SC[RP.key].multi ? "Your friend" : SC[RP.key].partner) : "";
+}
+function updateCount() {
+  const el = $("#" + RP.host + "-count"); if (!el) return;
+  const sc = SC[RP.key];
+  el.textContent = RP.live
+    ? "Turn " + RP.pturns + ". You can end any time. The conversation closes after about " + RP.max + " turns."
+    : "Turn " + RP.pturns + " of " + sc.lines.length + ".";
+}
+function setSendBusy(on) {
+  const b = $('[data-rpsend="' + RP.host + '"]'); if (b) b.disabled = on;
+}
+function partnerSay(text, tag) {
+  const sc = SC[RP.key];
+  say(splitName(sc, text).text, {rate: tag === "fast" ? 1.25 : 0.95, partner:true}, null);
+}
+function rpStart(h) {
+  const c = CFG[h]; if (!c || c.kind !== "rp") return;
+  stopPractice(false);
+  const sc = SC[c.rp];
+  Object.assign(RP, {host:h, key:c.rp, turns:[], idx:0, live: !!V.ai, busy:false, ended:false, ctl:null,
+    max: c.long ? 14 : 10, pturns:0, needReply:false, goals:(c.goal ? [c.goal] : []).concat(sc.goals)});
+  P = {host:h, kind:"rp"};
+  LAST[h] = null; clearFb(h);
+  const end = $("#" + h + "-end"); if (end) end.innerHTML = "";
+  const inp = $("#" + h + "-input"); if (inp) inp.hidden = false;
+  const ans = $("#" + h + "-ans"); if (ans) ans.value = "";
+  const sb = $('[data-rpstart="' + h + '"]'); if (sb) sb.textContent = "Start again";
+  recStart(h);
+  partnerTurn();
+}
+/* The first line is always ready-made, so the conversation starts at once. */
+function partnerTurn() {
+  if (RP.ended) return;
+  const sc = SC[RP.key];
+  RP.needReply = false;
+  if (RP.live && V.ai && RP.turns.length > 0) { livePartner(); return; }
+  if (RP.idx >= sc.lines.length) { endRP(true); return; }
+  const L = lineOf(sc.lines[RP.idx++]);
+  RP.turns.push({who:"p", text:L.s, tag:L.tag}); RP.pturns++;
+  afterPartner(L.tag);
+}
+function afterPartner(tag) {
+  renderChat(); showTip(tag); updateCount();
+  const last = RP.turns[RP.turns.length - 1];
+  if (last && last.who === "p") partnerSay(last.text, tag);
+}
+function rpPrompt(sc, closing) {
+  const conv = RP.turns.filter(t => !t.typing && t.text)
+    .map(t => t.who === "p" ? (sc.multi ? t.text : sc.partner + ": " + t.text) : "Learner: " + t.text).join("\n");
+  return "You are role-playing a real conversation with an adult English learner (about B1 level) who is practising speaking.\n\n" +
+    "Situation: " + sc.scene + "\n" + sc.role + "\n\n" +
+    "Rules:\n" +
+    "- Stay in character. Never say you are an AI, and never correct the learner's English during the role-play.\n" +
+    "- Use simple, natural, spoken B1 English: 1 to 3 short sentences.\n" +
+    "- Usually end with a question, so the learner has to answer.\n" +
+    "- React to what the learner really said. Show interest and ask follow-up questions.\n" +
+    "- If the learner's last message is unclear, react like a real person: say you're not sure you understood, and ask a short clarifying question.\n" +
+    (sc.twist ? "- " + sc.twist + "\n" : "") +
+    "- The learner's words come from speech-to-text, so ignore missing punctuation and small errors.\n" +
+    (sc.multi ? "- Write the next line for one of your two characters, starting with the name and a colon, like \"Maria: ...\".\n"
+              : "- Write only " + sc.partner + "'s next line: no name label, no quotes, no stage directions.\n") +
+    (closing ? "- The conversation is near its end. Close it in a friendly, natural way.\n" : "") +
+    "\nConversation so far:\n" + conv + "\n\nYour next line:";
+}
+function cleanLine(t, sc) {
+  let s = String(t || "").replace(/\*[^*]*\*/g, " ").replace(/\[[^\]]*\]/g, " ").trim();
+  if (!sc.multi) s = s.replace(new RegExp("^" + escRe(sc.partner) + "\\s*:\\s*", "i"), "");
+  s = s.replace(/^["“]+|["”]+$/g, "").replace(/\s+/g, " ").trim();
+  return s.slice(0, 500);
+}
+const AI_OFF = ["not_granted","sampling_disabled","capability_disabled","capability_removed","not_declared"];
+async function livePartner() {
+  const sc = SC[RP.key];
+  RP.busy = true; setSendBusy(true);
+  const turn = {who:"p", text:"", typing:true};
+  RP.turns.push(turn); renderChat(); showTip("");
+  const ctl = new AbortController(); RP.ctl = ctl;
+  const closing = RP.pturns >= RP.max - 1;
+  try {
+    const r = await V.ai(rpPrompt(sc, closing), {modelTier:"quick", cache:false, signal:ctl.signal,
+      onText: ({text}) => { if (RP.ctl !== ctl) return; const t = cleanLine(text, sc); if (t) { turn.text = t; renderChat(); } }});
+    if (RP.ctl !== ctl) return;
+    const text = cleanLine(r && r.text, sc);
+    if (!text) throw {code:"empty"};
+    turn.text = text; turn.typing = false; RP.idx++; RP.pturns++;
+    RP.ctl = null; RP.busy = false; setSendBusy(false);
+    afterPartner("");
+  } catch (e) {
+    if (RP.ctl !== ctl) return;
+    RP.ctl = null; RP.busy = false; setSendBusy(false);
+    RP.turns = RP.turns.filter(t => t !== turn); renderChat();
+    if (e && e.code === "cancelled") return;
+    if (e && AI_OFF.includes(e.code)) {
+      V.ai = null; document.body.classList.remove("has-ai"); RP.live = false;
+      toast("Claude can't play the partner here, so the ready-made lines are used instead.");
+      partnerTurn(); return;
+    }
+    RP.needReply = true;
+    toast(e && (e.code === "rate_limited" || e.code === "queue_overflow")
+      ? "Too many requests right now. Wait a minute, then press Send again."
+      : "The answer didn't arrive. Press Send to try again.");
+  }
+}
+async function rpSend() {
+  if (RP.ended || !P || P.kind !== "rp" || RP.busy) return;
+  const h = RP.host, box = $("#" + h + "-ans"); if (!box) return;
+  if (V.dict && V.dict.active() && V.target === box) await settle(V.dict.stop(), 2000);
+  if (RP.ended) return;
+  const text = box.value.trim();
+  if (!text) {
+    if (RP.needReply) { partnerTurn(); return; }
+    toast("Say or type your answer first.");
+    return;
+  }
+  stopSpeech();
+  RP.turns.push({who:"u", text}); box.value = "";
+  const pf = $('[data-partial-for="' + h + '-ans"]'); if (pf) pf.textContent = "";
+  showTip(""); renderChat();
+  if (!RP.live && RP.idx >= SC[RP.key].lines.length) { endRP(true); return; }
+  if (RP.live && RP.pturns >= RP.max) { endRP(true); return; }
+  partnerTurn();
+}
+async function endRP(withFb) {
+  if (RP.ended) return;
+  RP.ended = true;
+  const h = RP.host, sc = SC[RP.key];
+  if (RP.ctl) { RP.ctl.abort(); RP.ctl = null; }
+  RP.busy = false; setSendBusy(false);
+  RP.turns = RP.turns.filter(t => !t.typing && t.text);
+  stopSpeech();
+  const box = $("#" + h + "-ans");
+  const waits = [recStop()];
+  if (V.dict && V.dict.active()) waits.push(V.dict.stop().catch(() => {}));
+  await settle(Promise.all(waits));
+  if (box && box.value.trim()) { RP.turns.push({who:"u", text: box.value.trim()}); box.value = ""; }
+  if (P && P.kind === "rp" && P.host === h) P = null;
+  const inp = $("#" + h + "-input"); if (inp) inp.hidden = true;
+  renderChat();
+  const mine = RP.turns.filter(t => t.who === "u");
+  const text = mine.map(t => t.text).join("\n");
+  const words = countWords(text), qs = mine.filter(t => isQuestion(t.text)).length, used = phrasesUsed(text);
+  LAST[h] = {kind:"rp", key:RP.key, goals:RP.goals.slice(), turns:RP.turns.slice(), text, words, turnsN:mine.length, qs, used, day:cur};
+  const end = $("#" + h + "-end"); if (!end) return;
+  end.innerHTML = '<p class="label">Your role-play with ' + esc(sc.partner) + '</p>' +
+    '<div class="results">' +
+      '<div class="result"><span>Your turns: <b>' + mine.length + '</b> · words: <b>' + words + '</b></span><span class="big">' + (mine.length ? Math.round(words / mine.length) : 0) + ' words / turn</span></div>' +
+      '<div class="result"><span>Questions you asked</span><span class="big">' + qs + '</span></div>' +
+    '</div>' +
+    (mine.length ? '<p class="note">' + usedLine(used) + '</p>' : '<p class="note">You didn\'t answer this time. Press “Start again” and try. One sentence is enough to begin.</p>') +
+    '<p class="note">Longer turns (10 words or more) and a few questions make a conversation feel real. ' + (qs ? "Nice: you asked questions." : "Next time, ask at least one question.") + '</p>' +
+    (h === "day"
+      ? '<p class="note">Now go to step 4: check yourself' + (CLAUDE ? ' and read Claude\'s feedback.' : ', listen to your recording, and get free feedback.') + '</p><div class="row"><button type="button" class="btn sm" data-jump="4">Go to step 4</button></div>'
+      : '<div class="playback" id="tool-play">' + playbackHTML("tool") + '</div>' + fbBlock("tool")) +
+    '<div class="row only-standalone"><button type="button" class="btn sm" data-rpcopy="' + h + '" data-out="' + h + '-rpcopy2">Practise it live: copy a prompt for an AI voice chat</button></div>' +
+    '<div class="prompt-out" id="' + h + '-rpcopy2"></div>';
+  if (h === "day") renderPlayback();
+  if (withFb && V.ai && mine.length) {
+    aiFeedback(h, $("#" + h + "-aiBtn"));
+    if (h === "day") { const s = $("#set-4"); if (s) s.scrollIntoView({behavior:"smooth", block:"start"}); }
+  }
+}
+
+/* ---------- Feedback ---------- */
+const COACH = "You are a kind, encouraging English conversation coach. I am an adult English learner (about B1). I know many words, but in real conversations I freeze and search for words. Sometimes people look confused, or they don't give me a turn. I am doing a 28-day conversation program.";
+function buildPrompt(h) {
+  const L = LAST[h];
+  if (!L) return COACH + "\n\n(I haven't practised yet. Please ask me to paste what I said.)";
+  if (L.kind === "rp") {
+    const sc = SC[L.key];
+    const conv = L.turns.map(t => (t.who === "p" ? (sc.multi ? "" : sc.partner + ": ") : "Me: ") + t.text).join("\n");
+    return COACH + "\n\nI just did a role-play: " + sc.title + ".\nThe situation: " + sc.scene + "\nThe other person: " + sc.partner + ", " + sc.who +
+      "\nMy goals were: " + L.goals.join(" ") +
+      "\n\nHere is the conversation. My lines come from speech-to-text, so please ignore punctuation and small transcription errors:\n\"\"\"\n" + conv + "\n\"\"\"\n\n" +
+      "Please give me:\n1. Three things I did well.\n2. Up to five corrections, each in this form: you said → better. Only use sentences I really said.\n3. Two useful phrases to try next time.\n4. A short note on how I kept my turn, and how many questions I asked.\n\nPlease use simple English and short sentences.";
+  }
+  const c = L.cfg;
+  return COACH + "\n\nToday I practised " + (c.kind === "story" ? "telling a short personal story." : "speaking without stopping.") +
+    "\nThe question: " + c.q + (c.tip ? "\nMy task: " + c.tip : "") +
+    "\nI spoke for " + L.secs + " seconds, at about " + (L.wpm == null ? "an unknown number of" : L.wpm) + " words per minute." +
+    "\n\nHere is what I said. It comes from speech-to-text, so please ignore punctuation and small transcription errors:\n\"\"\"\n" + (L.text || "(I did not capture the words.)") + "\n\"\"\"\n\n" +
+    "Please give me:\n1. Two things I did well.\n2. Up to five corrections, each in this form: you said → better. Only use sentences I really said.\n3. Two natural phrases I could use to keep my turn or connect my ideas.\n4. One clear tip for next time.\n\nPlease use simple English and short sentences.";
+}
+function rpLivePrompt(key) {
+  const sc = SC[key];
+  const role = sc.role.replace(/the learner's/g, "my").replace(/with the learner/g, "with me").replace(/the learner/g, "me");
+  return "Let's do an English speaking role-play. I'm an adult learner, about B1 level. I want to practise real conversation, so please talk with me by voice.\n\n" +
+    "The situation: " + sc.scene + "\n" + role + "\n\n" +
+    "Rules:\n- Speak naturally, in simple English. Keep each turn short: 1 to 3 sentences.\n- Ask me questions and react to my answers, like a real person.\n- If my answer isn't clear, ask me what I mean.\n" +
+    (sc.twist ? "- " + sc.twist.replace(/the learner/g, "me") + "\n" : "") +
+    "- Don't correct my English during the role-play.\n- When I say \"Stop the role-play\", give me feedback: three things I did well, up to five corrections (what I said → a better way), and two phrases to try next time.\n\n" +
+    "Please start now, as " + sc.partner + ".";
+}
+function aiHTML(text) {
+  const lines = String(text || "").slice(0, 6000).replace(/\*\*|__/g, "").replace(/^#+\s*/gm, "")
+    .split(/\n+/).map(s => s.trim()).filter(Boolean);
+  let html = "", list = null;
+  const close = () => { if (list) { html += "</" + list + ">"; list = null; } };
+  lines.forEach(l => {
+    let m;
+    if ((m = l.match(/^(\d+)[.)]\s+(.*)$/))) {
+      if (list !== "ol") { close(); html += '<ol start="' + (+m[1] || 1) + '">'; list = "ol"; }
+      html += "<li>" + esc(m[2]) + "</li>";
+    } else if ((m = l.match(/^[-*•]\s+(.*)$/))) {
+      if (list !== "ul") { close(); html += "<ul>"; list = "ul"; }
+      html += "<li>" + esc(m[1]) + "</li>";
+    } else { close(); html += "<p>" + esc(l) + "</p>"; }
+  });
+  close();
+  return html;
+}
+function aiErrCopy(e) {
+  const c = e && e.code;
+  if (AI_OFF.includes(c)) return "Feedback from Claude is turned off for this page. You can turn it on in the page's Permissions menu.";
+  if (c === "rate_limited" || c === "queue_overflow") return "Too many requests right now. Wait a minute, then try again.";
+  if (c === "prompt_too_large") return "That's too long to check. Try a shorter practice.";
+  if (c === "session_expired") return "Your Claude session has ended. Reload the page, then try again.";
+  return "Something went wrong. Press the button to try again.";
+}
+async function aiFeedback(h, btn) {
+  if (!V.ai) return;
+  const out = $("#" + h + "-ai"); if (!out) return;
+  const L = LAST[h];
+  if (!L || countWords(L.text) < 3) {
+    out.innerHTML = '<p class="note">' + (h === "day" ? "Do step 3 first: speak, or do the role-play. Then come back here." : "Practise first, then ask for feedback.") + '</p>';
+    return;
+  }
+  if (V.aiCtl) V.aiCtl.abort();
+  const ctl = new AbortController(); V.aiCtl = ctl;
+  if (btn) btn.disabled = true;
+  out.innerHTML = '<p class="note">Claude is reading your words…</p>';
+  const prompt = buildPrompt(h) + "\n\nKeep the whole answer under 300 words. Use numbered parts. Plain text only: no headings, no tables, no bold.";
+  try {
+    const r = await V.ai(prompt, {modelTier:"default", signal:ctl.signal,
+      onText: ({text: t}) => { if (V.aiCtl === ctl && t) out.innerHTML = aiHTML(t); }});
+    if (V.aiCtl !== ctl) return;
+    out.innerHTML = aiHTML(r && r.text) +
+      (r && r.truncated ? '<p class="note">The answer was cut short. Press the button again for the rest.</p>' : "") +
+      '<p class="note">' + (L.kind === "rp" ? "Read the feedback, then try the role-play again and use one new phrase." : "Read the feedback, then speak again and use one tip.") + '</p>';
+  } catch (e) {
+    if (V.aiCtl !== ctl) return;
+    if (e && e.code === "cancelled") { out.innerHTML = ""; return; }
+    out.innerHTML = (e && e.text ? aiHTML(e.text) : "") + '<p class="note">' + esc(aiErrCopy(e)) + '</p>';
+    if (e && AI_OFF.includes(e.code)) { V.ai = null; document.body.classList.remove("has-ai"); toast(aiErrCopy(e)); }
+  } finally {
+    if (V.aiCtl === ctl) V.aiCtl = null;
+    if (btn && !V.aiCtl) btn.disabled = false;
+  }
+}
+async function grammarCheck(h, btn) {
+  const out = $("#" + h + "-lt"); if (!out) return;
+  const L = LAST[h], text = L ? L.text.trim() : "";
+  if (countWords(text) < 5) { out.innerHTML = '<p class="note">' + (h === "day" ? "Do step 3 first, then check your words here." : "Practise first, then check your words.") + '</p>'; return; }
+  btn.disabled = true; out.innerHTML = '<p class="note">Checking with LanguageTool…</p>';
+  try {
+    const body = new URLSearchParams({text: text.slice(0, 18000), language: "en-US"});
+    const r = await fetch("https://api.languagetool.org/v2/check", {method:"POST", body});
+    if (r.status === 429) throw new Error("busy");
+    if (!r.ok) throw new Error("http");
+    const data = await r.json();
+    const ms = (data && Array.isArray(data.matches)) ? data.matches.filter(m => !/^(CASING|PUNCTUATION|TYPOGRAPHY|WHITESPACE)$/.test((m.rule && m.rule.category && m.rule.category.id) || "")) : [];
+    if (!ms.length) { out.innerHTML = '<p class="note">LanguageTool found no mistakes. It doesn\'t catch everything, so the feedback prompt can help too.</p>'; return; }
+    out.innerHTML = '<p class="label">' + ms.length + (ms.length === 1 ? " thing" : " things") + ' to check</p>' + ms.slice(0, 15).map(m => {
+      const ctx = m.context || {}, bad = String(ctx.text || "").substr(ctx.offset || 0, ctx.length || 0);
+      const reps = (m.replacements || []).slice(0, 2).map(x => x.value).filter(Boolean);
+      return '<div class="lt-item"><span><span class="bad">' + esc(bad) + '</span>' + (reps.length ? ' → <span class="fix">' + esc(reps.join(" / ")) + '</span>' : "") + '</span><span class="note">' + esc(m.message || "") + '</span></div>';
+    }).join("");
+  } catch (e) {
+    out.innerHTML = '<p class="note">' + (e && e.message === "busy" ? "LanguageTool is busy. Wait one minute, then try again." : "The grammar check didn't work. Check your internet connection and try again.") + '</p>';
+  } finally { btn.disabled = false; }
+}
+function copyText(text, out, okHTML) {
+  if (!out) return;
+  const showBox = () => {
+    out.innerHTML = '<p class="note">Copying didn\'t work here. Select the text below and copy it (Ctrl+C, or Cmd+C on a Mac).</p><textarea rows="8" readonly>' + esc(text) + '</textarea>';
+    const t = out.querySelector("textarea"); if (t) { t.focus(); t.select(); }
+  };
+  try {
+    navigator.clipboard.writeText(text).then(() => { out.innerHTML = okHTML; toast("Copied."); }).catch(showBox);
+  } catch (e) { showBox(); }
+}
+
+/* ---------- Toolkit ---------- */
+const TABS = [["ready","Get ready"],["stories","My stories"],["phrases","Phrase bank"],["rp","Role-plays"],["brave","Brave Log"]];
+const BL = {feel:null};
+const RT = {timer:null, end:0};
+function renderToolkit() {
+  $("#toolkit").innerHTML = '<h2>Your toolkit</h2>' +
+    '<p class="note">Use these any time, and especially just before a real conversation.</p>' +
+    '<div class="tabs" role="group" aria-label="Toolkit sections">' + TABS.map(t =>
+      '<button type="button" data-tab="' + t[0] + '" aria-pressed="' + (state.tab === t[0]) + '">' + t[1] + '</button>').join("") + '</div>' +
+    '<div class="tk-panel" id="tkPanel">' + panelHTML() + '</div>';
+  markMic();
+}
+function panelHTML() {
+  CFG.tool = null;
+  switch (state.tab) {
+    case "stories": return '<div class="panel"><h3>My stories</h3><p class="why">Your “about me” answers. Write key words, then practise with the timer. The more you tell them, the easier they get.</p>' +
+      storyPickHTML() + '<div class="host" id="tool-main">' + hostHTML("tool") + '</div></div>';
+    case "phrases": return bankHTML();
+    case "rp": return '<div class="panel"><h3>Role-plays</h3><p class="why">Practise any situation, as often as you like. Choose one.</p>' +
+      rpPickHTML() + '<div class="host" id="tool-main">' + hostHTML("tool") + '</div></div>';
+    case "brave": return braveHTML();
+    default: return readyHTML();
+  }
+}
+function storyPickHTML() {
+  return '<div class="pick" id="storyPick">' + Object.keys(STORY).map(k => {
+    const s = state.stories[k] || {};
+    const info = s.count ? "Practised " + s.count + "×" + (s.wpm ? " · " + s.wpm + " wpm" : "") : "Not practised yet";
+    return '<button type="button" data-story="' + k + '" aria-pressed="' + (state.tkStory === k) + '"><b>' + esc(STORY[k].title) + '</b><small>' + esc(info) + '</small></button>';
+  }).join("") + '</div>';
+}
+function rpPickHTML() {
+  return '<div class="pick" id="rpPick">' + Object.keys(SC).map(k =>
+    '<button type="button" data-scen="' + k + '" aria-pressed="' + (state.tkRp === k) + '"><b>' + esc(SC[k].title) + '</b><small>with ' + esc(SC[k].partner) + '</small></button>').join("") + '</div>';
+}
+function bankHTML() {
+  return '<div class="panel"><h3>Phrase bank</h3><p class="why">Every phrase from the program. Listen, then say each one out loud until it feels easy.</p>' +
+    Object.keys(PG).map(k => '<h4 class="group-h">' + esc(PG[k].name) + '</h4><p class="group-note">' + esc(PG[k].note) + '</p><ul class="phrases">' + PG[k].list.map(phraseRow).join("") + '</ul>').join("") +
+    '</div>';
+}
+function readyHTML() {
+  const sit = state.ready.sit, q = state.ready.q;
+  const intro = storyState("intro").notes || "";
+  const left = RT.timer ? (RT.end - Date.now()) / 1000 : 0;
+  return '<div class="panel"><h3>Get ready: 5 minutes before you talk</h3>' +
+    '<p class="why">Use this just before a date, an interview, a meeting or a party.</p>' +
+    '<div class="row"><span class="label">I\'m going to</span><div class="seg" role="group" aria-label="Situation">' +
+      [["date","a date"],["interview","an interview"],["meeting","a meeting"],["party","a party"]].map(s =>
+        '<button type="button" data-sit="' + s[0] + '" aria-pressed="' + (sit === s[0]) + '">' + s[1] + '</button>').join("") + '</div></div>' +
+    '<div class="row"><button type="button" class="btn sm" id="readyTimer">' + (RT.timer ? "Stop the timer" : "Start a 5-minute timer") + '</button><span class="small-clock" id="readyClock">' + (RT.timer ? fmt(left) : "") + '</span></div>' +
+    '<ol class="ready-steps">' +
+      '<li><b>Breathe.</b><span>In through your nose for 4 seconds, out for 6. Do it 4 times. Drop your shoulders.</span></li>' +
+      '<li><b>Say 3 thinking phrases out loud.</b><ul class="phrases">' + ["Let me think…","How can I put this…","Give me a second…"].map(phraseRow).join("") + '</ul></li>' +
+      '<li><b>Tell your “about me” once, out loud.</b>' +
+        (intro ? '<p class="notes-view">' + esc(intro) + '</p>' : '<p class="note">You have no key words yet. Write them in My stories.</p>') +
+        '<button type="button" class="btn sm" data-gostory="intro">Practise it with a timer</button></li>' +
+      '<li><b>Prepare 3 questions to ask.</b><div class="rq">' + [0,1,2].map(i =>
+        '<input type="text" data-rq="' + i + '" value="' + esc(q[i]) + '" placeholder="Question ' + (i + 1) + '" aria-label="Question ' + (i + 1) + '">').join("") + '</div>' +
+        '<p class="note">Ideas. Tap one to use it:</p><div class="chips">' + READY_Q[sit].map(x =>
+          '<button type="button" class="chip" data-rqfill="' + esc(x) + '">' + esc(x) + '</button>').join("") + '</div></li>' +
+      '<li><b>Remember:</b><span>a confused face is not a “no”. Slow down, keep your turn, and fix it out loud. You\'ve practised this.</span></li>' +
+    '</ol></div>';
+}
+function tickReady() {
+  const left = (RT.end - Date.now()) / 1000, el = $("#readyClock");
+  if (el) el.textContent = fmt(left);
+  if (left <= 0) {
+    clearInterval(RT.timer); RT.timer = null;
+    const b = $("#readyTimer"); if (b) b.textContent = "Start a 5-minute timer";
+    if (el) el.textContent = "";
+    toast("Time's up. You're ready. Go and enjoy the conversation!");
+  }
+}
+function braveHTML() {
+  const list = braveSorted().reverse();
+  const feels = braveSorted().map(e => e.feel).filter(v => typeof v === "number").slice(-14);
+  const last5 = feels.slice(-5);
+  const avg = last5.length ? Math.round(last5.reduce((a, b) => a + b, 0) / last5.length * 10) / 10 : null;
+  let msg = "Every real conversation counts, even the hard ones. Write the first one here.";
+  if (feels.length >= 4) {
+    const a = feels.slice(0, Math.floor(feels.length / 2)), b = feels.slice(Math.floor(feels.length / 2));
+    const ma = a.reduce((x, y) => x + y, 0) / a.length, mb = b.reduce((x, y) => x + y, 0) / b.length;
+    msg = mb > ma + 0.2 ? "You feel better in conversations than before. That's real progress."
+      : mb < ma - 0.2 ? "Some talks felt harder lately. That's normal. Hard days mean you're trying harder things."
+      : "You keep showing up. That's how confidence grows.";
+  } else if (list.length) msg = "Great start. Keep writing after each real conversation.";
+  return '<div class="panel"><h3>Brave Log</h3>' +
+    '<p class="why">After each real conversation in English, write 3 short things. Over time, you see how far you have come.</p>' +
+    '<div class="trend"><div class="stat"><span class="k">Conversations</span><span class="v">' + list.length + '</span></div>' +
+      '<div class="stat"><span class="k">Feeling, last 5</span><span class="v">' + (avg == null ? "–" : avg) + (feels.length >= 2 ? sparkSVG(feels) : "") + '<small>' + (avg == null ? "" : "out of 5") + '</small></span></div>' +
+      '<p class="note" style="flex:1;min-width:200px">' + esc(msg) + '</p></div>' +
+    '<div class="form" id="blForm">' +
+      '<div class="form-2"><label><span class="label">Date</span><input type="date" id="bl-date" value="' + ymd(new Date()) + '"></label>' +
+      '<label><span class="label">Where, or with whom?</span><input type="text" id="bl-who" maxlength="120" placeholder="For example: a date at a café, or a colleague at lunch"></label></div>' +
+      '<label><span class="label">What went well?</span><textarea id="bl-well" rows="2" maxlength="600" placeholder="For example: I used “Let me think…” and they waited for me."></textarea></label>' +
+      '<label><span class="label">What will I try next time?</span><textarea id="bl-next" rows="2" maxlength="600" placeholder="For example: speak more slowly at the start."></textarea></label>' +
+      '<div><span class="label">How did I feel? 1 (hard) to 5 (great)</span><div class="scores" role="group" aria-label="How did I feel">' +
+        [1,2,3,4,5].map(v => '<button type="button" class="score" data-feel="' + v + '" aria-pressed="' + (BL.feel === v) + '">' + v + '</button>').join("") + '</div></div>' +
+      '<div class="row"><button type="button" class="btn primary" id="blSave">Save to my Brave Log</button></div>' +
+    '</div>' +
+    (list.length ? '<p class="label">Your conversations</p><ul class="entries">' + list.slice(0, 40).map(e =>
+      '<li class="entry"><div class="entry-head"><b>' + esc(e.date || "") + (e.who ? " · " + esc(e.who) : "") + '</b>' +
+        '<span class="row">' + (typeof e.feel === "number" ? '<span class="feel">Felt ' + e.feel + '/5</span>' : "") +
+        '<button type="button" class="btn sm" data-bldel="' + esc(e.id) + '">Delete</button></span></div>' +
+        (e.well ? '<p><b>Went well:</b> ' + esc(e.well) + '</p>' : "") +
+        (e.next ? '<p><b>Next time:</b> ' + esc(e.next) + '</p>' : "") + '</li>').join("") + '</ul>' : "") +
+    '</div>';
+}
+function renderPanel() { const p = $("#tkPanel"); if (p) { p.innerHTML = panelHTML(); markMic(); } }
+function goToolkit(tab, focusSel) {
+  if (P && P.host === "tool") stopPractice(false);
+  state.tab = tab; saveSoon();
+  renderToolkit();
+  const tk = $("#toolkit"); if (tk) tk.scrollIntoView({behavior:"smooth", block:"start"});
+  if (focusSel) { const f = $(focusSel); if (f) setTimeout(() => { try { f.focus({preventScroll:true}); } catch (e) {} }, 350); }
+}
+
+/* ---------- Events ---------- */
+function goDay(n) {
+  stopPractice(false);
+  if (V.aiCtl) { V.aiCtl.abort(); V.aiCtl = null; }
+  cur = n; state.last = n; save();
+  renderProgram(); renderLesson();
+  if (state.tab === "stories" || state.tab === "rp") renderPanel();
+  const top = $("#lesson").getBoundingClientRect().top + window.scrollY - 12;
+  window.scrollTo({top: Math.max(0, top), behavior: "smooth"});
+}
+function finishDay() {
+  const L = LAST.day, prev = state.done[cur] || {};
+  state.done[cur] = {
+    date: ymd(new Date()),
+    wpm: L && L.wpm != null ? L.wpm : (prev.wpm != null ? prev.wpm : null),
+    phrases: L ? L.used.length : (prev.phrases != null ? prev.phrases : null),
+    turns: L && L.kind === "rp" ? L.turnsN : (prev.turns != null ? prev.turns : null)
+  };
+  state.steps[cur] = stepsFor(cur).map(() => true);
+  save(); renderStats(); renderProgram(); updateStepUI();
+  const st = streak(), x = state.done[cur];
+  renderFinish("Great work. Your streak is " + st + (st === 1 ? " day" : " days") + "." +
+    (x.wpm != null ? " Your speed: " + x.wpm + " words per minute." : "") +
+    (cur === DAYS.length ? " You finished all 28 days. Be proud: you kept going, even when it was hard." : " See you tomorrow."));
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("button");
+  if (!t) return;
+  const ds = t.dataset;
+  if (ds.mic) { toggleMic(t); return; }
+  if (ds.sayText !== undefined) {
+    if (t.classList.contains("playing")) { stopSpeech(); return; }
+    say(ds.sayText, {rate: parseFloat(ds.rate) || 0.9}, t); return;
+  }
+  if (ds.count !== undefined) {
+    const n = (+ds.count + 1) % 4; ds.count = String(n);
+    t.textContent = n === 3 ? "✓ 3/3" : n + "/3"; t.classList.toggle("full", n === 3);
+    t.setAttribute("aria-label", "Times I said it: " + n + " of 3"); return;
+  }
+  if (ds.reveal) {
+    const el = document.getElementById(ds.reveal); if (!el) return;
+    el.hidden = !el.hidden; t.setAttribute("aria-expanded", String(!el.hidden));
+    t.textContent = el.hidden ? "I said it. Show ideas" : "Hide ideas"; return;
+  }
+  if (ds.day) { goDay(+ds.day); return; }
+  if (ds.jump) { const s = $("#set-" + ds.jump); if (s) s.scrollIntoView({behavior:"smooth", block:"start"}); return; }
+  if (ds.step) {
+    const k = +ds.step, arr = stepsFor(cur).slice();
+    arr[k - 1] = !arr[k - 1]; state.steps[cur] = arr; save(); updateStepUI(); return;
+  }
+  if (ds.rep !== undefined) { const on = t.getAttribute("aria-pressed") !== "true"; t.setAttribute("aria-pressed", String(on)); t.classList.toggle("is-on", on); return; }
+  if (ds.rstart) { startRound(ds.rstart); return; }
+  if (ds.rstop) { endRound(); return; }
+  if (ds.recount) { analyseRound(ds.recount, +ds.secs || (CFG[ds.recount] && CFG[ds.recount].secs) || 60, false); return; }
+  if (ds.rpstart) { rpStart(ds.rpstart); return; }
+  if (ds.rpsend) { rpSend(); return; }
+  if (ds.rpend) { endRP(true); return; }
+  if (ds.rpagain) {
+    const last = RP.turns.filter(x => x.who === "p" && !x.typing).pop();
+    if (last) partnerSay(last.text, last.tag); return;
+  }
+  if (ds.rpcopy) {
+    const c = CFG[ds.rpcopy]; if (!c || c.kind !== "rp") return;
+    copyText(rpLivePrompt(c.rp), document.getElementById(ds.out),
+      '<p class="note"><b>Copied.</b> Open a free AI app with a voice mode (ChatGPT or Gemini), paste the prompt, send it, and then talk. Say “Stop the role-play” to get feedback.</p>');
+    return;
+  }
+  if (ds.ai) { aiFeedback(ds.ai, t); return; }
+  if (ds.lt) { grammarCheck(ds.lt, t); return; }
+  if (ds.copyfb) {
+    const h = ds.copyfb;
+    if (!LAST[h]) { const o = $("#" + h + "-prompt"); if (o) o.innerHTML = '<p class="note">' + (h === "day" ? "Do step 3 first, then copy the prompt." : "Practise first, then copy the prompt.") + '</p>'; return; }
+    copyText(buildPrompt(h), $("#" + h + "-prompt"), '<p class="note"><b>Copied.</b> Open any free AI chat (Claude, ChatGPT or Gemini), paste it, and send. Then try again with one tip.</p>');
+    return;
+  }
+  if (ds.final) {
+    if (P && P.host === "day") stopPractice(false);
+    state.finalKey = ds.final; save(); rerenderHost("day"); return;
+  }
+  if (ds.tab) {
+    if (P && P.host === "tool") stopPractice(false);
+    state.tab = ds.tab; saveSoon();
+    $$("[data-tab]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.tab === state.tab)));
+    renderPanel(); return;
+  }
+  if (ds.story) {
+    if (P && P.host === "tool") stopPractice(false);
+    state.tkStory = ds.story; saveSoon();
+    $$("[data-story]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.story === state.tkStory)));
+    rerenderHost("tool"); return;
+  }
+  if (ds.scen) {
+    if (P && P.host === "tool") stopPractice(false);
+    state.tkRp = ds.scen; saveSoon();
+    $$("[data-scen]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.scen === state.tkRp)));
+    rerenderHost("tool"); return;
+  }
+  if (ds.gostory) { state.tkStory = ds.gostory; goToolkit("stories"); return; }
+  if (ds.sit) {
+    state.ready.sit = ds.sit; saveSoon();
+    const keep = $$("[data-rq]").map(i => i.value);
+    renderPanel(); $$("[data-rq]").forEach((i, k) => { i.value = keep[k] || ""; }); return;
+  }
+  if (ds.rqfill) {
+    const inputs = $$("[data-rq]"), empty = inputs.find(i => !i.value.trim()) || inputs[inputs.length - 1];
+    if (empty) { empty.value = ds.rqfill; state.ready.q[+empty.dataset.rq] = ds.rqfill; saveSoon(); }
+    return;
+  }
+  if (ds.feel) {
+    const v = +ds.feel; BL.feel = BL.feel === v ? null : v;
+    $$("[data-feel]").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.feel === BL.feel))); return;
+  }
+  if (ds.bldel) {
+    if (t.dataset.armed !== "1") { t.dataset.armed = "1"; t.textContent = "Sure? Delete"; return; }
+    state.brave = state.brave.filter(x => x.id !== ds.bldel); save(); renderStats(); renderPanel(); return;
+  }
+  switch (t.id) {
+    case "misBtn": {
+      const on = !state.missions[cur]; state.missions[cur] = on; save();
+      t.classList.toggle("is-on", on); t.setAttribute("aria-pressed", String(on)); t.innerHTML = on ? I.check + " I did it" : "I did it";
+      return;
+    }
+    case "toBrave": goToolkit("brave", "#bl-who"); return;
+    case "finishBtn": finishDay(); return;
+    case "readyTimer": {
+      if (RT.timer) { clearInterval(RT.timer); RT.timer = null; t.textContent = "Start a 5-minute timer"; const c = $("#readyClock"); if (c) c.textContent = ""; return; }
+      RT.end = Date.now() + 300000; RT.timer = setInterval(tickReady, 500); tickReady(); t.textContent = "Stop the timer"; return;
+    }
+    case "blSave": {
+      const who = $("#bl-who").value.trim(), well = $("#bl-well").value.trim(), next = $("#bl-next").value.trim();
+      if (!who && !well && !next) { toast("Write at least one line first: where, or what went well."); return; }
+      const date = $("#bl-date").value || ymd(new Date());
+      state.brave.push({id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), t: Date.now(), date, who, well, next, feel: BL.feel});
+      BL.feel = null; save(); renderStats(); renderPanel();
+      toast("Saved. Every conversation counts, even the hard ones.");
+      return;
+    }
+  }
+});
+
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset && t.dataset.notes) {
+    const h = t.dataset.notes, c = CFG[h]; if (!c) return;
+    const val = t.value.slice(0, 2000);
+    if (c.kind === "story") {
+      storyState(c.key).notes = val;
+      const other = h === "day" ? "tool" : "day";
+      if (CFG[other] && CFG[other].kind === "story" && CFG[other].key === c.key) { const o = $("#" + other + "-notes"); if (o) o.value = val; }
+    } else state.notes[cur] = val;
+    saveSoon();
+  } else if (t.id === "nextBox") { state.next[cur] = t.value.slice(0, 1000); saveSoon(); }
+  else if (t.dataset && t.dataset.rq !== undefined) { state.ready.q[+t.dataset.rq] = t.value.slice(0, 200); saveSoon(); }
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.dataset && t.dataset.check !== undefined) {
+    const arr = (state.checks[cur] || [false,false,false,false]).slice();
+    arr[+t.dataset.check] = t.checked; state.checks[cur] = arr; save();
+  }
+});
+document.addEventListener("keydown", e => {
+  // Enter sends a role-play answer; Shift+Enter makes a new line.
+  if (e.key === "Enter" && !e.shiftKey && e.target && /-ans$/.test(e.target.id || "") && !e.isComposing) { e.preventDefault(); rpSend(); }
+});
+window.addEventListener("beforeunload", () => { save(); recAbort(); });
+
+/* ---------- Start ---------- */
+if (!CLAUDE) {
+  const web = makeWebDictation();
+  if (web) { V.dict = web; wireDictation(); document.body.classList.add("has-mic"); }
+  document.body.classList.add("caps-ready");
+}
+renderStats(); renderProgram(); renderLesson(); renderToolkit();
+if (CLAUDE) {
+  const C = window.claude;
+  setSync("device");
+  const caps = [
+    C.use("dictation").then(d => { if (d) { V.dict = d; wireDictation(); document.body.classList.add("has-mic"); markMic(); } }).catch(() => {}),
+    C.use("tts").then(t => { if (t) { V.tts = t; document.body.classList.add("has-voice"); } }).catch(() => {}),
+    C.use("sample").then(s => { if (s) { V.ai = s; document.body.classList.add("has-ai"); } }).catch(() => {})
+  ];
+  Promise.allSettled(caps).then(() => document.body.classList.add("caps-ready"));
+  connectStore(C);
+}
+})();
+</script>
+</body>
+</html>

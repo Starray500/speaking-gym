@@ -4,11 +4,12 @@ Daily practice for the **active** side of English: speaking, public speaking and
 
 **Open it:** https://starray500.github.io/speaking-gym/
 
-## Three programs, 28 days each
+## Four programs, 28 days each
 
 | Program | Trains | Daily lesson |
 |---|---|---|
 | [Speaking Gym](https://starray500.github.io/speaking-gym/speaking.html) | Fluency: finding words fast | Warm-up, phrases, shadowing, a 1-minute talk, describing words |
+| [Conversation Coach](https://starray500.github.io/speaking-gym/conversation.html) | Real conversations | Keep-your-turn phrases, your "about me" stories, role-plays (a date, small talk, an interview), a real-life mission and a Brave Log |
 | [The Stage](https://starray500.github.io/speaking-gym/stage.html) | Public speaking | Voice warm-up, a speaking technique, an impromptu talk with recording and filler-word count, self-review, a real-life challenge |
 | [Writing Desk](https://starray500.github.io/speaking-gym/writing.html) | Writing | Read a model, copy the pattern, timed writing, editing, reading it aloud |
 

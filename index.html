@@ -75,8 +75,8 @@ a{color:var(--accent)}
 .sec-head h2{font-size:clamp(26px,3.6vw,34px);font-weight:800}
 .sec-head p{color:var(--muted);max-width:62ch}
 
-.programs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-@media (max-width:900px){.programs{grid-template-columns:minmax(0,1fr)}}
+.programs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:640px){.programs{grid-template-columns:minmax(0,1fr)}}
 .prog{display:grid;grid-template-rows:auto auto 1fr auto;gap:12px;padding:20px;border-radius:16px;background:var(--surface);border:1px solid var(--line);min-width:0}
 .prog h3{font-size:25px;font-weight:800}
 .prog .tag{font-family:var(--f-mono);font-size:12px;font-weight:700;color:var(--accent)}
@@ -136,7 +136,7 @@ footer{font-size:14px;color:var(--muted)}
 </head>
 <body>
 <div class="wrap">
-  <nav class="site-nav" aria-label="Sections"><a href="./" class="home" aria-current="page">Active English</a><a href="speaking.html">Speaking Gym</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a></nav>
+  <nav class="site-nav" aria-label="Sections"><a href="./" class="home" aria-current="page">Active English</a><a href="speaking.html">Speaking Gym</a><a href="conversation.html">Conversation Coach</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a></nav>
 
   <header class="hero">
     <div>
@@ -165,16 +165,16 @@ footer{font-size:14px;color:var(--muted)}
   </section>
 
   <section class="sec" aria-labelledby="h-prog">
-    <div class="sec-head"><h2 id="h-prog">Three programs, 28 days each</h2><p>Each program has a short lesson every day. You don't need a Claude subscription for any of them. Everything works in your browser.</p></div>
+    <div class="sec-head"><h2 id="h-prog">Four programs, 28 days each</h2><p>Each program has a short lesson every day. You don't need a Claude subscription for any of them. Everything works in your browser.</p></div>
     <div class="programs" id="programs"></div>
   </section>
 
   <section class="sec" aria-labelledby="h-plan">
     <div class="sec-head"><h2 id="h-plan">Your plan</h2><p>Don't do everything at once. Build one habit, then add the next.</p></div>
     <div class="plan">
-      <div class="phase"><p class="when">Month 1 · now</p><h3>Fluency</h3><ul><li>Speaking Gym every day (20 min)</li><li>Writing Desk every day (20 min)</li><li>Record yourself on Day 1, for later</li></ul></div>
+      <div class="phase"><p class="when">Month 1 · now</p><h3>Fluency</h3><ul><li>Speaking Gym every day (20 min)</li><li>Conversation Coach every day (10 min)</li><li>Writing Desk every day (20 min)</li><li>Record yourself on Day 1, for later</li></ul></div>
       <div class="phase"><p class="when">Month 2</p><h3>Public speaking</h3><ul><li>The Stage every day (20 min)</li><li>Keep writing: repeat Writing Desk, or write freely each day</li><li>Give one short talk to a real person each week</li></ul></div>
-      <div class="phase"><p class="when">Every week, always</p><h3>Real life</h3><ul><li>One real conversation in English</li><li>Listen to English 15 minutes a day</li><li>Back up your progress (below)</li></ul></div>
+      <div class="phase"><p class="when">Every week, always</p><h3>Real life</h3><ul><li>One real conversation in English. Use “Get ready” in Conversation Coach first, and write in the Brave Log after</li><li>Listen to English 15 minutes a day</li><li>Back up your progress (below)</li></ul></div>
     </div>
     <div class="min"><b>Busy day?</b><p>Do only the main step: one minute of speaking in Speaking Gym, or ten minutes of writing in Writing Desk. A short practice still counts. Breaking the habit is the only thing to avoid.</p></div>
   </section>
@@ -185,6 +185,7 @@ footer{font-size:14px;color:var(--muted)}
       <div class="tool"><b>Copy a feedback prompt</b><p>Copies your text with instructions for a coach. Paste it into any free AI chat (Claude, ChatGPT or Gemini) and get detailed corrections.</p></div>
       <div class="tool"><b>Check grammar (free)</b><p>Uses LanguageTool to find spelling and some grammar mistakes. It doesn't catch everything.</p></div>
       <div class="tool"><b>Record and listen back</b><p>Hearing yourself is the best free teacher. Listen for long pauses and the words you searched for.</p></div>
+      <div class="tool"><b>Live role-play partner</b><p>In Conversation Coach, copy the role-play prompt into ChatGPT or Gemini voice mode. Then practise a date, small talk or an interview out loud with a free AI partner.</p></div>
       <div class="tool"><b>Stuck on a word?</b><p>Type 3–5 key words, like “proof of payment”, and a free word finder suggests the word (“receipt”).</p></div>
     </div>
   </section>
@@ -210,6 +211,8 @@ footer{font-size:14px;color:var(--muted)}
 const PROGRAMS = [
   {key:"speaking-gym-v1", name:"Speaking Gym", href:"speaking.html", tag:"Fluency · 20 min a day",
    points:["Stop searching for words","Phrases, shadowing, 1-minute talks","Track your words per minute"]},
+  {key:"conversation-v1", name:"Conversation Coach", href:"conversation.html", tag:"Real conversations · 10 min a day",
+   points:["Keep your turn when you need a word","Your “about me” stories, ready to tell","Role-plays: a date, small talk, an interview"]},
   {key:"stage-v1", name:"The Stage", href:"stage.html", tag:"Public speaking · 20 min a day",
    points:["Speak with a clear structure","Tell stories and persuade","Fewer “um”s, and a final 3-minute speech"]},
   {key:"writing-desk-v1", name:"Writing Desk", href:"writing.html", tag:"Writing · 20 min a day",
@@ -247,7 +250,7 @@ function render() {
   for (let i = 0; i < 28; i++) {
     const day = new Date(start); day.setDate(start.getDate() + i);
     const key = ymd(day), n = sets.filter(s => s.has(key)).length;
-    heat += '<span class="' + (n ? "l" + n : "") + (i === 27 ? " today" : "") + '" title="' + esc(day.toLocaleDateString()) + ": " + n + (n === 1 ? " program" : " programs") + '"></span>';
+    heat += '<span class="' + (n ? "l" + Math.min(n, 3) : "") + (i === 27 ? " today" : "") + '" title="' + esc(day.toLocaleDateString()) + ": " + n + (n === 1 ? " program" : " programs") + '"></span>';
   }
   $("#heat").innerHTML = heat;
 
@@ -259,7 +262,7 @@ function render() {
       '<ul>' + p.points.map(x => '<li>' + esc(x) + '</li>').join("") + '</ul>' +
       '<div style="display:grid;gap:8px;align-content:end"><div class="prog-stats"><span><b>' + done + '</b> of 28 days</span><span>' + (done >= 28 ? "Finished!" : (started ? "Next: Day " + next : "Not started")) + '</span></div>' +
       '<div class="bar" aria-hidden="true"><i style="width:' + Math.round(done / 28 * 100) + '%"></i></div></div>' +
-      '<a class="btn' + (started || i === 0 ? " primary" : "") + '" href="' + p.href + '">' + (started ? "Continue" : "Start") + ' ' + esc(p.name) + '</a></article>';
+      '<a class="btn' + (started || i < 2 ? " primary" : "") + '" href="' + p.href + '">' + (started ? "Continue" : "Start") + ' ' + esc(p.name) + '</a></article>';
   }).join("");
 }
 
