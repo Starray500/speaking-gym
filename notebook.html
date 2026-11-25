@@ -221,7 +221,7 @@ textarea::placeholder,input::placeholder{color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 <div class="wrap">
-  <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="speaking.html">Speaking Gym</a><a href="conversation.html">Conversation Coach</a><a href="voice.html">Clear Voice</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a><a href="notebook.html" aria-current="page">My Notebook</a></nav>
+  <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="speaking.html">Speaking Gym</a><a href="conversation.html">Conversation Coach</a><a href="voice.html">Clear Voice</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a><a href="notebook.html" aria-current="page">My Notebook</a><a href="call.html">Practice Call</a></nav>
 
   <header class="top">
     <div class="brand">
@@ -1167,6 +1167,27 @@ function after(ids, msg) {
   save(); renderStats(); renderList(); offerToSession(ids);
   if (msg) toast(msg);
 }
+/* ---------- Inbox: fixes sent from Practice Call (website only: same browser storage) ---------- */
+const INBOX_KEY = "notebook-inbox-v1";
+function takeInbox(atStart) {
+  if (CLAUDE) return;
+  let items;
+  try { items = JSON.parse(localStorage.getItem(INBOX_KEY) || "[]"); } catch (e) { items = []; }
+  if (!Array.isArray(items) || !items.length) return;
+  try { localStorage.removeItem(INBOX_KEY); } catch (e) {}
+  const ids = [];
+  items.forEach(x => {
+    if (!x || typeof x !== "object") return;
+    const w = str(x.wrong, 300).trim(), r = str(x.right, 300).trim();
+    if (!w || !r || norm(w) === norm(r) || hasMistake(w, r)) return;
+    const c = makeCard({type:"mistake", wrong:w, right:r, note:str(x.note, 300).trim()});
+    if (c) { state.cards.push(c); ids.push(c.id); }
+  });
+  if (!ids.length) return;
+  const msg = ids.length + (ids.length === 1 ? " new card" : " new cards") + " from Practice Call.";
+  if (atStart) { save(); toast(msg); } else after(ids, msg);
+}
+window.addEventListener("storage", e => { if (e.key === INBOX_KEY && e.newValue) takeInbox(false); });
 async function aiFill(btn) {
   const w = AF.word.trim();
   if (!w) { toast("Write the word or phrase first."); return; }
@@ -1593,6 +1614,7 @@ if (!CLAUDE) {
   setSync("site");
 } else setSync("device");
 if (!firstLoad) saveLocal();
+takeInbox(true);   // after the starter cards, so a fresh notebook still gets them
 renderAdd(); renderNpd(); renderList(); startSession(false);
 if (CLAUDE) {
   const C = window.claude;

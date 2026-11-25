@@ -1,0 +1,1452 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Practice Call</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A free English practice call: talk out loud about anything with Alex, an AI partner that runs on your own Mac and gently corrects you as you go.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a phone call on the left (topic picker, live call, summary), your partner's settings and call history on the right. */
+:root{
+  --bg:#F3F4F9; --surface:#FFFFFF; --ink:#1A2040; --muted:#575E80; --line:#D9DDEA;
+  --accent:#3140A8; --accent-soft:#E5E8FA; --on-accent:#FFFFFF;
+  --mark:#FFE066; --mark-line:#E2B200; --on-mark:#1A2040;
+  --live:#D23838; --live-ring:rgba(210,56,56,.28); --on-live:#FFFFFF;
+  --good:#1B7F52; --good-soft:#E0F3E9; --on-good:#FFFFFF;
+  --talk-ring:rgba(49,64,168,.30);
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+    --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+    --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+    --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+    --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+    --talk-ring:rgba(149,162,255,.32);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+  --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+  --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+  --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+  --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+  --talk-ring:rgba(149,162,255,.32);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+ul,ol{margin:0}
+button,select{font:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
+.site-nav{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding-block:0 14px;font-size:14.5px}
+.site-nav a{color:var(--muted);text-decoration:none;font-weight:700;padding:6px 0;border-bottom:2px solid transparent}
+.site-nav a:hover{color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.site-nav .home{font-family:var(--f-display);font-weight:800;color:var(--ink);margin-right:auto}
+
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 28px;padding-bottom:20px;border-bottom:2px solid var(--ink)}
+.brand{display:grid;gap:6px;min-width:0}
+.brand h1{font-size:clamp(30px,5vw,44px);font-weight:800}
+.brand p{color:var(--muted);max-width:52ch}
+.stats{display:flex;flex-wrap:wrap;gap:16px 28px}
+.stat{display:grid;gap:2px;min-width:0}
+.k,.label{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.stat .v{font-family:var(--f-display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:8px;line-height:1.1}
+.stat .v small{font-family:var(--f-body);font-size:13px;font-weight:400;color:var(--muted)}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:32px;margin-top:28px;align-items:start}
+@media (max-width:960px){.layout{grid-template-columns:minmax(0,1fr)}}
+.main-col{display:grid;gap:24px;min-width:0}
+.rail{display:grid;gap:20px;min-width:0}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:16px;min-width:0}
+.panel h2{font-size:clamp(24px,3.4vw,30px);font-weight:800}
+.panel h3{font-size:19px;font-weight:800}
+@media (max-width:520px){.panel{padding:16px}}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.lede{color:var(--muted);max-width:62ch}
+.note{font-size:14.5px;color:var(--muted)}
+.note a,.help a{color:var(--accent);font-weight:700;overflow-wrap:anywhere}
+
+.btn{font-weight:700;font-size:15.5px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none;text-align:center}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.big{min-height:56px;padding:0 28px;font-size:18px}
+.btn.sm{min-height:36px;padding:0 14px;font-size:14px}
+.btn.end{background:var(--live);border-color:var(--live);color:var(--on-live)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.is-on{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.icon-btn{flex:none;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:inline-grid;place-items:center;cursor:pointer;padding:0}
+.icon-btn:hover{border-color:var(--ink)}
+.icon-btn.playing{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--live-ring)}50%{box-shadow:0 0 0 9px var(--live-ring)}}
+@keyframes talk{0%,100%{box-shadow:0 0 0 0 var(--talk-ring)}50%{box-shadow:0 0 0 14px var(--talk-ring)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* One file, two homes: the website (body.standalone) and claude.ai (Claude capabilities). */
+body:not(.standalone) .only-standalone,body:not(.standalone) .site-nav{display:none!important}
+body.standalone .only-claude{display:none!important}
+.no-note{display:none}
+body.caps-ready:not(.has-mic) .no-mic{display:block}
+body:not(.has-mic) .need-mic{display:none!important}
+
+textarea,input[type="text"],select{min-width:0;width:100%;font:inherit;font-size:16.5px;line-height:1.5;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+select{font-size:15.5px;padding:8px 12px}
+textarea{resize:vertical}
+textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
+textarea::placeholder,input::placeholder{color:var(--muted)}
+input[type="range"]{width:100%;accent-color:var(--accent)}
+.field{display:grid;gap:6px}
+.field > span{font-size:14.5px;font-weight:700}
+.check-line{display:flex;gap:10px;align-items:flex-start;font-size:15.5px;cursor:pointer}
+.check-line input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent);flex:none}
+.seg{display:inline-flex;flex-wrap:wrap;border:1.5px solid var(--line);border-radius:18px;padding:3px;gap:2px;max-width:100%}
+.seg button{font-size:14px;font-weight:700;border:0;background:transparent;color:var(--muted);padding:6px 13px;border-radius:999px;cursor:pointer;min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+/* Topic picker */
+.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.pick button{display:grid;gap:2px;text-align:left;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;min-height:56px}
+.pick button:hover{border-color:var(--ink)}
+.pick button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.pick b{font-size:15.5px;line-height:1.3}
+.pick small{font-size:13px;color:var(--muted);line-height:1.35}
+.sub-h{font-size:17px;font-weight:800}
+.own{display:grid;gap:6px}
+.own.on input{border-color:var(--accent)}
+.how{padding-left:22px;display:grid;gap:4px;color:var(--muted);font-size:15.5px}
+.start-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+
+/* Live call */
+.call{gap:14px}
+.call-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 18px;align-items:center}
+.who-box{display:flex;gap:14px;align-items:center;min-width:0}
+.avatar{width:62px;height:62px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:28px;flex:none;position:relative;transition:background .2s}
+.avatar.speaking{animation:talk 1.1s ease-in-out infinite}
+.avatar.thinking{animation:blink 1.3s ease-in-out infinite}
+.avatar.listening{background:var(--surface);color:var(--accent);border:2px solid var(--accent)}
+.who-box b{display:block;font-family:var(--f-display);font-size:22px;font-weight:800;line-height:1.1}
+.phase-txt{font-size:15px;color:var(--muted)}
+.call-right{display:flex;gap:12px;align-items:center}
+.timer{font-family:var(--f-mono);font-weight:700;font-size:20px;font-variant-numeric:tabular-nums}
+.topic-line{font-size:14.5px;color:var(--muted)}
+.topic-line b{color:var(--ink)}
+.chat-box{max-height:min(58vh,580px);min-height:160px;overflow-y:auto;display:grid;gap:10px;align-content:start;padding:12px;border-radius:14px;background:var(--bg);overscroll-behavior:contain}
+.bubble{max-width:min(88%,560px);padding:10px 14px;border-radius:16px;display:grid;gap:2px;overflow-wrap:anywhere;font-size:17px;line-height:1.5}
+.bubble .who{font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bubble.p{background:var(--surface);border:1.5px solid var(--line);justify-self:start;border-bottom-left-radius:4px}
+.bubble.u{background:var(--accent-soft);justify-self:end;border-bottom-right-radius:4px}
+.bubble.typing p{color:var(--muted);font-style:italic}
+.fixes{justify-self:end;display:grid;gap:6px;max-width:min(88%,560px)}
+.fix{padding:7px 12px;border-radius:12px;background:var(--mark);color:var(--on-mark);font-size:15px;line-height:1.45;overflow-wrap:anywhere}
+.fix s{opacity:.72}
+.fix .why{font-size:13.5px;opacity:.85}
+.retry{justify-self:start;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:15px;color:var(--muted)}
+.composer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center}
+@media (max-width:560px){.composer{grid-template-columns:auto minmax(0,1fr)}.composer .send{grid-column:1/-1}}
+.mic-big{width:64px;height:64px;border-radius:50%;border:0;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;cursor:pointer;flex:none;padding:0}
+.mic-big svg{width:28px;height:28px}
+.mic-big.listening{background:var(--live);color:var(--on-live);animation:pulse 1.4s ease-in-out infinite}
+.say-wrap{display:grid;gap:4px;min-width:0}
+.say-wrap textarea{min-height:52px;max-height:160px}
+.partial{font-style:italic;color:var(--muted);font-size:15px;overflow-wrap:anywhere}
+.partial:empty{display:none}
+.hint{font-size:14px;color:var(--muted)}
+
+/* Summary */
+.sum-stats{display:flex;flex-wrap:wrap;gap:10px}
+.sum-stat{display:grid;gap:0;padding:10px 16px;border-radius:12px;background:var(--bg);min-width:110px}
+.sum-stat b{font-family:var(--f-display);font-size:28px;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.sum-stat span{font-size:13.5px;color:var(--muted)}
+.list{padding-left:22px;display:grid;gap:6px}
+.fix-list{list-style:none;padding:0;display:grid;gap:8px}
+.fix-list li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--bg);overflow-wrap:anywhere}
+.fix-list input{width:20px;height:20px;margin-top:3px;accent-color:var(--accent);flex:none}
+.fix-list s{color:var(--muted)}
+.fix-list .why{display:block;font-size:14px;color:var(--muted)}
+.tries{list-style:none;padding:0;display:grid;gap:8px}
+.tries li{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:12px;background:var(--bg);font-weight:700;overflow-wrap:anywhere}
+.tries li span{flex:1;min-width:0}
+details.transcript summary{cursor:pointer;font-weight:700}
+.transcript-body{display:grid;gap:6px;margin-top:10px;font-size:15.5px}
+.transcript-body p{overflow-wrap:anywhere}
+.transcript-body b{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:6px}
+.loading{color:var(--muted);font-style:italic}
+.copy-out{display:grid;gap:8px}
+.copy-out:empty{display:none}
+
+/* Rail */
+.status-line{display:flex;gap:10px;align-items:center;font-weight:700;overflow-wrap:anywhere}
+.dot{width:12px;height:12px;border-radius:50%;flex:none;background:var(--line)}
+.dot.ok{background:var(--good)}
+.dot.wait{background:var(--mark-line);animation:blink 1.2s ease-in-out infinite}
+.dot.bad{background:var(--live)}
+.history{list-style:none;padding:0;display:grid;gap:8px}
+.history li{display:grid;gap:2px;padding:10px 12px;border-radius:12px;background:var(--bg);font-size:14.5px;overflow-wrap:anywhere}
+.history li b{font-size:15px}
+.history .meta{color:var(--muted);font-family:var(--f-mono);font-size:12.5px}
+.week{display:flex;align-items:baseline;gap:8px}
+.week b{font-family:var(--f-display);font-size:34px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.week span{color:var(--muted);font-size:15px}
+.bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;align-items:end;height:64px}
+.bars div{display:grid;gap:4px;justify-items:center;align-content:end;height:100%}
+.bars i{display:block;width:100%;max-width:26px;border-radius:5px 5px 2px 2px;background:var(--accent);min-height:3px}
+.bars i.zero{background:var(--line)}
+.bars small{font-family:var(--f-mono);font-size:10.5px;color:var(--muted)}
+details.adv summary{cursor:pointer;font-size:14.5px;font-weight:700;color:var(--muted)}
+details.adv > div{display:grid;gap:10px;margin-top:10px}
+
+/* Help when the partner can't be reached */
+.help{border:1.5px solid var(--mark-line)}
+.help-steps{padding-left:22px;display:grid;gap:14px}
+.help-steps li{display:grid;gap:8px}
+.cmd{display:flex;gap:8px;align-items:flex-start;min-width:0}
+.cmd pre{flex:1;min-width:0;margin:0;padding:10px 12px;border-radius:10px;background:var(--bg);font-family:var(--f-mono);font-size:13px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:10px;font-size:15px;width:max-content;max-width:calc(100% - 32px);z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<div class="wrap">
+  <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="speaking.html">Speaking Gym</a><a href="conversation.html">Conversation Coach</a><a href="voice.html">Clear Voice</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a><a href="notebook.html">My Notebook</a><a href="call.html" aria-current="page">Practice Call</a></nav>
+
+  <header class="top">
+    <div class="brand">
+      <h1>Practice Call</h1>
+      <p>Talk out loud about anything with Alex, your practice partner. Alex answers like a real person and shows small fixes for your English as you go.</p>
+    </div>
+    <div class="stats" id="stats" aria-live="polite"></div>
+  </header>
+
+  <div class="layout">
+    <main class="main-col">
+      <section class="panel help only-standalone" id="help" hidden></section>
+      <div id="view"></div>
+    </main>
+
+    <aside class="rail">
+      <section class="panel" aria-labelledby="h-partner">
+        <h3 id="h-partner">Your partner</h3>
+        <p class="status-line" id="status" aria-live="polite"><span class="dot wait"></span><span>Looking for your partner…</span></p>
+        <label class="field only-standalone" id="modelField" hidden><span>Brain (AI model on your Mac)</span><select id="modelSel"></select></label>
+        <p class="note only-standalone" id="modelNote"></p>
+        <p class="note only-claude">Here, Claude plays Alex. On your Mac, the website version uses a free AI that runs on your computer.</p>
+        <div class="row only-standalone"><button type="button" class="btn sm" data-act="recheck">Check again</button></div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-set">
+        <h3 id="h-set">Settings</h3>
+        <label class="field only-standalone"><span>Alex's voice</span><select id="voiceSel"></select></label>
+        <label class="field only-claude"><span>Alex's voice</span><select id="cvoiceSel">
+          <option value="airy">Airy</option><option value="buttery">Buttery</option><option value="glassy">Glassy</option><option value="rounded">Rounded</option>
+        </select></label>
+        <label class="field"><span>Speed: <b id="rateOut">0.95</b></span><input type="range" id="rate" min="0.7" max="1.3" step="0.05" value="0.95"></label>
+        <div class="row"><button type="button" class="btn sm" data-act="testvoice">Test the voice</button></div>
+        <div class="field only-standalone"><span>Microphone</span>
+          <div class="seg" role="group" aria-label="Microphone mode"><button type="button" data-mode="tap">Tap to talk</button><button type="button" data-mode="free">Hands-free</button></div>
+          <p class="note" id="modeNote"></p>
+        </div>
+        <label class="check-line"><input type="checkbox" id="showFixes" checked> <span>Show fixes during the call</span></label>
+        <details class="adv only-standalone"><summary>Advanced</summary><div>
+          <label class="field"><span>Ollama address</span><input type="text" id="urlBox" spellcheck="false" autocomplete="off"></label>
+          <div class="row"><button type="button" class="btn sm" data-act="saveurl">Save and check</button></div>
+        </div></details>
+      </section>
+
+      <section class="panel" aria-labelledby="h-hist">
+        <h3 id="h-hist">Your calls</h3>
+        <div id="history"></div>
+      </section>
+
+      <section class="panel only-standalone" aria-labelledby="h-phone">
+        <h3 id="h-phone">On your phone?</h3>
+        <p class="note">The free brain runs on your Mac. On your phone, use Gemini Live or ChatGPT voice. Copy this prompt, paste it, and start talking.</p>
+        <div class="row"><button type="button" class="btn sm" data-act="copyphone">Copy the phone prompt</button></div>
+        <div class="copy-out" id="phoneOut"></div>
+      </section>
+
+      <p class="note" id="sync">Your calls are saved in this browser only. Use the backup on the home page to keep them safe.</p>
+    </aside>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+"use strict";
+
+/* Two homes: inside claude.ai, Claude plays Alex. On the website, the brain is a free AI model in Ollama on this Mac. */
+const CLAUDE = !!(window.claude && typeof window.claude.use === "function");
+if (!CLAUDE) document.body.classList.add("standalone");
+const SITE_URL = "https://starray500.github.io/speaking-gym/call.html";
+const QS = new URLSearchParams(location.search);
+const DEBUG = QS.get("debug") === "1";
+const dbg = (...a) => { if (DEBUG) console.log("[call]", ...a); };
+
+/* ---------- Topics and role-plays ---------- */
+const TOPICS = [
+  {k:"day", t:"Your day", s:"What you did, how you feel", about:"the learner's day and daily life",
+   o:["Hi, it's Alex! How's your day going so far?", "Hey, Alex here! What have you been up to today?"]},
+  {k:"food", t:"Food", s:"Favourite dishes, cooking", about:"food, cooking and eating out",
+   o:["Hi, it's Alex! I'm a little hungry right now. What's your favourite food?", "Hey, it's Alex! What did you eat today? Anything good?"]},
+  {k:"sport", t:"Football and sport", s:"Teams, games, staying fit", about:"football, sport and staying active",
+   o:["Hi, it's Alex! Did you watch any football this week?", "Hey, Alex here! Do you play any sport, or do you prefer watching?"]},
+  {k:"travel", t:"Travel", s:"Places, trips, dreams", about:"travel, places and trips",
+   o:["Hi, it's Alex! If you could travel anywhere next month, where would you go?", "Hey, it's Alex! What's the best place you've ever visited?"]},
+  {k:"work", t:"Work and study", s:"Your job, your studies", about:"work, jobs and studying",
+   o:["Hi, it's Alex! So tell me, what do you do? Do you work or study?", "Hey, Alex here! How's work going this week?"]},
+  {k:"films", t:"Films and music", s:"What you watch and hear", about:"films, series and music",
+   o:["Hi, it's Alex! Have you seen any good films or series lately?", "Hey, it's Alex! What kind of music do you like?"]},
+  {k:"dreams", t:"Dreams and plans", s:"Goals for the future", about:"dreams, goals and plans for the future",
+   o:["Hi, it's Alex! What's one big dream you have for the next few years?", "Hey, Alex here! What are your plans for this weekend?"]},
+  {k:"dating", t:"Dating and friendship", s:"Friends, dates, people", about:"dating, friendship and meeting people",
+   o:["Hi, it's Alex! Here's a fun question: what makes a really good friend, in your opinion?", "Hey, it's Alex! What do you think makes a good first date?"]},
+  {k:"news", t:"The news", s:"Something that happened", about:"the news and things happening in the world or in the learner's city",
+   o:["Hi, it's Alex! Did you hear any interesting news this week?", "Hey, Alex here! What's happening in your city these days?"]}
+];
+const ROLES = [
+  {k:"date", t:"First date", s:"At a café, getting to know someone",
+   scene:"A first date at a café. You (Alex) are the learner's date. You are friendly, a little nervous too, and curious about them. Ask about their life, share about yours, and keep it light and warm.",
+   o:["Hi! It's so nice to finally meet you. Have you been waiting long?"]},
+  {k:"interview", t:"Job interview", s:"Alex is the interviewer",
+   scene:"A job interview for a job the learner wants. You (Alex) are the interviewer: polite, professional and kind. Ask one interview question at a time, and react to the answers.",
+   o:["Good morning, and thank you for coming in today. Please, have a seat. Could you start by telling me a little about yourself?"]},
+  {k:"party", t:"Small talk at a party", s:"Meet a new person",
+   scene:"A friend's birthday party. You (Alex) are a guest who doesn't know the learner yet. Make easy, friendly small talk.",
+   o:["Hi there! I don't think we've met. I'm Alex, I know Sam from work. How do you know Sam?"]},
+  {k:"neighbour", t:"Meeting a neighbour", s:"Alex just moved in next door",
+   scene:"You (Alex) just moved into the flat next to the learner's. You meet in the hallway. You are friendly and want to know about the building and the area.",
+   o:["Oh, hi! I just moved in next door. I'm Alex. Have you lived here long?"]}
+];
+const ALL_TOPICS = TOPICS.concat(ROLES);
+const topicByKey = k => ALL_TOPICS.find(x => x.k === k) || null;
+const pickOne = a => a[Math.floor(Math.random() * a.length)];
+
+/* ---------- Helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const settle = (p, ms) => Promise.race([Promise.resolve(p).catch(() => {}), sleep(ms || 2500)]);
+const countWords = t => (String(t || "").match(/[A-Za-z0-9À-ɏ']+/g) || []).length;
+const ymd = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const today = () => ymd(new Date());
+const isDate = s => typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s);
+const str = (x, n) => String(x == null ? "" : x).slice(0, n || 500);
+const int = (x, lo, hi) => { const n = Math.round(+x); return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : lo; };
+const num = (x, lo, hi, d) => { const n = +x; return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : d; };
+const round1 = n => Math.round(n * 10) / 10;
+const clock = s => { s = Math.max(0, Math.floor(s)); return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); };
+const newId = () => "k" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const normTxt = s => String(s || "").toLowerCase().replace(/[’‘`]/g, "'").replace(/[^a-z0-9' ]/g, " ").replace(/\s+/g, " ").trim();
+function fetchT(url, opt, ms) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), ms || 5000);
+  return fetch(url, Object.assign({}, opt, {signal: ctl.signal})).finally(() => clearTimeout(t));
+}
+
+const I = {
+  play:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  send:'<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 12l16-8-6 16-2.5-6.5z" fill="currentColor"/></svg>',
+  copy:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 5.5V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>'
+};
+
+let toastTimer = null;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 4800);
+}
+function copyText(text, outSel, okMsg) {
+  const fallback = () => {
+    const out = $(outSel); if (!out) return;
+    const rows = Math.min(10, String(text).split("\n").length + 1);
+    out.innerHTML = '<p class="note">Copying didn\'t work here. Select the text below and copy it.</p><textarea rows="' + rows + '" readonly>' + esc(text) + '</textarea>';
+    const ta = $("textarea", out); if (ta) { ta.focus(); ta.select(); }
+  };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => { const out = $(outSel); if (out) out.innerHTML = ""; toast(okMsg || "Copied."); }, fallback);
+      return;
+    }
+  } catch (e) {}
+  fallback();
+}
+
+/* ---------- Saved calls and settings ---------- */
+const LS_KEY = "call-v1";
+const INBOX_KEY = "notebook-inbox-v1";
+const DEF_URL = "http://localhost:11434";
+const DEF_SET = () => ({model:"", voice:"", cvoice:"airy", rate:0.95, mode:"tap", showFixes:true, url:DEF_URL, topic:"day", own:""});
+const fresh = () => ({v:1, calls:[], settings:DEF_SET()});
+function cleanFix(f) {
+  if (!f || typeof f !== "object") return null;
+  const you_said = str(f.you_said, 200).trim(), better = str(f.better, 200).trim();
+  if (!you_said || !better) return null;
+  return {you_said, better, why: str(f.why, 120).trim()};
+}
+function cleanCall(c) {
+  if (!c || typeof c !== "object" || !c.id || !isDate(c.date)) return null;
+  return {id: str(c.id, 40), date: c.date, topic: str(c.topic, 80), minutes: round1(num(c.minutes, 0, 600, 0)),
+          words: int(c.words, 0, 1e6), turns: int(c.turns, 0, 1e5),
+          fixes: (Array.isArray(c.fixes) ? c.fixes : []).map(cleanFix).filter(Boolean).slice(0, 10)};
+}
+function normalize(got) {
+  const out = fresh();
+  if (!got || typeof got !== "object") return out;
+  const seen = new Set();
+  (Array.isArray(got.calls) ? got.calls : []).forEach(c => { const x = cleanCall(c); if (x && !seen.has(x.id)) { seen.add(x.id); out.calls.push(x); } });
+  const s = got.settings && typeof got.settings === "object" ? got.settings : {};
+  const d = DEF_SET();
+  out.settings = {
+    model: str(s.model, 120), voice: str(s.voice, 200),
+    cvoice: ["buttery","airy","glassy","rounded"].includes(s.cvoice) ? s.cvoice : d.cvoice,
+    rate: num(s.rate, 0.7, 1.3, d.rate),
+    mode: s.mode === "free" ? "free" : "tap",
+    showFixes: s.showFixes !== false,
+    url: (typeof s.url === "string" && /^https?:\/\/[^\s"'<>]+$/.test(s.url.trim())) ? s.url.trim().replace(/\/+$/, "") : d.url,
+    topic: topicByKey(s.topic) || s.topic === "own" ? s.topic : d.topic,
+    own: str(s.own, 120)
+  };
+  return out;
+}
+function loadLocal() { try { const s = localStorage.getItem(LS_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+const HAD_LOCAL = !!loadLocal();
+let state = normalize(loadLocal());
+function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+
+/* Inside claude.ai, call summaries are also kept in the viewer's own private Claude storage. */
+function merge(a, b) {   // a = this browser, b = the Claude account
+  const out = fresh();
+  const map = new Map();
+  b.calls.concat(a.calls).forEach(c => map.set(c.id, c));
+  out.calls = Array.from(map.values()).sort((x, y) => (x.date + x.id).localeCompare(y.date + y.id));
+  out.settings = HAD_LOCAL ? a.settings : b.settings;   // a new device takes the account's settings
+  return out;
+}
+let remote = null, writing = false, pending = false;
+function setSync(mode) {
+  const el = $("#sync"); if (!el) return;
+  el.textContent = mode === "account"
+    ? "Your calls are saved to your Claude account, so they follow you to other devices."
+    : mode === "device" ? "Your calls are saved in this browser only."
+    : "Your calls are saved in this browser only. Use the backup on the home page to keep them safe.";
+}
+async function save() {
+  saveLocal();
+  if (!remote) return;
+  if (writing) { pending = true; return; }
+  writing = true;
+  try { await remote.set({v:1, calls: state.calls.slice(-100), settings: state.settings}); }
+  catch (e) { remote = null; setSync("device"); if (e && e.code === "quota_exceeded") toast("Your Claude storage is full, so calls are saved in this browser only."); }
+  writing = false;
+  if (pending) { pending = false; save(); }
+}
+async function connectStore(C) {
+  try {
+    const [db, user] = await Promise.all([C.use("db"), C.use("user")]);
+    if (!db || !user) { setSync("device"); return; }
+    const id = await user.id();
+    if (!id) { setSync("device"); return; }
+    const ref = db.doc("data/users/" + id + "/call");
+    const snap = await Promise.race([ref.get(), sleep(10000).then(() => { throw new Error("timeout"); })]);
+    if (snap && snap.exists) {
+      state = merge(state, normalize(JSON.parse(JSON.stringify(snap.data() || {}))));
+      renderStats(); renderHistory(); renderSettings();
+      if (VIEW === "start") renderView();
+    }
+    remote = ref; setSync("account"); save();
+  } catch (e) { setSync("device"); }
+}
+
+/* ---------- Alex's voice ---------- */
+const V = {dict:null, dstate:"idle", synth: ("speechSynthesis" in window) ? window.speechSynthesis : null,
+           tts:null, ttsOff:false, ai:null, partial:"", lastHeard:0, voices:[]};
+if (V.synth) document.body.classList.add("has-voice");
+const AI_OFF = ["not_granted","sampling_disabled","capability_disabled","capability_removed","not_declared"];
+const NOVELTY = /^(Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Good News|Jester|Organ|Superstar|Trinoids|Whisper|Wobble|Zarvox|Deranged|Hysterical|Pipe Organ)\b/i;
+const ROBOTIC = /^(Fred|Junior|Kathy|Ralph|Grandma|Grandpa|Rocko|Shelley|Flo|Eddy|Reed|Sandy)\b/i;
+function loadVoices() {
+  if (!V.synth) return;
+  const score = v => (/premium/i.test(v.name) ? 40 : 0) + (/enhanced/i.test(v.name) ? 30 : 0) + (/natural/i.test(v.name) ? 30 : 0) +
+    (/google/i.test(v.name) ? 20 : 0) + (/^en[-_](US|GB)/i.test(v.lang) ? 5 : 0) - (ROBOTIC.test(v.name) ? 30 : 0);
+  V.voices = V.synth.getVoices().filter(v => /^en([-_]|$)/i.test(v.lang) && !NOVELTY.test(v.name))
+    .sort((a, b) => score(b) - score(a) || a.name.localeCompare(b.name));
+  renderVoices();
+}
+function webVoice() {
+  if (!V.voices.length) return null;
+  return V.voices.find(v => v.name === state.settings.voice) || V.voices[0];
+}
+/* Alex speaks one sentence at a time, so you hear the answer before it is fully written. */
+const SPK = {gen:0, pending:0, chain:Promise.resolve(), idle:0};
+function speakPartner(text, gen) {
+  if (gen !== SPK.gen || V.ttsOff || !text) return;
+  if (V.dict && V.dict.active()) settle(V.dict.stop(), 1500);   // never let the microphone hear Alex
+  SPK.pending++; updatePhase();
+  dbg("speak", JSON.stringify({t: Math.round(performance.now()), text}));
+  const done = () => { if (gen === SPK.gen) { SPK.pending = Math.max(0, SPK.pending - 1); updatePhase(); maybeYourTurn(); } };
+  if (V.tts) {
+    const line = {text, voice: state.settings.cvoice, rate: state.settings.rate, language: "en"};
+    if (typeof V.tts.add === "function") {
+      Promise.resolve().then(() => V.tts.add([line])).then(done, e => { done(); speakErr(e); });
+    } else {
+      SPK.chain = SPK.chain.then(() => gen === SPK.gen ? V.tts.speak(text, {voice: line.voice, rate: line.rate, language: "en"}) : null)
+        .then(done, e => { done(); speakErr(e); });
+    }
+    return;
+  }
+  if (!V.synth) { done(); return; }
+  const u = new SpeechSynthesisUtterance(text);
+  const vo = webVoice();
+  if (vo) { u.voice = vo; u.lang = vo.lang; } else u.lang = "en-US";
+  u.rate = state.settings.rate;
+  u.onend = done;
+  u.onerror = done;
+  try { V.synth.speak(u); } catch (e) { done(); }
+}
+function stopPartnerVoice() {
+  SPK.gen++; SPK.pending = 0; SPK.chain = Promise.resolve();
+  if (V.tts) { try { const p = V.tts.stop(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
+  if (V.synth) { try { V.synth.cancel(); } catch (e) {} }
+  updatePhase();
+}
+function speakErr(e) {
+  const c = e && e.code;
+  if (!c || ["stopped","cancelled","canceled","viewer_stopped","interrupted"].includes(c)) return;
+  if (c === "not_granted") { V.ttsOff = true; V.tts = null; document.body.classList.remove("has-voice"); toast("Alex's voice is off for this page. You can still read Alex's answers."); return; }
+  if (c === "busy") { toast("Stop the microphone first, so you can hear Alex."); return; }
+  if (c === "rate_limited") { toast("Alex's voice needs a short break. Read the answer for a minute."); return; }
+}
+/* A safety net: some browsers forget to say when they finish speaking. */
+setInterval(() => {
+  if (!V.synth || V.tts || SPK.pending === 0) { SPK.idle = 0; return; }
+  if (!V.synth.speaking && !V.synth.pending) { if (++SPK.idle >= 4) { SPK.pending = 0; SPK.idle = 0; updatePhase(); maybeYourTurn(); } }
+  else SPK.idle = 0;
+}, 500);
+function testVoice(btn) {
+  stopPartnerVoice();
+  const gen = SPK.gen;
+  speakPartner("Hi, I'm Alex. It's really nice to talk to you!", gen);
+  if (btn) { btn.classList.add("is-on"); setTimeout(() => btn.classList.remove("is-on"), 1500); }
+}
+
+/* ---------- Voice typing ---------- */
+const MIC_OFF = CLAUDE ? "The microphone is off for this page. You can still type your answers."
+                       : "The microphone is blocked. Allow it in Chrome's address bar, or type your answers.";
+function disableMic(msg) {
+  if (!V.dict && !document.body.classList.contains("has-mic")) return;
+  V.dict = null; document.body.classList.remove("has-mic"); V.dstate = "idle"; updatePhase();
+  if (msg) toast(msg);
+}
+function onDictError(e) {
+  const c = e && e.code;
+  if (c === "stopped") return;
+  if (c === "not_granted") return disableMic(MIC_OFF);
+  if (c === "unavailable") return disableMic("Voice typing isn't available here. You can still type your answers.");
+  if (c === "dismissed") return toast("Tap the microphone again and choose Allow.");
+  if (c === "rate_limited") return toast("Voice typing is busy. Try again in a moment.");
+  if (c === "no_gesture") return toast("Tap the microphone to talk.");
+  toast("The microphone didn't start. Tap it to try again.");
+}
+function wireDictation() {
+  V.dict.onFinal(({text}) => {
+    const box = $("#say"); if (!box || !text) return;
+    let t = text;
+    if (!box.value) t = t.replace(/^\s+/, "");
+    else if (!/\s$/.test(box.value) && !/^\s/.test(t)) t = " " + t;
+    box.value += t; V.lastHeard = Date.now();
+  });
+  V.dict.onPartial(({text}) => {
+    V.partial = text || "";
+    if (text) V.lastHeard = Date.now();
+    const p = $("#partial"); if (p) p.textContent = text ? text + "…" : "";
+  });
+  V.dict.onState(({state: st, reason}) => {
+    V.dstate = st; updatePhase();
+    if (st !== "idle") return;
+    V.partial = ""; const p = $("#partial"); if (p) p.textContent = "";
+    if (reason === "not_granted") disableMic(MIC_OFF);
+    else if (reason === "unavailable") disableMic("Voice typing isn't available here. You can still type your answers.");
+    else if (reason === "upstream_error" && CALL.on) toast("The microphone stopped. Tap it to start again.");
+  });
+}
+/* Browser speech recognition (Chrome, Edge), wrapped in a start/stop/onFinal/onPartial/onState shape. */
+function makeWebDictation() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return null;
+  let rec = null, st = "idle", wantOn = false, lastErr = null, resolveStop = null;
+  const finals = [], partials = [], states = [];
+  const emit = (s, reason) => { st = s; states.forEach(h => h(reason ? {state:s, reason} : {state:s})); };
+  function make() {
+    const r = new SR();
+    r.lang = "en-US"; r.continuous = true; r.interimResults = true;
+    r.onstart = () => emit("listening");
+    r.onresult = e => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const res = e.results[i], t = res[0].transcript;
+        if (res.isFinal) { if (t.trim()) finals.forEach(h => h({text: " " + t.trim()})); }
+        else interim += t;
+      }
+      partials.forEach(h => h({text: interim.trim()}));
+    };
+    r.onerror = e => { lastErr = e.error; };
+    r.onend = () => {
+      // Chrome ends recognition after a pause; keep listening until the page asks to stop.
+      if (wantOn && (!lastErr || lastErr === "no-speech")) {
+        lastErr = null;
+        if (resolveStop) { const f = resolveStop; resolveStop = null; f(); }
+        try { r.start(); return; } catch (err) {}
+      }
+      rec = null; wantOn = false;
+      const reason = (lastErr === "not-allowed" || lastErr === "service-not-allowed") ? "not_granted"
+        : (lastErr && lastErr !== "aborted" && lastErr !== "no-speech") ? "upstream_error" : "stopped";
+      partials.forEach(h => h({text: ""}));
+      emit("idle", reason);
+      if (resolveStop) { const f = resolveStop; resolveStop = null; f(); }
+    };
+    return r;
+  }
+  return {
+    start() {
+      if (rec) { wantOn = true; return Promise.resolve(); }
+      lastErr = null; wantOn = true; rec = make(); emit("starting");
+      try { rec.start(); } catch (err) { rec = null; wantOn = false; emit("idle", "upstream_error"); return Promise.reject({code:"upstream_error"}); }
+      return Promise.resolve();
+    },
+    stop() {
+      if (!rec) return Promise.resolve();
+      wantOn = false;
+      return new Promise(res => { resolveStop = res; try { rec.stop(); } catch (err) { resolveStop = null; res(); } });
+    },
+    active() { return st !== "idle"; },
+    onFinal(h) { finals.push(h); return () => {}; },
+    onPartial(h) { partials.push(h); return () => {}; },
+    onState(h) { states.push(h); return () => {}; }
+  };
+}
+
+/* ---------- The brain ---------- */
+const FIX_ITEM = {type:"object", properties:{you_said:{type:"string"}, better:{type:"string"}, why:{type:"string"}}, required:["you_said","better","why"]};
+const TURN_SCHEMA = {type:"object", properties:{fixes:{type:"array", items:FIX_ITEM, maxItems:2}, reply:{type:"string", minLength:2}}, required:["fixes","reply"]};
+const SUM_SCHEMA = {type:"object", properties:{
+  went_well:{type:"array", items:{type:"string"}, maxItems:3},
+  top_fixes:{type:"array", items:FIX_ITEM, maxItems:6},
+  try_next:{type:"array", items:{type:"string"}, maxItems:2}}, required:["went_well","top_fixes","try_next"]};
+const qOllama = QS.get("ollama");
+const BR = {url: (qOllama && /^https?:\/\/[^\s"'<>]+$/.test(qOllama)) ? qOllama.replace(/\/+$/, "") : state.settings.url,
+            models:[], model:"", status: CLAUDE ? "claude-wait" : "checking", err:"", check:0};
+
+function chooseModel(list) {
+  const want = QS.get("model") || state.settings.model;
+  if (want && list.includes(want)) return want;
+  const find = re => list.find(n => re.test(n));
+  return find(/^gemma3:27b/i) || find(/^gemma3:12b/i) || find(/^gemma3/i) || find(/^qwen3.*instruct/i) || list[0];
+}
+async function checkOllama() {
+  if (CLAUDE) return;
+  const run = ++BR.check;
+  BR.status = "checking"; renderStatus();
+  try {
+    const r = await fetchT(BR.url + "/api/tags", {}, 5000);
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const j = await r.json();
+    if (run !== BR.check) return;
+    BR.models = (Array.isArray(j.models) ? j.models : [])
+      .filter(m => m && (m.name || m.model) && !/embed|bge|minilm|rerank/i.test(m.name || m.model) && !/bert/i.test((m.details && m.details.family) || ""))
+      .map(m => m.name || m.model);
+    if (!BR.models.length) { BR.status = "nomodel"; renderStatus(); return; }
+    BR.model = chooseModel(BR.models);
+    renderStatus();
+    warmUp();
+  } catch (e) {
+    if (run !== BR.check) return;
+    BR.status = "down"; BR.err = String((e && e.message) || e); BR.models = [];
+    dbg("ollama down", BR.err);
+    renderStatus();
+  }
+}
+/* Load the model into memory now, so the first answer in the call isn't slow. */
+async function warmUp() {
+  const m = BR.model, run = BR.check;
+  BR.status = "waking"; renderStatus();
+  const t0 = performance.now();
+  try {
+    // Same context size as the call (another size would load the model again), and the real start of the prompt, so it is ready in memory.
+    const body = {model: m, stream: false, keep_alive: "30m", format: TURN_SCHEMA, options: {temperature: 0.7, num_ctx: 8192, num_predict: 1},
+      messages: [{role:"system", content: systemPrompt(currentTopic())}, {role:"user", content:"Hi Alex! I'm ready for our practice call."}]};
+    if (/^qwen3/i.test(m)) body.think = false;
+    const r = await fetchT(BR.url + "/api/chat", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body)}, 180000);
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    await r.text();
+  } catch (e) { dbg("warm-up failed", String(e && e.message || e)); }
+  if (run !== BR.check || m !== BR.model) return;
+  dbg("warm", JSON.stringify({model: m, ms: Math.round(performance.now() - t0)}));
+  BR.status = "ready"; renderStatus();
+}
+const isReady = () => CLAUDE ? !!V.ai : BR.status === "ready" || BR.status === "waking";
+
+function systemPrompt(tp) {
+  let about;
+  if (tp.kind === "own") about = "The learner chose this topic: \"" + tp.own + "\". Talk about it, and follow the conversation naturally if it moves to something close.";
+  else if (tp.scene) about = "ROLE-PLAY: " + tp.scene + " Stay in this role for the whole call, and never say you are an AI.";
+  else about = "Topic: " + tp.about + ". Follow the conversation naturally if it moves to something close.";
+  // The fixed rules come first and the topic last, so Ollama can reuse the start of the prompt between calls.
+  return [
+    "You are Alex, a friendly English conversation partner on a voice call with an English learner. The learner is an adult at about B1 level (intermediate). They understand a lot, and they are practising speaking.",
+    "",
+    "YOUR REPLY (the \"reply\" field):",
+    "- Talk like a real person on a relaxed call, not like a teacher.",
+    "- 1 to 3 short sentences in everyday English. The reply is never empty. No lists, no emojis, no actions in brackets.",
+    "- React to what the learner just said. Share a small opinion or experience of your own, like a real person would.",
+    "- Usually end with one easy question, so the learner keeps talking.",
+    "- If you don't understand the learner, ask a short, friendly question about what they mean.",
+    "- Never talk about the learner's mistakes in the reply. Never explain grammar, and never say \"good job\".",
+    "",
+    "YOUR CORRECTIONS (the \"fixes\" field):",
+    "- Look only at the learner's LAST message.",
+    "- The learner's words come from speech recognition. They have no punctuation or capital letters, and sometimes a wrong word that sounds similar. Never fix punctuation, capital letters, spelling, or words that look like recognition errors.",
+    "- Only fix real mistakes in grammar, word choice or word order that a good teacher would correct. Give at most 2 fixes, the most important first.",
+    "- \"you_said\": the exact short part of the learner's message with the mistake (2 to 8 words, copied exactly).",
+    "- \"better\": the same part, corrected, in natural English.",
+    "- \"why\": the reason in 8 words or fewer, in simple English, like \"past tense: went\".",
+    "- If the last message has no real mistakes, \"fixes\" is an empty list [].",
+    "",
+    "Answer only with JSON: {\"fixes\": [ ... ], \"reply\": \"...\"}",
+    "",
+    "THIS CALL: " + about
+  ].join("\n");
+}
+/* The conversation sent to the brain: the system prompt plus the last ~20 turns. */
+function messagesFor(nudge) {
+  let h = CALL.hist.slice(-40);
+  while (h.length && h[0].role !== "user") h = h.slice(1);
+  const sys = systemPrompt(CALL.topic) + (nudge ? "\n\nIMPORTANT: your last answer had an empty \"reply\". Write 1 to 3 sentences in \"reply\"." : "");
+  return [{role:"system", content: sys}].concat(h);
+}
+
+/* Pull the "reply" text out of JSON that is still arriving. */
+function partialReply(buf) {
+  const m = /"reply"\s*:\s*"/.exec(buf);
+  if (!m) return {text:"", closed:false};
+  let i = m.index + m[0].length, out = "";
+  while (i < buf.length) {
+    const ch = buf[i];
+    if (ch === '"') return {text: out, closed: true};
+    if (ch === "\\") {
+      if (i + 1 >= buf.length) break;
+      const e = buf[i + 1];
+      if (e === "u") {
+        if (i + 6 > buf.length) break;
+        const hex = buf.slice(i + 2, i + 6);
+        if (/^[0-9a-fA-F]{4}$/.test(hex)) out += String.fromCharCode(parseInt(hex, 16));
+        i += 6; continue;
+      }
+      const map = {n:" ", t:" ", r:"", b:"", f:"", '"':'"', "\\":"\\", "/":"/"};
+      out += Object.prototype.hasOwnProperty.call(map, e) ? map[e] : e;
+      i += 2; continue;
+    }
+    out += ch; i++;
+  }
+  return {text: out, closed: false};
+}
+/* The fixes come before the reply, so they can be shown as soon as the reply starts. */
+function earlyFixes(buf) {
+  const m = /"reply"\s*:/.exec(buf);
+  if (!m) return null;
+  const head = buf.slice(0, m.index).replace(/,\s*$/, "").trim();
+  try { const j = JSON.parse(head + "}"); return Array.isArray(j.fixes) ? j.fixes : []; } catch (e) { return null; }
+}
+function parseFull(raw) {
+  const s = String(raw || "").trim().replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "").trim();
+  const a = s.indexOf("{"), b = s.lastIndexOf("}");
+  if (a >= 0 && b > a) {
+    try {
+      const j = JSON.parse(s.slice(a, b + 1));
+      return {fixes: Array.isArray(j.fixes) ? j.fixes : [], reply: typeof j.reply === "string" ? j.reply : ""};
+    } catch (e) {}
+  }
+  const p = partialReply(s);
+  if (p.text) return {fixes: earlyFixes(s) || [], reply: p.text};
+  if (s && !/^[\[{]/.test(s)) return {fixes: [], reply: s};   // plain text instead of JSON: still a usable answer
+  return {fixes: [], reply: ""};
+}
+const cleanReply = s => String(s || "").replace(/\*[^*]{1,60}\*/g, " ").replace(/^\s*(Alex|Me|Partner)\s*:\s*/i, "").replace(/\s+/g, " ").trim();
+/* Keep a fix only if it really changes something the learner said. */
+function cleanFixes(list, said, max) {
+  const n = " " + normTxt(said) + " ";
+  const out = [];
+  (Array.isArray(list) ? list : []).forEach(f => {
+    const x = cleanFix(f); if (!x) return;
+    x.you_said = x.you_said.replace(/^["“'‘]+|["”'’.]+$/g, "").trim();
+    x.better = x.better.replace(/^["“'‘]+|["”']+$/g, "").trim();
+    if (!x.you_said || !x.better) return;
+    if (normTxt(x.you_said) === normTxt(x.better)) return;   // only punctuation or capitals changed
+    const w = normTxt(x.you_said).split(" ").filter(Boolean);
+    const hits = w.filter(t => n.includes(" " + t + " ")).length;
+    if (!w.length || hits / w.length < 0.6) return;            // the learner didn't say this
+    if (out.some(o => sameMistake(o, x))) return;
+    out.push(x);
+  });
+  return out.slice(0, max || 2);
+}
+/* Split finished sentences off the reply, so Alex can start speaking early. */
+function takeSentences(text, from, closed) {
+  const rest = text.slice(from);
+  const parts = [];
+  let idx = 0, m;
+  const re = /[.!?…]+["'”’)\]]*(\s+|$)/g;
+  while ((m = re.exec(rest))) {
+    const end = m.index + m[0].length;
+    if (!m[1] && !closed) break;          // the sentence might not be finished yet
+    if (/\b(Mr|Mrs|Ms|Dr|St|vs|etc|e\.g|i\.e)$/i.test(rest.slice(idx, m.index))) { if (end >= rest.length) break; continue; }
+    const s = rest.slice(idx, end).trim();
+    if (s) parts.push(s);
+    idx = end;
+    if (end >= rest.length) break;
+  }
+  if (closed) { const s = rest.slice(idx).trim(); if (s) parts.push(s); idx = rest.length; }
+  return {parts, next: from + idx};
+}
+
+async function ollamaChat(msgs, h) {
+  const body = {model: BR.model, messages: msgs, stream: true, keep_alive: "30m", format: TURN_SCHEMA,
+                options: {temperature: 0.7, num_ctx: 8192}};
+  if (/^qwen3/i.test(BR.model)) body.think = false;
+  let r;
+  try {
+    r = await fetch(BR.url + "/api/chat", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body), signal: h.signal});
+  } catch (e) {
+    if (e && e.name === "AbortError") throw {code:"cancelled"};
+    throw {code:"down", text: String(e && e.message || e)};
+  }
+  if (!r.ok) { let t = ""; try { t = await r.text(); } catch (e) {} throw {code: r.status === 404 ? "nomodel" : "http", text: t}; }
+  const reader = r.body.getReader(), dec = new TextDecoder();
+  let lines = "", buf = "";
+  try {
+    for (;;) {
+      const {value, done} = await reader.read();
+      if (done) break;
+      lines += dec.decode(value, {stream: true});
+      let nl;
+      while ((nl = lines.indexOf("\n")) >= 0) {
+        const line = lines.slice(0, nl).trim(); lines = lines.slice(nl + 1);
+        if (!line) continue;
+        let j; try { j = JSON.parse(line); } catch (e) { continue; }
+        if (j.error) throw {code:"model", text: String(j.error)};
+        if (j.message && j.message.content) { buf += j.message.content; h.onText(buf); }
+        if (h.enough && h.enough(buf)) { try { reader.cancel(); } catch (e) {} return buf; }   // the rest is only "}" and spaces
+      }
+    }
+  } catch (e) {
+    if (e && e.name === "AbortError") throw {code:"cancelled"};
+    throw e && e.code ? e : {code:"down", text: String(e && e.message || e)};
+  }
+  return buf;
+}
+function claudePrompt(msgs) {
+  const sys = msgs[0].content;
+  const conv = msgs.slice(1).map(m => (m.role === "user" ? "Learner: " : "Alex: ") + m.content).join("\n");
+  return sys + "\n\nTHE CALL SO FAR:\n\"\"\"\n" + conv + "\n\"\"\"\n\nWrite Alex's next turn now. Answer only with the JSON object, nothing else.";
+}
+const stripFence = t => String(t || "").replace(/^\s*```(?:json)?\s*/i, "").replace(/```\s*$/, "");
+async function claudeChat(msgs, h) {
+  const ctl = new AbortController();
+  if (h.signal) h.signal.addEventListener("abort", () => ctl.abort());
+  try {
+    const r = await V.ai(claudePrompt(msgs), {modelTier:"quick", cache:false, signal: ctl.signal,
+      onText: ({text}) => h.onText(stripFence(text))});
+    return stripFence(r && r.text);
+  } catch (e) {
+    if (e && (e.code === "cancelled" || e.name === "AbortError")) throw {code:"cancelled"};
+    throw e;
+  }
+}
+
+/* ---------- The call ---------- */
+let VIEW = "start";
+let CALL = {on:false};
+let LAST = null;   // the summary of the call that just ended
+function newCall(tp) {
+  return {on:true, topic:tp, label: tp.kind === "own" ? tp.own : tp.t, start: Date.now(), turns:[], hist:[],
+          busy:false, ctl:null, gen:0, paused:false, sending:false, retry:null, timer:null};
+}
+function currentTopic() {
+  const s = state.settings;
+  if (s.topic === "own" && s.own.trim()) return {kind:"own", k:"own", own: s.own.trim().slice(0, 120), t: s.own.trim().slice(0, 60)};
+  const tp = topicByKey(s.topic) || TOPICS[0];
+  return Object.assign({kind: tp.scene ? "role" : "topic"}, tp);
+}
+function startCall() {
+  if (!isReady()) { toast(CLAUDE ? "Claude isn't available on this page." : "Your partner isn't ready yet. Check the box at the top."); return; }
+  const tp = currentTopic();
+  if (state.settings.topic === "own" && !state.settings.own.trim()) { toast("Write your topic first, or choose one."); const o = $("#ownTopic"); if (o) o.focus(); return; }
+  stopPartnerVoice();
+  CALL = newCall(tp);
+  LAST = null;
+  CALL.hist.push({role:"user", content: tp.kind === "own"
+    ? "Hi Alex! I'm ready for our practice call. I'd like to talk about: " + tp.own
+    : "Hi Alex! I'm ready for our practice call."});
+  VIEW = "call"; renderView();
+  CALL.timer = setInterval(() => { const t = $("#timer"); if (t && CALL.on) t.textContent = clock((Date.now() - CALL.start) / 1000); }, 1000);
+  if (tp.o) {
+    // A ready-made greeting, so the call starts at once.
+    const o = pickOne(tp.o);
+    CALL.turns.push({who:"p", text:o}); CALL.hist.push({role:"assistant", content:o});
+    renderChat();
+    speakPartner(o, SPK.gen);
+    updatePhase();
+    if (!V.tts && !V.synth) maybeYourTurn();
+  } else runPartner(null);
+}
+async function runPartner(uTurn) {
+  const gen = ++CALL.gen;
+  const ctl = new AbortController(); CALL.ctl = ctl; CALL.retry = null;
+  const pTurn = {who:"p", text:"", typing:true};
+  CALL.turns.push(pTurn); renderChat();
+  CALL.busy = true; updatePhase();
+  const sgen = SPK.gen;
+  const t0 = performance.now();
+  let tFirst = 0, spokenTo = 0, fixesShown = false, lastLen = -1;
+  const enough = buf => partialReply(buf).closed && earlyFixes(buf) !== null;
+  const onText = buf => {
+    if (gen !== CALL.gen || !CALL.on) return;
+    if (uTurn && !fixesShown) { const f = earlyFixes(buf); if (f) { fixesShown = true; uTurn.fixes = cleanFixes(f, uTurn.text); if (uTurn.fixes.length) renderChat(); } }
+    const p = partialReply(buf);
+    if (p.text && p.text.length !== lastLen) { lastLen = p.text.length; pTurn.text = p.text; pTurn.typing = false; updateBubble(pTurn); }
+    const r = takeSentences(p.text, spokenTo, p.closed);
+    if (r.parts.length) {
+      if (!tFirst) { tFirst = performance.now(); dbg("first-sentence", JSON.stringify({model: CLAUDE ? "claude" : BR.model, ms: Math.round(tFirst - t0)})); }
+      r.parts.forEach(s => speakPartner(s, sgen)); spokenTo = r.next;
+    }
+  };
+  try {
+    let res = null;
+    // Small models sometimes leave the reply empty: ask once more before giving up.
+    for (let attempt = 0; attempt < 2; attempt++) {
+      let raw;
+      try { raw = await (CLAUDE ? claudeChat : ollamaChat)(messagesFor(attempt > 0), {onText, enough, signal: ctl.signal}); }
+      catch (e) {
+        // The model stopped half-way (for example "token repeat limit"): keep the part of the answer that already arrived.
+        if (e && e.code === "model" && pTurn.text.trim()) {
+          dbg("kept partial reply", e.text);
+          const cut = pTurn.text.match(/^[\s\S]*[.!?…]/);   // drop a half-finished last sentence
+          raw = JSON.stringify({fixes: (uTurn && uTurn.fixes) || [], reply: cut ? cut[0] : pTurn.text});
+        }
+        else throw e;
+      }
+      if (gen !== CALL.gen || !CALL.on) return;
+      dbg("raw", JSON.stringify(raw));
+      res = parseFull(raw);
+      if (res.reply.trim()) break;
+      dbg("empty reply" + (attempt ? "" : ", asking again"));
+      spokenTo = 0; lastLen = -1;
+    }
+    const reply = res.reply.trim();
+    if (!reply) throw {code:"empty"};
+    if (uTurn) uTurn.fixes = cleanFixes(res.fixes, uTurn.text);
+    pTurn.text = cleanReply(reply); pTurn.typing = false;
+    renderChat();
+    const r = takeSentences(reply, Math.min(spokenTo, reply.length), true);
+    if (r.parts.length && !tFirst) { tFirst = performance.now(); dbg("first-sentence", JSON.stringify({model: CLAUDE ? "claude" : BR.model, ms: Math.round(tFirst - t0)})); }
+    r.parts.forEach(s => speakPartner(s, sgen));
+    CALL.hist.push({role:"assistant", content: pTurn.text});
+    dbg("turn", JSON.stringify({model: CLAUDE ? "claude" : BR.model, first: Math.round(tFirst - t0), total: Math.round(performance.now() - t0),
+      fixes: uTurn ? uTurn.fixes : [], reply: pTurn.text}));
+  } catch (e) {
+    if (gen !== CALL.gen) return;
+    CALL.turns = CALL.turns.filter(t => t !== pTurn);
+    if (e && e.code === "cancelled") { renderChat(); return; }
+    dbg("brain error", JSON.stringify(e));
+    CALL.retry = uTurn || "start";
+    brainError(e);
+    renderChat();
+  } finally {
+    if (gen === CALL.gen) { CALL.busy = false; CALL.ctl = null; if (CALL.retry) renderChat(); updatePhase(); maybeYourTurn(); }
+  }
+}
+function brainError(e) {
+  const c = e && e.code;
+  if (CLAUDE) {
+    if (AI_OFF.includes(c)) { V.ai = null; document.body.classList.remove("has-ai"); renderStatus(); toast("Claude can't play Alex on this page."); return; }
+    toast(c === "rate_limited" || c === "queue_overflow" ? "Too many requests right now. Wait a minute, then press Try again." : "Alex didn't answer. Press Try again.");
+    return;
+  }
+  if (c === "down") { BR.status = "down"; renderStatus(); toast("Alex can't be reached. Is Ollama running? See the help box."); return; }
+  if (c === "nomodel") { toast("That AI model isn't on your Mac any more. Choose another one."); checkOllama(); return; }
+  toast("Alex didn't answer. Press Try again.");
+}
+async function sendTurn(text) {
+  text = String(text || "").trim();
+  if (!text || !CALL.on) return;
+  while (CALL.busy && CALL.on) await sleep(120);   // Alex is still answering: wait for the end of it
+  if (!CALL.on) return;
+  const u = {who:"u", text, fixes:null};
+  CALL.turns.push(u); CALL.hist.push({role:"user", content:text});
+  renderChat();
+  await runPartner(u);
+}
+function retryTurn() {
+  if (!CALL.on || CALL.busy || !CALL.retry || (CLAUDE && !V.ai)) return;
+  const u = CALL.retry === "start" ? null : CALL.retry;
+  runPartner(u);
+}
+async function stopAndSend() {
+  if (CALL.sending) return;
+  CALL.sending = true;
+  try {
+    if (V.dict && V.dict.active()) await settle(V.dict.stop(), 2000);
+    const box = $("#say"); if (!box) return;
+    const text = box.value.trim();
+    if (!text) { if (state.settings.mode !== "free" || CLAUDE) toast("I didn't hear anything. Tap the mic and try again."); return; }
+    box.value = ""; V.partial = ""; const p = $("#partial"); if (p) p.textContent = "";
+    sendTurn(text);
+  } finally { CALL.sending = false; }
+}
+/* Claude's voice typing must start straight from a click: this runs inside the click handler, with nothing awaited first. */
+function micTap() {
+  if (!CALL.on || !V.dict) return;
+  if (SPK.pending > 0) stopPartnerVoice();   // tapping while Alex talks stops the voice
+  if (V.dict.active()) {
+    const box = $("#say");
+    if (handsFree()) { CALL.paused = true; if (box && box.value.trim()) stopAndSend(); else settle(V.dict.stop(), 1500); updatePhase(); return; }
+    stopAndSend(); return;
+  }
+  CALL.paused = false;
+  V.dict.start({language:"en"}).catch(onDictError);
+}
+const handsFree = () => !CLAUDE && state.settings.mode === "free";
+/* After Alex finishes, hands-free mode listens again by itself. */
+function maybeYourTurn() {
+  updatePhase();
+  if (!CALL.on || CALL.busy || SPK.pending > 0 || !handsFree() || CALL.paused || !V.dict || V.dict.active()) return;
+  setTimeout(() => {
+    if (!CALL.on || CALL.busy || SPK.pending > 0 || CALL.paused || !handsFree() || !V.dict || V.dict.active()) return;
+    V.lastHeard = Date.now();
+    V.dict.start({language:"en"}).catch(() => { CALL.paused = true; updatePhase(); toast("Tap the mic to talk."); });
+  }, 350);
+}
+/* Hands-free: about 1.4 seconds of silence after your words sends them. */
+setInterval(() => {
+  if (!CALL.on || !handsFree() || !V.dict || !V.dict.active() || CALL.sending) return;
+  const box = $("#say");
+  if (box && box.value.trim() && !V.partial && Date.now() - V.lastHeard >= 1400) stopAndSend();
+}, 200);
+async function endCall() {
+  if (!CALL.on) return;
+  CALL.on = false; CALL.gen++;
+  if (CALL.ctl) { try { CALL.ctl.abort(); } catch (e) {} }
+  clearInterval(CALL.timer);
+  stopPartnerVoice();
+  if (V.dict && V.dict.active()) settle(V.dict.stop(), 1500);
+  const secs = (Date.now() - CALL.start) / 1000;
+  const mine = CALL.turns.filter(t => t.who === "u");
+  if (!mine.length) { VIEW = "start"; renderView(); toast("Call ended. Next time, say a few sentences to Alex!"); return; }
+  const found = [];
+  mine.forEach(t => (t.fixes || []).forEach(f => { if (!found.some(x => sameMistake(x, f))) found.push(f); }));
+  const rec = {id: newId(), date: today(), topic: CALL.label, minutes: round1(Math.max(0.1, secs / 60)),
+               words: mine.reduce((s, t) => s + countWords(t.text), 0), turns: mine.length, fixes: found.slice(0, 6)};
+  state.calls.push(rec); save(); renderStats(); renderHistory();
+  const L = {rec, turns: CALL.turns.slice(), topic: CALL.topic, went:null, fixes: found.slice(0, 6), tries:null, loading:true, saved:false, sel:null};
+  LAST = L;
+  VIEW = "summary"; renderView();
+  const mineText = mine.map(t => t.text).join(" \n ");
+  try {
+    const s = await brainSummary(CALL.turns, found);
+    const went = (Array.isArray(s.went_well) ? s.went_well : []).map(x => str(x, 240).trim()).filter(Boolean).slice(0, 3);
+    const top = cleanFixes(s.top_fixes, mineText, 6);
+    const tries = (Array.isArray(s.try_next) ? s.try_next : []).map(x => str(x, 120).trim().replace(/^["“]|["”]$/g, "")).filter(Boolean).slice(0, 2);
+    L.went = went.length >= 2 ? went : went.concat(fallbackWent(rec)).slice(0, 3);
+    if (top.length) L.fixes = mergeFixes(top, found).slice(0, 6);
+    L.tries = tries.concat(["Let me think…", "What about you?"].filter(x => !tries.includes(x))).slice(0, 2);
+  } catch (e) {
+    dbg("summary failed", JSON.stringify(e && (e.code || e.message) || e));
+    L.went = fallbackWent(rec);
+    L.tries = ["Let me think…", "What about you?"];
+  }
+  L.loading = false;
+  rec.fixes = L.fixes.slice(0, 6); save(); renderStats(); renderHistory();
+  if (VIEW === "summary" && LAST === L) renderView();
+}
+/* One fix per mistake: if one fix is inside another ("I go to market" inside "yesterday I go to market and buy…"), keep the first. */
+function sameMistake(a, b) {
+  const x = normTxt(a.you_said), y = normTxt(b.you_said);
+  return x === y || (" " + x + " ").includes(" " + y + " ") || (" " + y + " ").includes(" " + x + " ");
+}
+function mergeFixes(a, b) {
+  const out = [];
+  a.concat(b).forEach(f => { if (!out.some(x => sameMistake(x, f))) out.push(f); });
+  return out;
+}
+function fallbackWent(rec) {
+  return ["You spoke " + rec.words + " words in English, out loud.", "You kept the conversation going for " + rec.turns + (rec.turns === 1 ? " turn." : " turns.")];
+}
+function transcriptOf(turns) {
+  return turns.filter(t => t.text && !t.typing).map(t => (t.who === "u" ? "Learner: " : "Alex: ") + t.text).join("\n").slice(-12000);
+}
+const SUM_PROMPT = "You are a kind English coach. An adult English learner (about B1) just finished a practice call with Alex, a conversation partner. " +
+  "The learner's lines come from speech recognition: ignore punctuation, capital letters and small recognition errors.\n\n" +
+  "Reply with JSON only, like this: {\"went_well\": [\"...\"], \"top_fixes\": [{\"you_said\": \"...\", \"better\": \"...\", \"why\": \"...\"}], \"try_next\": [\"...\"]}\n" +
+  "- went_well: 2 or 3 short, specific sentences about what the learner did well in this call, for example a good word, a full answer, a question they asked, or a correct past tense. Speak to the learner as \"you\". Simple English. You only have the text, so never talk about their voice, pronunciation, pace or confidence.\n" +
+  "- top_fixes: up to 6 of the most useful corrections of the learner's real mistakes. you_said = the exact words they said (2 to 8 words); better = the corrected words; why = 8 words or fewer. Use the fixes found during the call if they are right, and add an important mistake that was missed. Only use words the learner really said.\n" +
+  "- try_next: 2 natural, useful phrases that the LEARNER could say next time to sound more natural or keep a conversation going, each under 10 words. Good examples: \"That reminds me of…\", \"What about you?\", \"To be honest, I…\", \"I'm really into…\". They are things to say, not questions for the learner.";
+async function brainSummary(turns, found) {
+  const fx = found.length ? found.map(f => "- " + f.you_said + " → " + f.better + (f.why ? " (" + f.why + ")" : "")).join("\n") : "(none)";
+  const user = "THE CALL:\n\"\"\"\n" + transcriptOf(turns) + "\n\"\"\"\n\nFIXES FOUND DURING THE CALL:\n" + fx;
+  if (CLAUDE) {
+    if (!V.ai) throw {code:"no_ai"};
+    return await V.ai.json(SUM_PROMPT + "\n\n" + user, {modelTier:"default"});
+  }
+  const r = await fetchT(BR.url + "/api/chat", {method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({model: BR.model, stream: false, keep_alive: "30m", format: SUM_SCHEMA, options: {temperature: 0.4, num_ctx: 8192},
+      messages: [{role:"system", content: SUM_PROMPT}, {role:"user", content: user}], ...( /^qwen3/i.test(BR.model) ? {think:false} : {})})}, 120000);
+  if (!r.ok) throw {code:"http", status: r.status};
+  const j = await r.json();
+  const s = String((j.message && j.message.content) || "");
+  dbg("summary raw", JSON.stringify(s));
+  const a = s.indexOf("{"), b = s.lastIndexOf("}");
+  return JSON.parse(s.slice(a, b + 1));
+}
+function saveToNotebook() {
+  if (!LAST || CLAUDE) return;
+  const picked = LAST.fixes.filter((f, i) => !LAST.sel || LAST.sel[i] !== false);
+  if (!picked.length) { toast("Tick at least one fix first."); return; }
+  let inbox = [];
+  try { inbox = JSON.parse(localStorage.getItem(INBOX_KEY) || "[]"); if (!Array.isArray(inbox)) inbox = []; } catch (e) { inbox = []; }
+  const t = today();
+  picked.forEach(f => inbox.push({wrong: f.you_said, right: f.better, note: f.why || "", from: "call", created: t}));
+  try { localStorage.setItem(INBOX_KEY, JSON.stringify(inbox.slice(-300))); }
+  catch (e) { toast("Saving didn't work. Your browser may be blocking storage."); return; }
+  LAST.saved = true; renderView();
+  toast(picked.length + (picked.length === 1 ? " fix was" : " fixes were") + " sent to My Notebook. Open it to practise them out loud.");
+}
+function copyFixes() {
+  if (!LAST) return;
+  const picked = LAST.fixes.filter((f, i) => !LAST.sel || LAST.sel[i] !== false);
+  if (!picked.length) { toast("Tick at least one fix first."); return; }
+  copyText(picked.map(f => f.you_said + " → " + f.better).join("\n"), "#fixCopy", "Copied. Paste it into My Notebook's Paste box.");
+}
+const PHONE_PROMPT = () => {
+  const tp = currentTopic();
+  const about = tp.kind === "own" ? tp.own : tp.scene ? "a role-play: " + tp.scene.replace(/You \(Alex\)/g, "You") : tp.about;
+  return "Let's have an English practice call by voice. I'm an adult English learner, about B1 level. I understand a lot, but I want to practise speaking.\n\n" +
+    "Topic: " + about + "\n\n" +
+    "Rules:\n- Talk with me like a friendly, real person. Use simple, everyday English.\n- Keep each of your turns short: 1 to 3 sentences, and usually end with a question.\n" +
+    "- After each of my turns, if I made a real grammar or word-choice mistake, first say \"Small fix:\" and give the better way in one short sentence. Then continue the conversation naturally. Don't correct small things or pronunciation.\n" +
+    "- When I say \"End the call\", give me a summary: 3 things I did well, my top 5 mistakes (what I said → a better way), and 2 phrases to try next time.\n\nPlease start now with a short greeting and a question.";
+};
+
+/* ---------- Rendering ---------- */
+function weekMinutes() {
+  const d = new Date(); d.setDate(d.getDate() - 6);
+  const from = ymd(d);
+  return round1(state.calls.filter(c => c.date >= from).reduce((s, c) => s + c.minutes, 0));
+}
+function renderStats() {
+  const words = state.calls.reduce((s, c) => s + c.words, 0);
+  const fixes = state.calls.reduce((s, c) => s + c.fixes.length, 0);
+  const st = (k, v, small) => '<div class="stat"><span class="k">' + k + '</span><span class="v">' + v + '<small>' + small + '</small></span></div>';
+  $("#stats").innerHTML = st("This week", weekMinutes(), "minutes") + st("Calls", state.calls.length, "in total") +
+    st("Your words", words, "spoken") + st("Fixes", fixes, "found");
+}
+function renderStatus() {
+  const el = $("#status"), help = $("#help");
+  let dot = "wait", txt = "";
+  if (CLAUDE) {
+    if (V.ai) { dot = "ok"; txt = "Ready. Claude plays Alex."; }
+    else if (BR.status === "claude-wait" && !document.body.classList.contains("caps-ready")) txt = "Connecting…";
+    else { dot = "bad"; txt = "Claude isn't available on this page."; }
+  } else {
+    const s = BR.status;
+    if (s === "checking") txt = "Looking for your partner…";
+    else if (s === "waking") txt = "Waking up your partner… (" + BR.model + ")";
+    else if (s === "ready") { dot = "ok"; txt = "Ready: " + BR.model; }
+    else if (s === "nomodel") { dot = "bad"; txt = "Ollama is running, but there's no AI model yet."; }
+    else { dot = "bad"; txt = "Can't reach your partner (Ollama)."; }
+  }
+  el.innerHTML = '<span class="dot ' + dot + '"></span><span>' + esc(txt) + '</span>';
+  // Model picker
+  const mf = $("#modelField"), sel = $("#modelSel"), mn = $("#modelNote");
+  if (!CLAUDE) {
+    mf.hidden = !BR.models.length;
+    sel.innerHTML = BR.models.map(m => '<option value="' + esc(m) + '"' + (m === BR.model ? " selected" : "") + '>' + esc(m) + '</option>').join("");
+    mn.textContent = BR.models.length && !/27b|12b/i.test(BR.model)
+      ? "Tip: a bigger model gives better answers and fixes. In the Terminal app, run “ollama pull gemma3:27b”, then press Check again and choose it here." : "";
+    help.hidden = !(BR.status === "down" || BR.status === "nomodel");
+    if (!help.hidden) renderHelp();
+  }
+  const sb = $("#startBtn"); if (sb) sb.disabled = !isReady();
+  const sn = $("#startNote"); if (sn) sn.innerHTML = startNote();
+}
+function startNote() {
+  if (CLAUDE) return V.ai ? "" : 'Practice Call needs Claude, and Claude isn\'t available on this page. On your Mac, use the website version: <a href="' + SITE_URL + '" target="_blank" rel="noopener">starray500.github.io/speaking-gym/call.html</a>. On your phone, use a free AI voice app like Gemini Live or ChatGPT voice.';
+  if (BR.status === "waking") return "Your partner is waking up. The first answer can take a little longer.";
+  if (BR.status === "checking") return "Looking for your partner…";
+  if (BR.status !== "ready") return "Your partner isn't ready. Follow the help box above, then press Check again.";
+  return "";
+}
+function renderHelp() {
+  const cmd = (id, text) => '<div class="cmd"><pre id="' + id + '">' + esc(text) + '</pre><button type="button" class="icon-btn" data-copy="' + id + '" aria-label="Copy">' + I.copy + '</button></div>';
+  const allow = 'P=~/Library/LaunchAgents/sh.brew.ollama.plist\n/usr/libexec/PlistBuddy -c "Add :EnvironmentVariables:OLLAMA_ORIGINS string https://starray500.github.io" $P\nlaunchctl bootout gui/$(id -u) $P; launchctl bootstrap gui/$(id -u) $P';
+  const nomodel = BR.status === "nomodel";
+  $("#help").innerHTML =
+    '<p class="eyebrow">Help</p><h2>' + (nomodel ? "Download Alex's brain" : "Let's connect your partner") + '</h2>' +
+    '<p class="lede">Alex runs on your own Mac with Ollama, a free program. It is free, private and has no limits. ' +
+      (nomodel ? "Ollama is running, but it has no AI model yet." : "This page can't reach Ollama right now. Open the Terminal app and try these steps, one by one.") + '</p>' +
+    '<ol class="help-steps">' +
+      (nomodel ? "" : '<li><p><b>Start Ollama.</b></p>' + cmd("cmdStart", "brew services start ollama") + '</li>') +
+      '<li><p><b>Download the AI model</b> (about 17 GB, only once).</p>' + cmd("cmdPull", "ollama pull gemma3:27b") + '</li>' +
+      (nomodel ? "" : '<li><p><b>Allow this website to talk to Ollama.</b></p>' + cmd("cmdAllow", allow) + '<p class="note">After an Ollama update you may need to do this again.</p></li>' +
+      '<li><p><b>In Chrome:</b> if it asks to let this site use "apps on this device", choose <b>Allow</b>.</p></li>') +
+    '</ol>' +
+    '<div class="row"><button type="button" class="btn primary" data-act="recheck">Retry</button></div>' +
+    '<div class="copy-out" id="helpCopy"></div>' +
+    '<p class="note">On your phone? The free brain runs on your Mac. On your phone, use Gemini Live or ChatGPT voice, with the phone prompt in the side panel.</p>';
+}
+function renderVoices() {
+  const sel = $("#voiceSel"); if (!sel) return;
+  if (!V.voices.length) { sel.innerHTML = '<option value="">Default voice</option>'; return; }
+  const cur = webVoice();
+  sel.innerHTML = V.voices.map(v => '<option value="' + esc(v.name) + '"' + (cur && v.name === cur.name ? " selected" : "") + '>' + esc(v.name + " (" + v.lang + ")") + '</option>').join("");
+}
+function renderSettings() {
+  const s = state.settings;
+  $("#rate").value = s.rate; $("#rateOut").textContent = s.rate.toFixed(2);
+  $("#cvoiceSel").value = s.cvoice;
+  $("#showFixes").checked = s.showFixes;
+  $("#urlBox").value = BR.url;
+  $$("[data-mode]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.mode === s.mode)));
+  $("#modeNote").textContent = s.mode === "free"
+    ? "Hands-free: just talk. A short silence sends your words. Wear headphones, so the microphone doesn't hear Alex."
+    : "Tap the mic, speak, then tap it again to send.";
+  renderVoices();
+}
+function renderHistory() {
+  const days = [];
+  for (let i = 6; i >= 0; i--) { const d = new Date(); d.setDate(d.getDate() - i); days.push(d); }
+  const mins = days.map(d => round1(state.calls.filter(c => c.date === ymd(d)).reduce((s, c) => s + c.minutes, 0)));
+  const max = Math.max(1, ...mins);
+  const bars = '<div class="bars" role="img" aria-label="Minutes talked on each of the last 7 days">' + days.map((d, i) =>
+    '<div><i class="' + (mins[i] ? "" : "zero") + '" style="height:' + Math.max(4, Math.round(mins[i] / max * 44)) + 'px" title="' + mins[i] + ' min"></i><small>' +
+    d.toLocaleDateString("en-GB", {weekday:"narrow"}) + '</small></div>').join("") + '</div>';
+  const list = state.calls.slice(-8).reverse();
+  $("#history").innerHTML = '<div class="week"><b>' + weekMinutes() + '</b><span>minutes talked this week</span></div>' + bars +
+    (list.length ? '<ul class="history">' + list.map(c => '<li><b>' + esc(c.topic || "Free talk") + '</b><span class="meta">' + esc(c.date) + " · " + c.minutes + " min · " + c.words + " words · " +
+      c.fixes.length + (c.fixes.length === 1 ? " fix" : " fixes") + '</span></li>').join("") + '</ul>'
+      : '<p class="note">No calls yet. Your first one is waiting!</p>');
+}
+function renderView() {
+  const v = $("#view");
+  if (VIEW === "call") { v.innerHTML = callHTML(); renderChat(); updatePhase(); return; }
+  if (VIEW === "summary" && LAST) { v.innerHTML = summaryHTML(); return; }
+  v.innerHTML = startHTML();
+  renderStatus();
+}
+function startHTML() {
+  const s = state.settings;
+  const btn = x => '<button type="button" data-topic="' + x.k + '" aria-pressed="' + (s.topic === x.k) + '"><b>' + esc(x.t) + '</b><small>' + esc(x.s) + '</small></button>';
+  return '<section class="panel" aria-labelledby="h-start">' +
+    '<p class="eyebrow">New call</p><h2 id="h-start">What do you want to talk about?</h2>' +
+    '<div class="pick">' + TOPICS.map(btn).join("") + '</div>' +
+    '<h3 class="sub-h">Or a role-play</h3>' +
+    '<div class="pick">' + ROLES.map(btn).join("") + '</div>' +
+    '<label class="own' + (s.topic === "own" ? " on" : "") + '"><span class="sub-h">Or your own topic</span>' +
+      '<input type="text" id="ownTopic" maxlength="120" placeholder="For example: my favourite football team" value="' + esc(s.own) + '"></label>' +
+    '<div class="start-row"><button type="button" class="btn primary big" id="startBtn" data-act="start"' + (isReady() ? "" : " disabled") + '>Start call</button>' +
+      '<button type="button" class="btn" data-act="surprise">Surprise me</button></div>' +
+    '<p class="note" id="startNote">' + startNote() + '</p>' +
+    '<ol class="how"><li>Choose a topic and start the call. Alex says hello first.</li>' +
+      '<li>Tap the big microphone, say your answer, then tap it again to send. You can also type.</li>' +
+      '<li>Alex answers out loud. Small fixes for your English appear under your words.</li>' +
+      '<li>End the call to see your summary, and save your fixes' + (CLAUDE ? "." : " to My Notebook.") + '</li></ol>' +
+    '<p class="note only-standalone">Works best in Chrome on this Mac. Wear headphones if you can.</p>' +
+    '</section>';
+}
+function callHTML() {
+  return '<section class="panel call" aria-label="Practice call with Alex">' +
+    '<div class="call-top"><div class="who-box"><div class="avatar" id="avatar" aria-hidden="true">A</div><div><b>Alex</b><span class="phase-txt" id="phase" aria-live="polite">…</span></div></div>' +
+      '<div class="call-right"><span class="timer" id="timer">00:00</span><button type="button" class="btn end" data-act="end">End call</button></div></div>' +
+    '<p class="topic-line">Topic: <b>' + esc(CALL.label) + '</b></p>' +
+    '<div class="chat-box" id="chat" aria-live="polite"></div>' +
+    '<div class="composer">' +
+      '<button type="button" class="mic-big need-mic" id="micBtn" data-act="mic" aria-label="Microphone" aria-pressed="false">' + I.mic + '</button>' +
+      '<div class="say-wrap"><textarea id="say" rows="2" placeholder="Tap the mic and speak, or type here"></textarea><p class="partial" id="partial" aria-live="polite"></p></div>' +
+      '<button type="button" class="btn primary send" data-act="send">' + I.send + ' Send</button>' +
+    '</div>' +
+    '<p class="hint" id="hint"></p>' +
+    '</section>';
+}
+function fixHTML(f) {
+  return '<div class="fix"><span aria-hidden="true">💡</span> <s>' + esc(f.you_said) + '</s> → <b>' + esc(f.better) + '</b>' + (f.why ? ' <span class="why">· ' + esc(f.why) + '</span>' : "") + '</div>';
+}
+function bubbleHTML(t, i) {
+  if (t.who === "u") {
+    return '<div class="bubble u" data-i="' + i + '"><span class="who">You</span><p>' + esc(t.text) + '</p></div>' +
+      (state.settings.showFixes && t.fixes && t.fixes.length ? '<div class="fixes">' + t.fixes.map(fixHTML).join("") + '</div>' : "");
+  }
+  return '<div class="bubble p' + (t.typing ? " typing" : "") + '" data-i="' + i + '"><span class="who">Alex</span><p>' + (t.typing ? "Alex is thinking…" : esc(t.text)) + '</p></div>';
+}
+function renderChat() {
+  const box = $("#chat"); if (!box || VIEW !== "call") return;
+  box.innerHTML = CALL.turns.map(bubbleHTML).join("") +
+    (CALL.retry && !CALL.busy && (!CLAUDE || V.ai) ? '<div class="retry">Alex didn\'t answer. <button type="button" class="btn sm" data-act="retry">Try again</button></div>' : "");
+  box.scrollTop = box.scrollHeight;
+}
+function updateBubble(t) {
+  const box = $("#chat"); if (!box) return;
+  const i = CALL.turns.indexOf(t);
+  const el = box.querySelector('.bubble[data-i="' + i + '"]');
+  if (!el) { renderChat(); return; }
+  el.classList.toggle("typing", !!t.typing);
+  const p = el.querySelector("p"); if (p) p.textContent = t.typing ? "Alex is thinking…" : t.text;
+  box.scrollTop = box.scrollHeight;
+}
+function updatePhase() {
+  const av = $("#avatar"), ph = $("#phase"), mic = $("#micBtn"), hint = $("#hint");
+  if (!av || !CALL.on) return;
+  const listening = V.dstate !== "idle";
+  const speaking = SPK.pending > 0;
+  let cls = "", txt;
+  if (speaking) { cls = "speaking"; txt = "Speaking…"; }
+  else if (CALL.busy) { cls = "thinking"; txt = "Thinking…"; }
+  else if (listening) { cls = "listening"; txt = "Listening to you…"; }
+  else txt = "Your turn";
+  av.className = "avatar" + (cls ? " " + cls : "");
+  ph.textContent = txt;
+  if (mic) { mic.classList.toggle("listening", listening); mic.setAttribute("aria-pressed", String(listening)); mic.setAttribute("aria-label", listening ? "Stop and send" : "Start talking"); }
+  if (hint) hint.textContent = !V.dict ? "Type your answer, then press Send."
+    : handsFree() ? (CALL.paused ? "Paused. Tap the mic to talk again." : "Hands-free: just talk. A short silence sends your words. Tap the mic to pause.")
+    : listening ? "Speak now. Tap the mic again to send." : speaking ? "Tap the mic to stop Alex and answer." : "Tap the mic and speak, or type your answer.";
+}
+function summaryHTML() {
+  const L = LAST, r = L.rec;
+  const mins = r.minutes < 1 ? "less than a minute" : (Math.round(r.minutes) === 1 ? "1 minute" : Math.round(r.minutes) + " minutes");
+  const fixRows = L.fixes.map((f, i) => '<li><input type="checkbox" data-sel="' + i + '"' + (!L.sel || L.sel[i] !== false ? " checked" : "") + ' aria-label="Keep this fix">' +
+    '<span><s>' + esc(f.you_said) + '</s> → <b>' + esc(f.better) + '</b>' + (f.why ? '<span class="why">' + esc(f.why) + '</span>' : "") + '</span></li>').join("");
+  return '<section class="panel" aria-labelledby="h-sum">' +
+    '<p class="eyebrow">Call ended · ' + esc(r.topic) + '</p>' +
+    '<h2 id="h-sum">Well done! You talked for ' + mins + '.</h2>' +
+    '<div class="sum-stats"><div class="sum-stat"><b>' + r.minutes + '</b><span>minutes</span></div><div class="sum-stat"><b>' + r.words + '</b><span>your words</span></div><div class="sum-stat"><b>' + r.turns + '</b><span>' + (r.turns === 1 ? "turn" : "turns") + '</span></div></div>' +
+    '<h3>What went well</h3>' +
+    (L.loading ? '<p class="loading">Alex is writing your summary…</p>' : '<ul class="list">' + L.went.map(x => '<li>' + esc(x) + '</li>').join("") + '</ul>') +
+    '<h3>Fixes to remember</h3>' +
+    (L.fixes.length ? '<ul class="fix-list">' + fixRows + '</ul>' +
+      '<div class="row">' + (CLAUDE ? '<button type="button" class="btn primary" data-act="copyfixes">Copy fixes</button>'
+        : '<button type="button" class="btn primary" data-act="savenb"' + (L.saved ? " disabled" : "") + '>' + (L.saved ? "Sent to My Notebook ✓" : "Save fixes to My Notebook") + '</button>' +
+          (L.saved ? '<a class="btn" href="notebook.html">Open My Notebook</a>' : "")) + '</div>' +
+      (CLAUDE ? '<p class="note">Then paste them into My Notebook\'s Paste box.</p>' : "") + '<div class="copy-out" id="fixCopy"></div>'
+      : '<p class="note">' + (L.loading ? "Looking for fixes…" : "No fixes this time. Nice work! Try a longer call, or a harder topic, next time.") + '</p>') +
+    '<h3>Try these next time</h3>' +
+    (L.loading ? '<p class="loading">…</p>' : '<ul class="tries">' + L.tries.map((x, i) => '<li><span>' + esc(x) + '</span><button type="button" class="icon-btn" data-sayit="' + i + '" aria-label="Listen">' + I.play + '</button></li>').join("") + '</ul>') +
+    '<details class="transcript"><summary>Read the whole call</summary><div class="transcript-body">' +
+      L.turns.filter(t => t.text && !t.typing).map(t => '<p><b>' + (t.who === "u" ? "You" : "Alex") + '</b>' + esc(t.text) + '</p>').join("") + '</div></details>' +
+    '<div class="row"><button type="button" class="btn primary" data-act="again">Call again</button><button type="button" class="btn" data-act="new">Choose a new topic</button></div>' +
+    '</section>';
+}
+
+/* ---------- Events ---------- */
+document.addEventListener("click", e => {
+  const b = e.target.closest("button, [data-topic]"); if (!b) return;
+  if (b.dataset.topic) {
+    state.settings.topic = b.dataset.topic; saveLocal();
+    $$("[data-topic]").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.topic === b.dataset.topic)));
+    const own = $(".own"); if (own) own.classList.remove("on");
+    return;
+  }
+  if (b.dataset.mode) { state.settings.mode = b.dataset.mode; CALL.paused = false; save(); renderSettings(); updatePhase(); maybeYourTurn(); return; }
+  if (b.dataset.copy) { const pre = document.getElementById(b.dataset.copy); if (pre) copyText(pre.textContent, "#helpCopy", "Copied. Paste it into the Terminal app."); return; }
+  if (b.dataset.sayit != null && LAST && LAST.tries) { stopPartnerVoice(); speakPartner(LAST.tries[+b.dataset.sayit], SPK.gen); return; }
+  const act = b.dataset.act;
+  if (!act) return;
+  if (act === "start") startCall();
+  else if (act === "surprise") {
+    const t = pickOne(ALL_TOPICS); state.settings.topic = t.k; saveLocal(); renderView(); toast("Topic: " + t.t);
+  }
+  else if (act === "mic") micTap();
+  else if (act === "send") { if (V.dict && V.dict.active()) stopAndSend(); else { const box = $("#say"); const t = box ? box.value.trim() : ""; if (!t) { toast("Say or type something first."); return; } box.value = ""; sendTurn(t); } }
+  else if (act === "end") endCall();
+  else if (act === "retry") retryTurn();
+  else if (act === "savenb") saveToNotebook();
+  else if (act === "copyfixes") copyFixes();
+  else if (act === "again") { VIEW = "start"; startCall(); }
+  else if (act === "new") { VIEW = "start"; LAST = null; renderView(); }
+  else if (act === "recheck") checkOllama();
+  else if (act === "testvoice") testVoice(b);
+  else if (act === "saveurl") {
+    const u = $("#urlBox").value.trim().replace(/\/+$/, "");
+    if (!/^https?:\/\/[^\s"'<>]+$/.test(u)) { toast("That address doesn't look right. It usually is http://localhost:11434"); return; }
+    BR.url = u; state.settings.url = u; save(); checkOllama();
+  }
+  else if (act === "copyphone") copyText(PHONE_PROMPT(), "#phoneOut", "Copied. Paste it into Gemini Live or ChatGPT, then start talking.");
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.id === "modelSel") { BR.model = t.value; state.settings.model = t.value; save(); warmUp(); }
+  else if (t.id === "voiceSel") { state.settings.voice = t.value; save(); }
+  else if (t.id === "cvoiceSel") { state.settings.cvoice = t.value; save(); }
+  else if (t.id === "showFixes") { state.settings.showFixes = t.checked; save(); renderChat(); }
+  else if (t.dataset && t.dataset.sel != null && LAST) { if (!LAST.sel) LAST.sel = LAST.fixes.map(() => true); LAST.sel[+t.dataset.sel] = t.checked; }
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.id === "rate") { state.settings.rate = num(t.value, 0.7, 1.3, 0.95); $("#rateOut").textContent = state.settings.rate.toFixed(2); saveLocal(); }
+  else if (t.id === "ownTopic") {
+    state.settings.own = t.value.slice(0, 120);
+    if (t.value.trim()) { state.settings.topic = "own"; $$("[data-topic]").forEach(x => x.setAttribute("aria-pressed", "false")); const own = $(".own"); if (own) own.classList.add("on"); }
+    saveLocal();
+  }
+  else if (t.id === "say") { V.lastHeard = Date.now(); }
+});
+document.addEventListener("keydown", e => {
+  if (e.target && e.target.id === "say" && e.key === "Enter" && !e.shiftKey && !e.isComposing) {
+    e.preventDefault();
+    const t = e.target.value.trim(); if (!t) return;
+    if (V.dict && V.dict.active()) { stopAndSend(); return; }
+    e.target.value = ""; sendTurn(t);
+  }
+});
+window.addEventListener("pagehide", () => { saveLocal(); });
+
+/* ---------- Start ---------- */
+if (!CLAUDE) {
+  const web = makeWebDictation();
+  if (web) { V.dict = web; wireDictation(); document.body.classList.add("has-mic"); }
+  document.body.classList.add("caps-ready");
+  setSync("site");
+  if (V.synth) { loadVoices(); try { V.synth.addEventListener("voiceschanged", loadVoices); } catch (e) { V.synth.onvoiceschanged = loadVoices; } }
+} else setSync("device");
+renderStats(); renderSettings(); renderHistory(); renderView(); renderStatus();
+if (CLAUDE) {
+  const C = window.claude;
+  const caps = [
+    C.use("dictation").then(d => { if (d) { V.dict = d; wireDictation(); document.body.classList.add("has-mic"); updatePhase(); } }).catch(() => {}),
+    C.use("tts").then(t => { if (t) { V.tts = t; document.body.classList.add("has-voice"); } }).catch(() => {}),
+    C.use("sample").then(s => { if (s) { V.ai = s; document.body.classList.add("has-ai"); } }).catch(() => {})
+  ];
+  Promise.allSettled(caps).then(() => { document.body.classList.add("caps-ready"); BR.status = "claude"; renderStatus(); if (VIEW === "start") renderView(); });
+  connectStore(C);
+} else checkOllama();
+})();
+</script>
+</body>
+</html>

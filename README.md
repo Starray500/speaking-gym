@@ -20,6 +20,10 @@ The home page shows your streak, your progress in each program, and a plan for t
 
 [My Notebook](https://starray500.github.io/speaking-gym/notebook.html) turns your mistakes and "lost words" into cards. You answer every card out loud, and spaced repetition brings each card back just before you forget it. Paste any feedback ("you said → better") and it becomes cards. About 5 minutes a day.
 
+## Practice Call (free AI partner on your Mac)
+
+[Practice Call](https://starray500.github.io/speaking-gym/call.html) is a voice conversation partner, like a language-app call. You talk about any topic, the partner answers out loud, and small corrections appear as you go. The AI runs on your own Mac with [Ollama](https://ollama.com), so it's free, unlimited and private. One-time setup: install Ollama, run `ollama pull gemma3:27b`, and allow this site with `OLLAMA_ORIGINS=https://starray500.github.io` (the page shows the exact commands). On claude.ai, it uses Claude instead.
+
 ## Free feedback tools
 
 No subscription is needed. Everything runs in the browser.
