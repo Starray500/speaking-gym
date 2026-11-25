@@ -648,11 +648,12 @@ function makeWebDictation() {
 
 /* ---------- The brain ---------- */
 const FIX_ITEM = {type:"object", properties:{you_said:{type:"string"}, better:{type:"string"}, why:{type:"string"}}, required:["you_said","better","why"]};
-const TURN_SCHEMA = {type:"object", properties:{fixes:{type:"array", items:FIX_ITEM, maxItems:2}, reply:{type:"string", minLength:2}}, required:["fixes","reply"]};
+// The reply comes first, so Alex can start speaking before the fixes are written.
+const TURN_SCHEMA = {type:"object", properties:{reply:{type:"string", minLength:2}, fixes:{type:"array", items:FIX_ITEM, maxItems:2}}, required:["reply","fixes"]};
 const SUM_SCHEMA = {type:"object", properties:{
   went_well:{type:"array", items:{type:"string"}, maxItems:3},
-  top_fixes:{type:"array", items:FIX_ITEM, maxItems:6},
-  try_next:{type:"array", items:{type:"string"}, maxItems:2}}, required:["went_well","top_fixes","try_next"]};
+  try_next:{type:"array", items:{type:"string"}, maxItems:2},
+  missed_fixes:{type:"array", items:FIX_ITEM, maxItems:2}}, required:["went_well","try_next","missed_fixes"]};
 const qOllama = QS.get("ollama");
 const BR = {url: (qOllama && /^https?:\/\/[^\s"'<>]+$/.test(qOllama)) ? qOllama.replace(/\/+$/, "") : state.settings.url,
             models:[], model:"", status: CLAUDE ? "claude-wait" : "checking", err:"", check:0};
@@ -727,12 +728,14 @@ function systemPrompt(tp) {
     "- Look only at the learner's LAST message.",
     "- The learner's words come from speech recognition. They have no punctuation or capital letters, and sometimes a wrong word that sounds similar. Never fix punctuation, capital letters, spelling, or words that look like recognition errors.",
     "- Only fix real mistakes in grammar, word choice or word order that a good teacher would correct. Give at most 2 fixes, the most important first.",
+    "- British and American English are both correct. Never change one into the other (favourite/favorite, colour/color, at/on the weekend, football/soccer).",
+    "- If the learner's words are already correct English, don't change them, even if you would say it another way. If you are not sure it is a mistake, don't fix it.",
     "- \"you_said\": the exact short part of the learner's message with the mistake (2 to 8 words, copied exactly).",
     "- \"better\": the same part, corrected, in natural English.",
     "- \"why\": the reason in 8 words or fewer, in simple English, like \"past tense: went\".",
     "- If the last message has no real mistakes, \"fixes\" is an empty list [].",
     "",
-    "Answer only with JSON: {\"fixes\": [ ... ], \"reply\": \"...\"}",
+    "Answer only with JSON, reply first: {\"reply\": \"...\", \"fixes\": [ ... ]}",
     "",
     "THIS CALL: " + about
   ].join("\n");
@@ -770,12 +773,21 @@ function partialReply(buf) {
   }
   return {text: out, closed: false};
 }
-/* The fixes come before the reply, so they can be shown as soon as the reply starts. */
+/* The fixes come after the reply. Return them as soon as their list is complete, or null if it isn't yet. */
 function earlyFixes(buf) {
-  const m = /"reply"\s*:/.exec(buf);
+  const m = /"fixes"\s*:\s*\[/.exec(buf);
   if (!m) return null;
-  const head = buf.slice(0, m.index).replace(/,\s*$/, "").trim();
-  try { const j = JSON.parse(head + "}"); return Array.isArray(j.fixes) ? j.fixes : []; } catch (e) { return null; }
+  const start = m.index + m[0].length - 1;
+  for (let end = buf.indexOf("]", start); end >= 0; end = buf.indexOf("]", end + 1)) {
+    try { const a = JSON.parse(buf.slice(start, end + 1)); return Array.isArray(a) ? a : []; } catch (e) {}
+  }
+  return null;
+}
+/* True once the whole JSON answer has arrived (the rest of the stream is only spaces). */
+function wholeAnswer(buf) {
+  const t = String(buf || "").trim();
+  if (!t.endsWith("}")) return false;
+  try { const j = JSON.parse(t); return typeof j.reply === "string" && Array.isArray(j.fixes); } catch (e) { return false; }
 }
 function parseFull(raw) {
   const s = String(raw || "").trim().replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "").trim();
@@ -792,6 +804,9 @@ function parseFull(raw) {
   return {fixes: [], reply: ""};
 }
 const cleanReply = s => String(s || "").replace(/\*[^*]{1,60}\*/g, " ").replace(/^\s*(Alex|Me|Partner)\s*:\s*/i, "").replace(/\s+/g, " ").trim();
+/* British and American spellings mapped to one form (favourite = favorite, travelled = traveled). */
+const usUk = s => normTxt(s).replace(/(\w)our/g, "$1or").replace(/is(e|es|ed|ing|ation)\b/g, "iz$1").replace(/ys(e|es|ed|ing)\b/g, "yz$1")
+  .replace(/(\w)tre(s?)\b/g, "$1ter$2").replace(/ll(ed|ing|er)\b/g, "l$1").replace(/ogue\b/g, "og").replace(/ence\b/g, "ense");
 /* Keep a fix only if it really changes something the learner said. */
 function cleanFixes(list, said, max) {
   const n = " " + normTxt(said) + " ";
@@ -802,6 +817,7 @@ function cleanFixes(list, said, max) {
     x.better = x.better.replace(/^["“'‘]+|["”']+$/g, "").trim();
     if (!x.you_said || !x.better) return;
     if (normTxt(x.you_said) === normTxt(x.better)) return;   // only punctuation or capitals changed
+    if (usUk(x.you_said) === usUk(x.better)) return;         // only British vs American spelling changed
     const w = normTxt(x.you_said).split(" ").filter(Boolean);
     const hits = w.filter(t => n.includes(" " + t + " ")).length;
     if (!w.length || hits / w.length < 0.6) return;            // the learner didn't say this
@@ -831,7 +847,7 @@ function takeSentences(text, from, closed) {
 
 async function ollamaChat(msgs, h) {
   const body = {model: BR.model, messages: msgs, stream: true, keep_alive: "30m", format: TURN_SCHEMA,
-                options: {temperature: 0.7, num_ctx: 8192}};
+                options: {temperature: 0.5, num_ctx: 8192}};   // a little lower = more careful fixes
   if (/^qwen3/i.test(BR.model)) body.think = false;
   let r;
   try {
@@ -924,16 +940,17 @@ async function runPartner(uTurn) {
   const ctl = new AbortController(); CALL.ctl = ctl; CALL.retry = null;
   const pTurn = {who:"p", text:"", typing:true};
   CALL.turns.push(pTurn); renderChat();
-  CALL.busy = true; updatePhase();
+  CALL.busy = true; CALL.replyDone = false; updatePhase();
   const sgen = SPK.gen;
   const t0 = performance.now();
   let tFirst = 0, spokenTo = 0, fixesShown = false, lastLen = -1;
-  const enough = buf => partialReply(buf).closed && earlyFixes(buf) !== null;
+  const enough = wholeAnswer;
   const onText = buf => {
     if (gen !== CALL.gen || !CALL.on) return;
     if (uTurn && !fixesShown) { const f = earlyFixes(buf); if (f) { fixesShown = true; uTurn.fixes = cleanFixes(f, uTurn.text); if (uTurn.fixes.length) renderChat(); } }
     const p = partialReply(buf);
     if (p.text && p.text.length !== lastLen) { lastLen = p.text.length; pTurn.text = p.text; pTurn.typing = false; updateBubble(pTurn); }
+    if (p.closed && p.text && !CALL.replyDone) { CALL.replyDone = true; updatePhase(); }   // the fixes may still be arriving: the learner can answer now
     const r = takeSentences(p.text, spokenTo, p.closed);
     if (r.parts.length) {
       if (!tFirst) { tFirst = performance.now(); dbg("first-sentence", JSON.stringify({model: CLAUDE ? "claude" : BR.model, ms: Math.round(tFirst - t0)})); }
@@ -1039,9 +1056,10 @@ const handsFree = () => !CLAUDE && state.settings.mode === "free";
 /* After Alex finishes, hands-free mode listens again by itself. */
 function maybeYourTurn() {
   updatePhase();
-  if (!CALL.on || CALL.busy || SPK.pending > 0 || !handsFree() || CALL.paused || !V.dict || V.dict.active()) return;
+  const waiting = () => CALL.busy && !CALL.replyDone;   // Alex is still writing the reply (not just the fixes)
+  if (!CALL.on || waiting() || SPK.pending > 0 || !handsFree() || CALL.paused || !V.dict || V.dict.active()) return;
   setTimeout(() => {
-    if (!CALL.on || CALL.busy || SPK.pending > 0 || CALL.paused || !handsFree() || !V.dict || V.dict.active()) return;
+    if (!CALL.on || waiting() || SPK.pending > 0 || CALL.paused || !handsFree() || !V.dict || V.dict.active()) return;
     V.lastHeard = Date.now();
     V.dict.start({language:"en"}).catch(() => { CALL.paused = true; updatePhase(); toast("Tap the mic to talk."); });
   }, 350);
@@ -1074,10 +1092,10 @@ async function endCall() {
   try {
     const s = await brainSummary(CALL.turns, found);
     const went = (Array.isArray(s.went_well) ? s.went_well : []).map(x => str(x, 240).trim()).filter(Boolean).slice(0, 3);
-    const top = cleanFixes(s.top_fixes, mineText, 6);
+    const extra = cleanFixes(s.missed_fixes, mineText, 2);
     const tries = (Array.isArray(s.try_next) ? s.try_next : []).map(x => str(x, 120).trim().replace(/^["“]|["”]$/g, "")).filter(Boolean).slice(0, 2);
     L.went = went.length >= 2 ? went : went.concat(fallbackWent(rec)).slice(0, 3);
-    if (top.length) L.fixes = mergeFixes(top, found).slice(0, 6);
+    if (extra.length) L.fixes = mergeFixes(found, extra).slice(0, 6);
     L.tries = tries.concat(["Let me think…", "What about you?"].filter(x => !tries.includes(x))).slice(0, 2);
   } catch (e) {
     dbg("summary failed", JSON.stringify(e && (e.code || e.message) || e));
@@ -1106,9 +1124,9 @@ function transcriptOf(turns) {
 }
 const SUM_PROMPT = "You are a kind English coach. An adult English learner (about B1) just finished a practice call with Alex, a conversation partner. " +
   "The learner's lines come from speech recognition: ignore punctuation, capital letters and small recognition errors.\n\n" +
-  "Reply with JSON only, like this: {\"went_well\": [\"...\"], \"top_fixes\": [{\"you_said\": \"...\", \"better\": \"...\", \"why\": \"...\"}], \"try_next\": [\"...\"]}\n" +
-  "- went_well: 2 or 3 short, specific sentences about what the learner did well in this call, for example a good word, a full answer, a question they asked, or a correct past tense. Speak to the learner as \"you\". Simple English. You only have the text, so never talk about their voice, pronunciation, pace or confidence.\n" +
-  "- top_fixes: up to 6 of the most useful corrections of the learner's real mistakes. you_said = the exact words they said (2 to 8 words); better = the corrected words; why = 8 words or fewer. Use the fixes found during the call if they are right, and add an important mistake that was missed. Only use words the learner really said.\n" +
+  "Reply with JSON only, like this: {\"went_well\": [\"...\"], \"try_next\": [\"...\"], \"missed_fixes\": [{\"you_said\": \"...\", \"better\": \"...\", \"why\": \"...\"}]}\n" +
+  "- went_well: 2 or 3 short, specific sentences about what the learner did well in this call. Look only at the lines that start with \"Learner:\", never at Alex's words. For example a good word, a full answer, a question they asked, or a correct past tense. Speak to the learner as \"you\". Simple English. You only have the text, so never talk about their voice, pronunciation, pace or confidence.\n" +
+  "- missed_fixes: at most 2 important mistakes in the learner's lines that are NOT already in \"FIXES FOUND DURING THE CALL\". you_said = the exact words they said (2 to 8 words); better = the corrected words; why = 8 words or fewer. Never change British into American English or the other way. If nothing important was missed, use [].\n" +
   "- try_next: 2 natural, useful phrases that the LEARNER could say next time to sound more natural or keep a conversation going, each under 10 words. Good examples: \"That reminds me of…\", \"What about you?\", \"To be honest, I…\", \"I'm really into…\". They are things to say, not questions for the learner.";
 async function brainSummary(turns, found) {
   const fx = found.length ? found.map(f => "- " + f.you_said + " → " + f.better + (f.why ? " (" + f.why + ")" : "")).join("\n") : "(none)";
@@ -1118,7 +1136,7 @@ async function brainSummary(turns, found) {
     return await V.ai.json(SUM_PROMPT + "\n\n" + user, {modelTier:"default"});
   }
   const r = await fetchT(BR.url + "/api/chat", {method:"POST", headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({model: BR.model, stream: false, keep_alive: "30m", format: SUM_SCHEMA, options: {temperature: 0.4, num_ctx: 8192},
+    body: JSON.stringify({model: BR.model, stream: false, keep_alive: "30m", format: SUM_SCHEMA, options: {temperature: 0.4, num_ctx: 8192, num_predict: 400},
       messages: [{role:"system", content: SUM_PROMPT}, {role:"user", content: user}], ...( /^qwen3/i.test(BR.model) ? {think:false} : {})})}, 120000);
   if (!r.ok) throw {code:"http", status: r.status};
   const j = await r.json();
@@ -1328,7 +1346,7 @@ function updatePhase() {
   const speaking = SPK.pending > 0;
   let cls = "", txt;
   if (speaking) { cls = "speaking"; txt = "Speaking…"; }
-  else if (CALL.busy) { cls = "thinking"; txt = "Thinking…"; }
+  else if (CALL.busy && !CALL.replyDone) { cls = "thinking"; txt = "Thinking…"; }
   else if (listening) { cls = "listening"; txt = "Listening to you…"; }
   else txt = "Your turn";
   av.className = "avatar" + (cls ? " " + cls : "");
