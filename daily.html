@@ -1,0 +1,2261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Daily English</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="One small pack of English a day: a grammar point, an idiom, a phrasal verb, phrases, words and a word upgrade, all practised out loud.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a daily language card. A pack rail beside today's seven short steps, with your whole collection below. */
+:root{
+  --bg:#F3F4F9; --surface:#FFFFFF; --ink:#1A2040; --muted:#575E80; --line:#D9DDEA;
+  --accent:#3140A8; --accent-soft:#E5E8FA; --on-accent:#FFFFFF;
+  --mark:#FFE066; --mark-line:#E2B200; --on-mark:#1A2040;
+  --live:#D23838; --live-ring:rgba(210,56,56,.28); --on-live:#FFFFFF;
+  --good:#1B7F52; --good-soft:#E0F3E9; --on-good:#FFFFFF;
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+    --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+    --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+    --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+    --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10132A; --surface:#191D38; --ink:#E8EAF7; --muted:#A1A7C7; --line:#2C3257;
+  --accent:#95A2FF; --accent-soft:#252B54; --on-accent:#10132A;
+  --mark:#665510; --mark-line:#FFD84D; --on-mark:#FFF4C7;
+  --live:#FF6B6B; --live-ring:rgba(255,107,107,.3); --on-live:#10132A;
+  --good:#4FC48C; --good-soft:#163428; --on-good:#10132A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+ul,ol{margin:0}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
+.site-nav{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding-block:0 14px;font-size:14.5px}
+.site-nav a{color:var(--muted);text-decoration:none;font-weight:700;padding:6px 0;border-bottom:2px solid transparent}
+.site-nav a:hover{color:var(--ink)}
+.site-nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+.site-nav .home{font-family:var(--f-display);font-weight:800;color:var(--ink);margin-right:auto}
+
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 28px;padding-bottom:20px;border-bottom:2px solid var(--ink)}
+.brand{display:grid;gap:6px;min-width:0}
+.brand h1{font-size:clamp(30px,5vw,44px);font-weight:800}
+.brand p{color:var(--muted);max-width:50ch}
+.stats{display:flex;flex-wrap:wrap;gap:16px 28px}
+.stat{display:grid;gap:2px;min-width:0}
+.k,.label{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.stat .v{font-family:var(--f-display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:8px;line-height:1.1}
+.stat .v small{font-family:var(--f-body);font-size:13px;font-weight:400;color:var(--muted)}
+.spark{display:block;overflow:visible}
+
+.layout{display:grid;grid-template-columns:276px minmax(0,1fr);gap:36px;margin-top:28px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}.rail{order:2}}
+.rail{display:grid;gap:26px;min-width:0}
+.rail-sec{display:grid;gap:12px;padding-top:18px;border-top:1px solid var(--line);min-width:0}
+.rail-sec:first-child{border-top:0;padding-top:0}
+.rail-sec h2{font-size:19px;font-weight:800}
+.program{display:grid;gap:14px}
+.week-row{display:grid;gap:6px}
+.wk{display:flex;justify-content:space-between;gap:8px;font-size:14px}
+.wk span{color:var(--muted);text-align:right}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;max-width:340px}
+.day{font-family:var(--f-mono);font-size:13px;font-weight:700;aspect-ratio:1/1;max-width:100%;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0;position:relative}
+.day:hover{border-color:var(--ink)}
+.day.review::after{content:"";position:absolute;left:28%;right:28%;bottom:4px;height:3px;border-radius:2px;background:var(--mark-line)}
+.day.final{border:2px dashed var(--accent)}
+.day.done{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.day.cur{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px;border:1px solid var(--line);background:var(--surface)}
+.legend i.d{background:var(--accent);border-color:var(--accent)}
+.legend i.m{box-shadow:inset 0 -3px 0 var(--mark-line)}
+.legend i.f{border:2px dashed var(--accent)}
+.tips{padding-left:20px;display:grid;gap:6px;font-size:15px;color:var(--muted)}
+.saved-note{font-size:13px;color:var(--muted)}
+.remember{display:grid;gap:8px;padding:16px;border-radius:14px;background:var(--accent-soft)}
+.remember .big{font-family:var(--f-display);font-weight:800;font-size:21px;line-height:1.2}
+.remember ul{padding-left:20px;display:grid;gap:2px;font-weight:700}
+
+.lesson-col{display:grid;gap:40px;min-width:0}
+.lesson{display:grid;gap:20px;min-width:0}
+.lesson-head{display:grid;gap:10px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.lesson-head h2{font-size:clamp(30px,4.6vw,44px);font-weight:800}
+.lede{color:var(--muted);max-width:62ch}
+.plan{list-style:none;padding:0;margin-top:6px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.plan button{width:100%;height:100%;text-align:left;display:grid;align-content:start;gap:2px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;min-height:64px}
+.plan button:hover{border-color:var(--ink)}
+.plan .pn{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.plan .pt{font-weight:700;font-size:15px;line-height:1.25}
+.plan button.done{border-color:var(--good);background:var(--good-soft)}
+.plan button.done .pn{color:var(--good)}
+@media (max-width:680px){
+  .plan{grid-template-columns:minmax(0,1fr)}
+  .plan button{display:flex;justify-content:space-between;align-items:center;min-height:44px;padding:8px 12px}
+  .plan .pn{order:2}
+}
+
+.set,.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:16px;scroll-margin-top:16px;min-width:0}
+.set.is-done{border-color:var(--good)}
+.set-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:start}
+.set-num{width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--f-mono);font-weight:700;font-size:15px}
+.set.is-done .set-num{background:var(--good);color:var(--on-good)}
+.set-head h3,.panel h3{font-size:23px;font-weight:800}
+.why{color:var(--muted);font-size:15.5px;margin-top:3px;max-width:60ch}
+.mins{font-family:var(--f-mono);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.set-body{display:grid;gap:14px;min-width:0}
+.set-foot{display:flex;justify-content:flex-end}
+@media (max-width:520px){.set,.panel{padding:16px}.set-head{grid-template-columns:auto minmax(0,1fr)}.mins{grid-column:2;justify-self:start}}
+
+.btn{font-weight:700;font-size:15.5px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none;text-align:center}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{min-height:36px;padding:0 14px;font-size:14px}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.btn.is-on{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.btn.live{background:var(--live);border-color:var(--live);color:var(--on-live)}
+.icon-btn{flex:none;width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:inline-grid;place-items:center;cursor:pointer;padding:0}
+.icon-btn.sm{width:34px;height:34px}
+.icon-btn:hover{border-color:var(--ink)}
+.icon-btn.playing,.btn.playing{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.mic.listening{background:var(--live);border-color:var(--live);color:var(--on-live);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--live-ring)}50%{box-shadow:0 0 0 7px var(--live-ring)}}
+body:not(.has-mic) .need-mic,body:not(.has-voice) .need-voice,body:not(.has-rec) .need-rec,body:not(.has-ai) .need-ai{display:none!important}
+.no-note{display:none}
+body.caps-ready:not(.has-mic) .no-mic,body:not(.has-voice) .no-voice,body.caps-ready:not(.has-ai) .no-ai{display:block}
+/* One file, two homes: the website (body.standalone) and claude.ai (Claude capabilities). */
+body:not(.standalone) .only-standalone,body:not(.standalone) .site-nav{display:none!important}
+body.standalone .only-claude,body.standalone .no-ai{display:none!important}
+body.has-ai .script-note{display:none!important}
+.note a{color:var(--accent);font-weight:700;overflow-wrap:anywhere}
+.ai-out{display:grid;gap:10px;padding:14px 16px;border-radius:12px;background:var(--bg);font-size:16px;line-height:1.6;overflow-wrap:anywhere}
+.ai-out:empty{display:none}
+.ai-out ol,.ai-out ul{padding-left:22px;display:grid;gap:6px}
+
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.field{display:flex;gap:10px;align-items:flex-start}
+textarea,input[type="text"],input[type="date"]{min-width:0;width:100%;font:inherit;font-size:16.5px;line-height:1.5;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea{flex:1;resize:vertical}
+textarea:focus,input:focus{outline:none;border-color:var(--accent)}
+textarea::placeholder,input::placeholder{color:var(--muted)}
+.partial{font-style:italic;color:var(--muted);font-size:15px}
+.partial:empty{display:none}
+.note{font-size:14.5px;color:var(--muted)}
+.mark{font-weight:700;background:linear-gradient(transparent 8%,var(--mark) 8%,var(--mark) 92%,transparent 92%);color:var(--on-mark);padding:0 .22em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14.5px;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+button.chip{cursor:pointer;text-align:left}
+button.chip:hover{border-color:var(--ink)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1.5px solid var(--line);border-radius:18px;padding:3px;gap:2px;max-width:100%}
+.seg button{font-size:14px;font-weight:700;border:0;background:transparent;color:var(--muted);padding:6px 13px;border-radius:999px;cursor:pointer;min-height:34px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+.steps-list{padding-left:22px;display:grid;gap:4px}
+.reps{display:flex;flex-wrap:wrap;gap:8px}
+.cards{display:grid;gap:10px}
+.card{display:grid;gap:10px;padding:14px 16px;border-radius:12px;border:1.5px dashed var(--line);justify-items:start;min-width:0}
+.card > *{max-width:100%}
+.card .sit{font-weight:700;font-size:17px}
+.toolkit{display:grid;gap:16px;padding-top:24px;border-top:2px solid var(--ink);min-width:0;scroll-margin-top:16px}
+.toolkit > h2{font-size:clamp(26px,4vw,34px);font-weight:800}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tabs button{font-weight:700;font-size:15px;min-height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.tabs button:hover{border-color:var(--ink);color:var(--ink)}
+.tabs button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.finish{display:grid;gap:12px;justify-items:start;padding:22px;border-radius:16px;background:var(--ink);color:var(--bg)}
+.finish h3{font-size:24px;font-weight:800}
+.finish p{max-width:58ch}
+.finish .btn{border-color:transparent}
+.finish .btn.go{background:var(--mark);color:var(--on-mark)}
+.finish .btn.ghost{background:transparent;border-color:currentColor;color:var(--bg)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:10px;font-size:15px;width:max-content;max-width:calc(100% - 32px);z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---- Daily English ---- */
+.plan{grid-template-columns:repeat(7,minmax(0,1fr))}
+@media (max-width:1020px){.plan{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:680px){.plan{grid-template-columns:minmax(0,1fr)}}
+.packs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;max-width:340px}
+.day.locked{opacity:.45;cursor:default;border-style:dashed}
+.day.view{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--accent)}
+.rule{font-size:17.5px;max-width:64ch}
+.pattern{display:grid;gap:4px;padding:12px 14px;border-radius:12px;background:var(--accent-soft);color:var(--ink);font-family:var(--f-mono);font-size:14.5px;font-weight:700;overflow-wrap:anywhere}
+.pattern .label{color:var(--accent)}
+.lines{list-style:none;padding:0;display:grid;gap:8px}
+.line{display:flex;gap:12px;align-items:center;padding:8px 10px;border-radius:12px;background:var(--bg);min-width:0}
+.line .txt{flex:1;min-width:0;font-size:17.5px;line-height:1.4;overflow-wrap:anywhere}
+.line .txt b{font-weight:700}
+.mistake{display:grid;gap:4px;padding:12px 14px;border-radius:12px;border:1.5px dashed var(--line);font-size:16.5px;overflow-wrap:anywhere}
+.mistake .bad{text-decoration:line-through;text-decoration-color:var(--live);color:var(--muted)}
+.mistake .good{font-weight:700}
+.quiz{display:grid;gap:12px}
+.q{display:grid;gap:8px;padding:14px 16px;border-radius:12px;background:var(--bg);min-width:0}
+.q .qs{font-size:17.5px;font-weight:700;overflow-wrap:anywhere}
+.q .qs s{text-decoration-color:var(--live)}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{font-weight:700;font-size:15.5px;min-height:40px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.opt:hover{border-color:var(--ink)}
+.opt.right{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.opt.wrong{border-color:var(--live);color:var(--live);text-decoration:line-through}
+.qfb{font-size:15.5px}
+.qfb:empty{display:none}
+.qfb.ok{color:var(--good);font-weight:700}
+.qfb.no{color:var(--ink)}
+.blank{display:inline-block;min-width:3.2em;border-bottom:2.5px solid var(--mark-line);text-align:center}
+.exprs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.exprs{grid-template-columns:minmax(0,1fr)}}
+.expr{display:grid;gap:10px;align-content:start;padding:16px;border-radius:14px;background:var(--bg);min-width:0}
+.big{font-family:var(--f-display);font-size:clamp(24px,3.4vw,31px);font-weight:800;line-height:1.15;overflow-wrap:anywhere}
+.tag{font-family:var(--f-mono);font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);justify-self:start;white-space:nowrap}
+.ex{display:flex;gap:10px;align-items:center;font-style:italic;overflow-wrap:anywhere;min-width:0}
+.ex span{flex:1;min-width:0}
+.use{display:grid;gap:8px;padding-top:10px;border-top:1px dashed var(--line)}
+.used{font-size:15px;font-weight:700}
+.used:empty{display:none}
+.used.ok{color:var(--good)}
+.used.no{color:var(--muted);font-weight:400}
+.check-out{display:grid;gap:6px;padding:12px 14px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);font-size:16px;overflow-wrap:anywhere}
+.check-out:empty{display:none}
+.check-out .yes{color:var(--good);font-weight:700}
+.check-out .fix{font-weight:700}
+.check-out ul{padding-left:20px;display:grid;gap:4px}
+.wordcards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.wordcards{grid-template-columns:minmax(0,1fr)}}
+.wcard{display:grid;gap:10px;align-content:start;padding:16px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);min-width:0}
+.wcard.open{border-color:var(--accent)}
+.wcard .meaning{font-size:17.5px;font-weight:700;overflow-wrap:anywhere}
+.wcard .hint{font-family:var(--f-mono);font-size:14px;color:var(--muted)}
+.wcard .hint:empty{display:none}
+.say-it{font-family:var(--f-mono);font-size:13.5px;color:var(--accent);font-weight:700}
+.family{font-size:14.5px;color:var(--muted)}
+.upg{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:18px;border-radius:14px;background:var(--bg)}
+.upg .w{display:grid;gap:2px}
+.upg .w small{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.upg .w b{font-family:var(--f-display);font-size:clamp(22px,3.2vw,30px);font-weight:800;line-height:1.1}
+.upg .basic b{color:var(--muted);font-weight:600}
+.upg .better b{background:linear-gradient(transparent 10%,var(--mark) 10%,var(--mark) 90%,transparent 90%);color:var(--on-mark);padding:0 .2em}
+.upg .arrow{font-size:24px;color:var(--muted)}
+.chip.on{background:var(--good-soft);border-color:var(--good);color:var(--good);font-weight:700}
+.chip.on::before{content:"✓ "}
+.stage{display:grid;justify-items:center;gap:12px;padding:22px 16px;border-radius:14px;border:1.5px dashed var(--line);text-align:center}
+.stage.live{border:1.5px solid var(--live)}
+.phase{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.stage.live .phase,.stage.live .clock{color:var(--live)}
+.clock{font-family:var(--f-display);font-weight:800;font-size:clamp(52px,9vw,72px);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.score-line{font-family:var(--f-display);font-size:22px;font-weight:800}
+.coll-tools{display:grid;gap:10px}
+.coll{list-style:none;padding:0;display:grid;gap:8px}
+.crow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);min-width:0}
+.crow .ct{display:grid;gap:2px;min-width:0;overflow-wrap:anywhere}
+.crow .ct b{font-size:16.5px}
+.crow .ct span{font-size:14.5px;color:var(--muted)}
+.crow .acts{display:flex;gap:6px;align-items:center}
+.known{font-size:13px;font-weight:700;min-height:34px;padding:0 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;white-space:nowrap}
+.known[aria-pressed="true"]{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+@media (max-width:560px){.crow{grid-template-columns:minmax(0,1fr)}.crow .acts{justify-content:flex-start}.crow .tag{grid-row:1}}
+.brain{font-size:13.5px;color:var(--muted)}
+.count-btn{flex:none;font-family:var(--f-mono);font-size:13px;font-weight:700;min-width:54px;min-height:36px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.count-btn.full{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.results{display:grid;gap:8px}
+.results:empty{display:none}
+.result{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 16px;padding:10px 14px;border-radius:10px;background:var(--bg);font-variant-numeric:tabular-nums}
+.empty{padding:14px;border-radius:12px;border:1.5px dashed var(--line);color:var(--muted);font-size:15px}
+body:not(.standalone):not(.has-ai) [data-check]{display:none!important}
+</style>
+<div class="wrap">
+  <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="daily.html" aria-current="page">Daily English</a><a href="speaking.html">Speaking Gym</a><a href="conversation.html">Conversation Coach</a><a href="voice.html">Clear Voice</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a><a href="notebook.html">My Notebook</a><a href="call.html">Practice Call</a></nav>
+
+  <header class="top">
+    <div class="brand">
+      <h1>Daily English</h1>
+      <p>One small pack a day: grammar, an idiom, a phrasal verb, phrases, words and a word upgrade. About 10 minutes, and everything out loud.</p>
+    </div>
+    <div class="stats" id="stats" aria-live="polite"></div>
+  </header>
+
+  <div class="layout">
+    <aside class="rail">
+      <section class="rail-sec">
+        <h2>Your packs</h2>
+        <div class="packs" id="packs"></div>
+        <p class="legend"><span><i class="d"></i>Done</span><span><i></i>Open</span></p>
+        <div id="nextBox"></div>
+      </section>
+
+      <section class="rail-sec">
+        <div class="remember">
+          <p class="label">Remember</p>
+          <p class="big">Knowing a word is not enough.</p>
+          <ul><li>Say it.</li><li>Use it in your own sentence.</li><li>Use it again tomorrow.</li></ul>
+        </div>
+      </section>
+
+      <section class="rail-sec">
+        <h2>Good to know</h2>
+        <ul class="tips">
+          <li>Say every example out loud, even when you understand it.</li>
+          <li>A new pack opens each day after you finish the challenge.</li>
+          <li class="only-standalone">Voice typing works in Chrome and Edge.</li>
+          <li class="only-standalone">Practice Call shows today's words, so you can use them in a real conversation.</li>
+          <li class="only-claude">Claude checks your sentences and your challenge.</li>
+        </ul>
+        <p class="brain only-standalone" id="brain"></p>
+      </section>
+
+      <p class="saved-note" id="sync">Your progress is saved in this browser only. Use the backup on the home page to keep it safe.</p>
+    </aside>
+
+    <main class="lesson-col">
+      <div class="lesson" id="lesson"></div>
+      <section class="toolkit" id="collection" aria-label="My collection"></section>
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+"use strict";
+/* ---------- Content: grammar (the first ones come from this learner's own mistakes) ---------- */
+const GRAMMAR = [
+{id:"g01", t:"Past simple for finished actions",
+ rule:"When an action is finished and you say when (yesterday, last week, in 2020), use the past simple. Regular verbs add -ed. Many common verbs are irregular: go → went, buy → bought.",
+ pat:"subject + verb-ed / past form + … yesterday / last … / … ago",
+ ex:["Yesterday I watched the match with my friends.","We went to the market and bought some rice.","She called me two days ago."],
+ bad:"Yesterday I go to market and buy many thing.", good:"Yesterday I went to the market and bought many things.",
+ q:[{s:"Last night I ___ a great film.", o:["watch","watched"], a:1, why:"Last night is finished time, so use the past simple."},
+    {s:"Two years ago we ___ to London.", o:["go","went","gone"], a:1, why:"go is irregular: go → went."},
+    {f:"Yesterday she buy a new phone.", a:["Yesterday she bought a new phone."], why:"buy → bought in the past."}],
+ say:"Say 2 sentences about what you did yesterday. Use the past simple."},
+{id:"g02", t:"he / she / it + verb-s",
+ rule:"In the present simple, add -s to the verb when the subject is he, she, it, or one person or thing. With I, you, we and they, there is no -s.",
+ pat:"he / she / it + verb-s   ·   I / you / we / they + verb",
+ ex:["He scores a lot of goals.","My sister works in a hospital.","It rains a lot here in April."],
+ bad:"My brother play football every Sunday.", good:"My brother plays football every Sunday.",
+ q:[{s:"Haaland ___ many goals.", o:["score","scores"], a:1, why:"He (one person) + verb-s."},
+    {s:"My parents ___ in a small town.", o:["live","lives"], a:0, why:"They (more than one) + verb with no -s."},
+    {f:"She don't like coffee.", a:["She doesn't like coffee.","She does not like coffee."], why:"he / she / it → doesn't."}],
+ say:"Say 2 sentences about a friend or family member: what they do every day."},
+{id:"g03", t:"Question word order",
+ rule:"In a question, the helping verb (do, does, did, can, will, is, are) comes before the subject. The question word comes first: What + can + we + do?",
+ pat:"question word + helping verb + subject + main verb?",
+ ex:["What else can we build?","Where do you live?","Why did she leave early?"],
+ bad:"What else we can build?", good:"What else can we build?",
+ q:[{s:"___ from?", o:["Where you are","Where are you"], a:1, why:"The helping verb (are) comes before the subject (you)."},
+    {s:"What time ___ the film start?", o:["does","do"], a:0, why:"the film = it → does."},
+    {f:"Why you didn't come?", a:["Why didn't you come?","Why did you not come?"], why:"didn't comes before you."}],
+ say:"Ask 2 questions you could ask a new friend. Check the word order."},
+{id:"g04", t:"a / an / the / no article",
+ rule:"Use a / an for one thing you mention for the first time. Use the when both people know which one (the market near my house, the sun). Use no article for general ideas and plurals in general (Music helps me relax).",
+ pat:"a / an + one thing   ·   the + a known thing   ·   (nothing) + general idea",
+ ex:["I went to the market this morning.","She is an engineer.","Keep these notes for future use."],
+ bad:"I went to market and saw old friend.", good:"I went to the market and saw an old friend.",
+ q:[{s:"She wants to be ___ doctor.", o:["a","the","(nothing)"], a:0, why:"Jobs take a / an."},
+    {s:"___ life is short, so enjoy it.", o:["The","(nothing)"], a:1, why:"Life in general: no article."},
+    {f:"I am going to the bed now.", a:["I am going to bed now.","I'm going to bed now."], why:"A fixed phrase: go to bed (no article)."}],
+ say:"Say 2 sentences about places you go every week: work, school, the gym, the market…"},
+{id:"g05", t:"\"would like\" for polite wishes",
+ rule:"Use I would like (I'd like) to ask for something or say what you want politely. After would like, use a noun or to + verb.",
+ pat:"I'd like + noun   ·   I'd like to + verb   ·   Would you like…?",
+ ex:["I'd like a coffee, please.","I would like to visit Canada one day.","Would you like to join us?"],
+ bad:"I will like it to be public.", good:"I would like it to be public.",
+ q:[{s:"I ___ a table for two, please.", o:["would like","will like"], a:0, why:"A polite wish: would like."},
+    {s:"Would you like ___ dinner with me?", o:["have","to have","having"], a:1, why:"would like + to + verb."},
+    {f:"I would like go home now.", a:["I would like to go home now.","I'd like to go home now."], why:"would like + to + verb."}],
+ say:"Say 2 polite wishes: something you'd like now, and something you'd like to do this year."},
+{id:"g06", t:"Comparatives and superlatives",
+ rule:"Short adjectives take -er / -est (fast, faster, the fastest). Long adjectives take more / the most (more beautiful). Some are irregular: good → better → the best, bad → worse → the worst.",
+ pat:"adjective-er + than   ·   the + adjective-est   ·   more / the most + long adjective",
+ ex:["He is the best player in the world.","This phone is cheaper than that one.","It was the most beautiful day of the year."],
+ bad:"He is the most good player.", good:"He is the best player.",
+ q:[{s:"Today is ___ than yesterday.", o:["hotter","more hot"], a:0, why:"A short adjective: hot → hotter."},
+    {s:"It was the ___ film I've ever seen.", o:["worse","worst","baddest"], a:1, why:"bad → worse → the worst."},
+    {f:"My new job is more better.", a:["My new job is better."], why:"better already means \"more good\"."}],
+ say:"Compare 2 things you know well: 2 cities, 2 phones, or 2 football teams."},
+{id:"g07", t:"to + verb to say why",
+ rule:"To say why you do something (the purpose), use to + verb. Don't use for + verb.",
+ pat:"… + to + verb (the reason)",
+ ex:["I went to London to watch a match.","She saves money to buy a car.","I called him to say sorry."],
+ bad:"I will go to London for watch a match.", good:"I will go to London to watch a match.",
+ q:[{s:"I study English ___ get a better job.", o:["for","to"], a:1, why:"A reason + verb: to."},
+    {s:"She went to the shop ___ some bread.", o:["to buy","for buying","for buy"], a:0, why:"to + verb gives the reason."},
+    {f:"I came here for learn English.", a:["I came here to learn English."], why:"The reason: to + verb."}],
+ say:"Say 2 sentences about why you do things: I learn English to…, I go to the gym to…"},
+{id:"g08", t:"since and for",
+ rule:"Use for with a length of time (for ten years). Use since with a starting point (since 2015, since I was a child). We often use them with the present perfect: I have lived here since 2019.",
+ pat:"have / has + past participle + for + length of time   ·   since + starting point",
+ ex:["I have supported Arsenal since I was a child.","She has worked here for five years.","We have known each other since 2018."],
+ bad:"My favourite team is Arsenal since I am child.", good:"I have supported Arsenal since I was a child.",
+ q:[{s:"I've lived in this city ___ six years.", o:["for","since"], a:0, why:"six years is a length of time → for."},
+    {s:"He has been sick ___ Monday.", o:["for","since"], a:1, why:"Monday is a starting point → since."},
+    {f:"I know her since 2010.", a:["I have known her since 2010.","I've known her since 2010."], why:"since goes with the present perfect: have known."}],
+ say:"Say 2 sentences: something you have done since you were a child, and something you have done for years."},
+{id:"g09", t:"Present simple or present continuous",
+ rule:"Present simple: habits and things that are always true (I work in an office). Present continuous: things happening now or around now (I'm working from home this week).",
+ pat:"habit: I work   ·   now / these days: I am working",
+ ex:["I usually take the bus, but today I'm walking.","She speaks three languages.","We're watching a new series at the moment."],
+ bad:"Look! It rains.", good:"Look! It's raining.",
+ q:[{s:"Listen! Someone ___ at the door.", o:["knocks","is knocking"], a:1, why:"Happening now: present continuous."},
+    {s:"I ___ coffee every morning.", o:["drink","am drinking"], a:0, why:"A habit: present simple."},
+    {f:"Water is boiling at 100 degrees.", a:["Water boils at 100 degrees."], why:"Always true: present simple."}],
+ say:"Say 1 thing you do every day, and 1 thing you are doing these days."},
+{id:"g10", t:"verb + -ing after enjoy, start, stop…",
+ rule:"After some verbs, the next verb takes -ing: enjoy, finish, stop, keep, mind, avoid, practise. After start and begin, both -ing and to + verb are fine.",
+ pat:"enjoy / finish / stop / keep / avoid + verb-ing",
+ ex:["She started shaking her head.","I enjoy cooking for my friends.","Keep practising. It gets easier."],
+ bad:"She start to shaking her head.", good:"She started shaking her head.",
+ q:[{s:"I really enjoy ___ to music.", o:["listening","to listen"], a:0, why:"enjoy + -ing."},
+    {s:"Do you mind ___ the window?", o:["open","opening","to open"], a:1, why:"mind + -ing."},
+    {f:"He finished to eat and left.", a:["He finished eating and left."], why:"finish + -ing."}],
+ say:"Say 2 sentences: one with enjoy + -ing and one with stop + -ing."},
+{id:"g11", t:"Negatives with don't / doesn't / didn't",
+ rule:"To make a negative in the present simple, use don't / doesn't + verb. In the past, use didn't + verb. Don't use am not + verb for habits.",
+ pat:"I / you / we / they don't + verb   ·   he / she / it doesn't + verb   ·   didn't + verb",
+ ex:["I don't play football now.","He doesn't eat meat.","We didn't have time yesterday."],
+ bad:"I am not play football now.", good:"I don't play football now.",
+ q:[{s:"She ___ like spicy food.", o:["don't","doesn't","isn't"], a:1, why:"she + doesn't + verb."},
+    {s:"We ___ go out last night.", o:["didn't","don't","weren't"], a:0, why:"The past: didn't + verb."},
+    {f:"He doesn't works on Sundays.", a:["He doesn't work on Sundays.","He does not work on Sundays."], why:"After doesn't, the verb has no -s."}],
+ say:"Say 2 things you don't do, and 1 thing you didn't do last week."},
+{id:"g12", t:"there is / there are",
+ rule:"Use there is for one thing or for uncountable things, and there are for more than one. Use them to say that something exists.",
+ pat:"there is + a / an / uncountable   ·   there are + plural",
+ ex:["There is a nice café near my house.","There are many people at the market.","There isn't much time left."],
+ bad:"There is many problems in my city.", good:"There are many problems in my city.",
+ q:[{s:"___ two banks on this street.", o:["There is","There are"], a:1, why:"two banks = plural."},
+    {s:"___ some milk in the fridge.", o:["There is","There are"], a:0, why:"milk is uncountable → there is."},
+    {f:"Is there any good restaurants here?", a:["Are there any good restaurants here?"], why:"restaurants = plural → are there."}],
+ say:"Describe your street or your room in 2 sentences with there is and there are."},
+{id:"g13", t:"many / much (countable and uncountable)",
+ rule:"Countable nouns can be counted (one book, two books): use many, a few. Uncountable nouns can't (water, money, advice, information): use much, a little. A lot of works for both.",
+ pat:"many / a few + plural   ·   much / a little + uncountable   ·   a lot of + both",
+ ex:["I don't have much money this month.","How many friends did you invite?","Can you give me some advice?"],
+ bad:"She gave me many advices.", good:"She gave me a lot of advice.",
+ q:[{s:"How ___ time do we have?", o:["many","much"], a:1, why:"time is uncountable → much."},
+    {s:"There were ___ people at the party.", o:["much","a lot of"], a:1, why:"people is countable, and a lot of works."},
+    {f:"I need some informations about the course.", a:["I need some information about the course."], why:"information has no plural."}],
+ say:"Say 2 sentences: something you have a lot of, and something you don't have much of."},
+{id:"g14", t:"Time words: at, on, in",
+ rule:"at + clock times and short moments (at 7 o'clock, at night). on + days and dates (on Monday, on 5 May). in + months, years, seasons and parts of the day (in July, in 2020, in the morning).",
+ pat:"at + time   ·   on + day / date   ·   in + month / year / season",
+ ex:["The match starts at eight.","My birthday is on Friday.","I was born in 1998."],
+ bad:"I'll see you in Monday.", good:"I'll see you on Monday.",
+ q:[{s:"We usually eat ___ 7 pm.", o:["at","on","in"], a:0, why:"A clock time → at."},
+    {s:"I started this job ___ March.", o:["at","on","in"], a:2, why:"A month → in."},
+    {f:"Call me at the morning.", a:["Call me in the morning."], why:"in the morning (but at night)."}],
+ say:"Say when 3 things happen: your birthday, your next holiday, and the start of your work day."},
+{id:"g15", t:"Place words: in, on, at",
+ rule:"in = inside a space (in the kitchen, in London). on = on a surface (on the table, on the wall, on the bus). at = a point, or a place where something happens (at the door, at work, at the stadium).",
+ pat:"in + space   ·   on + surface   ·   at + point / event",
+ ex:["My keys are on the table.","She is at work right now.","We live in a small flat."],
+ bad:"I'll wait for you in the bus stop.", good:"I'll wait for you at the bus stop.",
+ q:[{s:"Your phone is ___ your bag.", o:["in","on","at"], a:0, why:"Inside something → in."},
+    {s:"I met her ___ a party.", o:["in","on","at"], a:2, why:"An event → at."},
+    {f:"The picture is in the wall.", a:["The picture is on the wall."], why:"On a surface → on."}],
+ say:"Say where 3 things are in your home right now."},
+{id:"g16", t:"Present perfect for life experience",
+ rule:"Use have / has + past participle to talk about experiences in your life when you don't say when. Use ever in questions and never for \"not at any time\".",
+ pat:"have / has + past participle (been, seen, eaten…)",
+ ex:["I have been to Lagos twice.","Have you ever eaten sushi?","She has never seen snow."],
+ bad:"I have went to London.", good:"I have been to London.",
+ q:[{s:"Have you ever ___ a horse?", o:["rode","ridden"], a:1, why:"have + past participle: ridden."},
+    {s:"I ___ that film three times.", o:["have seen","have saw"], a:0, why:"see → saw → seen."},
+    {f:"I have visited Paris last year.", a:["I visited Paris last year."], why:"With last year (a finished time), use the past simple."}],
+ say:"Say 2 things you have done in your life, and 1 thing you have never done."},
+{id:"g17", t:"going to or will",
+ rule:"Use going to for plans you already made (I'm going to visit my mum on Sunday). Use will for quick decisions, offers and promises (I'll help you).",
+ pat:"a plan: am / is / are going to + verb   ·   a decision now or a promise: will + verb",
+ ex:["I'm going to start a new course next month.","It's cold. I'll close the window.","Don't worry, I'll call you later."],
+ bad:"Next year I will to study in Canada.", good:"Next year I'm going to study in Canada.",
+ q:[{s:"The phone is ringing. I ___ answer it.", o:["will","am going to"], a:0, why:"A decision right now → will."},
+    {s:"We ___ get married in June. We booked the hall.", o:["will","are going to"], a:1, why:"A plan already made → going to."},
+    {f:"I will to call you tomorrow.", a:["I will call you tomorrow.","I'll call you tomorrow."], why:"will + verb, with no to."}],
+ say:"Say 1 plan you have for next week, and 1 promise to someone."},
+{id:"g18", t:"can / could / should",
+ rule:"can = ability or permission (I can swim). could = past ability or a polite request (Could you help me?). should = advice (You should rest). After all three, use the verb with no to.",
+ pat:"can / could / should + verb",
+ ex:["Could you say that again, please?","You should try this restaurant.","I can speak three languages."],
+ bad:"You should to see a doctor.", good:"You should see a doctor.",
+ q:[{s:"___ you pass me the salt, please?", o:["Could","Should"], a:0, why:"A polite request → could."},
+    {s:"You look tired. You ___ go to bed early.", o:["can","should"], a:1, why:"Advice → should."},
+    {f:"She can to play the piano.", a:["She can play the piano."], why:"can + verb, with no to."}],
+ say:"Give a friend 2 pieces of advice with should."},
+{id:"g19", t:"if + present, will (real future)",
+ rule:"Use if + present, will + verb for real possibilities in the future. Don't use will in the if part.",
+ pat:"If + present simple, … will + verb",
+ ex:["If it rains, we'll stay at home.","If you practise every day, you'll improve fast.","I'll call you if I finish early."],
+ bad:"If it will rain, we stay at home.", good:"If it rains, we'll stay at home.",
+ q:[{s:"If you ___ now, you'll catch the bus.", o:["leave","will leave"], a:0, why:"After if → present."},
+    {s:"If she calls, I ___ her.", o:["tell","will tell"], a:1, why:"The result part → will."},
+    {f:"If I will see him, I will tell him.", a:["If I see him, I will tell him.","If I see him, I'll tell him."], why:"No will after if."}],
+ say:"Finish these out loud: If I have time this weekend, … / If it rains tomorrow, …"},
+{id:"g20", t:"if + past, would (imagined situations)",
+ rule:"Use if + past, would + verb for imagined or unlikely situations. With be, we often use were for everyone: If I were you…",
+ pat:"If + past simple, … would + verb",
+ ex:["If I were you, I would apologise.","If I had more time, I would learn to cook.","What would you do if you won the lottery?"],
+ bad:"If I will be rich, I will buy a house.", good:"If I were rich, I would buy a house.",
+ q:[{s:"If I ___ a car, I would drive to work.", o:["have","had"], a:1, why:"Imagined → if + past."},
+    {s:"If she lived closer, we ___ meet more often.", o:["will","would"], a:1, why:"An imagined result → would."},
+    {f:"If I would know the answer, I would tell you.", a:["If I knew the answer, I would tell you.","If I knew the answer, I'd tell you."], why:"No would after if."}],
+ say:"Answer out loud: What would you do if you had a free month?"},
+{id:"g21", t:"used to (past habits)",
+ rule:"Use used to + verb for habits or states in the past that are not true now. The negative is didn't use to.",
+ pat:"used to + verb   ·   didn't use to + verb",
+ ex:["I used to play football every day.","She used to live in Abuja.","We didn't use to have a car."],
+ bad:"I use to play football when I was young.", good:"I used to play football when I was young.",
+ q:[{s:"When I was a child, I ___ hate vegetables.", o:["use to","used to"], a:1, why:"A past habit → used to."},
+    {s:"Did you ___ go to church as a child?", o:["use to","used to"], a:0, why:"After did → use to."},
+    {f:"I am used to smoke, but I stopped.", a:["I used to smoke, but I stopped."], why:"A past habit → used to + verb."}],
+ say:"Say 2 things you used to do as a child that you don't do now."},
+{id:"g22", t:"who / which / that / where",
+ rule:"Use who for people, which for things, and that for both, to add information about a noun. Use where for places.",
+ pat:"noun + who / which / that / where + …",
+ ex:["She's the woman who helped me.","This is the phone that I bought last week.","That's the café where we first met."],
+ bad:"The man which lives next door is a doctor.", good:"The man who lives next door is a doctor.",
+ q:[{s:"I have a friend ___ speaks five languages.", o:["who","which"], a:0, why:"A person → who."},
+    {s:"The book ___ you gave me is great.", o:["who","that"], a:1, why:"A thing → that or which."},
+    {f:"This is the city which I was born.", a:["This is the city where I was born."], why:"A place → where."}],
+ say:"Describe 2 people you know with who: I have a friend who…"},
+{id:"g23", t:"The passive",
+ rule:"Use the passive when the action is more important than who did it. Make it with be + past participle. Add by + person if you need to say who.",
+ pat:"am / is / are / was / were + past participle (+ by …)",
+ ex:["This house was built in 1990.","English is spoken in many countries.","The match was cancelled because of the rain."],
+ bad:"My phone was stole yesterday.", good:"My phone was stolen yesterday.",
+ q:[{s:"The letters ___ every morning.", o:["are delivered","are deliver"], a:0, why:"be + past participle."},
+    {s:"The bridge ___ in 2015.", o:["was opened","opened by"], a:0, why:"The past passive: was + past participle."},
+    {f:"The window was broke by the wind.", a:["The window was broken by the wind."], why:"break → broke → broken."}],
+ say:"Say 2 facts about your city with the passive: … was built … / … is made …"},
+{id:"g24", t:"Reporting what people said",
+ rule:"To tell someone what another person said, we usually move the verb one step back in time: \"I am tired\" → She said (that) she was tired. Change the pronouns too.",
+ pat:"He said (that) + subject + past verb   ·   She told me (that) …",
+ ex:["She said she was busy.","He told me he would call later.","They said they liked the food."],
+ bad:"He said me that he is tired.", good:"He told me that he was tired.",
+ q:[{s:"\"I like it.\" → She said she ___ it.", o:["likes","liked"], a:1, why:"One step back: like → liked."},
+    {s:"\"I will help.\" → He said he ___ help.", o:["will","would"], a:1, why:"will → would."},
+    {f:"She said me she was late.", a:["She told me she was late.","She said she was late."], why:"tell someone, or say (no person after it)."}],
+ say:"Report 2 things people told you this week: He said that… / She told me that…"},
+{id:"g25", t:"too / enough",
+ rule:"too + adjective = more than you want (too hot). adjective + enough = as much as you need (old enough). enough + noun (enough money).",
+ pat:"too + adjective   ·   adjective + enough   ·   enough + noun",
+ ex:["This coffee is too hot to drink.","He isn't tall enough to reach it.","We don't have enough chairs."],
+ bad:"I am enough old to drive.", good:"I am old enough to drive.",
+ q:[{s:"The shoes are ___ small. I can't wear them.", o:["too","enough"], a:0, why:"More than OK (a problem) → too."},
+    {s:"Is the room big ___ for everyone?", o:["too","enough"], a:1, why:"adjective + enough."},
+    {f:"I don't have money enough.", a:["I don't have enough money."], why:"enough + noun."}],
+ say:"Say 1 thing that is too … for you, and 1 thing you are … enough to do."},
+{id:"g26", t:"so / such",
+ rule:"so + adjective (so good). such + a / an + adjective + noun (such a good day). Both make the feeling stronger.",
+ pat:"so + adjective   ·   such (a / an) + adjective + noun",
+ ex:["The film was so funny.","It was such a funny film.","They are such kind people."],
+ bad:"It was so a beautiful day.", good:"It was such a beautiful day.",
+ q:[{s:"She's ___ a good teacher.", o:["so","such"], a:1, why:"a + adjective + noun → such."},
+    {s:"I'm ___ tired today.", o:["so","such"], a:0, why:"Only an adjective → so."},
+    {f:"We had so a good time.", a:["We had such a good time."], why:"such a + adjective + noun."}],
+ say:"Describe a great day you had, with so and such."},
+{id:"g27", t:"both / either / neither",
+ rule:"both = the two together (Both answers are right). either = one or the other (You can sit on either side). neither = not one and not the other (Neither of them came).",
+ pat:"both (… and …)   ·   either (… or …)   ·   neither (… nor …)",
+ ex:["Both my brothers live abroad.","We can eat either rice or pasta.","Neither of us was ready."],
+ bad:"Both of them didn't come.", good:"Neither of them came.",
+ q:[{s:"___ of my parents are teachers.", o:["Both","Either"], a:0, why:"The two together → both."},
+    {s:"I don't like ___ of these shirts.", o:["either","both"], a:0, why:"A negative + one or the other → either."},
+    {f:"Neither of them didn't call.", a:["Neither of them called."], why:"neither is already negative."}],
+ say:"Say 2 sentences about two people you know, with both and neither."},
+{id:"g28", t:"make or do",
+ rule:"do = activities, work and tasks (do homework, do the dishes, do your best). make = create or produce something (make a cake, make a mistake, make a decision, make money).",
+ pat:"do + tasks and work   ·   make + something new or a result",
+ ex:["I made a mistake in my email.","Can you do me a favour?","We need to make a decision today."],
+ bad:"I did a big mistake.", good:"I made a big mistake.",
+ q:[{s:"I need to ___ my homework.", o:["do","make"], a:0, why:"A task → do."},
+    {s:"She ___ a lot of money last year.", o:["did","made"], a:1, why:"make money."},
+    {f:"Let's do a plan for the weekend.", a:["Let's make a plan for the weekend."], why:"make a plan."}],
+ say:"Say 1 sentence with do and 1 sentence with make about your day."},
+{id:"g29", t:"say or tell",
+ rule:"say + words (She said hello). tell + a person (She told me the news). We say something to someone, but we tell someone something.",
+ pat:"say (something) (to someone)   ·   tell + someone + something",
+ ex:["He said he was hungry.","Can you tell me the time?","She told her friend a secret."],
+ bad:"He said me the answer.", good:"He told me the answer.",
+ q:[{s:"Please ___ me what happened.", o:["say","tell"], a:1, why:"A person after the verb → tell."},
+    {s:"She ___ \"good morning\" to everyone.", o:["said","told"], a:0, why:"Words → said."},
+    {f:"Can you say me your name?", a:["Can you tell me your name?"], why:"tell + a person."}],
+ say:"Say 2 sentences about what someone said or told you today."},
+{id:"g30", t:"bored or boring (-ed / -ing adjectives)",
+ rule:"-ed adjectives describe how a person feels (I'm bored). -ing adjectives describe the thing that causes the feeling (The film is boring).",
+ pat:"a person feels: bored / tired / interested   ·   a thing is: boring / tiring / interesting",
+ ex:["I was bored, so I left early.","The match was really exciting.","She's interested in photography."],
+ bad:"I am very boring today.", good:"I am very bored today.",
+ q:[{s:"The news was ___.", o:["shocked","shocking"], a:1, why:"The thing (the news) → -ing."},
+    {s:"I'm ___ in history.", o:["interested","interesting"], a:0, why:"How I feel → -ed."},
+    {f:"I felt very embarrassing at the party.", a:["I felt very embarrassed at the party."], why:"How you feel → -ed."}],
+ say:"Say how you felt yesterday and why: I was … because it was …"},
+{id:"g31", t:"Past continuous",
+ rule:"Use was / were + verb-ing for an action that was in progress at a time in the past, often when another short action happened.",
+ pat:"was / were + verb-ing (+ when + past simple)",
+ ex:["I was cooking when you called.","They were watching TV at 9 pm.","What were you doing yesterday at noon?"],
+ bad:"When you called, I was cook.", good:"When you called, I was cooking.",
+ q:[{s:"It ___ when we left the house.", o:["was raining","rained"], a:0, why:"In progress at that moment."},
+    {s:"While I was walking home, I ___ an old friend.", o:["met","was meeting"], a:0, why:"A short action that happened → past simple."},
+    {f:"We was talking when she arrived.", a:["We were talking when she arrived."], why:"we → were."}],
+ say:"Say what you were doing at 8 o'clock last night."},
+{id:"g32", t:"just / already / yet",
+ rule:"Use them with the present perfect. just = a very short time ago. already = sooner than expected. yet = until now, in questions and negatives, at the end.",
+ pat:"have just / already + past participle   ·   haven't … yet   ·   Have you … yet?",
+ ex:["I've just finished my lunch.","She has already left.","Have you called him yet?"],
+ bad:"I already have eat.", good:"I have already eaten.",
+ q:[{s:"I haven't finished my homework ___.", o:["yet","already"], a:0, why:"A negative + yet at the end."},
+    {s:"He has ___ arrived. He's in the kitchen.", o:["just","yet"], a:0, why:"A moment ago → just."},
+    {f:"I have finish my work.", a:["I have finished my work.","I've finished my work."], why:"have + past participle."}],
+ say:"Say 1 thing you've just done and 1 thing you haven't done yet today."},
+{id:"g33", t:"-ing as the subject",
+ rule:"When an action is the subject of a sentence, use verb-ing: Swimming is good for you.",
+ pat:"verb-ing + is / makes / helps …",
+ ex:["Learning English takes time.","Cooking helps me relax.","Speaking in public makes me nervous."],
+ bad:"Learn English is not easy.", good:"Learning English is not easy.",
+ q:[{s:"___ every day keeps you healthy.", o:["Walk","Walking"], a:1, why:"An action as the subject → -ing."},
+    {s:"___ new people is fun.", o:["Meeting","Meet"], a:0, why:"The subject → -ing."},
+    {f:"Read books is my hobby.", a:["Reading books is my hobby."], why:"The subject → reading."}],
+ say:"Say 2 sentences that start with an -ing word: …ing makes me happy."},
+{id:"g34", t:"always / usually / never (word order)",
+ rule:"Words like always, usually, often, sometimes, rarely and never go before the main verb, but after be.",
+ pat:"subject + always / never + verb   ·   subject + be + always / never",
+ ex:["I usually wake up at six.","She is always on time.","We never eat fast food."],
+ bad:"I go always to the gym.", good:"I always go to the gym.",
+ q:[{s:"He ___ late.", o:["is never","never is"], a:0, why:"After be."},
+    {s:"I ___ coffee in the evening.", o:["drink rarely","rarely drink"], a:1, why:"Before the main verb."},
+    {f:"She plays sometimes tennis.", a:["She sometimes plays tennis.","Sometimes she plays tennis."], why:"Before the main verb."}],
+ say:"Say 3 sentences about your habits with always, sometimes and never."},
+{id:"g35", t:"Question tags (…, isn't it?)",
+ rule:"Add a short question at the end to check something or to keep a conversation going. A positive sentence takes a negative tag; a negative sentence takes a positive tag.",
+ pat:"positive sentence, + negative tag?   ·   negative sentence, + positive tag?",
+ ex:["It's a beautiful day, isn't it?","You live near here, don't you?","She didn't come, did she?"],
+ bad:"You are from Lagos, isn't it?", good:"You are from Lagos, aren't you?",
+ q:[{s:"The food was great, ___?", o:["wasn't it","isn't it"], a:0, why:"was → wasn't it."},
+    {s:"You don't like horror films, ___?", o:["don't you","do you"], a:1, why:"A negative sentence → a positive tag."},
+    {f:"He can swim, isn't it?", a:["He can swim, can't he?"], why:"can → can't he."}],
+ say:"Say 2 friendly sentences with question tags, like you would on a date."},
+{id:"g36", t:"Polite questions (Do you know where…?)",
+ rule:"To ask politely, start with Could you tell me… or Do you know… Then use normal word order (subject + verb), not question order.",
+ pat:"Could you tell me / Do you know + question word + subject + verb",
+ ex:["Could you tell me where the station is?","Do you know what time it starts?","I wonder if you could help me."],
+ bad:"Do you know where is the bank?", good:"Do you know where the bank is?",
+ q:[{s:"Can you tell me how much ___?", o:["it costs","does it cost"], a:0, why:"Normal word order inside."},
+    {s:"Do you know ___?", o:["when does the shop open","when the shop opens"], a:1, why:"subject + verb."},
+    {f:"Could you tell me what time is it?", a:["Could you tell me what time it is?"], why:"Normal word order: it is."}],
+ say:"Ask 2 polite questions you might ask a stranger in the street."},
+{id:"g37", t:"have to / must / don't have to",
+ rule:"have to / must = it's necessary. don't have to = it's not necessary (you can choose). mustn't = it's not allowed.",
+ pat:"have to / must + verb   ·   don't have to + verb   ·   mustn't + verb",
+ ex:["I have to work on Saturday.","You don't have to bring anything.","You mustn't smoke here."],
+ bad:"You don't must park here.", good:"You mustn't park here.",
+ q:[{s:"It's free. You ___ pay.", o:["mustn't","don't have to"], a:1, why:"Not necessary → don't have to."},
+    {s:"She ___ wear a uniform at work.", o:["has to","have to"], a:0, why:"she → has to."},
+    {f:"I must to go now.", a:["I must go now.","I have to go now."], why:"must + verb, with no to."}],
+ say:"Say 2 things you have to do this week, and 1 thing you don't have to do."},
+{id:"g38", t:"because / so / but / although",
+ rule:"because gives a reason. so gives a result. but shows a contrast. although means \"even if it's true that…\". Use only one of them to join two ideas.",
+ pat:"… because + reason   ·   … so + result   ·   Although + fact, …",
+ ex:["I stayed home because I was sick.","It was late, so we took a taxi.","Although it was raining, we went out."],
+ bad:"Because I was tired so I slept.", good:"I was tired, so I slept.",
+ q:[{s:"I was hungry, ___ I made a sandwich.", o:["because","so"], a:1, why:"A result → so."},
+    {s:"___ he was tired, he finished the work.", o:["Although","Because"], a:0, why:"A contrast → although."},
+    {f:"Although it was cold, but we swam.", a:["Although it was cold, we swam.","It was cold, but we swam."], why:"Use although or but, not both."}],
+ say:"Say 2 sentences about your week, one with because and one with although."},
+{id:"g39", t:"have been + -ing (still going on)",
+ rule:"Use have / has been + verb-ing for an action that started in the past and is still going on, often with for or since.",
+ pat:"have / has been + verb-ing + for / since",
+ ex:["I've been learning English for three years.","She has been working here since May.","How long have you been waiting?"],
+ bad:"I am learning English since three years.", good:"I have been learning English for three years.",
+ q:[{s:"We ___ for an hour. Where are you?", o:["are waiting","have been waiting"], a:1, why:"Started in the past and still going → have been + -ing."},
+    {s:"How long ___ living here?", o:["have you been","are you"], a:0, why:"How long + have you been + -ing."},
+    {f:"He is working here since 2020.", a:["He has been working here since 2020.","He has worked here since 2020."], why:"since goes with the present perfect."}],
+ say:"Say 2 things you have been doing for a long time."},
+{id:"g40", t:"when / as soon as + present (future)",
+ rule:"After when, as soon as, before and after, use the present to talk about the future. Don't use will after them.",
+ pat:"When / As soon as + present, … will + verb",
+ ex:["I'll call you when I get home.","As soon as the match ends, we'll leave.","Before you go, let's take a photo."],
+ bad:"I will call you when I will arrive.", good:"I will call you when I arrive.",
+ q:[{s:"Text me when you ___ the station.", o:["reach","will reach"], a:0, why:"After when → present."},
+    {s:"As soon as I ___ my salary, I'll pay you back.", o:["get","will get"], a:0, why:"After as soon as → present."},
+    {f:"We will eat after he will come.", a:["We will eat after he comes.","We'll eat after he comes."], why:"No will after after."}],
+ say:"Say 2 plans with when: When I finish work today, I will…"},
+{id:"g41", t:"'s or of (possession)",
+ rule:"For people and animals, use 's (my brother's car). For things, we usually use of (the end of the film). Plural nouns ending in s just add ' (my parents' house).",
+ pat:"person + 's + thing   ·   the + part + of + thing",
+ ex:["This is my sister's phone.","We met at the end of the party.","My parents' house is near the sea."],
+ bad:"The car of my brother is red.", good:"My brother's car is red.",
+ q:[{s:"Is this ___?", o:["John's bag","the bag of John"], a:0, why:"A person → 's."},
+    {s:"I didn't like ___.", o:["the film's end","the end of the film"], a:1, why:"Things usually take of."},
+    {f:"The phone of my sister is new.", a:["My sister's phone is new."], why:"A person → 's."}],
+ say:"Say 2 sentences about things that belong to people in your family."},
+{id:"g42", t:"me / him / them and myself / herself",
+ rule:"After a verb or a preposition, use me, you, him, her, us, them (not I, he, she…). Use myself, yourself, himself… when the subject and the object are the same person.",
+ pat:"verb / preposition + me / him / her / us / them   ·   subject … + myself / herself …",
+ ex:["Can you help me?","She taught herself to play the guitar.","He hurt himself when he fell."],
+ bad:"Please send the photos to my wife and I.", good:"Please send the photos to my wife and me.",
+ q:[{s:"Can you call ___ later?", o:["I","me"], a:1, why:"After a verb → me."},
+    {s:"She made the cake ___.", o:["herself","her"], a:0, why:"She did it without help → herself."},
+    {f:"He cut him while he was cooking.", a:["He cut himself while he was cooking."], why:"The same person → himself."}],
+ say:"Say 2 sentences about something you did by yourself."}
+];
+/* ---------- Content: idioms [id, idiom, meaning, example, when to use] ---------- */
+const IDIOMS = [
+["i01","break the ice","to start a friendly conversation when people feel shy or nervous","I asked about her weekend to break the ice.","casual and friendly"],
+["i02","a piece of cake","very easy","The test was a piece of cake.","casual"],
+["i03","on the same page","agreeing about a plan, or understanding it in the same way","Let's check we're on the same page before the meeting.","work and everyday"],
+["i04","hit the nail on the head","to say exactly the right thing","You hit the nail on the head: the real problem is time.","everyday"],
+["i05","under the weather","a little sick","I'm feeling a bit under the weather today.","casual"],
+["i06","call it a day","to stop working for today","We're all tired. Let's call it a day.","casual and work"],
+["i07","once in a blue moon","very rarely","I only eat fast food once in a blue moon.","casual"],
+["i08","cost an arm and a leg","to be very expensive","That phone cost an arm and a leg.","casual"],
+["i09","get the hang of something","to learn how to do something","Driving was hard at first, but I'm getting the hang of it.","casual"],
+["i10","keep in touch","to keep talking or writing to someone","Let's keep in touch after you move.","everyday"],
+["i11","the ball is in your court","it's your turn to decide or act","I've made my offer. The ball is in your court.","everyday and work"],
+["i12","better late than never","it's better to do something late than not at all","You finally called! Better late than never.","casual"],
+["i13","beat around the bush","to avoid saying the main point","Stop beating around the bush and tell me what happened.","casual"],
+["i14","sleep on it","to wait until tomorrow before you decide","It's a big decision. Let me sleep on it.","everyday"],
+["i15","on cloud nine","very happy","She's been on cloud nine since she got the job.","casual"],
+["i16","get cold feet","to become too nervous to do something you planned","He got cold feet before the wedding.","casual"],
+["i17","a blessing in disguise","something that seems bad but is good in the end","Losing that job was a blessing in disguise.","everyday"],
+["i18","hang in there","don't give up when things are hard","I know it's a hard week. Hang in there!","casual and kind"],
+["i19","take it easy","to relax, or to calm down","You worked a lot this week. Take it easy this weekend.","casual"],
+["i20","learn the ropes","to learn how to do a new job","It took me a month to learn the ropes.","everyday and work"],
+["i21","cut corners","to do something badly or cheaply to save time or money","Don't cut corners on safety.","everyday and work"],
+["i22","burn the midnight oil","to work or study late at night","I burned the midnight oil to finish the report.","casual"],
+["i23","the last straw","the final problem that makes you lose your patience","He was late again. That was the last straw.","casual"],
+["i24","in hot water","in trouble","He's in hot water for missing the meeting.","casual"],
+["i25","out of the blue","suddenly, when you don't expect it","She called me out of the blue after five years.","casual"],
+["i26","speak your mind","to say honestly what you think","Don't be shy. Speak your mind.","everyday"],
+["i27","a long shot","something that probably won't work, but you try anyway","It's a long shot, but I'll apply for the job.","casual"],
+["i28","keep an eye on something","to watch something carefully","Can you keep an eye on my bag for a minute?","casual"],
+["i29","make ends meet","to have just enough money for what you need","With two jobs, they can make ends meet.","everyday"],
+["i30","change your mind","to make a new, different decision","I wanted pizza, but I changed my mind.","everyday"],
+["i31","have a lot on your plate","to have a lot of work or problems to deal with","I can't help this week. I have a lot on my plate.","casual"],
+["i32","go the extra mile","to do more than people expect","She always goes the extra mile for her customers.","everyday and work"],
+["i33","a no-brainer","a very easy decision","A free lunch and a day off? That's a no-brainer.","casual"],
+["i34","face the music","to accept the bad results of what you did","He made the mistake, so he has to face the music.","casual"],
+["i35","pull someone's leg","to joke with someone by saying something untrue","Relax, I'm just pulling your leg!","casual"],
+["i36","see eye to eye","to agree with someone","We don't always see eye to eye, but we're good friends.","everyday"],
+["i37","get something off your chest","to tell someone about a worry so you feel better","Thanks for listening. I needed to get that off my chest.","casual"],
+["i38","the best of both worlds","the good parts of two different things","Working from home two days a week gives me the best of both worlds.","everyday"],
+["i39","bite off more than you can chew","to try to do too much","Three courses at once? I bit off more than I could chew.","casual"],
+["i40","when pigs fly","something that will never happen","He'll be on time when pigs fly.","casual and funny"],
+["i41","in the long run","after a long time, in the future","Learning English will help you in the long run.","everyday"],
+["i42","up in the air","not decided yet","Our holiday plans are still up in the air.","everyday"],
+["i43","ring a bell","to sound familiar","Her name rings a bell, but I can't remember her face.","casual"],
+["i44","give someone the benefit of the doubt","to believe someone even if you are not sure","He said the bus was late. I'll give him the benefit of the doubt.","everyday"],
+["i45","down to earth","practical and friendly, not proud","She's famous, but she's very down to earth.","casual"],
+["i46","every cloud has a silver lining","something good can come from every bad situation","I missed my flight, but I met my best friend at the airport. Every cloud has a silver lining.","everyday"],
+["i47","get out of hand","to become difficult to control","The party got out of hand after midnight.","everyday"],
+["i48","play it by ear","to decide what to do as things happen, without a plan","I don't know when I'll finish. Let's play it by ear.","casual"],
+["i49","take something with a pinch of salt","to not fully believe something","Take his stories with a pinch of salt.","everyday (British)"],
+["i50","like two peas in a pod","very similar","The twins are like two peas in a pod.","casual"],
+["i51","time flies","time passes very quickly","Time flies when you're having fun!","casual"],
+["i52","no pain, no gain","you need hard work to get results","My legs hurt after the gym, but no pain, no gain.","casual"],
+["i53","the tip of the iceberg","a small part of a much bigger problem","These complaints are only the tip of the iceberg.","everyday and work"],
+["i54","a win-win situation","a situation that is good for everyone","You get help, and I get practice. It's a win-win situation.","everyday and work"],
+["i55","think outside the box","to think in a new, creative way","We need to think outside the box to solve this.","work"],
+["i56","get the ball rolling","to start something","Let's get the ball rolling with a quick introduction.","work"],
+["i57","back to square one","back at the start, after something failed","The plan failed, so we're back to square one.","casual"],
+["i58","make yourself at home","relax and feel comfortable in my home","Come in and make yourself at home.","friendly, for guests"],
+["i59","it's not rocket science","it's not difficult","Just follow the steps. It's not rocket science.","casual"],
+["i60","sit on the fence","to not choose a side","You can't sit on the fence forever. Which one do you want?","casual"],
+["i61","actions speak louder than words","what you do matters more than what you say","He says he'll help, but actions speak louder than words.","everyday"],
+["i62","in a nutshell","in a few words","In a nutshell, the trip was amazing.","everyday"],
+["i63","lose track of time","to forget about the time because you are busy","We were talking and lost track of time.","casual"],
+["i64","catch someone's eye","to get someone's attention","A red dress in the shop window caught my eye.","everyday"],
+["i65","hit it off","to like each other immediately","We hit it off on our first date.","casual"]
+];
+
+/* ---------- Content: phrasal verbs [id, verb, meaning, example, separable (1/0), one-word synonym] ---------- */
+const PHRASALS = [
+["p01","get up","to leave your bed after sleeping","I get up at six on weekdays.",0,"rise"],
+["p02","find out","to learn a fact or some information","I found out that the shop was closed.",1,"discover"],
+["p03","give up","to stop trying, or to stop doing something","Don't give up. You're getting better every day.",1,"quit"],
+["p04","look forward to","to feel happy about something in the future","I'm looking forward to the weekend.",0,""],
+["p05","put off","to move something to a later time","Don't put off your homework.",1,"postpone"],
+["p06","run out of","to have no more of something","We ran out of milk.",0,""],
+["p07","turn down","to say no to an offer; to make quieter","She turned down the job offer.",1,"refuse"],
+["p08","come up with","to think of an idea or a plan","He came up with a great idea.",0,"invent"],
+["p09","figure out","to understand or solve something","I can't figure out this app.",1,"solve"],
+["p10","get along with","to have a friendly relationship with someone","I get along with my colleagues.",0,""],
+["p11","pick up","to collect someone; to lift something; to learn something easily","I'll pick you up at seven.",1,"collect"],
+["p12","show up","to arrive, often late or unexpectedly","He didn't show up to the meeting.",0,"arrive"],
+["p13","catch up","to talk with a friend after some time; to reach the same level","Let's meet for coffee and catch up.",0,""],
+["p14","go on","to continue; to happen","Please go on, I'm listening.",0,"continue"],
+["p15","look after","to take care of someone or something","Can you look after my cat this weekend?",0,""],
+["p16","look for","to try to find","I'm looking for my keys.",0,"seek"],
+["p17","look up","to find information in a dictionary or online","Look the word up in a dictionary.",1,"check"],
+["p18","set up","to start or arrange something","We set up a meeting for Friday.",1,"arrange"],
+["p19","work out","to exercise; to find a solution; to end well","I work out three times a week.",1,"exercise"],
+["p20","carry on","to continue","Carry on, you're doing great.",0,"continue"],
+["p21","bring up","to start talking about a subject; to raise a child","She brought up an interesting point.",1,"mention"],
+["p22","calm down","to become relaxed after being angry or excited","Calm down. Everything is fine.",1,"relax"],
+["p23","cheer up","to become happier, or to make someone happier","Cheer up! It's not the end of the world.",1,""],
+["p24","check in","to arrive and register at a hotel or an airport","We checked in at the hotel at noon.",0,"register"],
+["p25","deal with","to handle a problem or a person","I'll deal with it tomorrow.",0,"handle"],
+["p26","drop off","to take someone or something to a place and leave them there","Can you drop me off at the station?",1,""],
+["p27","end up","to be in a place or situation at the end, often without planning it","We ended up staying until midnight.",0,""],
+["p28","fill in","to complete a form","Please fill in this form.",1,"complete"],
+["p29","get over","to feel better after something bad","It took me months to get over the breakup.",0,"recover"],
+["p30","get back","to return","When did you get back from your trip?",0,"return"],
+["p31","give back","to return something to its owner","I'll give your book back tomorrow.",1,"return"],
+["p32","go out","to leave home to have fun; to date someone","Do you want to go out tonight?",0,""],
+["p33","hang out","to spend relaxed time with friends","We hung out at the beach all day.",0,""],
+["p34","hold on","to wait for a short time","Hold on, I'll get a pen.",0,"wait"],
+["p35","keep up with","to stay at the same level or speed as","It's hard to keep up with the news.",0,""],
+["p36","let down","to disappoint someone","I won't let you down.",1,"disappoint"],
+["p37","look out","be careful!","Look out! There's a car coming.",0,""],
+["p38","make up","to become friends again after an argument; to invent a story","They argued, but they made up the next day.",1,"invent"],
+["p39","move on","to start something new and stop thinking about the past","It's time to move on.",0,""],
+["p40","pass away","to die (a kind, polite way to say it)","Her grandfather passed away last year.",0,"die"],
+["p41","point out","to tell someone something they didn't notice","She pointed out a mistake in my email.",1,"mention"],
+["p42","put on","to dress in something; to start a machine","Put on your coat. It's cold.",1,"wear"],
+["p43","run into","to meet someone by chance","I ran into my old teacher at the mall.",0,"meet"],
+["p44","sort out","to fix a problem; to organise something","I need to sort out my papers.",1,"organise"],
+["p45","take off","to remove clothes; (a plane) to leave the ground","Take off your shoes, please.",1,"remove"],
+["p46","take up","to start a new hobby","I took up swimming last year.",1,"start"],
+["p47","think over","to think carefully before you decide","Think it over and tell me tomorrow.",1,"consider"],
+["p48","throw away","to put something in the rubbish","Don't throw away the box.",1,"discard"],
+["p49","try on","to put on clothes to see if they fit","Can I try on these shoes?",1,""],
+["p50","turn up","to make louder; to arrive","Turn up the music!",1,""],
+["p51","wake up","to stop sleeping","I woke up at five this morning.",1,"wake"],
+["p52","break down","(a machine) to stop working; to start crying","My car broke down on the motorway.",0,""],
+["p53","call back","to phone someone again","I'll call you back in ten minutes.",1,""],
+["p54","come across","to find or meet by chance","I came across an old photo in a drawer.",0,"find"],
+["p55","count on","to depend on someone","You can count on me.",0,"rely"],
+["p56","cut down on","to eat, drink or use less of something","I'm cutting down on sugar.",0,"reduce"],
+["p57","fall apart","to break into pieces; to fail","My old shoes are falling apart.",0,""],
+["p58","get on with","to continue doing something; (British) to have a good relationship","Let's get on with the meeting.",0,"continue"],
+["p59","go through","to live through something difficult; to look at something carefully","She went through a hard time last year.",0,"experience"],
+["p60","look into","to investigate","The manager will look into the problem.",0,"investigate"],
+["p61","put up with","to accept something annoying","I can't put up with the noise anymore.",0,"tolerate"],
+["p62","stand out","to be easy to notice; to be better than others","Her red coat really stands out.",0,""],
+["p63","turn out","to happen or end in a way you didn't expect","The party turned out great.",0,""],
+["p64","warm up","to prepare your body or voice; to become warmer","Let's warm up before we start.",1,""],
+["p65","open up","to start talking about your feelings","It took time, but he finally opened up to me.",0,""],
+["p66","ask out","to invite someone on a date","He finally asked her out.",1,"invite"],
+["p67","speak up","to speak louder; to say what you think","Could you speak up a little?",0,""],
+["p68","fit in","to feel accepted in a group","It's hard to fit in at a new school.",0,"belong"]
+];
+
+/* ---------- Content: word upgrades [id, basic, better, opposite of better, example with better] ---------- */
+const UPGRADES = [
+["u01","good","excellent","terrible","The food at that restaurant was excellent."],
+["u02","bad","awful","wonderful","The traffic was awful this morning."],
+["u03","big","enormous","tiny","They live in an enormous house."],
+["u04","small","tiny","huge","My first flat was tiny."],
+["u05","happy","delighted","miserable","I was delighted with the news."],
+["u06","sad","heartbroken","overjoyed","She was heartbroken when her dog died."],
+["u07","tired","exhausted","energetic","I was exhausted after work."],
+["u08","angry","furious","calm","He was furious about the delay."],
+["u09","scared","terrified","fearless","I'm terrified of snakes."],
+["u10","hungry","starving","full","I'm starving! Let's eat."],
+["u11","cold","freezing","boiling","It's freezing outside."],
+["u12","hot","boiling","freezing","It's boiling in here. Open the window."],
+["u13","interesting","fascinating","dull","The museum was fascinating."],
+["u14","funny","hilarious","serious","The film was hilarious."],
+["u15","beautiful","gorgeous","hideous","What a gorgeous view!"],
+["u16","ugly","hideous","gorgeous","That new building is hideous."],
+["u17","clean","spotless","filthy","Her kitchen is always spotless."],
+["u18","dirty","filthy","spotless","My shoes were filthy after the rain."],
+["u19","smart","brilliant","stupid","She's a brilliant student."],
+["u20","easy","effortless","demanding","She makes dancing look effortless."],
+["u21","hard","challenging","easy","The exam was challenging, but fair."],
+["u22","important","essential","unnecessary","Water is essential for life."],
+["u23","sure","certain","doubtful","I'm certain I locked the door."],
+["u24","boring","tedious","thrilling","The meeting was long and tedious."],
+["u25","nice","delightful","unpleasant","We had a delightful evening."],
+["u26","old","ancient","modern","We visited an ancient temple."],
+["u27","new","brand-new","worn-out","I bought a brand-new phone."],
+["u28","fast","rapid","slow","There has been rapid growth in the city."],
+["u29","slow","sluggish","lively","The internet is sluggish today."],
+["u30","rich","wealthy","poor","He comes from a wealthy family."],
+["u31","poor","penniless","wealthy","He arrived in the city penniless."],
+["u32","strong","powerful","weak","It's a very powerful engine."],
+["u33","weak","fragile","sturdy","The old bridge is fragile."],
+["u34","quiet","silent","noisy","The room went silent."],
+["u35","loud","deafening","silent","The music at the party was deafening."],
+["u36","good-looking","attractive","unattractive","He's a very attractive man."],
+["u37","kind","generous","selfish","She's generous with her time."],
+["u38","mean","cruel","kind","That was a cruel joke."],
+["u39","brave","courageous","cowardly","It was a courageous decision."],
+["u40","calm","peaceful","chaotic","The village is very peaceful."],
+["u41","busy","hectic","relaxed","Mondays are always hectic."],
+["u42","wet","soaked","dry","I got soaked in the rain."],
+["u43","full","packed","empty","The stadium was packed."],
+["u44","tasty","delicious","disgusting","The soup was delicious."],
+["u45","worried","anxious","relaxed","I feel anxious before exams."],
+["u46","excited","thrilled","disappointed","I'm thrilled about the trip."],
+["u47","like","adore","hate","I adore my grandmother."],
+["u48","dislike","detest","adore","I detest waiting in queues."],
+["u49","look","stare","glance","Don't stare at people. It's rude."],
+["u50","walk","stroll","rush","We strolled along the beach."],
+["u51","eat","devour","nibble","The kids devoured the pizza."],
+["u52","cheap","affordable","overpriced","The flats in this area are affordable."],
+["u53","expensive","overpriced","affordable","The drinks at the airport are overpriced."],
+["u54","clever","wise","foolish","That was a wise choice."],
+["u55","polite","courteous","rude","The hotel staff were very courteous."],
+["u56","rude","offensive","respectful","His comment was offensive."],
+["u57","honest","sincere","fake","Her apology was sincere."],
+["u58","shy","timid","outgoing","The kitten was timid at first."],
+["u59","friendly","welcoming","hostile","The people in the village were very welcoming."],
+["u60","strange","bizarre","normal","I had a bizarre dream last night."],
+["u61","big (problem)","serious","minor","It's a serious problem."],
+["u62","great","outstanding","mediocre","Her performance was outstanding."],
+["u63","bright","dazzling","dim","The lights on stage were dazzling."],
+["u64","dark","pitch-black","bright","The room was pitch-black."],
+["u65","surprised","amazed","unimpressed","I was amazed by the view."],
+["u66","easy-going","laid-back","uptight","My boss is very laid-back."]
+];
+/* ---------- Content: phrases [id, theme, phrase, when to use it, the other person says, you answer] ---------- */
+const THEMES = {op:"Giving opinions", ag:"Agreeing and disagreeing", tm:"Buying time", cl:"Asking for clarification", st:"Small talk",
+  in:"Showing interest", sy:"Telling a story", pl:"Making plans", ap:"Apologising", cp:"Compliments and thanks", dt:"Dating and friendship",
+  wk:"Work and meetings", ph:"Phone calls"};
+const PHRASES = [
+["f001","op","In my opinion, …","to give your opinion clearly","Is it better to rent or to buy a house?","In my opinion, renting is better when you're young."],
+["f002","op","If you ask me, …","a casual way to give your opinion","What do you think of the new coach?","If you ask me, he needs more time."],
+["f003","op","I'd say that …","to give an opinion softly","How long will the trip take?","I'd say that it takes about two hours."],
+["f004","op","To be honest, …","to say what you really think, even if it's not nice","Did you like the film?","To be honest, it was a bit boring."],
+["f005","op","The way I see it, …","to explain your point of view","Why do people move abroad?","The way I see it, they want more opportunities."],
+["f006","op","I'm not sure, but I think …","to give an opinion when you're not certain","Will it rain later?","I'm not sure, but I think it will."],
+["f007","op","As far as I know, …","to say something you believe is true","Is the shop open on Sunday?","As far as I know, it opens at ten."],
+["f008","op","It seems to me that …","a polite way to give an opinion","Is the team getting better?","It seems to me that they're more confident now."],
+["f009","op","Personally, I think …","to show it's your own view","Is social media good for kids?","Personally, I think they should wait until they're older."],
+["f010","op","I have to say, …","to give a strong, honest opinion","How was the food?","I have to say, it was the best meal of the year."],
+["f011","op","From my point of view, …","a more formal way to give an opinion","Should we change the plan?","From my point of view, the plan is fine."],
+["f012","op","I feel like …","a casual way to share an opinion or a feeling","Why are you so quiet today?","I feel like I need more sleep."],
+["f013","op","What I mean is …","to explain your idea again, more clearly","So you don't like the job?","No, what I mean is the hours are too long."],
+["f014","op","It depends on …","when the answer is not simple","Is London expensive?","It depends on where you live."],
+["f015","ag","I totally agree.","to agree strongly","This city needs better roads.","I totally agree."],
+["f016","ag","That's a good point.","to show you like someone's idea","We could leave early to avoid the traffic.","That's a good point."],
+["f017","ag","You're absolutely right.","strong agreement","We should have booked earlier.","You're absolutely right."],
+["f018","ag","Exactly!","quick, strong agreement","So the problem is time, not money?","Exactly!"],
+["f019","ag","I couldn't agree more.","very strong agreement","Family is the most important thing.","I couldn't agree more."],
+["f020","ag","I see what you mean, but …","to disagree politely","Big cities are the best places to live.","I see what you mean, but they're very noisy."],
+["f021","ag","I'm not so sure about that.","soft disagreement","Learning English is easy.","I'm not so sure about that."],
+["f022","ag","That's true, but …","to agree a little, then add a different idea","Cars are expensive.","That's true, but they save a lot of time."],
+["f023","ag","I don't think so.","a simple, polite no","Is the bank open now?","I don't think so. It's after five."],
+["f024","ag","I'm afraid I disagree.","formal, polite disagreement","We should cancel the project.","I'm afraid I disagree. It's almost finished."],
+["f025","ag","Fair enough.","to accept someone's idea or reason","I can't come. I have to work.","Fair enough. Maybe next time."],
+["f026","ag","You may be right.","to accept that it could be true","He's probably just busy.","You may be right."],
+["f027","ag","Let's agree to disagree.","to stop an argument in a kind way","Messi is better than Ronaldo!","Let's agree to disagree."],
+["f028","ag","Me neither.","to say you also don't like or do something","I don't like waiting.","Me neither."],
+["f029","tm","Let me think…","to get a few seconds to think","What's your biggest dream?","Let me think… I'd love to travel around Africa."],
+["f030","tm","That's a good question.","to buy time and be polite","Why did you choose your job?","That's a good question. I think I like helping people."],
+["f031","tm","How can I put this…","when you are looking for the right words","Did you like my cooking?","How can I put this… it was very spicy!"],
+["f032","tm","Give me a second.","to ask for a moment","What's your email address?","Give me a second. I'll write it down."],
+["f033","tm","Let me see…","to think or to check something","When are you free?","Let me see… Thursday works."],
+["f034","tm","Well, …","a small word to start an answer","Are you happy at work?","Well, most days I am."],
+["f035","tm","What's the word…","when you forget a word","What do you call the person who owns your flat?","What's the word… the landlord!"],
+["f036","tm","It's on the tip of my tongue.","when you almost remember a word","What's the name of that actor?","It's on the tip of my tongue!"],
+["f037","tm","I've never really thought about it.","an honest way to buy time","What would you change about your city?","I've never really thought about it, but maybe the traffic."],
+["f038","tm","Hmm, it's hard to say.","when the answer is difficult","Which is your favourite country?","Hmm, it's hard to say. Maybe Ghana."],
+["f039","tm","Bear with me.","please be patient while I do something","Is the file ready?","Bear with me. It's almost done."],
+["f040","tm","Where was I?","after you lose your place in a story","Sorry, please go on.","Where was I? Oh yes, the bus was late…"],
+["f041","tm","Let me put it another way.","to explain again with different words","Sorry, I don't understand.","Let me put it another way: we need more time."],
+["f042","tm","How do you say…","to ask for a word you don't know","You look confused.","How do you say… the thing you use to open a bottle?"],
+["f043","cl","Sorry, could you say that again?","when you didn't hear or understand","The meeting is at half past nine.","Sorry, could you say that again?"],
+["f044","cl","Do you mean …?","to check that you understood","Let's meet at the usual place.","Do you mean the café near the station?"],
+["f045","cl","What do you mean by …?","to ask about a word or an idea","The plan is a bit risky.","What do you mean by risky?"],
+["f046","cl","Could you speak a bit more slowly?","when someone speaks too fast","So-you-turn-left-then-right-then-straight…","Could you speak a bit more slowly, please?"],
+["f047","cl","So you're saying that …","to repeat someone's idea in your own words","We need to finish by Friday.","So you're saying that we have three days?"],
+["f048","cl","Sorry, I didn't catch that.","when you didn't hear clearly","My name is Siobhan.","Sorry, I didn't catch that. Can you spell it?"],
+["f049","cl","Just to be clear, …","to check an important detail","The price includes breakfast.","Just to be clear, is dinner included too?"],
+["f050","cl","Does that make sense?","to check that the other person understood you","How do I get to your house?","Take the first left, then go straight. Does that make sense?"],
+["f051","cl","Can you give me an example?","to understand an idea better","Our company is very flexible.","Can you give me an example?"],
+["f052","cl","What does … mean?","to ask about a word","That's a no-brainer.","Sorry, what does no-brainer mean?"],
+["f053","cl","Sorry, I'm not with you.","when you are lost in an explanation","…and then we divide it by the second number.","Sorry, I'm not with you. Can you start again?"],
+["f054","cl","Could you spell that, please?","for names and email addresses","My surname is Wojciechowski.","Could you spell that, please?"],
+["f055","cl","How do you pronounce …?","to ask how to say a word","Look at this word.","How do you pronounce it?"],
+["f056","cl","Let me check I understand.","before you repeat the information","Take the 12 bus, then walk for five minutes.","Let me check I understand: bus 12, then five minutes on foot?"],
+["f057","st","How's it going?","a casual hello","Hey!","Hey! How's it going?"],
+["f058","st","How was your weekend?","an easy start on a Monday","Morning!","Morning! How was your weekend?"],
+["f059","st","What do you do?","to ask about someone's job","Nice to meet you.","Nice to meet you too. What do you do?"],
+["f060","st","Have you been busy lately?","a friendly way to catch up","Long time no see!","I know! Have you been busy lately?"],
+["f061","st","What do you do for fun?","to learn about someone's hobbies","I work in a bank.","Nice. And what do you do for fun?"],
+["f062","st","Lovely weather today, isn't it?","classic small talk","Good morning!","Good morning! Lovely weather today, isn't it?"],
+["f063","st","Where are you from originally?","to ask about someone's home","I live in Manchester now.","Oh nice. Where are you from originally?"],
+["f064","st","How do you know …?","at a party, to ask how they know the host","Hi, I'm Sam.","Hi, Sam. How do you know Lisa?"],
+["f065","st","Have you been here before?","at a new place","This place is busy!","It is! Have you been here before?"],
+["f066","st","Any plans for the weekend?","an easy Friday question","Finally, it's Friday!","Yes! Any plans for the weekend?"],
+["f067","st","It's nice to meet you.","when you meet someone new","I'm Tom, Anna's brother.","It's nice to meet you, Tom."],
+["f068","st","Long time no see!","when you meet someone after a long time","Hey, is that you?","Long time no see! How are you?"],
+["f069","st","How's work going?","to ask about someone's job","I'm so tired today.","Oh no. How's work going?"],
+["f070","st","I'd better get going.","a polite way to leave","Do you want another drink?","Thanks, but I'd better get going."],
+["f071","in","Really? Tell me more.","to show you want to hear more","I just came back from Kenya.","Really? Tell me more."],
+["f072","in","That sounds amazing!","to react to good news","We went on a safari.","That sounds amazing!"],
+["f073","in","No way!","casual surprise","I met a famous footballer at the airport.","No way!"],
+["f074","in","How did that feel?","to ask about feelings","I gave my first speech today.","Wow! How did that feel?"],
+["f075","in","What happened next?","to keep a story going","And then the lights went out.","What happened next?"],
+["f076","in","That must have been hard.","to show you care","I lost my job last year.","Oh, that must have been hard."],
+["f077","in","I know what you mean.","to show you understand","Mondays are always so long.","I know what you mean."],
+["f078","in","Oh, I see.","to show you understand new information","The bus doesn't run on Sundays.","Oh, I see. Thanks."],
+["f079","in","That's interesting!","to show interest","In my town, we celebrate New Year twice.","That's interesting! Why twice?"],
+["f080","in","Good for you!","to praise someone's success","I passed my driving test!","Good for you!"],
+["f081","in","I'm so happy for you.","to share someone's good news","We're getting married!","I'm so happy for you!"],
+["f082","in","How come?","a casual way to ask why","I don't eat meat anymore.","How come?"],
+["f083","in","What was it like?","to ask for a description","I lived in Japan for a year.","What was it like?"],
+["f084","in","Seriously?","to show surprise","He won the lottery twice.","Seriously?"],
+["f085","sy","You won't believe what happened…","to start an exciting story","How was your day?","You won't believe what happened this morning!"],
+["f086","sy","So, basically, …","to give the main idea quickly","What happened at the meeting?","So, basically, they want a new plan."],
+["f087","sy","At first, …","the beginning of a story","Do you like your new job?","At first, I was nervous, but now I love it."],
+["f088","sy","After that, …","the next thing in a story","What did you do after dinner?","After that, we went for a walk by the river."],
+["f089","sy","All of a sudden, …","when something happened quickly","Was the drive OK?","All of a sudden, a cow walked onto the road!"],
+["f090","sy","In the end, …","how the story finished","Did you find your keys?","In the end, they were in my pocket!"],
+["f091","sy","Long story short, …","to finish a long story quickly","Why are you late?","Long story short, I took the wrong bus."],
+["f092","sy","The funny thing is, …","to share a surprising detail","So you missed the flight?","Yes, but the funny thing is, it was delayed anyway."],
+["f093","sy","Anyway, …","to go back to the main story","Sorry, I interrupted you.","No problem. Anyway, we got there at midnight."],
+["f094","sy","Guess what?","to start sharing news","Hi! What's up?","Guess what? I got the job!"],
+["f095","sy","It reminds me of the time …","to connect to your own story","I got lost in the market today.","It reminds me of the time I got lost in Lagos."],
+["f096","sy","To cut a long story short, …","like \"long story short\", a little more formal","How did the interview go?","To cut a long story short, they offered me the job."],
+["f097","sy","Believe it or not, …","before something surprising","How old is your grandmother?","Believe it or not, she's ninety-five and still cooks every day."],
+["f098","sy","As I was saying, …","to continue after an interruption","Sorry about that phone call.","No worries. As I was saying, the trip was amazing."],
+["f099","pl","Are you free on …?","to invite someone","We should meet up soon.","Definitely! Are you free on Saturday?"],
+["f100","pl","How about …?","to suggest something","Where should we eat?","How about the new Thai place?"],
+["f101","pl","Why don't we …?","to make a friendly suggestion","I'm bored.","Why don't we go for a walk?"],
+["f102","pl","Does … work for you?","to check a time","When can we talk?","Does Thursday at six work for you?"],
+["f103","pl","Let's say … then.","to agree on a time","Seven or eight?","Let's say seven then."],
+["f104","pl","I'm up for it!","a casual way to say you'd like to do it","Do you want to try the new climbing gym?","Sure, I'm up for it!"],
+["f105","pl","Count me in!","to say you want to join","We're playing football on Sunday.","Count me in!"],
+["f106","pl","I'd love to, but …","to say no politely","Do you want to come to the party?","I'd love to, but I have to work."],
+["f107","pl","Can we make it another day?","to change the day of a plan","See you tomorrow at five!","Sorry, can we make it another day?"],
+["f108","pl","Let me check my calendar.","before you agree to a date","Can we meet next Tuesday?","Let me check my calendar."],
+["f109","pl","Shall we …?","a polite suggestion","It's getting late.","Shall we go home?"],
+["f110","pl","What time suits you?","to let the other person choose","Let's have a call this week.","Great. What time suits you?"],
+["f111","pl","Sounds good to me.","to agree to a plan","Let's meet at the station at ten.","Sounds good to me."],
+["f112","pl","I'll let you know.","when you're not sure yet","Are you coming on Friday?","Maybe. I'll let you know tomorrow."],
+["f113","ap","Sorry I'm late.","when you arrive late","There you are!","Sorry I'm late. The traffic was terrible."],
+["f114","ap","I'm really sorry about …","a real, sincere apology","You forgot my birthday.","I'm really sorry about that."],
+["f115","ap","My bad.","a casual way to say it was your mistake","You sent the wrong file.","Oh, my bad! Here's the right one."],
+["f116","ap","It was my fault.","to take responsibility","Who broke the glass?","It was my fault. I'll buy a new one."],
+["f117","ap","I didn't mean to …","when you hurt someone by accident","That was a bit rude.","I'm sorry. I didn't mean to upset you."],
+["f118","ap","I apologise for …","a formal apology","We waited for an hour.","I apologise for the delay."],
+["f119","ap","Sorry to bother you, but …","to interrupt politely","Yes?","Sorry to bother you, but is this seat free?"],
+["f120","ap","No worries.","to accept an apology","Sorry, I forgot to call you back.","No worries."],
+["f121","ap","Don't worry about it.","to accept an apology kindly","I'm so sorry I spilled the tea.","Don't worry about it."],
+["f122","ap","It won't happen again.","a promise after a mistake","You were late three times this week.","I know. It won't happen again."],
+["f123","ap","Excuse me, …","to get attention politely","Yes, can I help you?","Excuse me, where is the toilet?"],
+["f124","ap","Sorry to interrupt, but …","to speak while someone is talking","…and then the price will go up…","Sorry to interrupt, but how much will it go up?"],
+["f125","ap","I owe you an apology.","when you know you did something wrong","You were rude to me yesterday.","You're right. I owe you an apology."],
+["f126","ap","Thanks for understanding.","after someone accepts your apology","It's OK, we can meet tomorrow.","Thanks for understanding."],
+["f127","cp","You look great!","a simple compliment","Hi! I just got my hair cut.","You look great!"],
+["f128","cp","I love your …","to compliment something","Hey!","Hey! I love your jacket."],
+["f129","cp","That was delicious.","after a meal","Did you enjoy dinner?","Yes, that was delicious. Thank you."],
+["f130","cp","You did a great job.","to praise someone's work","How was my presentation?","You did a great job."],
+["f131","cp","I'm impressed!","to show admiration","I made this table myself.","Wow, I'm impressed!"],
+["f132","cp","You have great taste.","to compliment someone's choices","I chose this restaurant.","You have great taste."],
+["f133","cp","That's very kind of you.","to answer a kind offer or action","I can drive you home.","That's very kind of you."],
+["f134","cp","Thanks, that means a lot.","to accept a compliment warmly","Your speech was really moving.","Thanks, that means a lot."],
+["f135","cp","You're really good at …","to praise a skill","I fixed your bike.","Thank you! You're really good at fixing things."],
+["f136","cp","It suits you.","about clothes or a new style","Do you like my new hat?","Yes! It suits you."],
+["f137","cp","Well done!","to praise a success","I finished the marathon!","Well done!"],
+["f138","cp","You made my day.","when someone made you very happy","I brought you some coffee.","Thank you, you made my day!"],
+["f139","cp","What a great idea!","to praise an idea","Let's have a picnic.","What a great idea!"],
+["f140","cp","I really appreciate it.","to thank someone sincerely","I finished the report for you.","Thanks, I really appreciate it."],
+["f141","dt","I had a really good time tonight.","at the end of a date","Thanks for coming.","I had a really good time tonight."],
+["f142","dt","Would you like to get a coffee sometime?","to ask someone out","It was nice talking to you.","You too. Would you like to get a coffee sometime?"],
+["f143","dt","What do you like to do at the weekend?","a good first-date question","I'm quite busy at work.","I understand. What do you like to do at the weekend?"],
+["f144","dt","I'd love to see you again.","to say you want another date","This was fun.","It was. I'd love to see you again."],
+["f145","dt","Tell me something about yourself.","to start a deeper conversation","So… what now?","Tell me something about yourself."],
+["f146","dt","We have a lot in common.","when you share interests","I love jollof rice and old movies.","Me too! We have a lot in common."],
+["f147","dt","I'm a bit nervous, to be honest.","an honest, friendly thing to say on a date","You're quiet.","I'm a bit nervous, to be honest."],
+["f148","dt","What made you choose …?","to ask about someone's choices","I'm a nurse.","What made you choose nursing?"],
+["f149","dt","I'm here if you need me.","to support a friend","It's been a hard week.","I'm sorry. I'm here if you need me."],
+["f150","dt","Let's keep in touch.","at the end of a meeting","I'm moving next month.","Let's keep in touch."],
+["f151","dt","You can tell me anything.","to show trust","I don't know how to say this…","It's OK. You can tell me anything."],
+["f152","dt","I've been looking forward to this.","at the start of a date or a meeting","Hi! Sorry, have you been waiting long?","Not at all. I've been looking forward to this."],
+["f153","dt","That's so sweet of you.","when someone does something kind","I brought you some flowers.","That's so sweet of you!"],
+["f154","dt","What's your favourite way to relax?","an easy, personal question","Work was crazy this week.","Oh no. What's your favourite way to relax?"],
+["f155","wk","Let's get started.","to begin a meeting","Is everyone here?","Yes. Let's get started."],
+["f156","wk","Can I add something?","to join a discussion","…so that's the plan.","Can I add something?"],
+["f157","wk","Just to follow up on …","to continue an earlier topic","Any other questions?","Just to follow up on yesterday's email, is the date fixed?"],
+["f158","wk","I'll get back to you.","when you need time to answer","Can you start in May?","I'll get back to you on that."],
+["f159","wk","Could you send me the details?","to ask for information in writing","The meeting is next week.","Great. Could you send me the details?"],
+["f160","wk","What's the deadline?","to ask when work must be finished","We need a new report.","OK. What's the deadline?"],
+["f161","wk","I'm on it.","to say you're doing it now","Can you fix the website?","I'm on it."],
+["f162","wk","Let's move on to the next point.","to change the topic in a meeting","I think that's clear.","Good. Let's move on to the next point."],
+["f163","wk","Do you have a minute?","to ask for a short talk","Hi, what's up?","Do you have a minute? I have a quick question."],
+["f164","wk","I'd like to suggest …","to give an idea in a formal way","Any ideas?","I'd like to suggest a shorter meeting every week."],
+["f165","wk","That works for me.","to agree with a plan","Shall we meet at ten?","That works for me."],
+["f166","wk","Let's touch base next week.","to agree to talk again later","We need more time to decide.","OK. Let's touch base next week."],
+["f167","wk","Could you walk me through it?","to ask for a step-by-step explanation","Here's the new system.","Could you walk me through it?"],
+["f168","wk","Thanks, everyone, for your time.","to end a meeting","I think we're done.","Great. Thanks, everyone, for your time."],
+["f169","ph","Hi, it's … here.","to say who is calling","Hello?","Hi, it's Sam here. Is this a good time?"],
+["f170","ph","Is this a good time to talk?","to be polite at the start of a call","Hello, this is Ana.","Hi, Ana. Is this a good time to talk?"],
+["f171","ph","Could I speak to …, please?","to ask for someone","Good morning, City Bank.","Good morning. Could I speak to Mr Jones, please?"],
+["f172","ph","Hold on a moment, please.","to ask someone to wait","Is Lisa there?","Hold on a moment, please."],
+["f173","ph","Sorry, you're breaking up.","when the line is bad","I'll… meet… at…","Sorry, you're breaking up. Can you repeat that?"],
+["f174","ph","Can I leave a message?","when the person isn't there","Sorry, he's out of the office.","Can I leave a message?"],
+["f175","ph","I'm calling about …","to say why you are calling","How can I help you?","I'm calling about my order from last week."],
+["f176","ph","Could you call me back later?","when you are busy","Hi, it's me!","Hi! I'm driving. Could you call me back later?"],
+["f177","ph","Speak to you soon.","to end a friendly call","OK, see you on Friday.","Great. Speak to you soon!"],
+["f178","ph","Thanks for calling.","to end a call politely","That's all I needed.","No problem. Thanks for calling."],
+["f179","ph","Let me just write that down.","to take a note","The number is 0803 555 2210.","Let me just write that down."],
+["f180","ph","Can you hear me OK?","to check the line","Hello? … Hello?","Hi! Can you hear me OK?"],
+["f181","ph","I'll put you through.","to connect a caller to someone","Can I speak to the manager?","One moment. I'll put you through."],
+["f182","ph","Sorry, I think I have the wrong number.","when you called the wrong person","Hello, Pizza Palace.","Sorry, I think I have the wrong number."]
+];
+/* ---------- Content: words [id, word, part of speech, meaning, example, word family, how to say it (CAPS = stress)] ---------- */
+const WORDS = [
+["w001","reliable","adjective","can be trusted to work well or do what is needed","My old car isn't fast, but it's very reliable.","rely, reliable, reliability, reliably","ri-LY-a-bl"],
+["w002","convince","verb","to make someone believe something","She convinced me to try the course.","convince, convinced, convincing","kun-VINS"],
+["w003","struggle","verb","to try very hard to do something difficult","I struggle to find words when I'm nervous.","struggle, struggling","STRUG-l"],
+["w004","opportunity","noun","a chance to do something good","This job is a great opportunity.","opportunity, opportunities","op-er-TYOO-ni-tee"],
+["w005","eventually","adverb","in the end, after a long time","Eventually, I found the right answer.","eventual, eventually","i-VEN-choo-a-lee"],
+["w006","admit","verb","to say that something is true, often when you don't want to","I admit I was wrong.","admit, admission","ad-MIT"],
+["w007","efficient","adjective","working well without wasting time or energy","The new system is more efficient.","efficient, efficiency, efficiently","i-FISH-nt"],
+["w008","confident","adjective","sure about yourself and what you can do","She feels confident when she speaks.","confidence, confident, confidently","KON-fi-dent"],
+["w009","improve","verb","to make or become better","My English is improving every week.","improve, improvement","im-PROOV"],
+["w010","achieve","verb","to succeed in doing something after a lot of effort","He achieved his goal of running ten kilometres.","achieve, achievement","a-CHEEV"],
+["w011","afford","verb","to have enough money for something","I can't afford a new car right now.","afford, affordable","a-FORD"],
+["w012","apparently","adverb","from what you have heard; it seems that","Apparently, the shop is closing.","apparent, apparently","a-PA-rent-lee"],
+["w013","appreciate","verb","to be thankful for something","I really appreciate your help.","appreciate, appreciation","a-PREE-shee-ayt"],
+["w014","approach","noun","a way of doing something","I like her approach to teaching.","approach, approachable","a-PROHCH"],
+["w015","argue","verb","to disagree with someone, often angrily","My neighbours argue about money.","argue, argument","AR-gyoo"],
+["w016","assume","verb","to think something is true without checking","I assumed you were busy.","assume, assumption","a-SYOOM"],
+["w017","attitude","noun","the way you think and feel about something","She has a positive attitude.","attitude, attitudes","AT-i-tyood"],
+["w018","available","adjective","free to use, buy or meet","Are you available on Friday?","available, availability","a-VAY-la-bl"],
+["w019","aware","adjective","knowing that something exists or is happening","I wasn't aware of the problem.","aware, awareness","a-WAIR"],
+["w020","benefit","noun","a good effect or an advantage","Exercise has many benefits.","benefit, beneficial","BEN-i-fit"],
+["w021","brief","adjective","short","Can you give me a brief answer?","brief, briefly","BREEF"],
+["w022","challenge","noun","something difficult that tests you","Speaking English is my biggest challenge.","challenge, challenging","CHAL-inj"],
+["w023","colleague","noun","a person you work with","My colleagues are very friendly.","colleague, colleagues","KOL-eeg"],
+["w024","compare","verb","to look at how things are similar or different","Don't compare yourself to other people.","compare, comparison","kum-PAIR"],
+["w025","complain","verb","to say you're unhappy about something","He always complains about the weather.","complain, complaint","kum-PLAYN"],
+["w026","concern","noun","a worry","My main concern is the cost.","concern, concerned","kun-SURN"],
+["w027","consider","verb","to think carefully about something","I'm considering a new job.","consider, consideration, considerate","kun-SID-er"],
+["w028","convenient","adjective","easy and useful for you","Is ten o'clock convenient for you?","convenient, convenience","kun-VEE-nee-ent"],
+["w029","curious","adjective","wanting to know or learn something","I'm curious about your culture.","curious, curiosity","KYOOR-ee-us"],
+["w030","decent","adjective","good enough; honest and kind","They pay a decent salary.","decent, decently","DEE-sent"],
+["w031","decline","verb","to say no politely","She declined the invitation.","decline, declined","di-KLYN"],
+["w032","definitely","adverb","certainly, without any doubt","I'll definitely come to your party.","definite, definitely","DEF-i-nit-lee"],
+["w033","deserve","verb","to earn something because of what you did","You deserve a break.","deserve, deserving","di-ZURV"],
+["w034","determined","adjective","wanting very much to do something and not giving up","He's determined to pass the exam.","determine, determined, determination","di-TUR-mind"],
+["w035","disappointed","adjective","sad because something was not as good as you hoped","I was disappointed with the film.","disappoint, disappointed, disappointing, disappointment","dis-a-POIN-tid"],
+["w036","encourage","verb","to give someone confidence or support","My teacher encouraged me to speak more.","encourage, encouragement, encouraging","in-KUR-ij"],
+["w037","essential","adjective","very important and necessary","Water is essential for life.","essential, essentially","i-SEN-shl"],
+["w038","estimate","verb","to guess a number or an amount","I estimate it will take two hours.","estimate, estimation","ES-ti-mayt"],
+["w039","exhausted","adjective","extremely tired","I was exhausted after the trip.","exhaust, exhausted, exhausting","ig-ZAWS-tid"],
+["w040","expand","verb","to become bigger","The company is expanding fast.","expand, expansion","ik-SPAND"],
+["w041","familiar","adjective","known to you, because you have seen or heard it before","Her face looks familiar.","familiar, familiarity","fa-MIL-ee-er"],
+["w042","flexible","adjective","able to change easily","My working hours are flexible.","flexible, flexibility","FLEK-si-bl"],
+["w043","frankly","adverb","honestly","Frankly, I don't like the plan.","frank, frankly","FRANK-lee"],
+["w044","generous","adjective","happy to give money, time or help","She's very generous with her time.","generous, generosity","JEN-er-us"],
+["w045","genuine","adjective","real and honest","He showed genuine interest in my story.","genuine, genuinely","JEN-yoo-in"],
+["w046","grateful","adjective","thankful","I'm grateful for your support.","grateful, gratitude","GRAYT-ful"],
+["w047","handle","verb","to deal with a situation","She handles stress very well.","handle, handled","HAN-dl"],
+["w048","hesitate","verb","to stop before you do or say something because you're not sure","Don't hesitate to ask questions.","hesitate, hesitation","HEZ-i-tayt"],
+["w049","honest","adjective","telling the truth","Thanks for being honest with me.","honest, honesty, honestly","ON-ist"],
+["w050","ignore","verb","to not pay attention to something","Just ignore the noise.","ignore, ignored","ig-NOR"],
+["w051","impressive","adjective","very good, so that you admire it","Your progress is impressive.","impress, impressive, impression","im-PRES-iv"],
+["w052","increase","verb","to become bigger in number or amount","Prices increased last year.","increase, increasing","in-KREES"],
+["w053","influence","noun","the power to change how someone thinks or acts","My father had a big influence on me.","influence, influential","IN-floo-ens"],
+["w054","involve","verb","to include as a part","The job involves a lot of travel.","involve, involved, involvement","in-VOLV"],
+["w055","issue","noun","a problem or a topic","We have a small issue with the order.","issue, issues","ISH-oo"],
+["w056","maintain","verb","to keep something in good condition or at the same level","It's hard to maintain a healthy diet.","maintain, maintenance","mayn-TAYN"],
+["w057","manage","verb","to succeed in doing something difficult","I managed to finish on time.","manage, management, manager","MAN-ij"],
+["w058","mention","verb","to say something briefly","She mentioned your name.","mention, mentioned","MEN-shn"],
+["w059","obvious","adjective","easy to see or understand","The answer is obvious.","obvious, obviously","OB-vee-us"],
+["w060","occasionally","adverb","sometimes, but not often","I occasionally eat meat.","occasion, occasional, occasionally","a-KAY-zhn-a-lee"],
+["w061","option","noun","a choice","We have two options.","option, optional","OP-shn"],
+["w062","patient","adjective","able to wait calmly","Be patient with yourself.","patient, patience, patiently","PAY-shnt"],
+["w063","persuade","verb","to make someone agree to do something","I persuaded him to come with us.","persuade, persuasive, persuasion","per-SWAYD"],
+["w064","prefer","verb","to like one thing more than another","I prefer tea to coffee.","prefer, preference","pri-FUR"],
+["w065","previous","adjective","the one before this one","My previous job was in sales.","previous, previously","PREE-vee-us"],
+["w066","proud","adjective","happy about something you or someone close to you did","I'm proud of you.","proud, pride, proudly","PROWD"],
+["w067","purpose","noun","the reason for something","What's the purpose of the meeting?","purpose, purposes","PUR-pus"],
+["w068","recognise","verb","to know someone or something you have seen before","I didn't recognise you with short hair!","recognise, recognition","REK-og-nyz"],
+["w069","recommend","verb","to say that something is good and someone should try it","Can you recommend a good restaurant?","recommend, recommendation","rek-a-MEND"],
+["w070","reduce","verb","to make smaller or less","I want to reduce my screen time.","reduce, reduction","ri-DYOOS"],
+["w071","regret","verb","to feel sorry about something you did or didn't do","I regret not studying harder.","regret, regretful","ri-GRET"],
+["w072","relationship","noun","the way two people or groups are connected","We have a good relationship.","relate, relation, relationship","ri-LAY-shn-ship"],
+["w073","relief","noun","a good feeling when a worry ends","What a relief! The test is over.","relief, relieved","ri-LEEF"],
+["w074","remind","verb","to make someone remember","Remind me to call my mum.","remind, reminder","ri-MYND"],
+["w075","require","verb","to need","The job requires good English.","require, requirement","ri-KWY-er"],
+["w076","responsible","adjective","having the duty to do something; being the cause of something","Who is responsible for this project?","responsible, responsibility","ri-SPON-si-bl"],
+["w077","satisfied","adjective","happy because you got what you wanted","Are you satisfied with the result?","satisfy, satisfied, satisfaction, satisfying","SAT-is-fyd"],
+["w078","schedule","noun","a plan of times for things","My schedule is full this week.","schedule, scheduled","SHED-yool / SKEJ-ool"],
+["w079","suggest","verb","to give an idea for someone to think about","I suggest we leave early.","suggest, suggestion","sa-JEST"],
+["w080","support","verb","to help or encourage","My family supports my dream.","support, supportive","sa-PORT"],
+["w081","suppose","verb","to think that something is probably true","I suppose you're right.","suppose, supposedly","sa-POHZ"],
+["w082","tend","verb","to usually do something","I tend to wake up early.","tend, tendency","TEND"],
+["w083","unfortunately","adverb","sadly","Unfortunately, I can't come.","fortunate, unfortunate, unfortunately","un-FOR-choo-nat-lee"],
+["w084","valuable","adjective","worth a lot of money, or very useful","Thanks for your valuable advice.","value, valuable","VAL-yoo-a-bl"],
+["w085","various","adjective","several different","I've lived in various cities.","vary, various, variety","VAIR-ee-us"],
+["w086","willing","adjective","happy to do something if it's needed","I'm willing to help.","willing, willingness","WIL-ing"],
+["w087","worth","adjective","good or useful enough to do; having a value","The film is worth watching.","worth, worthy","WURTH"],
+["w088","accurate","adjective","correct and exact","Is this information accurate?","accurate, accuracy, accurately","AK-yoo-rat"],
+["w089","adapt","verb","to change to fit a new situation","It took time to adapt to the cold.","adapt, adaptation","a-DAPT"],
+["w090","advantage","noun","something that helps you","Speaking two languages is a big advantage.","advantage, disadvantage","ad-VAHN-tij"],
+["w091","anxious","adjective","worried and nervous","I feel anxious before interviews.","anxious, anxiety","ANGK-shus"],
+["w092","appropriate","adjective","right for the situation","Is this dress appropriate for a wedding?","appropriate, appropriately","a-PROH-pree-at"],
+["w093","average","adjective","normal and usual; the middle amount","On an average day, I sleep seven hours.","average, averages","AV-rij"],
+["w094","balance","noun","a state where things are equal or steady","I'm trying to find a balance between work and life.","balance, balanced","BAL-ans"],
+["w095","behave","verb","to act in a certain way","The children behaved well.","behave, behaviour","bi-HAYV"],
+["w096","brilliant","adjective","very clever or very good","What a brilliant idea!","brilliant, brilliantly","BRIL-yant"],
+["w097","career","noun","the jobs you do during your working life","She wants a career in medicine.","career, careers","ka-REER"],
+["w098","cautious","adjective","careful to avoid danger or problems","Be cautious when you drive at night.","caution, cautious, cautiously","KAW-shus"],
+["w099","commitment","noun","a promise or a strong decision to do something","Learning a language needs commitment.","commit, commitment, committed","ka-MIT-ment"],
+["w100","communicate","verb","to share information or feelings","We communicate by email.","communicate, communication","ka-MYOO-ni-kayt"],
+["w101","confuse","verb","to make someone unsure","The instructions confused me.","confuse, confused, confusing, confusion","kun-FYOOZ"],
+["w102","contribute","verb","to give something to help","Everyone contributed to the party.","contribute, contribution","kun-TRIB-yoot"],
+["w103","creative","adjective","good at making new ideas or things","She's very creative in the kitchen.","create, creative, creativity","kree-AY-tiv"],
+["w104","crucial","adjective","extremely important","This meeting is crucial for the project.","crucial, crucially","KROO-shl"],
+["w105","delighted","adjective","very pleased","I'm delighted to meet you.","delight, delighted, delightful","di-LY-tid"],
+["w106","depend","verb","to need someone or something; to change because of something","It depends on the weather.","depend, dependent, dependable","di-PEND"],
+["w107","describe","verb","to say what something is like","Can you describe the man?","describe, description","di-SKRYB"],
+["w108","develop","verb","to grow, or to make something grow","I want to develop my skills.","develop, development","di-VEL-op"],
+["w109","effort","noun","the energy you use to do something","Thanks for your effort.","effort, effortless","EF-ert"],
+["w110","embarrassed","adjective","feeling shy or silly because of something you did","I was embarrassed when I forgot her name.","embarrass, embarrassed, embarrassing","im-BA-rast"],
+["w111","emotional","adjective","showing strong feelings","The wedding was very emotional.","emotion, emotional","i-MOH-shn-al"],
+["w112","enormous","adjective","very big","They live in an enormous house.","enormous, enormously","i-NOR-mus"],
+["w113","entire","adjective","whole","I spent the entire day reading.","entire, entirely","in-TY-er"],
+["w114","environment","noun","the natural world; the place around you","We must protect the environment.","environment, environmental","in-VY-run-ment"],
+["w115","exaggerate","verb","to say something is bigger or better than it really is","Don't exaggerate! It wasn't that bad.","exaggerate, exaggeration","ig-ZAJ-er-ayt"],
+["w116","expectation","noun","what you think will happen","The hotel was better than my expectations.","expect, expectation","ek-spek-TAY-shn"],
+["w117","experience","noun","knowledge from doing things; something that happened to you","Do you have any experience in sales?","experience, experienced","ik-SPEER-ee-ens"],
+["w118","fair","adjective","treating people equally and in the right way","That's not fair!","fair, fairly, fairness","FAIR"],
+["w119","focus","verb","to give all your attention to something","I need to focus on my work.","focus, focused","FOH-kus"],
+["w120","frustrated","adjective","annoyed because you can't do something","I get frustrated when I can't find a word.","frustrate, frustrated, frustrating, frustration","frus-TRAY-tid"],
+["w121","gradually","adverb","slowly, step by step","My English is gradually getting better.","gradual, gradually","GRAD-yoo-a-lee"],
+["w122","guarantee","verb","to promise that something will happen","I can't guarantee we'll win.","guarantee, guaranteed","ga-ran-TEE"],
+["w123","habit","noun","something you do often, without thinking","Reading before bed is a good habit.","habit, habits, habitual","HAB-it"],
+["w124","hopefully","adverb","I hope that","Hopefully, it won't rain tomorrow.","hope, hopeful, hopefully","HOHP-ful-ee"],
+["w125","ideal","adjective","perfect","This is the ideal place for a picnic.","ideal, ideally","eye-DEE-al"],
+["w126","immediately","adverb","now, without waiting","Call me immediately if you need help.","immediate, immediately","i-MEE-dee-at-lee"],
+["w127","independent","adjective","not needing help from other people","My grandmother is very independent.","independent, independence","in-di-PEN-dent"],
+["w128","inspire","verb","to make someone want to do something good","Her story inspired me.","inspire, inspiration, inspiring","in-SPY-er"],
+["w129","intend","verb","to plan to do something","I intend to finish this book.","intend, intention","in-TEND"],
+["w130","interrupt","verb","to stop someone while they are talking","Sorry to interrupt.","interrupt, interruption","in-ta-RUPT"],
+["w131","jealous","adjective","unhappy because someone has something you want","He's jealous of his brother's success.","jealous, jealousy","JEL-us"],
+["w132","knowledge","noun","what you know","She has a lot of knowledge about history.","know, knowledge, knowledgeable","NOL-ij"],
+["w133","likely","adjective","probably going to happen","It's likely to rain.","likely, likelihood, unlikely","LYK-lee"],
+["w134","limit","noun","the most that is possible or allowed","There's a limit to what I can do.","limit, limited","LIM-it"],
+["w135","loyal","adjective","always supporting someone","He's a loyal friend.","loyal, loyalty","LOY-al"],
+["w136","mature","adjective","behaving like a sensible adult","She's very mature for her age.","mature, maturity","ma-CHOOR"],
+["w137","memorable","adjective","easy to remember because it is special","It was a memorable trip.","memory, memorable","MEM-er-a-bl"],
+["w138","mood","noun","how you feel at a certain time","I'm in a good mood today.","mood, moody","MOOD"],
+["w139","motivate","verb","to make someone want to do something","What motivates you to learn?","motivate, motivation, motivated","MOH-ti-vayt"],
+["w140","necessary","adjective","needed","Is it necessary to book a table?","necessary, necessity, necessarily","NES-a-ser-ee"],
+["w141","negotiate","verb","to talk with someone to reach an agreement","We negotiated a better price.","negotiate, negotiation","ni-GOH-shee-ayt"],
+["w142","nervous","adjective","worried and a little afraid","I'm nervous about the interview.","nerve, nervous, nervously","NUR-vus"],
+["w143","notice","verb","to see or become aware of something","Did you notice her new haircut?","notice, noticeable","NOH-tis"],
+["w144","ordinary","adjective","normal, not special","It was just an ordinary day.","ordinary, extraordinary","OR-di-ner-ee"],
+["w145","organise","verb","to plan or arrange something","She organised a party for him.","organise, organisation, organised","OR-ga-nyz"],
+["w146","overcome","verb","to succeed in dealing with a problem","I want to overcome my fear of speaking.","overcome, overcame","oh-ver-KUM"],
+["w147","particular","adjective","special, this one and not another","Is there a particular reason?","particular, particularly","per-TIK-yoo-ler"],
+["w148","permanent","adjective","lasting for a very long time or forever","Is this job permanent?","permanent, permanently","PUR-ma-nent"],
+["w149","polite","adjective","showing good manners","It's polite to say thank you.","polite, politely, politeness","pa-LYT"],
+["w150","positive","adjective","hopeful and confident; good","Try to stay positive.","positive, positively","POZ-i-tiv"],
+["w151","possibility","noun","something that might happen","Is there a possibility of rain?","possible, possibility, possibly","pos-i-BIL-i-tee"],
+["w152","practical","adjective","useful in real life","Give me some practical advice.","practice, practical, practically","PRAK-ti-kl"],
+["w153","precious","adjective","very valuable or very loved","Time with family is precious.","precious","PRESH-us"],
+["w154","pressure","noun","a feeling that you must do something","I work well under pressure.","press, pressure","PRESH-er"],
+["w155","priority","noun","the most important thing","My health is my priority.","prior, priority, prioritise","pry-OR-i-tee"],
+["w156","progress","noun","getting better over time","You're making good progress.","progress, progressive","PROH-gres"],
+["w157","promote","verb","to give someone a more important job","She was promoted to manager.","promote, promotion","pra-MOHT"],
+["w158","punctual","adjective","arriving at the right time, not late","He's always punctual.","punctual, punctuality","PUNGK-choo-al"],
+["w159","qualified","adjective","having the skills or papers for a job","She's a qualified nurse.","qualify, qualified, qualification","KWOL-i-fyd"],
+["w160","realise","verb","to understand something, often suddenly","I realised I had left my phone at home.","real, realise, realisation","REE-a-lyz"],
+["w161","reasonable","adjective","fair and sensible; not too expensive","The price is reasonable.","reason, reasonable, reasonably","REE-zn-a-bl"],
+["w162","refuse","verb","to say no to something","He refused to help.","refuse, refusal","ri-FYOOZ"],
+["w163","relaxed","adjective","calm and not worried","I feel relaxed after a walk.","relax, relaxed, relaxing, relaxation","ri-LAKST"],
+["w164","reluctant","adjective","not wanting to do something","She was reluctant to speak in public.","reluctant, reluctance, reluctantly","ri-LUK-tant"],
+["w165","remarkable","adjective","unusual and surprising in a good way","She made remarkable progress.","remark, remarkable, remarkably","ri-MAR-ka-bl"],
+["w166","rescue","verb","to save someone from danger","Firefighters rescued the family.","rescue, rescued","RES-kyoo"],
+["w167","respect","noun","a feeling that someone is good or important","I have a lot of respect for my teacher.","respect, respectful","ri-SPEKT"],
+["w168","rough","adjective","not smooth; difficult","I had a rough day.","rough, roughly","RUF"],
+["w169","routine","noun","the usual order you do things in","Exercise is part of my morning routine.","routine, routines","roo-TEEN"],
+["w170","rude","adjective","not polite","It's rude to interrupt people.","rude, rudely, rudeness","ROOD"],
+["w171","secure","adjective","safe; not worried about losing something","I feel secure in my job.","secure, security","si-KYOOR"],
+["w172","sensible","adjective","showing good judgement","That's a sensible decision.","sense, sensible","SEN-si-bl"],
+["w173","sensitive","adjective","easily upset; understanding other people's feelings","He's very sensitive about his weight.","sense, sensitive, sensitivity","SEN-si-tiv"],
+["w174","sincere","adjective","honest and real","Please accept my sincere apologies.","sincere, sincerely, sincerity","sin-SEER"],
+["w175","skill","noun","the ability to do something well","Listening is an important skill.","skill, skilled, skilful","SKIL"],
+["w176","solution","noun","the answer to a problem","We need a quick solution.","solve, solution","sa-LOO-shn"],
+["w177","spontaneous","adjective","done without planning","We took a spontaneous trip to the beach.","spontaneous, spontaneously","spon-TAY-nee-us"],
+["w178","stressful","adjective","making you worried","Moving house is stressful.","stress, stressed, stressful","STRES-ful"],
+["w179","strict","adjective","wanting people to follow the rules","My parents were very strict.","strict, strictly","STRIKT"],
+["w180","succeed","verb","to do what you tried to do","If you keep trying, you will succeed.","succeed, success, successful","sak-SEED"],
+["w181","sufficient","adjective","enough","Do we have sufficient time?","sufficient, sufficiently","sa-FISH-ent"],
+["w182","surprised","adjective","feeling that something unexpected happened","I was surprised to see him.","surprise, surprised, surprising","ser-PRYZD"],
+["w183","tidy","adjective","neat and organised","Keep your room tidy.","tidy, tidily","TY-dee"],
+["w184","tough","adjective","difficult; strong","It was a tough decision.","tough, toughness","TUF"],
+["w185","tradition","noun","a custom that people have followed for a long time","It's a family tradition.","tradition, traditional","tra-DISH-n"],
+["w186","trust","verb","to believe that someone is honest and good","I trust you completely.","trust, trustworthy","TRUST"],
+["w187","typical","adjective","usual and normal for a person or thing","On a typical day, I work eight hours.","type, typical, typically","TIP-i-kl"],
+["w188","unique","adjective","the only one of its kind","Everyone's voice is unique.","unique, uniquely","yoo-NEEK"],
+["w189","upset","adjective","unhappy or worried","She was upset about the news.","upset","up-SET"],
+["w190","urgent","adjective","needing action quickly","It's urgent. Please call me back.","urgent, urgency, urgently","UR-jent"],
+["w191","vague","adjective","not clear","His answer was vague.","vague, vaguely","VAYG"],
+["w192","vital","adjective","very necessary","Sleep is vital for good health.","vital, vitality","VY-tl"],
+["w193","weird","adjective","strange","It was a weird dream.","weird, weirdly","WEERD"],
+["w194","wise","adjective","showing good sense from experience","That was a wise decision.","wise, wisdom, wisely","WYZ"],
+["w195","accomplish","verb","to succeed in finishing something","We accomplished a lot today.","accomplish, accomplishment","a-KOM-plish"],
+["w196","acknowledge","verb","to accept that something is true","He acknowledged his mistake.","acknowledge, acknowledgement","ak-NOL-ij"],
+["w197","adjust","verb","to change something a little","Adjust the seat before you drive.","adjust, adjustment","a-JUST"],
+["w198","alternative","noun","another choice","Is there a cheaper alternative?","alternative, alternatively","awl-TUR-na-tiv"],
+["w199","ambitious","adjective","wanting very much to be successful","She's ambitious and hard-working.","ambition, ambitious","am-BISH-us"],
+["w200","annoying","adjective","making you a little angry","The noise is really annoying.","annoy, annoyed, annoying","a-NOY-ing"],
+["w201","anticipate","verb","to expect something and get ready for it","We didn't anticipate so many guests.","anticipate, anticipation","an-TIS-i-payt"],
+["w202","apologise","verb","to say sorry","I apologised for being late.","apologise, apology","a-POL-a-jyz"],
+["w203","approve","verb","to say that something is good or allowed","My manager approved my holiday.","approve, approval","a-PROOV"],
+["w204","attempt","noun","a try","He passed the test on his first attempt.","attempt, attempted","a-TEMPT"],
+["w205","attract","verb","to make someone interested","The beach attracts many tourists.","attract, attractive, attraction","a-TRAKT"],
+["w206","awkward","adjective","uncomfortable or embarrassing","There was an awkward silence.","awkward, awkwardly","AWK-werd"],
+["w207","boost","verb","to increase or improve","Exercise boosts your mood.","boost, boosted","BOOST"],
+["w208","casual","adjective","relaxed, not formal","The dress code is casual.","casual, casually","KAZH-yoo-al"],
+["w209","clarify","verb","to make something clearer","Could you clarify the last point?","clear, clarify, clarification","KLA-ri-fy"],
+["w210","compromise","noun","an agreement where both people give a little","We reached a compromise.","compromise, compromised","KOM-pra-myz"],
+["w211","concentrate","verb","to think carefully about one thing","I can't concentrate with the TV on.","concentrate, concentration","KON-sen-trayt"],
+["w212","consistent","adjective","always the same; regular","Be consistent with your practice.","consistent, consistency, consistently","kun-SIS-tent"],
+["w213","crowded","adjective","full of people","The bus was very crowded.","crowd, crowded","KROW-did"],
+["w214","deliberately","adverb","on purpose","Did you do that deliberately?","deliberate, deliberately","di-LIB-er-at-lee"],
+["w215","demanding","adjective","needing a lot of time or effort","My job is very demanding.","demand, demanding","di-MAHN-ding"],
+["w216","doubt","noun","a feeling of not being sure","I have no doubt you'll pass.","doubt, doubtful","DOWT"],
+["w217","eager","adjective","wanting very much to do something","The kids are eager to start.","eager, eagerly","EE-ger"],
+["w218","elegant","adjective","beautiful and stylish","She wore an elegant dress.","elegant, elegance","EL-i-gant"],
+["w219","emphasise","verb","to show that something is important","He emphasised the need for safety.","emphasis, emphasise","EM-fa-syz"],
+["w220","enthusiastic","adjective","very interested and excited","She's enthusiastic about her new job.","enthusiasm, enthusiastic","in-thyoo-zee-AS-tik"],
+["w221","explore","verb","to travel around a place to learn about it","We explored the old town.","explore, exploration","ik-SPLOR"],
+["w222","fascinating","adjective","extremely interesting","The documentary was fascinating.","fascinate, fascinated, fascinating","FAS-i-nay-ting"],
+["w223","fluent","adjective","able to speak a language easily and well","I want to be fluent in English.","fluent, fluency, fluently","FLOO-ent"],
+["w224","gorgeous","adjective","very beautiful","What a gorgeous view!","gorgeous","GOR-jus"],
+["w225","hilarious","adjective","extremely funny","The film was hilarious.","hilarious, hilariously","hi-LAIR-ee-us"],
+["w226","humble","adjective","not thinking you are better than other people","He's successful but humble.","humble, humility","HUM-bl"],
+["w227","incredible","adjective","very surprising; very good","The view was incredible.","incredible, incredibly","in-KRED-i-bl"],
+["w228","insist","verb","to say firmly that something must happen","She insisted on paying.","insist, insistent","in-SIST"],
+["w229","keen","adjective","very interested; eager","I'm keen to learn more.","keen, keenly","KEEN"],
+["w230","overwhelmed","adjective","feeling there is too much to deal with","I felt overwhelmed by all the work.","overwhelm, overwhelmed, overwhelming","oh-ver-WELMD"],
+["w231","postpone","verb","to move to a later time","They postponed the match.","postpone, postponement","pohst-POHN"],
+["w232","pursue","verb","to try to achieve something over a long time","She's pursuing a career in law.","pursue, pursuit","per-SYOO"],
+["w233","reassure","verb","to make someone feel less worried","The doctor reassured me.","reassure, reassurance, reassuring","ree-a-SHOOR"],
+["w234","reflect","verb","to think carefully about something","Take time to reflect on your progress.","reflect, reflection","ri-FLEKT"],
+["w235","reveal","verb","to show or tell something that was secret","She revealed her plans.","reveal, revelation","ri-VEEL"],
+["w236","rewarding","adjective","giving you a good feeling because it is useful","Teaching is a rewarding job.","reward, rewarding","ri-WOR-ding"],
+["w237","significant","adjective","important, or large enough to notice","There's a significant difference.","significant, significance, significantly","sig-NIF-i-kant"],
+["w238","steady","adjective","firm; developing at a regular speed","We're making steady progress.","steady, steadily","STED-ee"],
+["w239","thoughtful","adjective","kind, always thinking about other people","What a thoughtful gift!","thought, thoughtful","THAWT-ful"],
+["w240","tolerate","verb","to accept something you don't like","I can't tolerate rudeness.","tolerate, tolerant, tolerance","TOL-er-ayt"],
+["w241","vulnerable","adjective","easy to hurt, physically or emotionally","I felt vulnerable when I shared my story.","vulnerable, vulnerability","VUL-ner-a-bl"],
+["w242","witness","verb","to see something happen","Did anyone witness the accident?","witness, witnessed","WIT-nis"],
+["w243","worthwhile","adjective","worth the time or effort","Learning English is worthwhile.","worth, worthwhile","wurth-WYL"],
+["w244","thrilled","adjective","very happy and excited","I'm thrilled with my new job.","thrill, thrilled, thrilling","THRILD"],
+["w245","sociable","adjective","friendly and liking to be with people","She's very sociable at parties.","social, sociable","SOH-sha-bl"],
+["w246","dedicate","verb","to give your time and energy to something","He dedicated his life to helping others.","dedicate, dedicated, dedication","DED-i-kayt"],
+["w247","calm","adjective","quiet and relaxed","Stay calm and breathe.","calm, calmly","KAHM"]
+];
+/* ---------- Matching: did the learner use today's words? (matchNorm, matchToks and matchSpec are copied into call.html) ---------- */
+const CONTR = [[/\bcan'?t\b/g,"can not"],[/\bcannot\b/g,"can not"],[/\bwon'?t\b/g,"will not"],[/\bshan't\b/g,"shall not"],[/\b(\w+)n't\b/g,"$1 not"],
+  [/\blet's\b/g,"let us"],[/\bi'm\b/g,"i am"],[/'re\b/g," are"],[/'ve\b/g," have"],[/'ll\b/g," will"],[/'d\b/g," would"],[/'s\b/g," is"]];
+function matchNorm(s) {
+  let t = String(s || "").toLowerCase().replace(/[’‘`´]/g, "'").replace(/…/g, " ").replace(/(\w)-(\w)/g, "$1 $2");
+  CONTR.forEach(([re, to]) => { t = t.replace(re, to); });
+  return t.replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+}
+const matchToks = s => { const t = matchNorm(s); return t ? t.split(" ") : []; };
+/* spec = {toks: [["alt", …] or "*"], gap, first, miss}. "*" stands for "someone / something": up to 4 words. */
+function matchSpec(T, spec) {
+  const E = spec && Array.isArray(spec.toks) ? spec.toks : [];
+  const real = E.filter(e => e !== "*").length;
+  if (!real || !T.length) return false;
+  const miss = spec.miss || 0, gap = spec.gap || 0;
+  for (let s = 0; s < T.length; s++) {
+    for (let e0 = 0; e0 < E.length && e0 <= miss; e0++) {
+      if (E[e0] === "*" || !E[e0].includes(T[s])) continue;
+      let p = s + 1, missed = E.slice(0, e0).filter(e => e !== "*").length, matched = 1, extra = 0, firstStep = true;
+      for (let j = e0 + 1; j < E.length && missed <= miss; j++) {
+        if (E[j] === "*") { extra += 4; continue; }
+        const g = (firstStep && spec.first != null ? spec.first : gap) + extra;
+        let found = -1;
+        for (let q = p; q < T.length && q <= p + g; q++) if (E[j].includes(T[q])) { found = q; break; }
+        if (found >= 0) { matched++; p = found + 1; extra = 0; firstStep = false; } else missed++;
+      }
+      if (missed <= miss && matched >= real - miss && (real < 2 || matched >= 2)) return true;
+    }
+  }
+  return false;
+}
+
+/* Building the specs (daily.html only). */
+const POSS = ["my","your","his","her","its","our","their"];
+const PRON = ["i","you","he","she","we","they","me","him","her","us","them"];
+const REFL = ["myself","yourself","himself","herself","itself","ourselves","yourselves","themselves"];
+const IRREG = {break:"broke broken", get:"got gotten", give:"gave given", find:"found", put:"put", run:"ran", come:"came", go:"went gone goes",
+  take:"took taken", make:"made", bring:"brought", hold:"held", keep:"kept", fall:"fell fallen", wake:"woke woken", cut:"cut", throw:"threw thrown",
+  think:"thought", hang:"hung", sit:"sat", stand:"stood", let:"let", leave:"left", see:"saw seen", set:"set", catch:"caught", show:"showed shown",
+  speak:"spoke spoken", beat:"beat beaten", bite:"bit bitten", sleep:"slept", hit:"hit", cost:"cost", lose:"lost", burn:"burned burnt",
+  learn:"learned learnt", have:"has had", ring:"rang rung", feel:"felt", say:"said", tell:"told", pay:"paid", buy:"bought", do:"did done does",
+  win:"won", fly:"flew flown", eat:"ate eaten", write:"wrote written", read:"read", ride:"rode ridden", begin:"began begun", spend:"spent",
+  send:"sent", build:"built", meet:"met", lead:"led", overcome:"overcame", know:"knew known", grow:"grew grown", drive:"drove driven",
+  understand:"understood", forget:"forgot forgotten", wear:"wore worn", choose:"chose chosen", mean:"meant", teach:"taught", seek:"sought",
+  rise:"rose risen", hurt:"hurt", quit:"quit", upset:"upset"};
+const VERBISH = new Set(Object.keys(IRREG).concat(["call","change","face","pull","play","look","work","pick","turn","check","fill","point","try",
+  "warm","open","ask","calm","cheer","move","pass","carry","count","end","drop","figure","deal","sort","stay","talk","walk","watch"]));
+const DOUBLE = new Set(["admit","prefer","regret","occur","refer","commit","permit","control","compel","forget","begin","upset"]);
+const doubles = v => DOUBLE.has(v) || /^[^aeiou]*[aeiou][^aeiouwxy]$/.test(v);
+function vforms(v) {
+  const out = new Set([v]);
+  out.add(/(s|sh|ch|x|z|o)$/.test(v) ? v + "es" : /[^aeiou]y$/.test(v) ? v.slice(0, -1) + "ies" : v + "s");
+  out.add(/ie$/.test(v) ? v.slice(0, -2) + "ying" : /[^eioy]e$/.test(v) ? v.slice(0, -1) + "ing" : doubles(v) ? v + v.slice(-1) + "ing" : v + "ing");
+  out.add(/e$/.test(v) ? v + "d" : /[^aeiou]y$/.test(v) ? v.slice(0, -1) + "ied" : doubles(v) ? v + v.slice(-1) + "ed" : v + "ed");
+  if (IRREG[v]) IRREG[v].split(" ").forEach(f => out.add(f));
+  return Array.from(out);
+}
+const plurals = n => [n, /(s|sh|ch|x|z)$/.test(n) ? n + "es" : /[^aeiou]y$/.test(n) ? n.slice(0, -1) + "ies" : n + "s"];
+const cleanItemText = s => String(s || "").replace(/\s*…\s*$/, "").replace(/[.?!]+$/, "").trim();
+function wordForms(word, pos, family) {
+  const out = new Set();
+  const add = w => { const t = matchNorm(w); if (t && !t.includes(" ")) out.add(t); };
+  const w = matchNorm(word);
+  if (w.includes(" ")) return [w];
+  add(w); vforms(w).forEach(add); plurals(w).forEach(add);
+  // Family words count too, but only close ones (reliable → reliability), never short roots (knowledge → know).
+  String(family || "").split(",").map(x => matchNorm(x)).forEach(f => {
+    if (!f || f.includes(" ")) return;
+    if (f === w || (w.length >= 5 && f.slice(0, 5) === w.slice(0, 5))) { add(f); vforms(f).forEach(add); }
+  });
+  return Array.from(out);
+}
+function specFor(it) {
+  if (it.type === "word" || it.type === "upgrade") {
+    const raw = matchNorm(it.text);
+    if (raw.includes(" ")) return {toks: raw.split(" ").map(t => [t]), gap: 1, miss: 0};
+    return {toks: [wordForms(it.text, it.pos || "", it.family || "")], gap: 0, miss: 0};
+  }
+  let txt = String(it.text || "").replace(/\b(someone|somebody|something)'s\b/gi, " * ").replace(/\bone's\b/gi, " your ").replace(/\b(someone|somebody|something)\b/gi, " * ");
+  if (it.type === "phrase") txt = cleanItemText(txt).replace(/…/g, " * ");
+  const words = matchNorm(txt.replace(/\*/g, " qqstarqq ")).split(" ").map(w => w === "qqstarqq" ? "*" : w).filter(Boolean);
+  const toks = words.map((w, i) => {
+    if (w === "*") return "*";
+    if (it.type === "phrasal") return i === 0 ? vforms(w) : [w];
+    if (it.type === "idiom") {
+      if (POSS.includes(w)) return POSS;
+      if (w === "you") return PRON;
+      if (w === "yourself") return REFL;
+      if (w === "can") return ["can","could"];
+      if (VERBISH.has(w)) return vforms(w);
+    }
+    return [w];
+  });
+  while (toks.length && toks[toks.length - 1] === "*") toks.pop();
+  const real = toks.filter(t => t !== "*").length;
+  if (it.type === "phrasal") return {toks, gap: 1, first: it.sep ? 4 : 1, miss: 0};
+  return {toks, gap: 1, miss: real >= 6 ? 2 : real >= 4 ? 1 : 0};   // small differences are fine in longer expressions
+}
+const usedIn = (text, it) => matchSpec(matchToks(text), it.spec || specFor(it));
+
+/* ---------- Two homes: the website (Ollama or a free checker) and claude.ai (Claude) ---------- */
+const CLAUDE = !!(window.claude && typeof window.claude.use === "function");
+if (!CLAUDE) document.body.classList.add("standalone");
+const SITE_URL = "https://starray500.github.io/speaking-gym/daily.html";
+const QS = new URLSearchParams(location.search);
+const DEBUG = QS.get("debug") === "1";
+const dbg = (...a) => { if (DEBUG) console.log("[daily]", ...a); };
+
+/* ---------- Helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const settle = (p, ms) => Promise.race([Promise.resolve(p).catch(() => {}), sleep(ms || 2500)]);
+const ymd = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const today = () => (DEBUG && /^\d{4}-\d{2}-\d{2}$/.test(QS.get("today") || "")) ? QS.get("today") : ymd(new Date());
+const isDate = s => typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s);
+const str = (x, n) => String(x == null ? "" : x).slice(0, n || 500);
+const int = (x, lo, hi) => { const n = Math.round(+x); return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : lo; };
+const num = (x, lo, hi, d) => { const n = +x; return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : d; };
+const clock = s => { s = Math.max(0, Math.ceil(s)); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); };
+const sameText = (a, b) => matchNorm(a) === matchNorm(b);
+function fetchT(url, opt, ms) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), ms || 5000);
+  return fetch(url, Object.assign({}, opt, {signal: ctl.signal})).finally(() => clearTimeout(t));
+}
+const I = {
+  play:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" fill="currentColor"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+};
+let toastTimer = null;
+function toast(msg) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, 4800);
+}
+function copyText(text, outSel, okMsg) {
+  const fallback = () => {
+    const out = $(outSel); if (!out) return;
+    out.innerHTML = '<p class="note">Copying didn\'t work here. Select the text below and copy it.</p><textarea rows="8" readonly>' + esc(text) + '</textarea>';
+    const ta = $("textarea", out); if (ta) { ta.focus(); ta.select(); }
+  };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => { const out = $(outSel); if (out) out.innerHTML = ""; toast(okMsg || "Copied."); }, fallback);
+      return;
+    }
+  } catch (e) {}
+  fallback();
+}
+
+/* ---------- Packs: one per day, picked from each bank with different steps, so days don't repeat ---------- */
+const gcd = (a, b) => b ? gcd(b, a % b) : a;
+const strideFor = (len, list) => list.find(s => gcd(s, len) === 1) || 1;
+const ST = {i: strideFor(IDIOMS.length, [7, 11, 13]), p: strideFor(PHRASALS.length, [11, 13, 17]), f: strideFor(PHRASES.length, [41, 43, 47, 37]),
+            w: strideFor(WORDS.length, [43, 47, 53, 59]), u: strideFor(UPGRADES.length, [13, 17, 19])};
+const at = (arr, x, s) => arr[(x * s) % arr.length];
+const PACKS = {};
+function pack(n) {
+  if (PACKS[n]) return PACKS[n];
+  const k = n - 1;
+  const P = {n, g: GRAMMAR[k % GRAMMAR.length], i: at(IDIOMS, k, ST.i), p: at(PHRASALS, k, ST.p),
+    f: [0, 1, 2].map(j => at(PHRASES, 3 * k + j, ST.f)), w: [0, 1, 2, 3].map(j => at(WORDS, 4 * k + j, ST.w)), u: at(UPGRADES, k, ST.u)};
+  P.items = [
+    {id: P.i[0], type: "idiom", text: P.i[1], meaning: P.i[2], example: P.i[3]},
+    {id: P.p[0], type: "phrasal", text: P.p[1], meaning: P.p[2], example: P.p[3], sep: !!P.p[4]}
+  ].concat(P.f.map(f => ({id: f[0], type: "phrase", text: f[2], meaning: f[3], example: f[5]})),
+           P.w.map(w => ({id: w[0], type: "word", text: w[1], meaning: w[3], example: w[4], pos: w[2], family: w[5]})),
+           [{id: P.u[0], type: "upgrade", text: P.u[2], meaning: "a stronger word for \"" + P.u[1] + "\" (opposite: " + P.u[3] + ")", example: P.u[4]}]);
+  P.items.forEach(it => { it.spec = specFor(it); });
+  PACKS[n] = P;
+  return P;
+}
+const chipLabel = it => String(it.text || "").replace(/,?\s*…\s*$/, "…");
+const TYPE_NAME = {grammar: "Grammar", idiom: "Idiom", phrasal: "Phrasal verb", phrase: "Phrase", word: "Word", upgrade: "Word upgrade"};
+
+/* ---------- Saved progress ---------- */
+const LS_KEY = "daily-v1";
+const INBOX_KEY = "notebook-inbox-v1";
+const DEF_SET = () => ({rate: 0.9, voice: ""});
+const fresh = () => ({v: 1, start: "", day: 0, last: "", done: {}, seen: {}, known: {}, steps: {}, settings: DEF_SET(), today: null});
+function normalize(got) {
+  const out = fresh();
+  if (!got || typeof got !== "object") return out;
+  if (isDate(got.start)) out.start = got.start;
+  if (isDate(got.last)) out.last = got.last;
+  out.day = int(got.day, 0, 100000);
+  if (got.done && typeof got.done === "object") Object.keys(got.done).forEach(k => {
+    const n = int(k, 0, 100000), d = got.done[k];
+    if (n >= 1 && d && isDate(d.date)) out.done[n] = {date: d.date, used: int(d.used, 0, 10)};
+  });
+  if (got.seen && typeof got.seen === "object") Object.keys(got.seen).forEach(k => { const n = int(k, 0, 100000); if (n >= 1 && isDate(got.seen[k])) out.seen[n] = got.seen[k]; });
+  if (got.known && typeof got.known === "object") Object.keys(got.known).forEach(k => { if (got.known[k] === true && /^[a-z]\d{2,3}$/.test(k)) out.known[k] = true; });
+  if (got.steps && typeof got.steps === "object") Object.keys(got.steps).forEach(k => {
+    const n = int(k, 0, 100000), a = got.steps[k];
+    if (n >= 1 && Array.isArray(a)) out.steps[n] = [0, 1, 2, 3, 4, 5, 6].map(i => a[i] === true);
+  });
+  const s = got.settings && typeof got.settings === "object" ? got.settings : {};
+  out.settings = {rate: num(s.rate, 0.6, 1.3, 0.9), voice: str(s.voice, 200)};
+  if (got.today && typeof got.today === "object") out.today = got.today;
+  if (out.day < 1 && out.start) out.day = 1;
+  return out;
+}
+function loadLocal() { try { const s = localStorage.getItem(LS_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+const HAD_LOCAL = !!loadLocal();
+let state = normalize(loadLocal());
+function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {} }
+
+/* A new pack each calendar day, but only after the last one is finished, and never more than one a day. */
+function initDay() {
+  const t = today();
+  if (!state.start) { state.start = t; state.day = 1; state.last = t; }
+  else if (state.last < t) { if (state.done[state.day]) state.day++; state.last = t; }
+  if (!state.seen[state.day]) state.seen[state.day] = t;
+}
+initDay();
+let view = state.day;
+
+/* Inside claude.ai, progress is also kept in the viewer's own private Claude storage. */
+function merge(a, b) {   // a = this browser, b = the Claude account
+  const out = fresh();
+  out.start = [a.start, b.start].filter(Boolean).sort()[0] || "";
+  out.last = [a.last, b.last].filter(Boolean).sort().pop() || "";
+  out.day = Math.max(a.day, b.day, 1);
+  new Set(Object.keys(a.done).concat(Object.keys(b.done))).forEach(k => {
+    const x = a.done[k], y = b.done[k];
+    out.done[k] = !x ? y : !y ? x : {date: x.date < y.date ? x.date : y.date, used: Math.max(x.used, y.used)};
+  });
+  out.seen = Object.assign({}, b.seen, a.seen);
+  out.known = Object.assign({}, b.known, a.known);
+  new Set(Object.keys(a.steps).concat(Object.keys(b.steps))).forEach(k => {
+    const x = a.steps[k] || [], y = b.steps[k] || [];
+    out.steps[k] = [0, 1, 2, 3, 4, 5, 6].map(i => !!(x[i] || y[i]));
+  });
+  out.settings = HAD_LOCAL ? a.settings : b.settings;
+  return out;
+}
+let remote = null, writing = false, pending = false;
+function setSync(mode) {
+  const el = $("#sync"); if (!el) return;
+  el.textContent = mode === "account" ? "Your progress is saved to your Claude account, so it follows you to other devices."
+    : mode === "device" ? "Your progress is saved in this browser only."
+    : "Your progress is saved in this browser only. Use the backup on the home page to keep it safe.";
+}
+async function save() {
+  saveLocal();
+  if (!remote) return;
+  if (writing) { pending = true; return; }
+  writing = true;
+  try { const body = Object.assign({}, state); delete body.today; await remote.set(JSON.parse(JSON.stringify(body))); }
+  catch (e) { remote = null; setSync("device"); }
+  writing = false;
+  if (pending) { pending = false; save(); }
+}
+async function connectStore(C) {
+  try {
+    const [db, user] = await Promise.all([C.use("db"), C.use("user")]);
+    if (!db || !user) { setSync("device"); return; }
+    const id = await user.id();
+    if (!id) { setSync("device"); return; }
+    const ref = db.doc("data/users/" + id + "/daily");
+    const snap = await Promise.race([ref.get(), sleep(10000).then(() => { throw new Error("timeout"); })]);
+    if (snap && snap.exists) {
+      const was = state.day;
+      state = merge(state, normalize(JSON.parse(JSON.stringify(snap.data() || {}))));
+      initDay();
+      if (view === was) view = state.day;
+      renderAll(!busyTyping());
+    }
+    remote = ref; setSync("account"); save();
+  } catch (e) { setSync("device"); }
+}
+const busyTyping = () => { const a = document.activeElement; return !!(a && (a.tagName === "TEXTAREA" || a.tagName === "INPUT")) || CH.on; };
+
+/* Today's items, for Practice Call on the website (same browser storage). */
+function writeToday() {
+  const P = pack(state.day);
+  state.today = {day: state.day, date: today(), items: P.items.map(it => ({type: it.type, text: chipLabel(it), toks: it.spec.toks, gap: it.spec.gap, first: it.spec.first, miss: it.spec.miss}))};
+  saveLocal();
+}
+
+/* ---------- Voice ---------- */
+const V = {dict: null, dstate: "idle", target: null, synth: ("speechSynthesis" in window) ? window.speechSynthesis : null,
+           tts: null, ttsOff: false, ai: null, voices: []};
+if (V.synth) document.body.classList.add("has-voice");
+const AI_OFF = ["not_granted", "sampling_disabled", "capability_disabled", "capability_removed", "not_declared"];
+function loadVoices() {
+  if (!V.synth) return;
+  const score = v => (/premium/i.test(v.name) ? 40 : 0) + (/enhanced/i.test(v.name) ? 30 : 0) + (/natural/i.test(v.name) ? 30 : 0) +
+    (/google/i.test(v.name) ? 20 : 0) + (/^en[-_](US|GB)/i.test(v.lang) ? 5 : 0);
+  V.voices = V.synth.getVoices().filter(v => /^en([-_]|$)/i.test(v.lang)).sort((a, b) => score(b) - score(a) || a.name.localeCompare(b.name));
+}
+let playing = null;
+function setPlaying(btn) { $$(".icon-btn.playing").forEach(b => { if (b !== btn) b.classList.remove("playing"); }); if (btn) btn.classList.add("playing"); playing = btn; }
+async function say(text, btn) {
+  if (V.ttsOff || !text) return;
+  if (V.dict && V.dict.active()) await settle(V.dict.stop(), 1500);
+  stopSpeech();
+  setPlaying(btn);
+  const done = () => { if (btn) btn.classList.remove("playing"); };
+  if (V.tts) {
+    try { await V.tts.speak(text, {rate: state.settings.rate, language: "en"}); } catch (e) { speakErr(e); }
+    done(); return;
+  }
+  if (!V.synth) { done(); return; }
+  const u = new SpeechSynthesisUtterance(text);
+  const vo = V.voices.find(v => v.name === state.settings.voice) || V.voices[0];
+  if (vo) { u.voice = vo; u.lang = vo.lang; } else u.lang = "en-GB";
+  u.rate = state.settings.rate; u.onend = done; u.onerror = done;
+  try { V.synth.speak(u); } catch (e) { done(); }
+}
+function stopSpeech() {
+  if (V.tts) { try { const p = V.tts.stop(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
+  if (V.synth) { try { V.synth.cancel(); } catch (e) {} }
+  setPlaying(null);
+}
+function speakErr(e) {
+  const c = e && e.code;
+  if (!c || ["stopped", "cancelled", "canceled", "viewer_stopped", "interrupted"].includes(c)) return;
+  if (c === "not_granted") { V.ttsOff = true; V.tts = null; document.body.classList.remove("has-voice"); toast("Reading aloud is off for this page. Read the text out loud yourself."); return; }
+  if (c === "busy") { toast("Stop the microphone first, then press play."); return; }
+  if (c === "rate_limited") { toast("That's a lot of listening. Wait a minute, then try again."); return; }
+  if (c === "no_gesture") toast("Press play again to hear it.");
+}
+const playBtn = (text, sm) => '<button type="button" class="icon-btn' + (sm ? " sm" : "") + ' need-voice" data-say="' + esc(text) + '" aria-label="Listen">' + I.play + '</button>';
+
+/* ---------- Voice typing: one microphone, sent to one box at a time ---------- */
+const MIC_OFF = CLAUDE ? "The microphone is off for this page. You can still type." : "The microphone is blocked. Allow it in Chrome's address bar, or type.";
+function markMic() {
+  const on = V.dstate !== "idle";
+  $$("[data-mic]").forEach(b => { const me = on && V.target === b.dataset.mic; b.classList.toggle("listening", me); b.setAttribute("aria-pressed", String(me)); });
+}
+function disableMic(msg) { V.dict = null; V.dstate = "idle"; document.body.classList.remove("has-mic"); markMic(); if (msg) toast(msg); }
+function onDictError(e) {
+  const c = e && e.code;
+  if (c === "stopped") return;
+  if (c === "not_granted") return disableMic(MIC_OFF);
+  if (c === "unavailable") return disableMic("Voice typing isn't available here. You can still type.");
+  if (c === "dismissed") return toast("Press the microphone again and choose Allow.");
+  if (c === "rate_limited") return toast("Voice typing is busy. Try again in a moment.");
+  toast("The microphone didn't start. Press it to try again.");
+}
+function wireDictation() {
+  V.dict.onFinal(({text}) => {
+    const box = V.target && document.getElementById(V.target); if (!box || !text) return;
+    let t = text;
+    if (!box.value) t = t.replace(/^\s+/, ""); else if (!/\s$/.test(box.value) && !/^\s/.test(t)) t = " " + t;
+    box.value += t; afterInput(box);
+  });
+  V.dict.onPartial(({text}) => { const p = V.target && document.getElementById(V.target + "-p"); if (p) p.textContent = text ? text + "…" : ""; });
+  V.dict.onState(({state: st, reason}) => {
+    V.dstate = st; markMic();
+    if (st !== "idle") return;
+    $$(".partial").forEach(p => { p.textContent = ""; });
+    if (reason === "not_granted") disableMic(MIC_OFF);
+    else if (reason === "unavailable") disableMic("Voice typing isn't available here. You can still type.");
+  });
+}
+/* Called straight from a click, so the browser lets the microphone start. */
+function listenTo(id) {
+  if (!V.dict) return;
+  stopSpeech();
+  if (V.dict.active()) {
+    if (V.target === id) { V.dict.stop().catch(() => {}); return; }
+    V.target = id; markMic(); return;           // already listening: send the words to this box instead
+  }
+  V.target = id; markMic();
+  V.dict.start({language: "en"}).catch(onDictError);
+}
+function makeWebDictation() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return null;
+  let rec = null, st = "idle", wantOn = false, lastErr = null, resolveStop = null;
+  const finals = [], partials = [], states = [];
+  const emit = (s, reason) => { st = s; states.forEach(h => h(reason ? {state: s, reason} : {state: s})); };
+  function make() {
+    const r = new SR();
+    r.lang = "en-US"; r.continuous = true; r.interimResults = true;
+    r.onstart = () => emit("listening");
+    r.onresult = e => {
+      let interim = "";
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const res = e.results[i], t = res[0].transcript;
+        if (res.isFinal) { if (t.trim()) finals.forEach(h => h({text: " " + t.trim()})); } else interim += t;
+      }
+      partials.forEach(h => h({text: interim.trim()}));
+    };
+    r.onerror = e => { lastErr = e.error; };
+    r.onend = () => {
+      if (wantOn && (!lastErr || lastErr === "no-speech")) {
+        lastErr = null;
+        if (resolveStop) { const f = resolveStop; resolveStop = null; f(); }
+        try { r.start(); return; } catch (err) {}
+      }
+      rec = null; wantOn = false;
+      const reason = (lastErr === "not-allowed" || lastErr === "service-not-allowed") ? "not_granted"
+        : (lastErr && lastErr !== "aborted" && lastErr !== "no-speech") ? "upstream_error" : "stopped";
+      partials.forEach(h => h({text: ""}));
+      emit("idle", reason);
+      if (resolveStop) { const f = resolveStop; resolveStop = null; f(); }
+    };
+    return r;
+  }
+  return {
+    start() {
+      if (rec) { wantOn = true; return Promise.resolve(); }
+      lastErr = null; wantOn = true; rec = make(); emit("starting");
+      try { rec.start(); } catch (err) { rec = null; wantOn = false; emit("idle", "upstream_error"); return Promise.reject({code: "upstream_error"}); }
+      return Promise.resolve();
+    },
+    stop() {
+      if (!rec) return Promise.resolve();
+      wantOn = false;
+      return new Promise(res => { resolveStop = res; try { rec.stop(); } catch (err) { resolveStop = null; res(); } });
+    },
+    active() { return st !== "idle"; },
+    onFinal(h) { finals.push(h); return () => {}; },
+    onPartial(h) { partials.push(h); return () => {}; },
+    onState(h) { states.push(h); return () => {}; }
+  };
+}
+
+/* ---------- The checker: Claude on claude.ai; on the website, the AI on your Mac (Ollama) or a free grammar checker ---------- */
+const BR = {url: "http://localhost:11434", model: "", status: CLAUDE ? "claude" : "checking"};
+function chooseModel(list) {
+  const want = QS.get("model");
+  if (want && list.includes(want)) return want;
+  const find = re => list.find(n => re.test(n));
+  return find(/^gemma3:27b/i) || find(/^gemma3:12b/i) || find(/^gemma3/i) || find(/^qwen3.*instruct/i) || list[0];
+}
+async function checkOllama() {
+  if (CLAUDE) return;
+  try {
+    const r = await fetchT(BR.url + "/api/tags", {}, 4000);
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const j = await r.json();
+    const list = (Array.isArray(j.models) ? j.models : []).map(m => m && (m.name || m.model)).filter(n => n && !/embed|bge|minilm|rerank/i.test(n));
+    if (!list.length) throw new Error("no models");
+    BR.model = chooseModel(list); BR.status = "ready";
+  } catch (e) { BR.status = "down"; dbg("ollama", String(e && e.message || e)); }
+  renderBrain();
+}
+function renderBrain() {
+  const el = $("#brain"); if (!el) return;
+  el.textContent = BR.status === "ready" ? "Sentence checks: the free AI on your Mac (" + BR.model + "). The first check can take 20 seconds while it wakes up."
+    : BR.status === "down" ? "Sentence checks: a free grammar checker. For better checks, start Ollama on your Mac (see Practice Call)."
+    : "Looking for the AI on your Mac…";
+}
+const CHECK_SCHEMA = {type: "object", properties: {ok: {type: "boolean"}, better: {type: "string"}, note: {type: "string"}}, required: ["ok", "better", "note"]};
+const FB_SCHEMA = {type: "object", properties: {praise: {type: "string"}, fixes: {type: "array", maxItems: 3,
+  items: {type: "object", properties: {you_said: {type: "string"}, better: {type: "string"}, why: {type: "string"}}, required: ["you_said", "better", "why"]}},
+  tip: {type: "string"}}, required: ["praise", "fixes", "tip"]};
+const RULES = "The learner's words may come from speech recognition, so ignore punctuation, capital letters and small recognition errors. " +
+  "British and American English are both correct; never change one into the other. Only fix real mistakes in grammar, word choice or word order. Use simple English (B1).";
+async function ollamaJSON(system, user, schema, ms) {
+  const body = {model: BR.model, stream: false, keep_alive: "30m", format: schema, options: {temperature: 0.3, num_ctx: 4096, num_predict: 300},
+                messages: [{role: "system", content: system}, {role: "user", content: user}]};
+  if (/^qwen3/i.test(BR.model)) body.think = false;
+  const r = await fetchT(BR.url + "/api/chat", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)}, ms || 90000);
+  if (!r.ok) throw {code: "http", status: r.status};
+  const j = await r.json();
+  const s = String((j.message && j.message.content) || "");
+  const a = s.indexOf("{"), b = s.lastIndexOf("}");
+  return JSON.parse(s.slice(a, b + 1));
+}
+async function askBrain(system, user, schema) {
+  if (CLAUDE) {
+    if (!V.ai) throw {code: "no_ai"};
+    return await V.ai.json(system + "\n\n" + user + "\n\nReply with JSON only.", {modelTier: "default"});
+  }
+  if (BR.status !== "ready") throw {code: "no_brain"};
+  return await ollamaJSON(system, user, schema);
+}
+async function ltCheck(text) {
+  const body = new URLSearchParams({text, language: "en-US"});
+  const r = await fetchT("https://api.languagetool.org/v2/check", {method: "POST", body}, 15000);
+  if (!r.ok) throw new Error("HTTP " + r.status);
+  const j = await r.json();
+  return (j.matches || []).filter(m => !/^(CASING|PUNCTUATION|TYPOGRAPHY|WHITESPACE)$/.test((m.rule && m.rule.category && m.rule.category.id) || ""));
+}
+function brainErr(e) {
+  const c = e && e.code;
+  if (CLAUDE && AI_OFF.includes(c)) { V.ai = null; document.body.classList.remove("has-ai"); return "Claude checks are off for this page."; }
+  if (c === "rate_limited") return "That's a lot of checks for now. Wait a minute, then try again.";
+  return "The check didn't work this time. Try again in a moment.";
+}
+/* Check one sentence. target says what the learner was practising. */
+async function checkSentence(btn, boxId, target) {
+  const box = document.getElementById(boxId), out = document.getElementById(boxId + "-o");
+  if (!box || !out) return;
+  const text = box.value.trim();
+  if (!text) { toast("Say or type your sentence first."); return; }
+  if (V.dict && V.dict.active()) await settle(V.dict.stop(), 1500);
+  btn.disabled = true;
+  out.innerHTML = '<p class="note">' + (BR.status === "ready" && !CLAUDE ? "Your Mac's AI is checking… (the first check can take a little while)" : "Checking…") + '</p>';
+  try {
+    if (CLAUDE ? V.ai : BR.status === "ready") {
+      const sys = "You are a kind English teacher. " + RULES;
+      const user = "The learner is practising: " + target + ".\nCheck the learner's sentence. Say whether it is correct, give a better version (or the same sentence if it is already correct and natural), and one short, kind note (under 20 words).\n" +
+        "Answer as JSON: {\"ok\": true or false, \"better\": \"...\", \"note\": \"...\"}\n\nThe learner's sentence: \"" + text.slice(0, 600) + "\"";
+      const j = await askBrain(sys, user, CHECK_SCHEMA);
+      const ok = !!(j && j.ok), better = str(j && j.better, 600).trim(), note = str(j && j.note, 300).trim();
+      out.innerHTML = ok || !better || sameText(better, text)
+        ? '<p class="yes">✓ That sounds right!</p>' + (note ? '<p>' + esc(note) + '</p>' : "")
+        : '<p>A better way:</p><div class="line"><span class="txt fix">' + esc(better) + '</span>' + playBtn(better, true) + '</div>' + (note ? '<p>' + esc(note) + '</p>' : "");
+    } else {
+      const m = await ltCheck(text);
+      out.innerHTML = !m.length ? '<p class="yes">✓ The free checker found no mistakes.</p><p class="note">It only finds some mistakes, so read it out loud once more.</p>'
+        : '<ul>' + m.slice(0, 5).map(x => '<li>' + esc(x.message) + (x.replacements && x.replacements[0] ? ' → <b>' + esc(x.replacements[0].value) + '</b>' : "") + '</li>').join("") + '</ul><p class="note">Free grammar checker (LanguageTool). It doesn\'t find every mistake.</p>';
+    }
+  } catch (e) {
+    if (!CLAUDE && (e && e.code) !== "rate_limited") {
+      try { const m = await ltCheck(text); out.innerHTML = !m.length ? '<p class="yes">✓ The free checker found no mistakes.</p>' : '<ul>' + m.slice(0, 5).map(x => '<li>' + esc(x.message) + (x.replacements && x.replacements[0] ? ' → <b>' + esc(x.replacements[0].value) + '</b>' : "") + '</li>').join("") + '</ul>'; }
+      catch (e2) { out.innerHTML = '<p class="note">The check didn\'t work. Check your internet, then try again.</p>'; }
+    } else out.innerHTML = '<p class="note">' + esc(brainErr(e)) + '</p>';
+  }
+  btn.disabled = false;
+}
+
+/* ---------- Page state that isn't saved ---------- */
+const QZ = {};        // quiz answers per pack: QZ[n][i] = {pick, ok}
+const RV = {};        // revealed word cards and situation cards
+const CNT = {};       // "say it 3 times" counters
+const CH = {on: false, end: 0, timer: null, result: null, fb: ""};
+function stepsFor(n) { return state.steps[n] || [false, false, false, false, false, false, false]; }
+
+/* ---------- Rendering ---------- */
+function streak() {
+  const dates = new Set(Object.values(state.done).map(d => d.date));
+  const d = new Date(today() + "T12:00:00");
+  if (!dates.has(ymd(d))) d.setDate(d.getDate() - 1);
+  let s = 0;
+  while (dates.has(ymd(d))) { s++; d.setDate(d.getDate() - 1); }
+  return s;
+}
+function renderStats() {
+  const doneN = Object.keys(state.done).length;
+  const known = Object.keys(state.known).length;
+  const st = (k, v, small) => '<div class="stat"><span class="k">' + k + '</span><span class="v">' + v + '<small>' + small + '</small></span></div>';
+  $("#stats").innerHTML = st("Streak", streak(), "days in a row") + st("Pack", state.day, "today") + st("Learned", doneN * 11, "items") + st("Known", known, "I can use it");
+}
+function renderPacks() {
+  const max = state.day;
+  const total = Math.max(7, Math.ceil((max + 1) / 7) * 7);
+  let h = "";
+  for (let n = 1; n <= total; n++) {
+    const open = n <= max;
+    h += '<button type="button" class="day' + (state.done[n] ? " done" : "") + (n === max ? " cur" : "") + (n === view ? " view" : "") + (open ? "" : " locked") +
+      '" ' + (open ? 'data-view="' + n + '"' : 'disabled') + ' aria-label="Pack ' + n + (state.done[n] ? ", done" : open ? "" : ", not open yet") + '">' + n + '</button>';
+  }
+  $("#packs").innerHTML = h;
+  $("#nextBox").innerHTML = state.done[state.day]
+    ? '<p class="note">Today\'s pack is done. The next one opens tomorrow, or now if you want more.</p><button type="button" class="btn sm" data-act="next">Start the next pack now</button>'
+    : '<p class="note">Finish today\'s challenge to open the next pack.</p>';
+}
+function step(k, title, mins, why, body) {
+  const done = stepsFor(view)[k];
+  return '<section class="set' + (done ? " is-done" : "") + '" id="s' + k + '"><div class="set-head"><span class="set-num">' + (done ? "✓" : k + 1) + '</span>' +
+    '<div><h3>' + title + '</h3><p class="why">' + why + '</p></div><span class="mins">' + mins + ' min</span></div><div class="set-body">' + body + '</div>' +
+    '<div class="set-foot"><button type="button" class="btn sm' + (done ? " is-on" : "") + '" data-stepdone="' + k + '">' + (done ? "Done ✓" : "Mark as done") + '</button></div></section>';
+}
+const micBtn = id => '<button type="button" class="icon-btn mic need-mic" data-mic="' + id + '" aria-label="Speak" aria-pressed="false">' + I.mic + '</button>';
+function sayBox(id, placeholder, item, checkTarget) {
+  return '<div class="field"><textarea id="' + id + '" rows="2" placeholder="' + esc(placeholder) + '"' + (item ? ' data-item="' + item + '"' : "") + '></textarea>' + micBtn(id) + '</div>' +
+    '<p class="partial" id="' + id + '-p" aria-live="polite"></p>' + (item ? '<p class="used" id="' + id + '-u" aria-live="polite"></p>' : "") +
+    (checkTarget ? '<div class="row"><button type="button" class="btn sm" data-check="' + id + '" data-target="' + esc(checkTarget) + '">Check my sentence</button></div><div class="check-out" id="' + id + '-o" aria-live="polite"></div>' : "");
+}
+function quizHTML(P) {
+  const g = P.g, ans = QZ[P.n] || {};
+  return '<div class="quiz">' + g.q.map((q, i) => {
+    const a = ans[i];
+    if (q.o) {
+      const parts = q.s.split("___");
+      return '<div class="q"><p class="qs">' + esc(parts[0]) + '<span class="blank">' + (a && a.ok ? esc(q.o[q.a]) : "&nbsp;") + '</span>' + esc(parts[1] || "") + '</p><div class="opts">' +
+        q.o.map((o, j) => '<button type="button" class="opt' + (a && a.pick === j ? (j === q.a ? " right" : " wrong") : "") + (a && a.ok && j === q.a ? " right" : "") + '" data-q="' + i + '" data-o="' + j + '">' + esc(o) + '</button>').join("") +
+        '</div><p class="qfb' + (a ? (a.ok ? " ok" : " no") : "") + '">' + (a ? (a.ok ? "✓ Right. " : "Not quite. ") + esc(q.why) : "") + '</p></div>';
+    }
+    return '<div class="q"><p class="qs">Fix it: <s>' + esc(q.f) + '</s></p><div class="field"><input type="text" id="qf' + i + '" placeholder="Write or say the correct sentence" value="' + esc(a && a.text || "") + '"></div>' +
+      '<div class="row"><button type="button" class="btn sm" data-fix="' + i + '">Check</button><button type="button" class="btn sm" data-show="' + i + '">Show the answer</button></div>' +
+      '<p class="qfb' + (a ? (a.ok ? " ok" : " no") : "") + '">' + (a ? (a.ok ? "✓ Right! " : "A good answer: <b>" + esc(q.a[0]) + "</b>. ") + esc(q.why) : "") + '</p></div>';
+  }).join("") + '</div>';
+}
+const BX = {};        // what the learner typed, kept when the lesson is drawn again
+function keepBoxes() { const m = BX[view] = BX[view] || {}; $$("#lesson textarea[id], #lesson input[id]").forEach(el => { m[el.id] = el.value; }); }
+function restoreBoxes() { const m = BX[view] || {}; Object.keys(m).forEach(id => { const el = document.getElementById(id); if (el && m[id] && !el.value) el.value = m[id]; }); }
+function renderLesson() {
+  if ($("#lesson").dataset.view === String(view)) keepBoxes();
+  const P = pack(view), n = view, isToday = n === state.day;
+  const g = P.g, steps = stepsFor(n);
+  const plan = ["Grammar", "Idiom + phrasal verb", "Phrases", "Words", "Word upgrade", "Challenge", "Save"];
+  let h = '<div class="lesson-head"><p class="eyebrow">Pack ' + n + (isToday ? " · today" : state.seen[n] ? " · from " + esc(state.seen[n]) : "") + '</p>' +
+    '<h2>' + (isToday ? "Your English for today" : "Pack " + n) + '</h2><p class="lede">Ten new things to learn, and one grammar point. About 10 minutes. Say every example out loud, then use it in your own sentence.</p>' +
+    '<ol class="plan">' + plan.map((p, k) => '<li><button type="button" class="' + (steps[k] ? "done" : "") + '" data-jump="' + k + '"><span class="pn">' + (k + 1) + (steps[k] ? " ✓" : "") + '</span><span class="pt">' + p + '</span></button></li>').join("") + '</ol></div>';
+
+  // 1. Grammar
+  h += step(0, "Grammar: " + esc(g.t), 3, "One small rule, then use it.",
+    '<p class="rule">' + esc(g.rule) + '</p><div class="pattern"><span class="label">Pattern</span>' + esc(g.pat) + '</div>' +
+    '<ul class="lines">' + g.ex.map(x => '<li class="line">' + playBtn(x, true) + '<span class="txt">' + esc(x) + '</span></li>').join("") + '</ul>' +
+    '<div class="mistake"><span class="label">Common mistake</span><span><span class="bad">✗ ' + esc(g.bad) + '</span></span><span class="good">✓ ' + esc(g.good) + '</span></div>' +
+    '<p class="label">Quick check</p>' + quizHTML(P) +
+    '<p class="label">Say it</p><p>' + esc(g.say) + '</p>' + sayBox("sg", "Your 2 sentences", "", "the grammar point \"" + g.t + "\" (" + g.pat + ")"));
+
+  // 2. Idiom + phrasal verb
+  const iI = P.items[0], iP = P.items[1];
+  const exprCard = (it, label, extra) => '<div class="expr"><span class="tag">' + label + '</span><p class="big">' + esc(it.text) + '</p><p>' + esc(it.meaning) + '</p>' +
+    '<div class="ex">' + playBtn(it.example, true) + '<span>' + esc(it.example) + '</span></div>' + extra +
+    '<div class="use"><p class="label">Use it</p><p class="note">Say your own sentence with “' + esc(it.text) + '”.</p>' + sayBox("u" + it.id, "Your sentence", it.id, "the " + TYPE_NAME[it.type].toLowerCase() + " \"" + it.text + "\" (" + it.meaning + ")") + '</div></div>';
+  h += step(1, "Idiom + phrasal verb", 2, "Two expressions that native speakers use every day.",
+    '<div class="exprs">' + exprCard(iI, "Idiom", '<p class="note">When: ' + esc(P.i[4]) + '</p>') +
+    exprCard(iP, "Phrasal verb", '<p class="note">' + (P.p[4] ? "Separable: you can say “" + esc(sepExample(P.p[1])) + "”." : "Not separable: keep the words together.") + (P.p[5] ? " One word: <b>" + esc(P.p[5]) + "</b>." : "") + '</p>') + '</div>');
+
+  // 3. Phrases
+  const ph = P.items.slice(2, 5);
+  h += step(2, "Phrases of the day", 2, "Ready-made pieces of conversation. Learn them as a whole, like one long word.",
+    '<ul class="lines">' + ph.map(it => {
+      const c = (CNT[n] && CNT[n][it.id]) || 0;
+      return '<li class="line">' + playBtn(it.text) + '<span class="txt"><b>' + esc(it.text) + '</b><br><span class="note">' + esc(it.meaning) + '</span></span><button type="button" class="count-btn' + (c >= 3 ? " full" : "") + '" data-count="' + it.id + '">' + Math.min(c, 3) + '/3</button></li>';
+    }).join("") + '</ul><p class="note">Listen, then say each phrase 3 times. Tap the counter each time.</p>' +
+    '<div class="cards">' + ph.map((it, j) => {
+      const f = P.f[j], open = RV[n + ":" + it.id];
+      return '<div class="card"><p class="sit">They say: “' + esc(f[4]) + '”</p><p>Your turn: answer out loud with <b>' + esc(chipLabel(it)) + '</b></p>' +
+        (open ? '<div class="ex">' + playBtn(f[5], true) + '<span>' + esc(f[5]) + '</span></div>' : '<button type="button" class="btn sm" data-reveal="' + it.id + '">I said it. Show an example</button>') + '</div>';
+    }).join("") + '</div>');
+
+  // 4. Words
+  const ws = P.items.slice(5, 9);
+  h += step(3, "Words of the day", 3, "You probably know these when you read them. Now make them come out when you speak.",
+    '<div class="wordcards">' + ws.map((it, j) => {
+      const w = P.w[j], open = RV[n + ":" + it.id], hint = RV[n + ":h:" + it.id];
+      return '<div class="wcard' + (open ? " open" : "") + '"><span class="tag">' + esc(w[2]) + '</span><p class="meaning">' + esc(w[3]) + '</p>' +
+        (open ? '<p class="big">' + esc(w[1]) + '</p><p class="say-it">Say it: ' + esc(w[6]) + '</p><div class="ex">' + playBtn(w[1] + ". " + w[4], true) + '<span>' + esc(w[4]) + '</span></div><p class="family">Word family: ' + esc(w[5]) + '</p>' +
+          '<div class="use"><p class="label">Your sentence</p>' + sayBox("w" + it.id, "Say a sentence with “" + w[1] + "”", it.id, "the word \"" + w[1] + "\" (" + w[3] + ")") + '</div>'
+              : '<p class="note">Which word is it? Say it out loud first.</p><p class="hint">' + (hint ? esc(w[1][0].toUpperCase() + " " + "_ ".repeat(w[1].length - 1).trim() + "  (" + w[1].length + " letters)") : "") + '</p>' +
+          '<div class="row">' + (hint ? "" : '<button type="button" class="btn sm" data-hint="' + it.id + '">Hint</button>') + '<button type="button" class="btn sm primary" data-reveal="' + it.id + '">Show the word</button></div>') + '</div>';
+    }).join("") + '</div>');
+
+  // 5. Word upgrade
+  const u = P.u, iu = P.items[9];
+  h += step(4, "Word upgrade", 1, "Swap a basic word for a stronger one. It makes you sound more natural and more confident.",
+    '<div class="upg"><span class="w basic"><small>Instead of</small><b>' + esc(u[1]) + '</b></span><span class="arrow" aria-hidden="true">→</span>' +
+    '<span class="w better"><small>Say</small><b>' + esc(u[2]) + '</b></span><span class="arrow" aria-hidden="true">↔</span><span class="w"><small>Opposite</small><b>' + esc(u[3]) + '</b></span>' + playBtn(u[2] + ". " + u[4]) + '</div>' +
+    '<div class="ex">' + playBtn(u[4], true) + '<span>' + esc(u[4]) + '</span></div>' +
+    '<p class="label">Your sentence</p>' + sayBox("x" + iu.id, "Say a sentence with “" + u[2] + "”", iu.id, "the word \"" + u[2] + "\" instead of \"" + u[1] + "\""));
+
+  // 6. Challenge
+  h += step(5, "Today's challenge", 2, "Speak for one minute about anything. Use at least 5 of today's 10 items. Each one turns green when you use it.", challengeHTML(P));
+
+  // 7. Save
+  h += step(6, "Keep them", 1, "Words stay when you see them again. Send today's items to My Notebook, then use them in a real conversation.",
+    '<div class="row only-standalone"><button type="button" class="btn primary" data-act="savenb">Save today\'s 10 to My Notebook</button><a class="btn" href="call.html">Practise them in a call</a></div>' +
+    '<p class="note only-standalone">Practice Call shows today\'s words during the call, and Alex gives you chances to use them.</p>' +
+    '<div class="row only-claude"><button type="button" class="btn primary" data-act="copylist">Copy today\'s list</button></div>' +
+    '<p class="note only-claude">Paste the list into My Notebook\'s Paste box, or keep it anywhere. On the <a href="' + SITE_URL + '" target="_blank" rel="noopener">website version</a>, this button sends them to My Notebook for you.</p><div id="copyOut"></div>');
+
+  if (state.done[n]) h += '<section class="finish"><h3>Pack ' + n + ' done ✓</h3><p>You used ' + state.done[n].used + ' of 10 items in your challenge. ' +
+    (isToday ? "Your next pack opens tomorrow. Before then, try to use 2 of today's items in a real conversation." : "Well done for going back to practise.") + '</p>' +
+    (isToday ? '<div class="row"><button type="button" class="btn go" data-act="next">Start the next pack now</button></div>' : "") + '</section>';
+
+  $("#lesson").innerHTML = h;
+  $("#lesson").dataset.view = String(n);
+  restoreBoxes();
+  if (CH.result && CH.result.n === n) paintResult();
+  $$("#lesson textarea").forEach(t => { if (t.value) afterInput(t); });
+  markMic();
+  paintChips();
+}
+const SEP_OBJ = {"find out": "find it out", "give up": "give it up", "put off": "put it off", "turn down": "turn it down", "figure out": "figure it out", "pick up": "pick it up"};
+const sepExample = pv => SEP_OBJ[pv] || pv.split(" ")[0] + " it " + pv.split(" ").slice(1).join(" ");
+function challengeHTML(P) {
+  return '<div class="chips" id="chips">' + P.items.map(it => '<span class="chip" data-chip="' + it.id + '" title="' + esc(TYPE_NAME[it.type]) + '">' + esc(chipLabel(it)) + '</span>').join("") + '</div>' +
+    stageHTML() +
+    '<div class="field"><textarea id="chal" rows="5" placeholder="Your words appear here. You can also type."></textarea>' + micBtn("chal") + '</div><p class="partial" id="chal-p" aria-live="polite"></p>' +
+    '<div class="row"><button type="button" class="btn" data-act="chfinish">I\'m done</button></div><div class="results" id="chRes" aria-live="polite"></div>';
+}
+function usedSet(text, P) { const T = matchToks(text); return new Set(P.items.filter(it => matchSpec(T, it.spec)).map(it => it.id)); }
+function paintChips() {
+  const box = $("#chal"); if (!box) return;
+  const used = usedSet(box.value, pack(view));
+  $$("[data-chip]").forEach(c => c.classList.toggle("on", used.has(c.dataset.chip)));
+}
+/* After typing or speaking into a box: live "did you use it?" checks. */
+function afterInput(box) {
+  if (box.id === "chal") { paintChips(); return; }
+  const id = box.dataset.item; if (!id) return;
+  const it = pack(view).items.find(x => x.id === id); if (!it) return;
+  const u = document.getElementById(box.id + "-u"); if (!u) return;
+  const text = box.value.trim();
+  if (!text) { u.textContent = ""; u.className = "used"; return; }
+  const ok = matchSpec(matchToks(text), it.spec);
+  u.className = "used " + (ok ? "ok" : "no");
+  u.textContent = ok ? "✓ You used “" + chipLabel(it) + "”." : "Not yet. Try to include “" + chipLabel(it) + "”.";
+}
+
+/* ---------- The challenge ---------- */
+function startChallenge() {
+  const box = $("#chal"); if (!box) return;
+  if (V.dict) listenTo("chal");          // straight from the click
+  CH.on = true; CH.end = Date.now() + 60000; CH.result = null; CH.fb = "";
+  const st = $("#stage"); if (st) st.outerHTML = stageHTML();
+  clearInterval(CH.timer);
+  CH.timer = setInterval(() => {
+    const left = (CH.end - Date.now()) / 1000;
+    const c = $("#chClock"); if (c) c.textContent = clock(left);
+    if (left <= 0) finishChallenge();
+  }, 250);
+}
+function stageHTML() {
+  return '<div class="stage' + (CH.on ? " live" : "") + '" id="stage"><p class="phase" id="chPhase">' + (CH.on ? "Speaking" : "Ready") + '</p><p class="clock" id="chClock">' + (CH.on ? clock((CH.end - Date.now()) / 1000) : "1:00") + '</p>' +
+    '<div class="row">' + (CH.on ? '<button type="button" class="btn live" data-act="chstop">Stop</button>'
+      : '<button type="button" class="btn primary need-mic" data-act="chstart">' + I.mic + ' Start: speak for 1 minute</button><button type="button" class="btn" data-act="chtype">I\'ll type it instead</button>') + '</div>' +
+    '<p class="note">Topic ideas: your day, your plans, a person you like, or a story from this week.</p></div>';
+}
+async function finishChallenge() {
+  clearInterval(CH.timer);
+  const wasOn = CH.on; CH.on = false;
+  if (V.dict && V.dict.active()) await settle(V.dict.stop(), 2500);
+  const st = $("#stage"); if (st) st.outerHTML = stageHTML();
+  const box = $("#chal"); const text = box ? box.value.trim() : "";
+  if (!text) { if (wasOn) toast("I didn't hear anything. Try again, or type it."); else toast("Say or type your minute first."); return; }
+  const P = pack(view), used = usedSet(text, P);
+  CH.result = {n: view, used: Array.from(used), text};
+  const n = view, prev = state.done[n];
+  state.done[n] = prev ? {date: prev.date, used: Math.max(prev.used, used.size)} : {date: today(), used: used.size};
+  const s = stepsFor(n).slice(); s[5] = true; state.steps[n] = s;
+  save(); renderStats(); renderPacks();
+  if (!prev) { renderLesson(); const f = $(".finish"); toast(used.size >= 5 ? "Great work! You used " + used.size + " of 10." : "Pack done. You used " + used.size + " of 10. Try for 5 next time!"); if (f) f.scrollIntoView({behavior: "smooth", block: "center"}); }
+  else paintResult();
+}
+function paintResult() {
+  const r = CH.result, el = $("#chRes"); if (!r || !el) return;
+  const P = pack(r.n);
+  const missed = P.items.filter(it => !r.used.includes(it.id)).map(it => "“" + chipLabel(it) + "”");
+  el.innerHTML = '<div class="result"><span class="score-line">You used ' + r.used.length + ' of 10</span><span>' + (r.used.length >= 5 ? "Great job!" : "Aim for 5 next time.") + '</span></div>' +
+    (missed.length ? '<p class="note">Not used yet: ' + esc(missed.join(", ")) + '. Try them in a real conversation today.</p>' : '<p class="note">You used every item. Amazing!</p>') +
+    '<div class="row"><button type="button" class="btn sm" data-act="chfb">Get feedback on my minute</button></div><div class="check-out" id="chFb" aria-live="polite">' + CH.fb + '</div>';
+  if (!(CLAUDE ? V.ai : BR.status === "ready")) { const b = $("[data-act='chfb']"); if (b) b.parentElement.hidden = true; }
+  const box = $("#chal"); if (box && !box.value && r.text) { box.value = r.text; paintChips(); }
+}
+async function challengeFeedback(btn) {
+  const r = CH.result; if (!r) return;
+  const P = pack(r.n);
+  btn.disabled = true;
+  const out = $("#chFb"); out.innerHTML = '<p class="note">' + (CLAUDE ? "Claude is reading your minute…" : "Your Mac's AI is reading your minute…") + '</p>';
+  try {
+    const list = P.items.map(it => it.text).join("; ");
+    const j = await askBrain("You are a kind English coach. " + RULES,
+      "The learner spoke for one minute and tried to use today's items: " + list + ".\nGive: praise (one sentence about something they did well), up to 3 fixes of real mistakes (you_said = their exact words, 2 to 8 words; better = the correction; why = 8 words or fewer), and one tip (one sentence) for next time.\n" +
+      "Answer as JSON: {\"praise\": \"...\", \"fixes\": [{\"you_said\": \"...\", \"better\": \"...\", \"why\": \"...\"}], \"tip\": \"...\"}\n\nWhat the learner said: \"" + r.text.slice(0, 2500) + "\"", FB_SCHEMA);
+    const fixes = (Array.isArray(j && j.fixes) ? j.fixes : []).filter(f => f && f.you_said && f.better && !sameText(f.you_said, f.better)).slice(0, 3);
+    CH.fb = (j && j.praise ? '<p class="yes">' + esc(str(j.praise, 300)) + '</p>' : "") +
+      (fixes.length ? '<ul>' + fixes.map(f => '<li><s>' + esc(str(f.you_said, 200)) + '</s> → <b>' + esc(str(f.better, 200)) + '</b>' + (f.why ? ' · ' + esc(str(f.why, 120)) : "") + '</li>').join("") + '</ul>' : '<p>No important mistakes. Nice!</p>') +
+      (j && j.tip ? '<p>Tip: ' + esc(str(j.tip, 300)) + '</p>' : "");
+    out.innerHTML = CH.fb;
+  } catch (e) { out.innerHTML = '<p class="note">' + esc(brainErr(e)) + '</p>'; }
+  btn.disabled = false;
+}
+
+/* ---------- My Notebook and the copy list ---------- */
+function notebookItems(P) {
+  return P.items.map(it => {
+    if (it.type === "phrase") { const f = P.f.find(x => x[0] === it.id); return {type: "word", word: it.text, meaning: f ? f[3] : it.meaning, example: f ? f[5] : it.example}; }
+    return {type: "word", word: it.text, meaning: it.meaning, example: it.example};
+  });
+}
+function saveToNotebook() {
+  const P = pack(view), t = today();
+  let inbox = [];
+  try { inbox = JSON.parse(localStorage.getItem(INBOX_KEY) || "[]"); if (!Array.isArray(inbox)) inbox = []; } catch (e) { inbox = []; }
+  notebookItems(P).forEach(x => inbox.push(Object.assign(x, {from: "daily", created: t})));
+  try { localStorage.setItem(INBOX_KEY, JSON.stringify(inbox.slice(-300))); }
+  catch (e) { toast("Saving didn't work. Your browser may be blocking storage."); return; }
+  const s = stepsFor(view).slice(); s[6] = true; state.steps[view] = s; save(); renderLesson();
+  toast("Sent to My Notebook. Open it to practise them out loud. (Cards you already have are skipped.)");
+}
+function copyList() {
+  const P = pack(view);
+  copyText(notebookItems(P).map(x => x.word + " → " + x.meaning).join("\n"), "#copyOut", "Copied. Paste it into My Notebook's Paste box.");
+}
+
+/* ---------- My collection ---------- */
+const COLL = {tab: "all", q: ""};
+function collectionItems() {
+  const seen = new Set(), rows = [];
+  for (let n = 1; n <= state.day; n++) {
+    const P = pack(n);
+    if (!seen.has(P.g.id)) { seen.add(P.g.id); rows.push({id: P.g.id, type: "grammar", text: P.g.t, meaning: P.g.pat, example: P.g.ex[0], n}); }
+    P.items.forEach(it => { if (!seen.has(it.id)) { seen.add(it.id); rows.push({id: it.id, type: it.type, text: it.text, meaning: it.meaning, example: it.example, n}); } });
+  }
+  return rows;
+}
+function renderCollection() {
+  const tabs = [["all", "All"], ["grammar", "Grammar"], ["idiom", "Idioms"], ["phrasal", "Phrasal verbs"], ["phrase", "Phrases"], ["word", "Words"], ["upgrade", "Upgrades"]];
+  const all = collectionItems();
+  const q = matchNorm(COLL.q);
+  const rows = all.filter(r => (COLL.tab === "all" || r.type === COLL.tab) && (!q || matchNorm(r.text + " " + r.meaning).includes(q)));
+  $("#collection").innerHTML = '<h2>My collection</h2><p class="note">Everything from your packs so far: ' + all.length + ' items. Tap “I can use it” when you have used one in a real conversation.</p>' +
+    '<div class="coll-tools"><div class="tabs" role="group" aria-label="Filter">' + tabs.map(t => '<button type="button" data-tab="' + t[0] + '" aria-pressed="' + (COLL.tab === t[0]) + '">' + t[1] + '</button>').join("") + '</div>' +
+    '<input type="text" id="collSearch" placeholder="Search your collection" value="' + esc(COLL.q) + '"></div>' +
+    (rows.length ? '<ul class="coll">' + rows.slice(0, 400).map(r => '<li class="crow"><span class="tag">' + esc(TYPE_NAME[r.type]) + '</span><span class="ct"><b>' + esc(r.text) + '</b><span>' + esc(r.meaning) + '</span></span>' +
+      '<span class="acts">' + playBtn(r.example, true) + '<button type="button" class="known" data-known="' + r.id + '" aria-pressed="' + !!state.known[r.id] + '">' + (state.known[r.id] ? "I can use it ✓" : "I can use it") + '</button></span></li>').join("") + '</ul>'
+      : '<p class="empty">Nothing here yet.</p>');
+}
+
+function renderAll(lesson) { renderStats(); renderPacks(); if (lesson !== false) renderLesson(); renderCollection(); }
+
+/* ---------- Events ---------- */
+document.addEventListener("click", e => {
+  const b = e.target.closest("button, [data-jump]"); if (!b) return;
+  if (b.dataset.say != null) { say(b.dataset.say, b); return; }
+  if (b.dataset.mic) { listenTo(b.dataset.mic); return; }
+  if (b.dataset.view) { view = +b.dataset.view; CH.result = null; renderAll(); window.scrollTo({top: 0, behavior: "smooth"}); return; }
+  if (b.dataset.jump != null) { const s = document.getElementById("s" + b.dataset.jump); if (s) s.scrollIntoView({behavior: "smooth", block: "start"}); return; }
+  if (b.dataset.stepdone != null) { const k = +b.dataset.stepdone, s = stepsFor(view).slice(); s[k] = !s[k]; state.steps[view] = s; save(); renderLesson(); return; }
+  if (b.dataset.q != null) {
+    const i = +b.dataset.q, j = +b.dataset.o, q = pack(view).g.q[i];
+    QZ[view] = QZ[view] || {}; QZ[view][i] = {pick: j, ok: j === q.a};
+    const box = b.closest(".q"); if (box) { const tmp = document.createElement("div"); tmp.innerHTML = quizHTML(pack(view)); box.replaceWith(tmp.querySelector(".quiz").children[i]); }
+    return;
+  }
+  if (b.dataset.fix != null || b.dataset.show != null) {
+    const i = +(b.dataset.fix != null ? b.dataset.fix : b.dataset.show), q = pack(view).g.q[i];
+    const inp = document.getElementById("qf" + i), text = inp ? inp.value.trim() : "";
+    if (b.dataset.fix != null && !text) { toast("Write the correct sentence first."); return; }
+    QZ[view] = QZ[view] || {};
+    QZ[view][i] = {text, ok: b.dataset.fix != null && q.a.some(a => sameText(a, text))};
+    const box = b.closest(".q"); if (box) { const tmp = document.createElement("div"); tmp.innerHTML = quizHTML(pack(view)); box.replaceWith(tmp.querySelector(".quiz").children[i]); }
+    return;
+  }
+  if (b.dataset.check) { checkSentence(b, b.dataset.check, b.dataset.target || "English"); return; }
+  if (b.dataset.count) {
+    CNT[view] = CNT[view] || {}; const c = (CNT[view][b.dataset.count] || 0) + 1; CNT[view][b.dataset.count] = c;
+    b.textContent = Math.min(c, 3) + "/3"; b.classList.toggle("full", c >= 3); return;
+  }
+  if (b.dataset.reveal) { RV[view + ":" + b.dataset.reveal] = true; renderLesson(); return; }
+  if (b.dataset.hint) { RV[view + ":h:" + b.dataset.hint] = true; renderLesson(); return; }
+  if (b.dataset.tab) { COLL.tab = b.dataset.tab; renderCollection(); return; }
+  if (b.dataset.known) { const id = b.dataset.known; if (state.known[id]) delete state.known[id]; else state.known[id] = true; save(); renderStats(); renderCollection(); return; }
+  const act = b.dataset.act; if (!act) return;
+  if (act === "chstart") startChallenge();
+  else if (act === "chstop" || act === "chfinish") finishChallenge();
+  else if (act === "chtype") { const box = $("#chal"); if (box) { box.focus(); box.scrollIntoView({behavior: "smooth", block: "center"}); } }
+  else if (act === "chfb") challengeFeedback(b);
+  else if (act === "savenb") saveToNotebook();
+  else if (act === "copylist") copyList();
+  else if (act === "next") {
+    if (!state.done[state.day]) { toast("Finish today's challenge first."); return; }
+    state.day++; state.last = today(); state.seen[state.day] = today(); view = state.day; CH.result = null;
+    save(); if (!CLAUDE) writeToday(); renderAll(); window.scrollTo({top: 0, behavior: "smooth"}); toast("Pack " + state.day + " is open. Enjoy!");
+  }
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.id === "collSearch") { COLL.q = t.value; const pos = t.selectionStart; renderCollection(); const s = $("#collSearch"); if (s) { s.focus(); try { s.setSelectionRange(pos, pos); } catch (err) {} } return; }
+  if (t.tagName === "TEXTAREA") afterInput(t);
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter" && e.target && /^qf\d$/.test(e.target.id)) { e.preventDefault(); const b = $('[data-fix="' + e.target.id.slice(2) + '"]'); if (b) b.click(); }
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState !== "visible") return;
+  const was = state.day; initDay();
+  if (state.day !== was) { if (view === was) view = state.day; save(); if (!CLAUDE) writeToday(); renderAll(); }
+});
+window.addEventListener("pagehide", saveLocal);
+
+/* ---------- Start ---------- */
+if (!CLAUDE) {
+  const web = makeWebDictation();
+  if (web) { V.dict = web; wireDictation(); document.body.classList.add("has-mic"); }
+  document.body.classList.add("caps-ready");
+  setSync("site");
+  if (V.synth) { loadVoices(); try { V.synth.addEventListener("voiceschanged", loadVoices); } catch (e) { V.synth.onvoiceschanged = loadVoices; } }
+  writeToday();
+} else setSync("device");
+save();
+renderAll();
+renderBrain();
+if (CLAUDE) {
+  const C = window.claude;
+  const caps = [
+    C.use("dictation").then(d => { if (d) { V.dict = d; wireDictation(); document.body.classList.add("has-mic"); markMic(); } }).catch(() => {}),
+    C.use("tts").then(t => { if (t) { V.tts = t; document.body.classList.add("has-voice"); } }).catch(() => {}),
+    C.use("sample").then(s => { if (s) { V.ai = s; document.body.classList.add("has-ai"); } }).catch(() => {})
+  ];
+  Promise.allSettled(caps).then(() => { document.body.classList.add("caps-ready"); if (CH.result) paintResult(); });
+  connectStore(C);
+} else checkOllama();
+})();
+</script>
+</body>
+</html>

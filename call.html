@@ -151,6 +151,13 @@ input[type="range"]{width:100%;accent-color:var(--accent)}
 .timer{font-family:var(--f-mono);font-weight:700;font-size:20px;font-variant-numeric:tabular-nums}
 .topic-line{font-size:14.5px;color:var(--muted)}
 .topic-line b{color:var(--ink)}
+.today-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.today-chips .lab{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-right:4px}
+.tchip{font-size:14px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.tchip.on{background:var(--good-soft);border-color:var(--good);color:var(--good);font-weight:700}
+.tchip.on::before{content:"✓ "}
+.daily-used{font-size:16px}
+.daily-used a{color:var(--accent);font-weight:700}
 .chat-box{max-height:min(58vh,580px);min-height:160px;overflow-y:auto;display:grid;gap:10px;align-content:start;padding:12px;border-radius:14px;background:var(--bg);overscroll-behavior:contain}
 .bubble{max-width:min(88%,560px);padding:10px 14px;border-radius:16px;display:grid;gap:2px;overflow-wrap:anywhere;font-size:17px;line-height:1.5}
 .bubble .who{font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
@@ -227,7 +234,7 @@ details.adv > div{display:grid;gap:10px;margin-top:10px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 <div class="wrap">
-  <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="speaking.html">Speaking Gym</a><a href="conversation.html">Conversation Coach</a><a href="voice.html">Clear Voice</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a><a href="notebook.html">My Notebook</a><a href="call.html" aria-current="page">Practice Call</a></nav>
+  <nav class="site-nav" aria-label="Sections"><a href="./" class="home">Active English</a><a href="daily.html">Daily English</a><a href="speaking.html">Speaking Gym</a><a href="conversation.html">Conversation Coach</a><a href="voice.html">Clear Voice</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a><a href="notebook.html">My Notebook</a><a href="call.html" aria-current="page">Practice Call</a></nav>
 
   <header class="top">
     <div class="brand">
@@ -362,6 +369,59 @@ function fetchT(url, opt, ms) {
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), ms || 5000);
   return fetch(url, Object.assign({}, opt, {signal: ctl.signal})).finally(() => clearTimeout(t));
+}
+
+/* ---------- Today's words from Daily English (website only: same browser storage). The matching code is the same as in daily.html. ---------- */
+const CONTR = [[/\bcan'?t\b/g,"can not"],[/\bcannot\b/g,"can not"],[/\bwon'?t\b/g,"will not"],[/\bshan't\b/g,"shall not"],[/\b(\w+)n't\b/g,"$1 not"],
+  [/\blet's\b/g,"let us"],[/\bi'm\b/g,"i am"],[/'re\b/g," are"],[/'ve\b/g," have"],[/'ll\b/g," will"],[/'d\b/g," would"],[/'s\b/g," is"]];
+function matchNorm(s) {
+  let t = String(s || "").toLowerCase().replace(/[’‘`´]/g, "'").replace(/…/g, " ").replace(/(\w)-(\w)/g, "$1 $2");
+  CONTR.forEach(([re, to]) => { t = t.replace(re, to); });
+  return t.replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+}
+const matchToks = s => { const t = matchNorm(s); return t ? t.split(" ") : []; };
+function matchSpec(T, spec) {
+  const E = spec && Array.isArray(spec.toks) ? spec.toks : [];
+  const real = E.filter(e => e !== "*").length;
+  if (!real || !T.length) return false;
+  const miss = spec.miss || 0, gap = spec.gap || 0;
+  for (let s = 0; s < T.length; s++) {
+    for (let e0 = 0; e0 < E.length && e0 <= miss; e0++) {
+      if (E[e0] === "*" || !E[e0].includes(T[s])) continue;
+      let p = s + 1, missed = E.slice(0, e0).filter(e => e !== "*").length, matched = 1, extra = 0, firstStep = true;
+      for (let j = e0 + 1; j < E.length && missed <= miss; j++) {
+        if (E[j] === "*") { extra += 4; continue; }
+        const g = (firstStep && spec.first != null ? spec.first : gap) + extra;
+        let found = -1;
+        for (let q = p; q < T.length && q <= p + g; q++) if (E[j].includes(T[q])) { found = q; break; }
+        if (found >= 0) { matched++; p = found + 1; extra = 0; firstStep = false; } else missed++;
+      }
+      if (missed <= miss && matched >= real - miss && (real < 2 || matched >= 2)) return true;
+    }
+  }
+  return false;
+}
+function dailyToday() {
+  if (CLAUDE) return null;
+  try {
+    const d = JSON.parse(localStorage.getItem("daily-v1") || "null");
+    const t = d && d.today;
+    if (!t || t.date !== today() || !Array.isArray(t.items)) return null;
+    const items = t.items.filter(x => x && typeof x.text === "string" && Array.isArray(x.toks)).slice(0, 12).map(x => ({
+      type: str(x.type, 20), text: str(x.text, 120),
+      spec: {toks: x.toks.map(a => a === "*" ? "*" : (Array.isArray(a) ? a.map(v => str(v, 40)) : [])), gap: int(x.gap, 0, 6),
+             first: x.first == null ? null : int(x.first, 0, 6), miss: int(x.miss, 0, 3)}}));
+    return items.length ? {day: int(t.day, 1, 100000), items} : null;
+  } catch (e) { return null; }
+}
+function dailyUsed(d, turns) {
+  const T = matchToks(turns.map(t => t.text).join(" . "));
+  return new Set(d.items.map((x, i) => matchSpec(T, x.spec) ? i : -1).filter(i => i >= 0));
+}
+function paintTodayChips() {
+  if (!CALL.on || !CALL.daily) return;
+  const used = dailyUsed(CALL.daily, CALL.turns.filter(t => t.who === "u"));
+  $$("[data-tchip]").forEach(c => c.classList.toggle("on", used.has(+c.dataset.tchip)));
 }
 
 const I = {
@@ -738,7 +798,12 @@ function systemPrompt(tp) {
     "Answer only with JSON, reply first: {\"reply\": \"...\", \"fixes\": [ ... ]}",
     "",
     "THIS CALL: " + about
-  ].join("\n");
+  ].join("\n") + dailyLine();
+}
+/* Daily English on the website shares today's words (same browser storage). The line goes last, so the start of the prompt stays the same. */
+function dailyLine() {
+  const d = (CALL && CALL.on) ? CALL.daily : dailyToday();
+  return d ? "\n\nToday the learner is practising these: " + d.items.map(x => "\"" + x.text + "\"").join(", ") + ". Now and then, naturally give them a chance to use one. Never force it." : "";
 }
 /* The conversation sent to the brain: the system prompt plus the last ~20 turns. */
 function messagesFor(nudge) {
@@ -905,7 +970,7 @@ let CALL = {on:false};
 let LAST = null;   // the summary of the call that just ended
 function newCall(tp) {
   return {on:true, topic:tp, label: tp.kind === "own" ? tp.own : tp.t, start: Date.now(), turns:[], hist:[],
-          busy:false, ctl:null, gen:0, paused:false, sending:false, retry:null, timer:null};
+          busy:false, ctl:null, gen:0, paused:false, sending:false, retry:null, timer:null, daily: dailyToday()};
 }
 function currentTopic() {
   const s = state.settings;
@@ -1020,7 +1085,7 @@ async function sendTurn(text) {
   if (!CALL.on) return;
   const u = {who:"u", text, fixes:null};
   CALL.turns.push(u); CALL.hist.push({role:"user", content:text});
-  renderChat();
+  renderChat(); paintTodayChips();
   await runPartner(u);
 }
 function retryTurn() {
@@ -1085,7 +1150,8 @@ async function endCall() {
   const rec = {id: newId(), date: today(), topic: CALL.label, minutes: round1(Math.max(0.1, secs / 60)),
                words: mine.reduce((s, t) => s + countWords(t.text), 0), turns: mine.length, fixes: found.slice(0, 6)};
   state.calls.push(rec); save(); renderStats(); renderHistory();
-  const L = {rec, turns: CALL.turns.slice(), topic: CALL.topic, went:null, fixes: found.slice(0, 6), tries:null, loading:true, saved:false, sel:null};
+  const L = {rec, turns: CALL.turns.slice(), topic: CALL.topic, went:null, fixes: found.slice(0, 6), tries:null, loading:true, saved:false, sel:null,
+             daily: CALL.daily ? {used: dailyUsed(CALL.daily, mine).size, total: CALL.daily.items.length} : null};
   LAST = L;
   VIEW = "summary"; renderView();
   const mineText = mine.map(t => t.text).join(" \n ");
@@ -1275,7 +1341,7 @@ function renderHistory() {
 }
 function renderView() {
   const v = $("#view");
-  if (VIEW === "call") { v.innerHTML = callHTML(); renderChat(); updatePhase(); return; }
+  if (VIEW === "call") { v.innerHTML = callHTML(); renderChat(); updatePhase(); paintTodayChips(); return; }
   if (VIEW === "summary" && LAST) { v.innerHTML = summaryHTML(); return; }
   v.innerHTML = startHTML();
   renderStatus();
@@ -1305,6 +1371,8 @@ function callHTML() {
     '<div class="call-top"><div class="who-box"><div class="avatar" id="avatar" aria-hidden="true">A</div><div><b>Alex</b><span class="phase-txt" id="phase" aria-live="polite">…</span></div></div>' +
       '<div class="call-right"><span class="timer" id="timer">00:00</span><button type="button" class="btn end" data-act="end">End call</button></div></div>' +
     '<p class="topic-line">Topic: <b>' + esc(CALL.label) + '</b></p>' +
+    (CALL.daily ? '<div class="today-chips" id="todayChips"><span class="lab">Today\'s words</span>' +
+      CALL.daily.items.map((x, i) => '<span class="tchip" data-tchip="' + i + '">' + esc(x.text) + '</span>').join("") + '</div>' : "") +
     '<div class="chat-box" id="chat" aria-live="polite"></div>' +
     '<div class="composer">' +
       '<button type="button" class="mic-big need-mic" id="micBtn" data-act="mic" aria-label="Microphone" aria-pressed="false">' + I.mic + '</button>' +
@@ -1365,6 +1433,7 @@ function summaryHTML() {
     '<p class="eyebrow">Call ended · ' + esc(r.topic) + '</p>' +
     '<h2 id="h-sum">Well done! You talked for ' + mins + '.</h2>' +
     '<div class="sum-stats"><div class="sum-stat"><b>' + r.minutes + '</b><span>minutes</span></div><div class="sum-stat"><b>' + r.words + '</b><span>your words</span></div><div class="sum-stat"><b>' + r.turns + '</b><span>' + (r.turns === 1 ? "turn" : "turns") + '</span></div></div>' +
+    (L.daily ? '<p class="daily-used">You used <b>' + L.daily.used + '</b> of today\'s ' + L.daily.total + ' words and phrases from <a href="daily.html">Daily English</a>.</p>' : "") +
     '<h3>What went well</h3>' +
     (L.loading ? '<p class="loading">Alex is writing your summary…</p>' : '<ul class="list">' + L.went.map(x => '<li>' + esc(x) + '</li>').join("") + '</ul>') +
     '<h3>Fixes to remember</h3>' +

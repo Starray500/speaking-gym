@@ -16,6 +16,10 @@ Daily practice for the **active** side of English: speaking, public speaking and
 
 The home page shows your streak, your progress in each program, and a plan for the first two months.
 
+## Daily English
+
+[Daily English](https://starray500.github.io/speaking-gym/daily.html) gives you a small pack every day: one grammar point, one idiom, one phrasal verb, 3 phrases, 4 words, and a word upgrade with its opposite (good → excellent ↔ terrible). You say everything out loud, then use at least 5 of them in a 1-minute talk. About 10 minutes a day. The items can go to My Notebook, and Practice Call shows today's words during a call.
+
 ## Daily tool: My Notebook
 
 [My Notebook](https://starray500.github.io/speaking-gym/notebook.html) turns your mistakes and "lost words" into cards. You answer every card out loud, and spaced repetition brings each card back just before you forget it. Paste any feedback ("you said → better") and it becomes cards. About 5 minutes a day.

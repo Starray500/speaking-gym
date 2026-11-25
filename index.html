@@ -112,7 +112,9 @@ a{color:var(--accent)}
 .nb p{margin:0;color:var(--muted)}
 .nb .count{font-family:var(--f-display);font-weight:800;color:var(--ink);font-size:20px}
 @media (max-width:560px){.nb{grid-template-columns:minmax(0,1fr)}}
-.tool-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.tool-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tool-cards .nb{grid-template-columns:minmax(0,1fr);align-content:space-between}
+.tool-cards .nb .btn{justify-self:start}
 @media (max-width:900px){.tool-cards{grid-template-columns:minmax(0,1fr)}}
 .heat-axis{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
 @media (max-width:520px){.heat{gap:2px}.heat span{border-radius:2px}}
@@ -145,7 +147,7 @@ footer{font-size:14px;color:var(--muted)}
 </head>
 <body>
 <div class="wrap">
-  <nav class="site-nav" aria-label="Sections"><a href="./" class="home" aria-current="page">Active English</a><a href="speaking.html">Speaking Gym</a><a href="conversation.html">Conversation Coach</a><a href="voice.html">Clear Voice</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a><a href="notebook.html">My Notebook</a><a href="call.html">Practice Call</a></nav>
+  <nav class="site-nav" aria-label="Sections"><a href="./" class="home" aria-current="page">Active English</a><a href="daily.html">Daily English</a><a href="speaking.html">Speaking Gym</a><a href="conversation.html">Conversation Coach</a><a href="voice.html">Clear Voice</a><a href="stage.html">The Stage</a><a href="writing.html">Writing Desk</a><a href="notebook.html">My Notebook</a><a href="call.html">Practice Call</a></nav>
 
   <header class="hero">
     <div>
@@ -171,7 +173,7 @@ footer{font-size:14px;color:var(--muted)}
       <div class="heat" id="heat" role="img" aria-label="Practice in the last 28 days"></div>
       <div class="heat-axis"><span id="heatStart"></span><span>Darker = more practice that day</span><span>Today</span></div>
     </div>
-    <div class="tool-cards"><div class="nb" id="nb"></div><div class="nb" id="call"></div></div>
+    <div class="tool-cards"><div class="nb" id="daily"></div><div class="nb" id="nb"></div><div class="nb" id="call"></div></div>
   </section>
 
   <section class="sec" aria-labelledby="h-prog">
@@ -182,11 +184,11 @@ footer{font-size:14px;color:var(--muted)}
   <section class="sec" aria-labelledby="h-plan">
     <div class="sec-head"><h2 id="h-plan">Your plan</h2><p>Don't do everything at once. Build one habit, then add the next.</p></div>
     <div class="plan">
-      <div class="phase"><p class="when">Month 1 · now</p><h3>Fluency</h3><ul><li>My Notebook every day (5 min). Start with it</li><li>Speaking Gym every day (20 min)</li><li>Conversation Coach every day (10 min)</li><li>Writing Desk every day (20 min)</li><li>Record yourself on Day 1, for later</li></ul></div>
+      <div class="phase"><p class="when">Month 1 · now</p><h3>Fluency</h3><ul><li>My Notebook every day (5 min). Start with it</li><li>Daily English every day (10 min)</li><li>Speaking Gym every day (20 min)</li><li>Conversation Coach every day (10 min)</li><li>Writing Desk every day (20 min)</li><li>Record yourself on Day 1, for later</li></ul></div>
       <div class="phase"><p class="when">Month 2</p><h3>Public speaking</h3><ul><li>The Stage every day (20 min)</li><li>Clear Voice every day (10 min). Start it now if people often ask you to repeat</li><li>Keep writing: repeat Writing Desk, or write freely each day</li><li>Give one short talk to a real person each week</li></ul></div>
       <div class="phase"><p class="when">Every week, always</p><h3>Real life</h3><ul><li>A Practice Call on your Mac whenever you have 10 minutes</li><li>One real conversation in English. Use “Get ready” in Conversation Coach first, and write in the Brave Log after</li><li>Listen to English 15 minutes a day</li><li>Back up your progress (below)</li></ul></div>
     </div>
-    <div class="min"><b>Busy day?</b><p>Do only the main step: one minute of speaking in Speaking Gym, or ten minutes of writing in Writing Desk. A short practice still counts. Breaking the habit is the only thing to avoid.</p></div>
+    <div class="min"><b>Busy day?</b><p>Do only My Notebook and Daily English. That’s 15 minutes. A short practice still counts. Breaking the habit is the only thing to avoid.</p></div>
   </section>
 
   <section class="sec" aria-labelledby="h-free">
@@ -235,7 +237,8 @@ const PROGRAMS = [
 ];
 const NOTEBOOK = {key:"notebook-v1", name:"My Notebook", href:"notebook.html"};
 const CALL = {key:"call-v1", name:"Practice Call", href:"call.html"};
-const ALL = PROGRAMS.concat([NOTEBOOK, CALL, {key:"notebook-inbox-v1", name:"Notebook inbox"}]);
+const DAILY = {key:"daily-v1", name:"Daily English", href:"daily.html"};
+const ALL = PROGRAMS.concat([DAILY, NOTEBOOK, CALL, {key:"notebook-inbox-v1", name:"Notebook inbox"}]);
 const $ = s => document.querySelector(s);
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const ymd = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
@@ -291,6 +294,18 @@ function renderCall(st) {
     '<a class="btn primary" href="' + CALL.href + '">Start a call</a>';
 }
 
+function renderDaily(st, today) {
+  const done = st && st.done && typeof st.done === "object" ? st.done : {};
+  const day = (st && Number(st.day)) || 1;
+  const doneToday = Object.values(done).some(x => x && x.date === today);
+  const count = Object.keys(done).length;
+  let line, btn;
+  if (!st) { line = 'A small pack every day: grammar, an idiom, a phrasal verb, phrases and new words.'; btn = "Start Day 1"; }
+  else if (doneToday) { line = '<span class="count">✓</span> Today’s pack is done. ' + count + (count === 1 ? " pack" : " packs") + ' so far.'; btn = "Open Daily English"; }
+  else { line = '<span class="count">Day ' + day + '</span> is ready: new things to use out loud today.'; btn = "Open today’s pack"; }
+  $("#daily").innerHTML = '<div><p class="tag">Every day · 10 min</p><h3>Daily English</h3><p>' + line + '</p></div>' +
+    '<a class="btn primary" href="' + DAILY.href + '">' + btn + '</a>';
+}
 function render() {
   const states = PROGRAMS.map(p => read(p.key));
   const sets = states.map(datesOf);
@@ -298,7 +313,9 @@ function render() {
   const nbDays = nbDates(nb);
   const call = read(CALL.key);
   const callDays = callDates(call);
-  const all = new Set(); sets.concat([nbDays, callDays]).forEach(s => s.forEach(d => all.add(d)));
+  const daily = read(DAILY.key);
+  const dailyDays = datesOf(daily);
+  const all = new Set(); sets.concat([dailyDays, nbDays, callDays]).forEach(s => s.forEach(d => all.add(d)));
 
   // Streak: days in a row with at least one program finished.
   const d = new Date();
@@ -308,7 +325,7 @@ function render() {
   $("#streak").innerHTML = streak + "<small>" + (streak === 1 ? "day" : "days") + " in a row</small>";
 
   const today = ymd(new Date());
-  $("#today").innerHTML = PROGRAMS.map((p, i) =>
+  $("#today").innerHTML = '<span class="pill' + (dailyDays.has(today) ? " ok" : "") + '">' + (dailyDays.has(today) ? "✓ " : "") + 'Daily English</span>' + PROGRAMS.map((p, i) =>
     '<span class="pill' + (sets[i].has(today) ? " ok" : "") + '">' + (sets[i].has(today) ? "✓ " : "") + esc(p.name) + '</span>').join("") +
     '<span class="pill' + (nbDays.has(today) ? " ok" : "") + '">' + (nbDays.has(today) ? "✓ " : "") + 'My Notebook</span>' +
     '<span class="pill' + (callDays.has(today) ? " ok" : "") + '">' + (callDays.has(today) ? "✓ " : "") + 'Practice Call</span>';
@@ -318,12 +335,13 @@ function render() {
   $("#heatStart").textContent = start.toLocaleDateString(undefined, {month:"short", day:"numeric"});
   for (let i = 0; i < 28; i++) {
     const day = new Date(start); day.setDate(start.getDate() + i);
-    const key = ymd(day), n = sets.concat([nbDays, callDays]).filter(s => s.has(key)).length;
+    const key = ymd(day), n = sets.concat([dailyDays, nbDays, callDays]).filter(s => s.has(key)).length;
     heat += '<span class="' + (n ? "l" + Math.min(n, 3) : "") + (i === 27 ? " today" : "") + '" title="' + esc(day.toLocaleDateString()) + ": " + n + (n === 1 ? " practice" : " practices") + '"></span>';
   }
   $("#heat").innerHTML = heat;
   renderNotebook(nb, today);
   renderCall(call);
+  renderDaily(daily, today);
 
   $("#programs").innerHTML = PROGRAMS.map((p, i) => {
     const st = states[i], done = Object.keys(doneMap(st)).length;
